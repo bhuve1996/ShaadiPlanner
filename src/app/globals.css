@@ -52,12 +52,53 @@ body {
   background: linear-gradient(to bottom, #C89947, #B45309);
 }
 
-/* Shimmer animation for banners */
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+/* Keyframes for animal walking smoothly across entire screen */
+@keyframes walkAcross {
+  0% {
+    transform: translateX(-150px);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100vw + 200px));
+    opacity: 0;
+  }
 }
 
-.animate-shimmer {
-  animation: shimmer 3s infinite;
+/* Subtle celebratory walking bounce */
+@keyframes bounceSubtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(2deg);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-walk-across {
+  animation-name: walkAcross;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 0.6s infinite ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
 }

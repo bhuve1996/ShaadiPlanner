@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Heart, 
   Settings as SettingsIcon, 
@@ -14,9 +14,7 @@ import {
   CheckCircle,
   FileSpreadsheet,
   Crown,
-  RotateCcw,
-  CloudCheck,
-  Save
+  RotateCcw
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { ExpenseItem, WeddingSettings } from '@/types/wedding';
@@ -27,6 +25,7 @@ import { ExpenseTable } from '@/components/ExpenseTable';
 import { SettingsModal } from '@/components/SettingsModal';
 import { ItineraryView } from '@/components/ItineraryView';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
+import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
 import confetti from 'canvas-confetti';
 
 const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v2';
@@ -41,9 +40,8 @@ export default function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [lastSavedTime, setLastSavedTime] = useState<string>('Just now');
 
-  // 1. Initial Load: Read strictly from LocalStorage first so refresh NEVER wipes data
+  // 1. Initial Load: Read from LocalStorage
   useEffect(() => {
     try {
       if (typeof window !== 'undefined') {
@@ -65,21 +63,18 @@ export default function Home() {
         }
       }
     } catch (e) {
-      console.warn('LocalStorage load error, using default start data:', e);
+      console.warn('LocalStorage load error:', e);
     } finally {
       setIsLoaded(true);
     }
   }, []);
 
-  // 2. Continuous Auto-Sync: Whenever expenses or settings change, immediately persist to LocalStorage
+  // 2. Continuous Auto-Sync
   useEffect(() => {
-    if (!isLoaded) return; // do not overwrite storage before initial hydration!
+    if (!isLoaded) return;
     try {
       localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
       localStorage.setItem(STORAGE_KEY_EXPENSES, JSON.stringify(expenses));
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      setLastSavedTime(timeStr);
     } catch (err) {
       console.error('Failed to auto-save to localStorage:', err);
     }
@@ -112,7 +107,6 @@ export default function Home() {
     showToast('Saved wedding configuration & guest split');
   };
 
-  // Option to reset back to clean start phase
   const handleResetToStartPhase = () => {
     if (confirm('Reset all expenses back to the initial start phase? All advances will reset to 0.')) {
       setExpenses(INITIAL_EXPENSES);
@@ -275,6 +269,9 @@ export default function Home() {
           onOpenSettings={() => setIsSettingsOpen(true)}
           onCelebration={triggerCelebration}
         />
+
+        {/* Shahi Barat Interactive Animal Celebration Troupe Section */}
+        <AnimalCelebrationSection />
 
         {/* Navigation Tabs with Golden Accent */}
         <div className="flex border-2 border-amber-200/80 gap-6 text-sm font-bold bg-white/80 backdrop-blur-xs px-5 py-1.5 rounded-2xl shadow-xs">
