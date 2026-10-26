@@ -103,6 +103,13 @@ export interface CeremonyScheduleItem {
   guestCount?: number;
 }
 
+export interface CeremonyGuestCountItem {
+  event: WeddingEvent;
+  groomGuests: number;
+  brideGuests: number;
+  perPlateRate?: number;
+}
+
 export interface WeddingSettings {
   coupleTitle: string;
   groomName: string;
@@ -112,6 +119,7 @@ export interface WeddingSettings {
   brideGuestCount: number;
   totalTargetBudget: number;
   currency: string;
+  eventGuestCounts?: Record<string, { groom: number; bride: number; perPlateRate?: number }>;
 }
 
 export interface FamilyShagunItem {

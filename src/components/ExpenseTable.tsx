@@ -27,6 +27,7 @@ interface ExpenseTableProps {
   expenses: ExpenseItem[];
   groomGuestCount: number;
   brideGuestCount: number;
+  eventGuestCounts?: Record<string, { groom: number; bride: number; perPlateRate?: number }>;
   onUpdateExpense: (item: ExpenseItem) => void;
   onDeleteExpense: (id: string) => void;
   onAddNewExpense: (item: ExpenseItem) => void;
@@ -64,6 +65,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   expenses,
   groomGuestCount,
   brideGuestCount,
+  eventGuestCounts,
   onUpdateExpense,
   onDeleteExpense,
   onAddNewExpense,
@@ -122,8 +124,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
       let aVal: any = 0;
       let bVal: any = 0;
 
-      const aShares = computeExpenseShares(a, groomGuestCount, brideGuestCount);
-      const bShares = computeExpenseShares(b, groomGuestCount, brideGuestCount);
+      const aShares = computeExpenseShares(a, groomGuestCount, brideGuestCount, eventGuestCounts);
+      const bShares = computeExpenseShares(b, groomGuestCount, brideGuestCount, eventGuestCounts);
 
       switch (sortField) {
         case 'name':
@@ -495,7 +497,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   const shares = computeExpenseShares(
                     item,
                     groomGuestCount,
-                    brideGuestCount
+                    brideGuestCount,
+                    eventGuestCounts
                   );
 
                   const isFullyPaid = item.paidAmount >= item.actualCost && item.actualCost > 0;
@@ -820,13 +823,13 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               <div className="flex justify-between text-[11px] text-blue-600 dark:text-blue-400">
                 <span>Bhuvesh Spends:</span>
                 <span className="font-semibold">
-                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount).groomDue)}
+                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
                 </span>
               </div>
               <div className="flex justify-between text-[11px] text-rose-600 dark:text-rose-400">
                 <span>Harsha Spends:</span>
                 <span className="font-semibold">
-                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount).brideDue)}
+                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}
                 </span>
               </div>
               <div className="flex justify-between text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-200/60 dark:border-white/5">

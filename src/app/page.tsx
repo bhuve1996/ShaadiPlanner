@@ -21,11 +21,12 @@ import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
 import { INITIAL_SHAGUN_LIST, INITIAL_GUEST_GROUPS } from '@/lib/shagun-data';
 import { INITIAL_VENDOR_DIRECTORY } from '@/lib/vendor-data';
-import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem, VendorDirectoryItem } from '@/types/wedding';
+import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem, VendorDirectoryItem, WeddingEvent } from '@/types/wedding';
 import { calculateSummary } from '@/lib/calculator';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
 import { ExpenseTable } from '@/components/ExpenseTable';
+import { OccasionGuestSyncBar } from '@/components/OccasionGuestSyncBar';
 import { SettingsModal } from '@/components/SettingsModal';
 import { WeddingCalendar } from '@/components/WeddingCalendar';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
@@ -36,12 +37,12 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 import { Gift, Users as UsersIcon, Building2 } from 'lucide-react';
 
-const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v11';
-const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v11';
-const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v11';
-const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v11';
-const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v11';
-const STORAGE_KEY_VENDORS = 'shaadi_planner_vendors_v11';
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v12';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v12';
+const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v12';
+const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v12';
+const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v12';
+const STORAGE_KEY_VENDORS = 'shaadi_planner_vendors_v12';
 
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);
@@ -145,6 +146,21 @@ export default function Home() {
   const handleUpdateScheduleItem = (updated: CeremonyScheduleItem) => {
     setSchedule(prev => prev.map(s => s.id === updated.id ? updated : s));
     showToast(`Updated schedule for ${updated.title}`);
+  };
+
+  const handleUpdateEventGuests = (event: WeddingEvent, groom: number, bride: number, perPlate?: number) => {
+    setSettings(prev => ({
+      ...prev,
+      eventGuestCounts: {
+        ...(prev.eventGuestCounts || {}),
+        [event]: {
+          groom,
+          bride,
+          perPlateRate: perPlate !== undefined ? perPlate : prev.eventGuestCounts?.[event]?.perPlateRate
+        }
+      }
+    }));
+    showToast(`Updated ${event} guest counts (${groom} Groom / ${bride} Bride)`);
   };
 
   const handleSaveSettings = (newSettings: WeddingSettings) => {
@@ -421,15 +437,24 @@ export default function Home() {
 
         {/* Tab 1: Color-Coded Expense Table with full horizontal visibility */}
         {currentTab === 'budget' && (
-          <ExpenseTable
-            expenses={expenses}
-            groomGuestCount={settings.groomGuestCount}
-            brideGuestCount={settings.brideGuestCount}
-            onUpdateExpense={handleUpdateExpense}
-            onDeleteExpense={handleDeleteExpense}
-            onAddNewExpense={handleAddNewExpense}
-            sideFilter={activeSide}
-          />
+          <div className="space-y-6">
+            {/* Real-time Interactive Occasion Guest Sync Bar */}
+            <OccasionGuestSyncBar
+              settings={settings}
+              onUpdateEventGuests={handleUpdateEventGuests}
+            />
+
+            <ExpenseTable
+              expenses={expenses}
+              groomGuestCount={settings.groomGuestCount}
+              brideGuestCount={settings.brideGuestCount}
+              eventGuestCounts={settings.eventGuestCounts}
+              onUpdateExpense={handleUpdateExpense}
+              onDeleteExpense={handleDeleteExpense}
+              onAddNewExpense={handleAddNewExpense}
+              sideFilter={activeSide}
+            />
+          </div>
         )}
 
         {/* Tab 2: Vendors Directory & Family Responsibilities */}

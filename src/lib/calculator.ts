@@ -25,7 +25,8 @@ export interface SplitCalculation {
 export function computeExpenseShares(
   item: ExpenseItem,
   globalGroomGuestCount: number,
-  globalBrideGuestCount: number
+  globalBrideGuestCount: number,
+  eventGuestCounts?: Record<string, { groom: number; bride: number; perPlateRate?: number }>
 ): { 
   groomDue: number; 
   brideDue: number; 
@@ -37,19 +38,28 @@ export function computeExpenseShares(
 } {
   const totalCost = item.actualCost || item.estimatedCost || 0;
   
-  // Check if item has event-specific guest override (e.g. Sangeet has 200 guests while Wedding has 400)
-  const isCustomOccasionGuests = Boolean(
+  // 1. Check if item has manual override
+  const hasItemOverride = Boolean(
     item.overrideGuestCount && 
     (item.eventGroomGuests !== undefined || item.eventBrideGuests !== undefined)
   );
 
-  const effectiveGroomGuests = isCustomOccasionGuests && item.eventGroomGuests !== undefined
-    ? item.eventGroomGuests
-    : globalGroomGuestCount;
+  // 2. Check if event has a top-level synced occasion guest count
+  const eventConfig = eventGuestCounts && item.event ? eventGuestCounts[item.event] : undefined;
 
-  const effectiveBrideGuests = isCustomOccasionGuests && item.eventBrideGuests !== undefined
-    ? item.eventBrideGuests
-    : globalBrideGuestCount;
+  let effectiveGroomGuests = globalGroomGuestCount;
+  let effectiveBrideGuests = globalBrideGuestCount;
+  let isCustomOccasionGuests = false;
+
+  if (hasItemOverride) {
+    effectiveGroomGuests = item.eventGroomGuests !== undefined ? item.eventGroomGuests : globalGroomGuestCount;
+    effectiveBrideGuests = item.eventBrideGuests !== undefined ? item.eventBrideGuests : globalBrideGuestCount;
+    isCustomOccasionGuests = true;
+  } else if (eventConfig) {
+    effectiveGroomGuests = eventConfig.groom;
+    effectiveBrideGuests = eventConfig.bride;
+    isCustomOccasionGuests = true;
+  }
 
   const totalGuests = (effectiveGroomGuests + effectiveBrideGuests) || 1;
 
@@ -122,7 +132,8 @@ export function calculateSummary(
     const { groomDue, brideDue } = computeExpenseShares(
       item,
       settings.groomGuestCount,
-      settings.brideGuestCount
+      settings.brideGuestCount,
+      settings.eventGuestCounts
     );
 
     groomShareDue += groomDue;
