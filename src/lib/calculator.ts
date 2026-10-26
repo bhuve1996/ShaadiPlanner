@@ -17,7 +17,6 @@ export interface SplitCalculation {
   brideSharePending: number;
 
   // Settlement reconciliation: who owes whom
-  // e.g., if groom paid more of his combined obligations than his due, bride owes groom
   netBalance: number; // positive = Bride owes Groom, negative = Groom owes Bride
   guestRatioGroomPercent: number;
   guestRatioBridePercent: number;
@@ -25,11 +24,34 @@ export interface SplitCalculation {
 
 export function computeExpenseShares(
   item: ExpenseItem,
-  groomGuestCount: number,
-  brideGuestCount: number
-): { groomDue: number; brideDue: number; groomPercent: number; bridePercent: number } {
+  globalGroomGuestCount: number,
+  globalBrideGuestCount: number
+): { 
+  groomDue: number; 
+  brideDue: number; 
+  groomPercent: number; 
+  bridePercent: number;
+  effectiveGroomGuests: number;
+  effectiveBrideGuests: number;
+  isCustomOccasionGuests: boolean;
+} {
   const totalCost = item.actualCost || item.estimatedCost || 0;
-  const totalGuests = (groomGuestCount + brideGuestCount) || 1;
+  
+  // Check if item has event-specific guest override (e.g. Sangeet has 200 guests while Wedding has 400)
+  const isCustomOccasionGuests = Boolean(
+    item.overrideGuestCount && 
+    (item.eventGroomGuests !== undefined || item.eventBrideGuests !== undefined)
+  );
+
+  const effectiveGroomGuests = isCustomOccasionGuests && item.eventGroomGuests !== undefined
+    ? item.eventGroomGuests
+    : globalGroomGuestCount;
+
+  const effectiveBrideGuests = isCustomOccasionGuests && item.eventBrideGuests !== undefined
+    ? item.eventBrideGuests
+    : globalBrideGuestCount;
+
+  const totalGuests = (effectiveGroomGuests + effectiveBrideGuests) || 1;
 
   let groomPct = 0.5;
   let bridePct = 0.5;
@@ -44,8 +66,8 @@ export function computeExpenseShares(
       bridePct = 1.0;
       break;
     case 'GUEST_RATIO':
-      groomPct = groomGuestCount / totalGuests;
-      bridePct = brideGuestCount / totalGuests;
+      groomPct = effectiveGroomGuests / totalGuests;
+      bridePct = effectiveBrideGuests / totalGuests;
       break;
     case 'CUSTOM':
       const customG = (item.customGroomPercent ?? 50) / 100;
@@ -60,13 +82,16 @@ export function computeExpenseShares(
   }
 
   const groomDue = Math.round(totalCost * groomPct);
-  const brideDue = totalCost - groomDue; // ensure exact penny/rupee match
+  const brideDue = totalCost - groomDue; // ensure exact rupee match
 
   return {
     groomDue,
     brideDue,
     groomPercent: Math.round(groomPct * 100),
     bridePercent: Math.round(bridePct * 100),
+    effectiveGroomGuests,
+    effectiveBrideGuests,
+    isCustomOccasionGuests,
   };
 }
 
@@ -103,14 +128,13 @@ export function calculateSummary(
     groomShareDue += groomDue;
     brideShareDue += brideDue;
 
-    // Track who physically paid from their pocket
+    // Track who physically paid
     const paid = item.paidAmount || 0;
     if (item.paidBy === 'GROOM') {
       groomActualPaidCash += paid;
     } else if (item.paidBy === 'BRIDE') {
       brideActualPaidCash += paid;
     } else if (item.paidBy === 'SHARED') {
-      // If marked shared, assumed paid proportionally or 50:50
       groomActualPaidCash += Math.round(paid * 0.5);
       brideActualPaidCash += paid - Math.round(paid * 0.5);
     }
@@ -120,9 +144,6 @@ export function calculateSummary(
   const groomSharePending = Math.max(0, groomShareDue - groomActualPaidCash);
   const brideSharePending = Math.max(0, brideShareDue - brideActualPaidCash);
 
-  // Settlement:
-  // If Groom paid 15 Lakhs, but groom's liability is only 13 Lakhs,
-  // Groom overpaid by 2 Lakhs => Bride owes Groom 2 Lakhs.
   const netBalance = groomActualPaidCash - groomShareDue;
 
   return {
@@ -141,4 +162,3 @@ export function calculateSummary(
     guestRatioBridePercent,
   };
 }
-
