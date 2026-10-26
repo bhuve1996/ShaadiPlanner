@@ -66,82 +66,84 @@ export default function Home() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // 1. Initial Load: Read from LocalStorage
+  // 1. Initial Load: Supabase Cloud Database is Primary; LocalStorage is Offline Fallback
   useEffect(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
-        const storedExpenses = localStorage.getItem(STORAGE_KEY_EXPENSES);
-        const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE);
-        const storedShagun = localStorage.getItem(STORAGE_KEY_SHAGUN);
-        const storedGroups = localStorage.getItem(STORAGE_KEY_GROUPS);
-        const storedVendors = localStorage.getItem(STORAGE_KEY_VENDORS);
-
-        if (storedSettings) {
-          const parsed = JSON.parse(storedSettings);
-          if (parsed && parsed.coupleTitle) setSettings(parsed);
-        }
-
-        if (storedExpenses) {
-          const parsed = JSON.parse(storedExpenses);
-          if (Array.isArray(parsed) && parsed.length > 0) setExpenses(parsed);
-        }
-
-        if (storedSchedule) {
-          const parsed = JSON.parse(storedSchedule);
-          if (Array.isArray(parsed) && parsed.length > 0) setSchedule(parsed);
-        }
-
-        if (storedShagun) {
-          const parsed = JSON.parse(storedShagun);
-          if (Array.isArray(parsed) && parsed.length > 0) setShagunList(parsed);
-        }
-
-        if (storedGroups) {
-          const parsed = JSON.parse(storedGroups);
-          if (Array.isArray(parsed) && parsed.length > 0) setGuestGroups(parsed);
-        }
-
-        if (storedVendors) {
-          const parsed = JSON.parse(storedVendors);
-          if (Array.isArray(parsed) && parsed.length > 0) setVendors(parsed);
-        }
-
-        // 2. Fetch from Supabase Cloud if configured (Global Sync)
-        if (isSupabaseConfigured()) {
-          fetchRemoteWeddingData().then(remoteData => {
-            if (remoteData) {
-              if (remoteData.settings) setSettings(remoteData.settings);
-              if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
-              if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
-              if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
-              if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
-              if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
-              console.log('Synchronized state with Supabase cloud database');
-            } else {
-              // Seed if brand new Supabase instance
-              seedInitialDataIfEmpty(
-                INITIAL_SETTINGS,
-                INITIAL_EXPENSES,
-                INITIAL_CEREMONY_SCHEDULE,
-                INITIAL_SHAGUN_LIST,
-                INITIAL_GUEST_GROUPS,
-                INITIAL_VENDOR_DIRECTORY
-              );
-            }
-          });
+    async function loadInitialData() {
+      // If Supabase is configured, load directly from cloud
+      if (isSupabaseConfigured()) {
+        try {
+          const remoteData = await fetchRemoteWeddingData();
+          if (remoteData) {
+            if (remoteData.settings) setSettings(remoteData.settings);
+            if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
+            if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
+            if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
+            if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
+            if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+            console.log('✓ Successfully connected and loaded from Supabase Cloud');
+            setIsLoaded(true);
+            return;
+          }
+        } catch (err) {
+          console.warn('Supabase fetch failed, falling back to local storage cache:', err);
         }
       }
-    } catch (e) {
-      console.warn('LocalStorage load error:', e);
-    } finally {
-      setIsLoaded(true);
+
+      // Offline / Local fallback: Read from localStorage cached copy
+      try {
+        if (typeof window !== 'undefined') {
+          const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
+          const storedExpenses = localStorage.getItem(STORAGE_KEY_EXPENSES);
+          const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE);
+          const storedShagun = localStorage.getItem(STORAGE_KEY_SHAGUN);
+          const storedGroups = localStorage.getItem(STORAGE_KEY_GROUPS);
+          const storedVendors = localStorage.getItem(STORAGE_KEY_VENDORS);
+
+          if (storedSettings) {
+            const parsed = JSON.parse(storedSettings);
+            if (parsed && parsed.coupleTitle) setSettings(parsed);
+          }
+          if (storedExpenses) {
+            const parsed = JSON.parse(storedExpenses);
+            if (Array.isArray(parsed) && parsed.length > 0) setExpenses(parsed);
+          }
+          if (storedSchedule) {
+            const parsed = JSON.parse(storedSchedule);
+            if (Array.isArray(parsed) && parsed.length > 0) setSchedule(parsed);
+          }
+          if (storedShagun) {
+            const parsed = JSON.parse(storedShagun);
+            if (Array.isArray(parsed) && parsed.length > 0) setShagunList(parsed);
+          }
+          if (storedGroups) {
+            const parsed = JSON.parse(storedGroups);
+            if (Array.isArray(parsed) && parsed.length > 0) setGuestGroups(parsed);
+          }
+          if (storedVendors) {
+            const parsed = JSON.parse(storedVendors);
+            if (Array.isArray(parsed) && parsed.length > 0) setVendors(parsed);
+          }
+        }
+      } catch (e) {
+        console.warn('LocalStorage fallback load error:', e);
+      } finally {
+        setIsLoaded(true);
+      }
     }
+
+    loadInitialData();
   }, []);
 
-  // 2. Continuous Auto-Sync to LocalStorage & Remote Supabase
+  // 2. Real-Time Supabase Cloud Sync + Local Offline Mirror
   useEffect(() => {
     if (!isLoaded) return;
+
+    // Push settings update to Supabase Cloud
+    if (isSupabaseConfigured()) {
+      syncSettingsToRemote(settings);
+    }
+
+    // Keep an offline mirror in localStorage
     try {
       localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
       localStorage.setItem(STORAGE_KEY_EXPENSES, JSON.stringify(expenses));
@@ -149,13 +151,8 @@ export default function Home() {
       localStorage.setItem(STORAGE_KEY_SHAGUN, JSON.stringify(shagunList));
       localStorage.setItem(STORAGE_KEY_GROUPS, JSON.stringify(guestGroups));
       localStorage.setItem(STORAGE_KEY_VENDORS, JSON.stringify(vendors));
-
-      // Push settings update to Supabase
-      if (isSupabaseConfigured()) {
-        syncSettingsToRemote(settings);
-      }
     } catch (err) {
-      console.error('Failed to auto-save to localStorage:', err);
+      console.warn('Failed to mirror to local cache:', err);
     }
   }, [expenses, settings, schedule, shagunList, guestGroups, vendors, isLoaded]);
 
