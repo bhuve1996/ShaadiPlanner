@@ -32,11 +32,12 @@ export interface ExpenseItem {
   category: ExpenseCategory;
   event: WeddingEvent;
   vendorName?: string;
+  imageUrl?: string; // Rich relevant photo thumbnail for each expense!
   estimatedCost: number;
   actualCost: number;
   paidAmount: number;
   splitType: SplitType;
-  customGroomPercent?: number; // Used when splitType is CUSTOM
+  customGroomPercent?: number;
   
   // Smart Event/Occasion specific guest & per-plate fields
   isPerPlateCalculation?: boolean;
@@ -54,9 +55,9 @@ export interface ExpenseItem {
 export interface CeremonyScheduleItem {
   id: string;
   title: WeddingEvent;
-  date: string; // YYYY-MM-DD
-  startTime: string; // e.g. "11:00 AM"
-  endTime: string; // e.g. "03:30 PM"
+  date: string;
+  startTime: string;
+  endTime: string;
   venue: string;
   emoji: string;
   image: string;

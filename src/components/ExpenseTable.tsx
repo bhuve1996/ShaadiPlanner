@@ -218,14 +218,14 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const getRowClassName = (splitType: SplitType) => {
     switch (splitType) {
       case 'BRIDE_ONLY':
-        return 'row-bride border-l-4';
+        return 'row-bride';
       case 'GROOM_ONLY':
-        return 'row-groom border-l-4';
+        return 'row-groom';
       case 'GUEST_RATIO':
-        return 'row-mixed border-l-4';
       case 'EQUAL_50_50':
+      case 'CUSTOM':
       default:
-        return 'row-shared border-l-4';
+        return 'row-split-green';
     }
   };
 
@@ -479,23 +479,36 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         setShowAddModal(false);
                       }}
                     >
-                      {/* 1. Item Name + Crisp Typography + Hover Dossier Card */}
-                      <td className="py-4 px-5">
+                      {/* 1. Item Name + Photographic Image + Crisp Typography + Hover Dossier Card */}
+                      <td className="py-3 px-5">
                         <div 
-                          className="flex items-start gap-3.5 relative"
+                          className="flex items-center gap-3.5 relative"
                           onMouseEnter={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
                             setHoveredItem({ item, x: rect.left, y: rect.bottom + 8 });
                           }}
                           onMouseLeave={() => setHoveredItem(null)}
                         >
-                          <div className="mt-1 p-2.5 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-pink-100 dark:border-white/10 flex-shrink-0">
-                            <CategoryIcon category={item.category} size={20} />
+                          {/* Photographic Thumbnail or Icon */}
+                          <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center">
+                            {item.imageUrl ? (
+                              <img 
+                                src={item.imageUrl} 
+                                alt={item.name} 
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                onError={(e) => {
+                                  // Fallback to CategoryIcon if image fails
+                                  (e.currentTarget as HTMLElement).style.display = 'none';
+                                }}
+                              />
+                            ) : (
+                              <CategoryIcon category={item.category} size={22} />
+                            )}
                           </div>
                           
                           <div className="flex-1 min-w-0">
                             {/* Larger Crisp Title */}
-                            <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[14px] leading-snug tracking-tight">
+                            <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[15px] leading-snug tracking-tight">
                               {item.name}
                             </div>
 
@@ -703,17 +716,26 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           }}
         >
           <div className="bg-white/95 dark:bg-[#151A2E]/95 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border-2 border-pink-300 dark:border-white/20 text-xs space-y-2.5">
-            {/* Header */}
-            <div className="flex items-start justify-between gap-2 border-b border-pink-100 dark:border-white/10 pb-2">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-pink-600 dark:text-pink-400">
-                  {hoveredItem.item.category}
-                </span>
-                <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">
-                  {hoveredItem.item.name}
-                </h4>
+            {/* Header with Image Thumbnail & Status */}
+            <div className="flex items-start justify-between gap-3 border-b border-pink-100 dark:border-white/10 pb-2.5">
+              <div className="flex items-center gap-2.5">
+                {hoveredItem.item.imageUrl && (
+                  <img 
+                    src={hoveredItem.item.imageUrl} 
+                    alt={hoveredItem.item.name} 
+                    className="w-10 h-10 rounded-xl object-cover border border-pink-200 dark:border-white/10 shadow-xs flex-shrink-0" 
+                  />
+                )}
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-pink-600 dark:text-pink-400">
+                    {hoveredItem.item.category}
+                  </span>
+                  <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">
+                    {hoveredItem.item.name}
+                  </h4>
+                </div>
               </div>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md flex-shrink-0 ${
                 hoveredItem.item.status === 'Settled' 
                   ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' 
                   : hoveredItem.item.status === 'Partially Paid'

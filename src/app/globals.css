@@ -25,21 +25,21 @@ html {
 html:not(.dark) body {
   background-color: #FFF9FA !important;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 45%),
-    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 45%),
-    radial-gradient(at 50% 50%, rgba(251, 191, 36, 0.08) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.10) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.08) 0px, transparent 50%) !important;
+    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.10) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.10) 0px, transparent 45%),
+    radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.06) 0px, transparent 50%) !important;
   color: #1E293B !important;
 }
 
-/* Night Mode: Deep Midnight Velvet with Neon Floral Glow */
+/* Night Mode: Deep Midnight Velvet with Neon Glow */
 html.dark body {
   background-color: #080B14 !important;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.20) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.20) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.22) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.18) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.18) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.18) 0px, transparent 50%),
     radial-gradient(at 50% 50%, rgba(10, 14, 26, 0.95) 0px, transparent 100%) !important;
   color: #F8FAFC !important;
 }
@@ -51,7 +51,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Day vs Night Cards & Components styling via CSS classes */
+/* Day vs Night Cards & Components */
 html.dark .theme-card {
   background-color: rgba(18, 22, 38, 0.92) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
@@ -70,51 +70,17 @@ html.dark .theme-header {
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-html.dark .theme-text-heading {
-  color: #FFFFFF !important;
-}
+/* ==========================================================================
+   3 DISTINCT ROW COLORS:
+   1. PINK: 100% Bride (Harsha)
+   2. BLUE: 100% Groom (Bhuvesh)
+   3. GREEN: Shared / Both Splitting Expense (50:50 or Guest Ratio)
+   ========================================================================== */
 
-html.dark .theme-text-muted {
-  color: #94A3B8 !important;
-}
-
-/* Night Mode Table Rows Color-Coded */
-html.dark .row-bride {
-  background-color: rgba(136, 19, 55, 0.25) !important;
-  border-left-color: #FB7185 !important;
-}
-html.dark .row-bride:hover {
-  background-color: rgba(136, 19, 55, 0.40) !important;
-}
-
-html.dark .row-groom {
-  background-color: rgba(30, 58, 138, 0.25) !important;
-  border-left-color: #60A5FA !important;
-}
-html.dark .row-groom:hover {
-  background-color: rgba(30, 58, 138, 0.40) !important;
-}
-
-html.dark .row-mixed {
-  background-color: rgba(88, 28, 135, 0.25) !important;
-  border-left-color: #C084FC !important;
-}
-html.dark .row-mixed:hover {
-  background-color: rgba(88, 28, 135, 0.40) !important;
-}
-
-html.dark .row-shared {
-  background-color: rgba(30, 41, 59, 0.45) !important;
-  border-left-color: #FBBF24 !important;
-}
-html.dark .row-shared:hover {
-  background-color: rgba(30, 41, 59, 0.65) !important;
-}
-
-/* Day Mode Table Rows */
+/* Day Mode Rows */
 html:not(.dark) .row-bride {
   background-color: #FFF1F2 !important;
-  border-left-color: #F43F5E !important;
+  border-left: 5px solid #F43F5E !important;
 }
 html:not(.dark) .row-bride:hover {
   background-color: #FFE4E6 !important;
@@ -122,26 +88,43 @@ html:not(.dark) .row-bride:hover {
 
 html:not(.dark) .row-groom {
   background-color: #EFF6FF !important;
-  border-left-color: #3B82F6 !important;
+  border-left: 5px solid #3B82F6 !important;
 }
 html:not(.dark) .row-groom:hover {
   background-color: #DBEAFE !important;
 }
 
-html:not(.dark) .row-mixed {
-  background-color: #FAF5FF !important;
-  border-left-color: #A855F7 !important;
+html:not(.dark) .row-split-green {
+  background-color: #F0FDF4 !important;
+  border-left: 5px solid #10B981 !important;
 }
-html:not(.dark) .row-mixed:hover {
-  background-color: #F3E8FF !important;
+html:not(.dark) .row-split-green:hover {
+  background-color: #DCFCE7 !important;
 }
 
-html:not(.dark) .row-shared {
-  background-color: #FFFBEB !important;
-  border-left-color: #F59E0B !important;
+/* Night Mode Rows */
+html.dark .row-bride {
+  background-color: rgba(136, 19, 55, 0.28) !important;
+  border-left: 5px solid #FB7185 !important;
 }
-html:not(.dark) .row-shared:hover {
-  background-color: #FEF3C7 !important;
+html.dark .row-bride:hover {
+  background-color: rgba(136, 19, 55, 0.42) !important;
+}
+
+html.dark .row-groom {
+  background-color: rgba(30, 58, 138, 0.28) !important;
+  border-left: 5px solid #60A5FA !important;
+}
+html.dark .row-groom:hover {
+  background-color: rgba(30, 58, 138, 0.42) !important;
+}
+
+html.dark .row-split-green {
+  background-color: rgba(6, 78, 59, 0.28) !important;
+  border-left: 5px solid #34D399 !important;
+}
+html.dark .row-split-green:hover {
+  background-color: rgba(6, 78, 59, 0.42) !important;
 }
 
 /* Custom Scrollbar */
@@ -156,11 +139,11 @@ html.dark ::-webkit-scrollbar-track {
   background: #0B0F1E;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #F43F5E, #8B5CF6, #3B82F6);
+  background: linear-gradient(to bottom, #F43F5E, #10B981, #3B82F6);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #E11D48, #7C3AED, #2563EB);
+  background: linear-gradient(to bottom, #E11D48, #059669, #2563EB);
 }
 
 /* Walking Animal Keyframes */
