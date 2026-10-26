@@ -39,10 +39,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     id: 'groom-exp-2',
-    name: 'Palace Resort Booking',
+    name: 'Palace Resort: Rooms, Stay & 3-Day Food (All Wedding Events for Boy Side)',
     category: 'Venue & Accommodation',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Royal Palace Heritage',
+    event: 'All Events',
+    vendorName: 'Royal Palace Heritage Stay & Banquet',
     imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=300&q=80',
     estimatedCost: 500000,
     actualCost: 500000,
@@ -50,7 +50,11 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: 'Palace venue reservation for main wedding ceremony.',
+    notes: 'Clarification: This ₹5,00,000 covers boy-side guest rooms + stay + 3 days all meals & food for all wedding events.',
+    subtasks: [
+      { id: 'sub-stay-1', name: 'Deluxe Guest Rooms & Stay (3 Days)', cost: 300000, status: 'Pending', label: 'Stay/Rooms', notes: 'Accommodation for boy side family & guests for 3 days' },
+      { id: 'sub-stay-2', name: 'Catering & 3-Day Food for In-House Guests', cost: 200000, status: 'Pending', label: 'Food/Meals', notes: 'Breakfast, lunches & high tea for 3 days at the resort' },
+    ]
   },
   {
     id: 'groom-exp-3',
@@ -254,18 +258,26 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   // ==========================================
   {
     id: 'bride-exp-palace-1',
-    name: "Girl's Side Palace & Venue Booking",
+    name: "Main Wedding Hall & Banquet (500 Guests @ ₹2,000 / Plate)",
     category: 'Venue & Accommodation',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Royal Palace / Banquet',
-    imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=300&q=80',
+    vendorName: 'Main Wedding Palace & Hall',
+    imageUrl: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=300&q=80',
+    isPerPlateCalculation: true,
+    ratePerGuestOrPlate: 2000,
+    overrideGuestCount: true,
+    eventBrideGuests: 500,
     estimatedCost: 1000000,
     actualCost: 1000000,
     paidAmount: 0,
     splitType: 'BRIDE_ONLY', // 100% Pink (Harsha Side)
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: "Girl's side venue reservation: ₹10,00,000 (~10 Lakhs) palace budget.",
+    notes: "Main Wedding Hall separate from stay: ₹10,00,000 budget calculated as 500 guests × ₹2,000 per plate.",
+    subtasks: [
+      { id: 'sub-whall-1', name: 'Main Wedding Hall & Lawn Space', cost: 300000, status: 'Pending', label: 'Hall Rental', notes: 'Main grand wedding lawn & banquet space' },
+      { id: 'sub-whall-2', name: 'Wedding Dinner Catering (500 Guests @ ₹2,000/plate)', cost: 700000, status: 'Pending', label: 'Per-Plate Food', notes: 'Grand wedding dinner buffet for 500 attendees' },
+    ]
   },
   {
     id: 'bride-exp-ring-ceremony-sweets',
