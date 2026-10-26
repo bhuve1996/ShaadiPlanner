@@ -11,6 +11,7 @@ export const INITIAL_SETTINGS: WeddingSettings = {
   currency: "INR",
 };
 
+// Initial state: Start phase (Planning & Estimations, advance payments yet to be made)
 export const INITIAL_EXPENSES: ExpenseItem[] = [
   // 1. Venue & Stay
   {
@@ -19,14 +20,14 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Venue & Accommodation',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Heritage Palace Resort',
-    estimatedCost: 800000,
+    estimatedCost: 850000,
     actualCost: 850000,
-    paidAmount: 500000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'SHARED',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-15',
-    notes: 'Advance 5L paid jointly. Balance due 2 weeks before wedding.'
+    notes: 'Quotation received. 25% booking advance to be finalized.'
   },
   {
     id: 'exp-2',
@@ -36,12 +37,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     vendorName: 'Heritage Palace Stay',
     estimatedCost: 600000,
     actualCost: 600000,
-    paidAmount: 300000,
-    splitType: 'GUEST_RATIO', // Split by guest ratio
-    paidBy: 'SHARED',
-    status: 'Partially Paid',
+    paidAmount: 0,
+    splitType: 'GUEST_RATIO', // Split by guest count ratio
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-20',
-    notes: 'Rooms allocation split based on 220 Groom guests vs 180 Bride guests.'
+    notes: 'Rooms to be split based on 220 Groom guests vs 180 Bride guests.'
   },
 
   // 2. Catering & Dining
@@ -51,14 +52,14 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Catering & Dining',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Royal Flavours Caterers',
-    estimatedCost: 600000,
+    estimatedCost: 620000,
     actualCost: 620000,
-    paidAmount: 200000,
+    paidAmount: 0,
     splitType: 'GUEST_RATIO',
-    paidBy: 'GROOM',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-28',
-    notes: '400 plates @ 1550/plate. Split proportionately based on guests.'
+    notes: '400 guest plates @ 1,550/plate. Per-guest ratio split.'
   },
   {
     id: 'exp-4',
@@ -66,13 +67,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Catering & Dining',
     event: 'Sangeet & Cocktail',
     vendorName: 'Royal Flavours Caterers',
-    estimatedCost: 250000,
+    estimatedCost: 240000,
     actualCost: 240000,
-    paidAmount: 240000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'BRIDE',
-    status: 'Settled',
-    notes: 'Full payment cleared by Bride side.'
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'High-tea chaat counters and mocktail/cocktail bar.'
   },
 
   // 3. Decor & Production
@@ -82,12 +83,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Decor & Production',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Blooms & Vows Designers',
-    estimatedCost: 450000,
+    estimatedCost: 480000,
     actualCost: 480000,
-    paidAmount: 250000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'SHARED',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-25',
     notes: 'Exotic marigold, tuberose & rose theme with fairy lights truss.'
   },
@@ -97,12 +98,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Decor & Production',
     event: 'Haldi',
     vendorName: 'Blooms & Vows Designers',
-    estimatedCost: 75000,
+    estimatedCost: 70000,
     actualCost: 70000,
-    paidAmount: 70000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'GROOM',
-    status: 'Settled',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
   },
 
   // 4. Photography & Cinema
@@ -114,57 +115,57 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     vendorName: 'ShutterGlory Wedding Studios',
     estimatedCost: 350000,
     actualCost: 350000,
-    paidAmount: 150000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'SHARED',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-12-05',
-    notes: '4-day shoot including pre-wedding teaser + traditional album.'
+    notes: 'Shortlisting team: 4-day coverage + teaser film + traditional album.'
   },
 
   // 5. Attire, Jewelry & MUA
   {
     id: 'exp-8',
-    name: 'Bridal Luxury Lehenga & Reception Gown',
+    name: 'Bridal Luxury Lehenga & Reception Outfit',
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Heritage Couture Chandni Chowk',
-    estimatedCost: 280000,
-    actualCost: 310000,
-    paidAmount: 310000,
+    vendorName: 'Heritage Bridal Couture',
+    estimatedCost: 300000,
+    actualCost: 300000,
+    paidAmount: 0,
     splitType: 'BRIDE_ONLY',
-    paidBy: 'BRIDE',
-    status: 'Settled',
-    notes: '100% Bride side outfit.'
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Bride side outfit budget allocation.'
   },
   {
     id: 'exp-9',
     name: 'Groom Silk Sherwani, Safa & Stole',
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Manyavar / Royal Regalia',
-    estimatedCost: 95000,
+    vendorName: 'Manyavar / Regalia',
+    estimatedCost: 90000,
     actualCost: 90000,
-    paidAmount: 90000,
+    paidAmount: 0,
     splitType: 'GROOM_ONLY',
-    paidBy: 'GROOM',
-    status: 'Settled',
-    notes: '100% Groom side outfit.'
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Groom side sherwani & accessories.'
   },
   {
     id: 'exp-10',
     name: 'Bridal Makeup Artist (Sangeet + Wedding HD Makeup)',
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Glamour by Simran Studio',
-    estimatedCost: 80000,
+    vendorName: 'Glamour Studio',
+    estimatedCost: 85000,
     actualCost: 85000,
-    paidAmount: 40000,
+    paidAmount: 0,
     splitType: 'BRIDE_ONLY',
-    paidBy: 'BRIDE',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-28',
-    notes: 'Airbrush bridal + 2 family siders.'
+    notes: 'Bridal airbrush + 2 family siders.'
   },
 
   // 6. Music & Entertainment
@@ -176,10 +177,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     vendorName: 'DJ Harsh Beats',
     estimatedCost: 120000,
     actualCost: 120000,
-    paidAmount: 60000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'GROOM',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-27',
   },
   {
@@ -190,10 +191,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     vendorName: 'King Dholis',
     estimatedCost: 35000,
     actualCost: 35000,
-    paidAmount: 35000,
+    paidAmount: 0,
     splitType: 'GROOM_ONLY',
-    paidBy: 'GROOM',
-    status: 'Settled',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     notes: '5 Dholis for Baraat procession.'
   },
 
@@ -204,12 +205,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Logistics & Shuttles',
     event: 'All Events',
     vendorName: 'Aman Tour & Travels',
-    estimatedCost: 90000,
+    estimatedCost: 95000,
     actualCost: 95000,
-    paidAmount: 30000,
+    paidAmount: 0,
     splitType: 'GUEST_RATIO',
-    paidBy: 'GROOM',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-29',
   },
 
@@ -220,12 +221,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     category: 'Gifts, Shagun & Favors',
     event: 'All Events',
     vendorName: 'Sweet Treats Artisanal',
-    estimatedCost: 110000,
+    estimatedCost: 115000,
     actualCost: 115000,
-    paidAmount: 115000,
+    paidAmount: 0,
     splitType: 'GUEST_RATIO',
-    paidBy: 'SHARED',
-    status: 'Settled',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
   },
 
   // 9. Ritual & Puja Items
@@ -237,11 +238,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     vendorName: 'Acharya Shastri',
     estimatedCost: 31000,
     actualCost: 31000,
-    paidAmount: 15000,
+    paidAmount: 0,
     splitType: 'EQUAL_50_50',
-    paidBy: 'GROOM',
-    status: 'Partially Paid',
+    paidBy: 'UNPAID',
+    status: 'Estimated',
     dueDate: '2026-11-28',
   }
 ];
-

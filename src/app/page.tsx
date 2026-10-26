@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Heart, 
   Settings as SettingsIcon, 
@@ -13,7 +13,10 @@ import {
   Share2,
   CheckCircle,
   FileSpreadsheet,
-  Crown
+  Crown,
+  RotateCcw,
+  CloudCheck,
+  Save
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { ExpenseItem, WeddingSettings } from '@/types/wedding';
@@ -26,68 +29,98 @@ import { ItineraryView } from '@/components/ItineraryView';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import confetti from 'canvas-confetti';
 
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v2';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v2';
+
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);
   const [expenses, setExpenses] = useState<ExpenseItem[]>(INITIAL_EXPENSES);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
   const [currentTab, setCurrentTab] = useState<'budget' | 'charts' | 'itinerary'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [lastSavedTime, setLastSavedTime] = useState<string>('Just now');
 
-  // Load from LocalStorage
+  // 1. Initial Load: Read strictly from LocalStorage first so refresh NEVER wipes data
   useEffect(() => {
     try {
-      const savedSettings = localStorage.getItem('shaadi_settings');
-      const savedExpenses = localStorage.getItem('shaadi_expenses');
-      if (savedSettings) setSettings(JSON.parse(savedSettings));
-      if (savedExpenses) setExpenses(JSON.parse(savedExpenses));
+      if (typeof window !== 'undefined') {
+        const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
+        const storedExpenses = localStorage.getItem(STORAGE_KEY_EXPENSES);
+
+        if (storedSettings) {
+          const parsed = JSON.parse(storedSettings);
+          if (parsed && parsed.coupleTitle) {
+            setSettings(parsed);
+          }
+        }
+
+        if (storedExpenses) {
+          const parsed = JSON.parse(storedExpenses);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setExpenses(parsed);
+          }
+        }
+      }
     } catch (e) {
-      console.error(e);
+      console.warn('LocalStorage load error, using default start data:', e);
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
+
+  // 2. Continuous Auto-Sync: Whenever expenses or settings change, immediately persist to LocalStorage
+  useEffect(() => {
+    if (!isLoaded) return; // do not overwrite storage before initial hydration!
+    try {
+      localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
+      localStorage.setItem(STORAGE_KEY_EXPENSES, JSON.stringify(expenses));
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      setLastSavedTime(timeStr);
+    } catch (err) {
+      console.error('Failed to auto-save to localStorage:', err);
+    }
+  }, [expenses, settings, isLoaded]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  const persistChanges = (newExpenses: ExpenseItem[], newSettings: WeddingSettings) => {
-    try {
-      localStorage.setItem('shaadi_settings', JSON.stringify(newSettings));
-      localStorage.setItem('shaadi_expenses', JSON.stringify(newExpenses));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const handleUpdateExpense = (updated: ExpenseItem) => {
-    const updatedList = expenses.map(item => item.id === updated.id ? updated : item);
-    setExpenses(updatedList);
-    persistChanges(updatedList, settings);
+    setExpenses(prev => prev.map(item => item.id === updated.id ? updated : item));
     showToast(`Updated "${updated.name}"`);
   };
 
   const handleDeleteExpense = (id: string) => {
     const itemToDelete = expenses.find(x => x.id === id);
-    const updatedList = expenses.filter(item => item.id !== id);
-    setExpenses(updatedList);
-    persistChanges(updatedList, settings);
+    setExpenses(prev => prev.filter(item => item.id !== id));
     showToast(`Deleted ${itemToDelete?.name || 'expense'}`);
   };
 
   const handleAddNewExpense = (created: ExpenseItem) => {
-    const updatedList = [created, ...expenses];
-    setExpenses(updatedList);
-    persistChanges(updatedList, settings);
+    setExpenses(prev => [created, ...prev]);
     showToast(`Added "${created.name}"`);
     triggerCelebration();
   };
 
   const handleSaveSettings = (newSettings: WeddingSettings) => {
     setSettings(newSettings);
-    persistChanges(expenses, newSettings);
-    showToast('Updated guest count & budget ratios');
+    showToast('Saved wedding configuration & guest split');
+  };
+
+  // Option to reset back to clean start phase
+  const handleResetToStartPhase = () => {
+    if (confirm('Reset all expenses back to the initial start phase? All advances will reset to 0.')) {
+      setExpenses(INITIAL_EXPENSES);
+      setSettings(INITIAL_SETTINGS);
+      localStorage.removeItem(STORAGE_KEY_EXPENSES);
+      localStorage.removeItem(STORAGE_KEY_SETTINGS);
+      showToast('Reset to clean start phase');
+    }
   };
 
   const triggerCelebration = () => {
@@ -168,6 +201,15 @@ export default function Home() {
                 <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40">
                   शुभ विवाह
                 </span>
+                
+                {/* LocalStorage Live Sync Status Badge */}
+                <div 
+                  className="hidden md:inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 px-2 py-0.5 rounded-full"
+                  title="Auto-saved to your browser local storage. Safe on page refresh."
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Auto-saved locally</span>
+                </div>
               </div>
               <p className="text-xs text-amber-200/90 font-medium truncate max-w-xs sm:max-w-md">
                 {settings.coupleTitle} • 🗓️ {settings.weddingDate}
@@ -192,6 +234,15 @@ export default function Home() {
             >
               <FileSpreadsheet size={14} className="text-amber-300" />
               <span className="hidden md:inline">Export CSV</span>
+            </button>
+
+            {/* Reset to Start Phase Button */}
+            <button
+              onClick={handleResetToStartPhase}
+              className="p-2 text-amber-200/80 hover:text-white hover:bg-red-950/70 rounded-xl transition-colors cursor-pointer"
+              title="Reset data back to clean start phase"
+            >
+              <RotateCcw size={16} />
             </button>
 
             {/* Google Sign-in */}
