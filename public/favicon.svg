@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F43F5E" />
+      <stop offset="50%" stop-color="#EC4899" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#881337" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Pill with Glow -->
+  <rect width="64" height="64" rx="20" fill="url(#roseGrad)" filter="url(#shadow)"/>
+  
+  <!-- Auspicious Indian Wedding Motif: Floral Blossom / Kalash / Heart -->
+  <circle cx="32" cy="32" r="23" fill="none" stroke="#FDE68A" stroke-width="2" stroke-dasharray="3 2" opacity="0.8" />
+  
+  <g transform="translate(32,32) scale(0.9)">
+    <path d="M0 -6 C-7 -18 -20 -8 -13 5 C-7 14 0 20 0 20 C0 20 7 14 13 5 C20 -8 7 -18 0 -6 Z" fill="#FFFFFF" filter="url(#shadow)"/>
+    <circle cx="0" cy="-14" r="3" fill="#FBBF24" stroke="#FFF" stroke-width="1"/>
+    <circle cx="-11" cy="4" r="2.5" fill="#FDE047"/>
+    <circle cx="11" cy="4" r="2.5" fill="#FDE047"/>
+  </g>
+</svg>

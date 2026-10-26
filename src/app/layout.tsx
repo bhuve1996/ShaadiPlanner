@@ -6,7 +6,11 @@ export const metadata: Metadata = {
   title: "Bhuvesh & Harsha's Wedding Planner | ShaadiPlanner",
   description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Bhuvesh & Harsha's wedding.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" }
+    ],
+    apple: "/favicon.svg",
   },
 };
 
