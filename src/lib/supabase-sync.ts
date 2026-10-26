@@ -221,8 +221,45 @@ export async function deleteExpenseFromRemote(id: string) {
 }
 
 // ==========================================
-// 4. SEED INITIAL BASELINE TO SUPABASE IF EMPTY
+// 5. REAL-TIME SUBSCRIPTION TO ALL TABLES
 // ==========================================
+export function subscribeToRemoteChanges(onRemoteUpdate: () => void) {
+  if (!isSupabaseConfigured() || !supabase) return () => {};
+
+  const channel = supabase
+    .channel('wedding-realtime-sync')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'weddings' }, (payload) => {
+      console.log('Real-time wedding change detected:', payload);
+      onRemoteUpdate();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'expenses' }, (payload) => {
+      console.log('Real-time expense change detected:', payload);
+      onRemoteUpdate();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'ceremony_schedules' }, (payload) => {
+      console.log('Real-time schedule change detected:', payload);
+      onRemoteUpdate();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'family_shaguns' }, (payload) => {
+      console.log('Real-time shagun change detected:', payload);
+      onRemoteUpdate();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'guest_groups' }, (payload) => {
+      console.log('Real-time group change detected:', payload);
+      onRemoteUpdate();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'vendor_directory' }, (payload) => {
+      console.log('Real-time vendor change detected:', payload);
+      onRemoteUpdate();
+    })
+    .subscribe();
+
+  return () => {
+    if (supabase) {
+      supabase.removeChannel(channel);
+    }
+  };
+}
 export async function seedInitialDataIfEmpty(
   initialSettings: WeddingSettings,
   initialExpenses: ExpenseItem[],

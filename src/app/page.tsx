@@ -29,7 +29,8 @@ import {
   syncSettingsToRemote, 
   syncExpenseToRemote, 
   deleteExpenseFromRemote, 
-  seedInitialDataIfEmpty 
+  seedInitialDataIfEmpty,
+  subscribeToRemoteChanges
 } from '@/lib/supabase-sync';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
@@ -63,13 +64,13 @@ export default function Home() {
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
   const [currentTab, setCurrentTab] = useState<'budget' | 'vendors' | 'shagun' | 'calendar' | 'charts'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSimplifiedView, setIsSimplifiedView] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // 1. Initial Load: Supabase Cloud Database is Primary; LocalStorage is Offline Fallback
   useEffect(() => {
-    async function loadInitialData() {
-      // If Supabase is configured, load directly from cloud
+    async function loadData() {
       if (isSupabaseConfigured()) {
         try {
           const remoteData = await fetchRemoteWeddingData();
@@ -131,7 +132,30 @@ export default function Home() {
       }
     }
 
-    loadInitialData();
+    loadData();
+
+    // 2. Real-Time Remote Subscription: Instantly reflect updates made in other windows / mobile
+    let unsubscribe = () => {};
+    if (isSupabaseConfigured()) {
+      unsubscribe = subscribeToRemoteChanges(() => {
+        console.log('⚡ Real-time update received from Supabase cloud! Re-fetching latest data...');
+        fetchRemoteWeddingData().then(remoteData => {
+          if (remoteData) {
+            if (remoteData.settings) setSettings(remoteData.settings);
+            if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
+            if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
+            if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
+            if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
+            if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+            showToast('⚡ Live update synced from cloud');
+          }
+        });
+      });
+    }
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // 2. Real-Time Supabase Cloud Sync + Local Offline Mirror
@@ -193,23 +217,30 @@ export default function Home() {
   };
 
   const handleUpdateEventGuests = (event: WeddingEvent, groom: number, bride: number, perPlate?: number) => {
-    setSettings(prev => ({
-      ...prev,
+    const updatedSettings: WeddingSettings = {
+      ...settings,
       eventGuestCounts: {
-        ...(prev.eventGuestCounts || {}),
+        ...(settings.eventGuestCounts || {}),
         [event]: {
           groom,
           bride,
-          perPlateRate: perPlate !== undefined ? perPlate : prev.eventGuestCounts?.[event]?.perPlateRate
+          perPlateRate: perPlate !== undefined ? perPlate : settings.eventGuestCounts?.[event]?.perPlateRate
         }
       }
-    }));
-    showToast(`Updated ${event} guest counts (${groom} Groom / ${bride} Bride)`);
+    };
+    setSettings(updatedSettings);
+    showToast(`Updated ${event} guests: ${groom}B : ${bride}H ${perPlate !== undefined ? `@ ₹${perPlate}/plate` : ''}`);
+    if (isSupabaseConfigured()) {
+      syncSettingsToRemote(updatedSettings);
+    }
   };
 
   const handleSaveSettings = (newSettings: WeddingSettings) => {
     setSettings(newSettings);
     showToast('Saved wedding configuration & guest split');
+    if (isSupabaseConfigured()) {
+      syncSettingsToRemote(newSettings);
+    }
   };
 
   const handleResetToStartPhase = () => {
@@ -424,6 +455,22 @@ export default function Home() {
               </div>
             )}
 
+            {/* Simplified View Switcher Button */}
+            <button
+              onClick={() => {
+                setIsSimplifiedView(prev => !prev);
+                showToast(!isSimplifiedView ? 'Switched to Simple View' : 'Switched to Full Detailed View');
+              }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-xl border transition-all cursor-pointer shadow-2xs ${
+                isSimplifiedView
+                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-emerald-400 shadow-md'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:bg-slate-50'
+              }`}
+              title={isSimplifiedView ? "Click to show full visuals, animations & detailed columns" : "Click to simplify: hide graphics, animations & show basic ledger only"}
+            >
+              <span>{isSimplifiedView ? '⚡ Simple View ON' : '📋 Simple View'}</span>
+            </button>
+
             {/* Day / Night Theme Toggle */}
             <ThemeToggle />
 
@@ -484,17 +531,21 @@ export default function Home() {
       {/* Main Content Area: Expanded to full modern widescreen */}
       <main className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 pt-6 space-y-6">
         
-        {/* Hero Visual Graphics Banner */}
-        <WeddingHeroBanner
-          settings={settings}
-          totalActual={summary.totalActual}
-          totalPaid={summary.totalPaid}
-          onOpenSettings={() => setIsSettingsOpen(true)}
-          onCelebration={triggerCelebration}
-        />
+        {/* Hero Visual Graphics Banner (Hidden in Simple View) */}
+        {!isSimplifiedView && (
+          <>
+            <WeddingHeroBanner
+              settings={settings}
+              totalActual={summary.totalActual}
+              totalPaid={summary.totalPaid}
+              onOpenSettings={() => setIsSettingsOpen(true)}
+              onCelebration={triggerCelebration}
+            />
 
-        {/* Shahi Barat Dhol & Animal Celebration Troupe Section */}
-        <AnimalCelebrationSection />
+            {/* Shahi Barat Dhol & Animal Celebration Troupe Section */}
+            <AnimalCelebrationSection />
+          </>
+        )}
 
         {/* Navigation Tabs with Interactive Calendar, Shagun & Groups */}
         <div className="flex border-2 border-pink-200 dark:border-white/10 gap-4 sm:gap-6 text-sm font-bold bg-white/90 dark:bg-[#121626]/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md transition-colors overflow-x-auto">
@@ -607,6 +658,7 @@ export default function Home() {
               onDeleteExpense={handleDeleteExpense}
               onAddNewExpense={handleAddNewExpense}
               sideFilter={activeSide}
+              isSimplifiedView={isSimplifiedView}
             />
           </div>
         )}

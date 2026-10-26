@@ -32,6 +32,7 @@ interface ExpenseTableProps {
   onDeleteExpense: (id: string) => void;
   onAddNewExpense: (item: ExpenseItem) => void;
   sideFilter: 'ALL' | 'GROOM' | 'BRIDE';
+  isSimplifiedView?: boolean;
 }
 
 type SortField = 'name' | 'actualCost' | 'paidAmount' | 'pending' | 'event' | 'category' | 'groomDue' | 'brideDue';
@@ -70,6 +71,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   onDeleteExpense,
   onAddNewExpense,
   sideFilter,
+  isSimplifiedView = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -135,16 +137,16 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           bVal = b.name.toLowerCase();
           break;
         case 'actualCost':
-          aVal = a.actualCost || a.estimatedCost || 0;
-          bVal = b.actualCost || b.estimatedCost || 0;
+          aVal = aShares.effectiveTotalCost;
+          bVal = bShares.effectiveTotalCost;
           break;
         case 'paidAmount':
           aVal = a.paidAmount || 0;
           bVal = b.paidAmount || 0;
           break;
         case 'pending':
-          aVal = (a.actualCost || 0) - (a.paidAmount || 0);
-          bVal = (b.actualCost || 0) - (b.paidAmount || 0);
+          aVal = Math.max(0, aShares.effectiveTotalCost - (a.paidAmount || 0));
+          bVal = Math.max(0, bShares.effectiveTotalCost - (b.paidAmount || 0));
           break;
         case 'groomDue':
           aVal = aShares.groomDue;
@@ -179,10 +181,14 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     sortField, 
     sortOrder,
     groomGuestCount,
-    brideGuestCount
+    brideGuestCount,
+    eventGuestCounts
   ]);
 
-  const filteredTotalCost = processedExpenses.reduce((sum, x) => sum + (x.actualCost || x.estimatedCost || 0), 0);
+  const filteredTotalCost = processedExpenses.reduce((sum, x) => {
+    const s = computeExpenseShares(x, groomGuestCount, brideGuestCount, eventGuestCounts);
+    return sum + s.effectiveTotalCost;
+  }, 0);
   const filteredTotalPaid = processedExpenses.reduce((sum, x) => sum + (x.paidAmount || 0), 0);
 
   const handleOpenAddModal = () => {
@@ -410,35 +416,35 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </div>
         </div>
 
-        {/* Interactive Sortable Table: Guaranteed Wide Visibility (min-w-[1100px]) */}
+        {/* Interactive Sortable Table: Guaranteed Wide Visibility (min-w-[1100px] or min-w-full in simplified) */}
         <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
-          <table className="w-full text-left text-xs border-collapse min-w-[1100px]">
+          <table className={`w-full text-left text-xs border-collapse ${isSimplifiedView ? 'min-w-[800px]' : 'min-w-[1100px]'}`}>
             <thead className={isHeaderSticky ? 'sticky top-0 z-20 shadow-xs' : ''}>
               <tr className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md text-slate-700 dark:text-slate-300 uppercase tracking-wider text-[11px] font-black border-b-2 border-pink-200 dark:border-white/10">
                 
-                {/* 1. Item Name (320px) */}
+                {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className="py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[320px]"
+                  className={`py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none ${isSimplifiedView ? 'w-[340px]' : 'w-[320px]'}`}
                 >
                   <div className="flex items-center">
-                    <span>Expense Item & Vendor</span>
+                    <span>Expense Item</span>
                     {renderSortIndicator('name')}
                   </div>
                 </th>
 
-                {/* 2. Occasion & Guests (170px) */}
+                {/* 2. Occasion & Guests */}
                 <th 
                   onClick={() => handleSort('event')}
                   className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[170px]"
                 >
                   <div className="flex items-center">
-                    <span>Occasion / Guests</span>
+                    <span>Occasion</span>
                     {renderSortIndicator('event')}
                   </div>
                 </th>
 
-                {/* 3. Actual Cost (130px) */}
+                {/* 3. Actual Cost */}
                 <th 
                   onClick={() => handleSort('actualCost')}
                   className="py-3.5 px-4 text-right cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors group select-none w-[130px]"
@@ -449,43 +455,47 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 4. Split Rule (170px) */}
+                {/* 4. Split Rule */}
                 <th className="py-3.5 px-4 text-center w-[170px]">
-                  <span>Side / Split Rule</span>
+                  <span>Paid By / Split</span>
                 </th>
 
-                {/* 5. Groom Spend (130px) */}
-                <th 
-                  onClick={() => handleSort('groomDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400 w-[130px]"
-                >
-                  <div className="flex items-center justify-end">
-                    <span>🤵 Bhuvesh Spend</span>
-                    {renderSortIndicator('groomDue')}
-                  </div>
-                </th>
+                {!isSimplifiedView && (
+                  <>
+                    {/* 5. Groom Spend (130px) */}
+                    <th 
+                      onClick={() => handleSort('groomDue')}
+                      className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400 w-[130px]"
+                    >
+                      <div className="flex items-center justify-end">
+                        <span>🤵 Bhuvesh Spend</span>
+                        {renderSortIndicator('groomDue')}
+                      </div>
+                    </th>
 
-                {/* 6. Bride Spend (130px) */}
-                <th 
-                  onClick={() => handleSort('brideDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400 w-[130px]"
-                >
-                  <div className="flex items-center justify-end">
-                    <span>👰 Harsha Spend</span>
-                    {renderSortIndicator('brideDue')}
-                  </div>
-                </th>
+                    {/* 6. Bride Spend (130px) */}
+                    <th 
+                      onClick={() => handleSort('brideDue')}
+                      className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400 w-[130px]"
+                    >
+                      <div className="flex items-center justify-end">
+                        <span>👰 Harsha Spend</span>
+                        {renderSortIndicator('brideDue')}
+                      </div>
+                    </th>
 
-                {/* 7. Paid & Progress (160px) */}
-                <th 
-                  onClick={() => handleSort('paidAmount')}
-                  className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[160px]"
-                >
-                  <div className="flex items-center">
-                    <span>Payment Progress</span>
-                    {renderSortIndicator('paidAmount')}
-                  </div>
-                </th>
+                    {/* 7. Paid & Progress (160px) */}
+                    <th 
+                      onClick={() => handleSort('paidAmount')}
+                      className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[160px]"
+                    >
+                      <div className="flex items-center">
+                        <span>Payment Progress</span>
+                        {renderSortIndicator('paidAmount')}
+                      </div>
+                    </th>
+                  </>
+                )}
 
                 {/* 8. Actions (90px) */}
                 <th className="py-3.5 px-4 text-center w-[90px]">Actions</th>
@@ -539,21 +549,23 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           onMouseLeave={() => setHoveredItem(null)}
                         >
                           {/* Photographic Thumbnail or Icon */}
-                          <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center group-hover:shadow-lg group-hover:border-pink-300 dark:group-hover:border-pink-500 transition-all">
-                            {item.imageUrl ? (
-                              <img 
-                                src={item.imageUrl} 
-                                alt={item.name} 
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                onError={(e) => {
-                                  // Fallback to CategoryIcon if image fails
-                                  (e.currentTarget as HTMLElement).style.display = 'none';
-                                }}
-                              />
-                            ) : (
-                              <CategoryIcon category={item.category} size={22} />
-                            )}
-                          </div>
+                          {!isSimplifiedView && (
+                            <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center group-hover:shadow-lg group-hover:border-pink-300 dark:group-hover:border-pink-500 transition-all">
+                              {item.imageUrl ? (
+                                <img 
+                                  src={item.imageUrl} 
+                                  alt={item.name} 
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                  onError={(e) => {
+                                    // Fallback to CategoryIcon if image fails
+                                    (e.currentTarget as HTMLElement).style.display = 'none';
+                                  }}
+                                />
+                              ) : (
+                                <CategoryIcon category={item.category} size={22} />
+                              )}
+                            </div>
+                          )}
                           
                           <div className="flex-1 min-w-0">
                             {/* Larger Crisp Title with Dynamic Gradient Text on Row Hover */}
@@ -621,43 +633,49 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill */}
                       <td className="py-3 px-4 whitespace-nowrap">
-                        <div className="space-y-1.5">
-                          {/* Visual Ceremony Capsule */}
-                          <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
-                            <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border border-pink-200 dark:border-white/10">
-                              <img 
-                                src={EVENT_IMAGES[item.event]?.image || EVENT_IMAGES['All Events'].image} 
-                                alt={item.event} 
-                                className="w-full h-full object-cover"
-                              />
+                        {isSimplifiedView ? (
+                          <span className="font-bold text-slate-800 dark:text-slate-200 text-xs">
+                            {item.event}
+                          </span>
+                        ) : (
+                          <div className="space-y-1.5">
+                            {/* Visual Ceremony Capsule */}
+                            <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
+                              <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border border-pink-200 dark:border-white/10">
+                                <img 
+                                  src={EVENT_IMAGES[item.event]?.image || EVENT_IMAGES['All Events'].image} 
+                                  alt={item.event} 
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <span className="text-xs font-black text-slate-800 dark:text-slate-200">
+                                {item.event}
+                              </span>
                             </div>
-                            <span className="text-xs font-black text-slate-800 dark:text-slate-200">
-                              {item.event}
-                            </span>
+                            
+                            {/* SMART GUEST BADGE */}
+                            {shares.isCustomOccasionGuests ? (
+                              <div className="flex items-center gap-1 text-[10px] text-purple-700 dark:text-purple-300 font-bold bg-purple-100/80 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
+                                <Users size={11} className="text-purple-600 dark:text-purple-400" />
+                                <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
+                              </div>
+                            ) : (
+                              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium pl-1">
+                                Global: {groomGuestCount + brideGuestCount} Guests
+                              </div>
+                            )}
                           </div>
-                          
-                          {/* SMART GUEST BADGE */}
-                          {shares.isCustomOccasionGuests ? (
-                            <div className="flex items-center gap-1 text-[10px] text-purple-700 dark:text-purple-300 font-bold bg-purple-100/80 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
-                              <Users size={11} className="text-purple-600 dark:text-purple-400" />
-                              <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
-                            </div>
-                          ) : (
-                            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium pl-1">
-                              Global: {groomGuestCount + brideGuestCount} Guests
-                            </div>
-                          )}
-                        </div>
+                        )}
                       </td>
 
                       {/* 3. Actual Cost */}
                       <td className="py-4 px-4 text-right whitespace-nowrap">
                         <div className="font-black text-slate-900 dark:text-white text-base">
-                          {formatINR(item.actualCost || item.estimatedCost)}
+                          {formatINR(shares.effectiveTotalCost)}
                         </div>
-                        {item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0 && (
+                        {(item.isPerPlateCalculation || (item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0)) && (
                           <div className="text-[10px] text-pink-600 dark:text-pink-400 font-bold">
-                            ₹{item.ratePerGuestOrPlate}/plate
+                            ₹{(eventGuestCounts?.[item.event]?.perPlateRate || item.ratePerGuestOrPlate || 2000)}/plate
                           </div>
                         )}
                       </td>
@@ -692,62 +710,66 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </select>
                       </td>
 
-                      {/* 5. Groom Share */}
-                      <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                        <div className="font-black text-blue-700 dark:text-blue-400 text-sm">
-                          {formatINR(shares.groomDue)}
-                        </div>
-                        <div className="text-[10px] text-blue-600 dark:text-blue-400 font-bold">
-                          {shares.groomPercent}% by Bhuvesh
-                        </div>
-                      </td>
+                      {!isSimplifiedView && (
+                        <>
+                          {/* 5. Groom Share */}
+                          <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+                            <div className="font-black text-blue-700 dark:text-blue-400 text-sm">
+                              {formatINR(shares.groomDue)}
+                            </div>
+                            <div className="text-[10px] text-blue-600 dark:text-blue-400 font-bold">
+                              {shares.groomPercent}% by Bhuvesh
+                            </div>
+                          </td>
 
-                      {/* 6. Bride Share */}
-                      <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                        <div className="font-black text-rose-600 dark:text-rose-400 text-sm">
-                          {formatINR(shares.brideDue)}
-                        </div>
-                        <div className="text-[10px] text-rose-600 dark:text-rose-400 font-bold">
-                          {shares.bridePercent}% by Harsha
-                        </div>
-                      </td>
+                          {/* 6. Bride Share */}
+                          <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+                            <div className="font-black text-rose-600 dark:text-rose-400 text-sm">
+                              {formatINR(shares.brideDue)}
+                            </div>
+                            <div className="text-[10px] text-rose-600 dark:text-rose-400 font-bold">
+                              {shares.bridePercent}% by Harsha
+                            </div>
+                          </td>
 
-                      {/* 7. Payment Progress & Status */}
-                      <td 
-                        className="py-4 px-4 whitespace-nowrap"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex flex-col gap-1.5 w-36">
-                          <div className="flex items-center justify-between text-[11px]">
-                            <span className="font-bold text-slate-700 dark:text-slate-300">
-                              {formatINR(item.paidAmount)}
-                            </span>
-                            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
-                              {percentPaid}%
-                            </span>
-                          </div>
-                          <div className="w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
-                            <div 
-                              className={`h-full transition-all duration-300 ${
-                                isFullyPaid ? 'bg-emerald-500' : 'bg-gradient-to-r from-blue-400 to-pink-500'
-                              }`} 
-                              style={{ width: `${percentPaid}%` }}
-                            />
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                            <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harsha' : 'Unpaid'}</strong></span>
-                            <span className={`font-bold ${
-                              item.status === 'Settled' 
-                                ? 'text-emerald-700 dark:text-emerald-400' 
-                                : item.status === 'Partially Paid' 
-                                ? 'text-amber-700 dark:text-amber-400' 
-                                : 'text-slate-500 dark:text-slate-400'
-                            }`}>
-                              {item.status}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
+                          {/* 7. Payment Progress & Status */}
+                          <td 
+                            className="py-4 px-4 whitespace-nowrap"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div className="flex flex-col gap-1.5 w-36">
+                              <div className="flex items-center justify-between text-[11px]">
+                                <span className="font-bold text-slate-700 dark:text-slate-300">
+                                  {formatINR(item.paidAmount)}
+                                </span>
+                                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                                  {percentPaid}%
+                                </span>
+                              </div>
+                              <div className="w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full transition-all duration-300 ${
+                                    isFullyPaid ? 'bg-emerald-500' : 'bg-gradient-to-r from-blue-400 to-pink-500'
+                                  }`} 
+                                  style={{ width: `${percentPaid}%` }}
+                                />
+                              </div>
+                              <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                                <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harsha' : 'Unpaid'}</strong></span>
+                                <span className={`font-bold ${
+                                  item.status === 'Settled' 
+                                    ? 'text-emerald-700 dark:text-emerald-400' 
+                                    : item.status === 'Partially Paid' 
+                                    ? 'text-amber-700 dark:text-amber-400' 
+                                    : 'text-slate-500 dark:text-slate-400'
+                                }`}>
+                                  {item.status}
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                        </>
+                      )}
 
                       {/* 8. Actions */}
                       <td 
@@ -854,7 +876,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <div className="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5 space-y-1">
               <div className="flex justify-between font-bold text-slate-900 dark:text-white text-xs">
                 <span>Total Amount:</span>
-                <span>{formatINR(hoveredItem.item.actualCost || hoveredItem.item.estimatedCost)}</span>
+                <span>{formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).effectiveTotalCost)}</span>
               </div>
               <div className="flex justify-between text-[11px] text-blue-600 dark:text-blue-400">
                 <span>Bhuvesh Spends:</span>

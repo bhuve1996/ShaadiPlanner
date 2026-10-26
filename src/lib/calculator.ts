@@ -35,6 +35,7 @@ export function computeExpenseShares(
   effectiveGroomGuests: number;
   effectiveBrideGuests: number;
   isCustomOccasionGuests: boolean;
+  effectiveTotalCost: number;
 } {
   const totalCost = item.actualCost || item.estimatedCost || 0;
   
@@ -62,6 +63,18 @@ export function computeExpenseShares(
   }
 
   const totalGuests = (effectiveGroomGuests + effectiveBrideGuests) || 1;
+
+  // 3. Dynamic Per-Plate auto-calculation: If per-plate is enabled and rate is set, compute dynamically
+  let effectiveTotalCost = totalCost;
+  if (item.isPerPlateCalculation) {
+    const rate = (eventConfig && !hasItemOverride && eventConfig.perPlateRate)
+      ? eventConfig.perPlateRate
+      : (item.ratePerGuestOrPlate || 0);
+
+    if (rate > 0) {
+      effectiveTotalCost = totalGuests * rate;
+    }
+  }
 
   let groomPct = 0.5;
   let bridePct = 0.5;
@@ -91,8 +104,8 @@ export function computeExpenseShares(
       break;
   }
 
-  const groomDue = Math.round(totalCost * groomPct);
-  const brideDue = totalCost - groomDue; // ensure exact rupee match
+  const groomDue = Math.round(effectiveTotalCost * groomPct);
+  const brideDue = effectiveTotalCost - groomDue; // ensure exact rupee match
 
   return {
     groomDue,
@@ -102,6 +115,7 @@ export function computeExpenseShares(
     effectiveGroomGuests,
     effectiveBrideGuests,
     isCustomOccasionGuests,
+    effectiveTotalCost,
   };
 }
 
@@ -124,17 +138,16 @@ export function calculateSummary(
   const guestRatioBridePercent = 100 - guestRatioGroomPercent;
 
   expenses.forEach(item => {
-    const cost = item.actualCost || item.estimatedCost || 0;
-    totalEstimated += item.estimatedCost || 0;
-    totalActual += cost;
-    totalPaid += item.paidAmount || 0;
-
-    const { groomDue, brideDue } = computeExpenseShares(
+    const { groomDue, brideDue, effectiveTotalCost } = computeExpenseShares(
       item,
       settings.groomGuestCount,
       settings.brideGuestCount,
       settings.eventGuestCounts
     );
+
+    totalEstimated += item.estimatedCost || 0;
+    totalActual += effectiveTotalCost;
+    totalPaid += item.paidAmount || 0;
 
     groomShareDue += groomDue;
     brideShareDue += brideDue;
