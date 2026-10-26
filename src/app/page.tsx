@@ -23,6 +23,7 @@ import { BudgetCharts } from '@/components/BudgetCharts';
 import { ExpenseTable } from '@/components/ExpenseTable';
 import { SettingsModal } from '@/components/SettingsModal';
 import { ItineraryView } from '@/components/ItineraryView';
+import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import confetti from 'canvas-confetti';
 
 export default function Home() {
@@ -91,8 +92,8 @@ export default function Home() {
 
   const triggerCelebration = () => {
     confetti({
-      particleCount: 80,
-      spread: 70,
+      particleCount: 90,
+      spread: 80,
       origin: { y: 0.6 },
       colors: ['#DC2626', '#D97706', '#F59E0B', '#E11D48', '#047857']
     });
@@ -215,8 +216,17 @@ export default function Home() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         
+        {/* Hero Visual Graphics Banner */}
+        <WeddingHeroBanner
+          settings={settings}
+          totalActual={summary.totalActual}
+          totalPaid={summary.totalPaid}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          onCelebration={triggerCelebration}
+        />
+
         {/* Navigation Tabs with Golden Accent */}
-        <div className="flex border-b-2 border-amber-200/80 gap-6 text-sm font-bold bg-white/60 backdrop-blur-xs px-4 py-1 rounded-2xl border">
+        <div className="flex border-2 border-amber-200/80 gap-6 text-sm font-bold bg-white/80 backdrop-blur-xs px-5 py-1.5 rounded-2xl shadow-xs">
           <button
             onClick={() => setCurrentTab('budget')}
             className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
@@ -228,7 +238,7 @@ export default function Home() {
             <ListFilter size={17} />
             <span>Budget & Split Ledger</span>
             {currentTab === 'budget' && (
-              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-red-600 rounded-full" />
+              <span className="absolute -bottom-1.5 left-0 right-0 h-1 bg-red-600 rounded-full" />
             )}
           </button>
 
@@ -243,7 +253,7 @@ export default function Home() {
             <ChartIcon size={17} />
             <span>Visual Analytics</span>
             {currentTab === 'charts' && (
-              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-red-600 rounded-full" />
+              <span className="absolute -bottom-1.5 left-0 right-0 h-1 bg-red-600 rounded-full" />
             )}
           </button>
 
@@ -258,7 +268,7 @@ export default function Home() {
             <Calendar size={17} />
             <span>Ceremony Itinerary</span>
             {currentTab === 'itinerary' && (
-              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-red-600 rounded-full" />
+              <span className="absolute -bottom-1.5 left-0 right-0 h-1 bg-red-600 rounded-full" />
             )}
           </button>
         </div>
