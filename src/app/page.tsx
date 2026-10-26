@@ -9,8 +9,7 @@ import {
   PieChart as ChartIcon, 
   Calendar, 
   LogIn, 
-  Sparkles,
-  Share2,
+  Sparkles, 
   CheckCircle,
   FileSpreadsheet,
   Crown,
@@ -28,8 +27,8 @@ import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
 import confetti from 'canvas-confetti';
 
-const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v2';
-const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v2';
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v3';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v3';
 
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);
@@ -108,7 +107,7 @@ export default function Home() {
   };
 
   const handleResetToStartPhase = () => {
-    if (confirm('Reset all expenses back to the initial start phase? All advances will reset to 0.')) {
+    if (confirm('Reset all expenses back to the clean initial start phase?')) {
       setExpenses(INITIAL_EXPENSES);
       setSettings(INITIAL_SETTINGS);
       localStorage.removeItem(STORAGE_KEY_EXPENSES);
@@ -122,7 +121,7 @@ export default function Home() {
       particleCount: 90,
       spread: 80,
       origin: { y: 0.6 },
-      colors: ['#DC2626', '#D97706', '#F59E0B', '#E11D48', '#047857']
+      colors: ['#D4AF37', '#F59E0B', '#EF4444', '#3B82F6', '#10B981']
     });
   };
 
@@ -163,49 +162,49 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen text-stone-900 pb-20 font-sans selection:bg-amber-200">
+    <div className="min-h-screen text-slate-100 pb-20 font-sans selection:bg-amber-400/30 selection:text-amber-200">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-stone-900 text-amber-200 text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl border border-amber-500/40 flex items-center gap-2.5 animate-in slide-in-from-bottom-5 duration-200">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1A1F30] text-amber-300 text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl border border-amber-500/30 flex items-center gap-2.5 animate-in slide-in-from-bottom-5 duration-200">
           <CheckCircle size={16} className="text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Auspicious Red & Gold Header */}
-      <header className="sticky top-0 z-40 bg-gradient-to-r from-red-800 via-red-900 to-amber-900 text-white border-b-2 border-amber-400/80 shadow-md">
+      {/* Royal Dark & Champagne Gold Header */}
+      <header className="sticky top-0 z-40 bg-[#0B0E17]/85 backdrop-blur-xl border-b border-white/10 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           
           {/* Logo & Wedding Title */}
           <div className="flex items-center gap-3">
             <button
               onClick={triggerCelebration}
-              className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-amber-200 to-yellow-500 flex items-center justify-center text-red-900 shadow-md hover:scale-105 active:scale-95 transition-transform cursor-pointer border border-amber-300"
+              className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-400 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 hover:scale-105 active:scale-95 transition-transform cursor-pointer"
               title="Click for celebratory flower shower!"
             >
-              <Crown size={22} className="fill-amber-600 text-amber-900" />
+              <Crown size={22} className="fill-slate-950 text-slate-950" />
             </button>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-black tracking-tight text-amber-100 flex items-center gap-1.5">
-                  ShaadiPlanner
-                  <span className="text-amber-400 text-sm">✨</span>
+                <h1 className="text-lg sm:text-xl font-black tracking-tight text-white flex items-center gap-1.5">
+                  <span>ShaadiPlanner</span>
+                  <span className="text-amber-400 text-sm">✦</span>
                 </h1>
-                <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40">
-                  शुभ विवाह
+                <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30">
+                  Luxury Edition
                 </span>
                 
-                {/* LocalStorage Live Sync Status Badge */}
+                {/* Auto-sync indicator */}
                 <div 
-                  className="hidden md:inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 px-2 py-0.5 rounded-full"
-                  title="Auto-saved to your browser local storage. Safe on page refresh."
+                  className="hidden md:inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-full"
+                  title="Auto-saved to your browser storage. Safe on page refresh."
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span>Auto-saved locally</span>
                 </div>
               </div>
-              <p className="text-xs text-amber-200/90 font-medium truncate max-w-xs sm:max-w-md">
+              <p className="text-xs text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
                 {settings.coupleTitle} • 🗓️ {settings.weddingDate}
               </p>
             </div>
@@ -215,25 +214,25 @@ export default function Home() {
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-black text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 hover:from-amber-300 hover:to-amber-400 border border-amber-400 rounded-xl transition-all shadow-xs cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-200 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all cursor-pointer"
             >
-              <SettingsIcon size={14} />
-              <span className="hidden sm:inline">Guest Ratios & Budget</span>
+              <SettingsIcon size={14} className="text-amber-400" />
+              <span className="hidden sm:inline">Guest Ratios & Target</span>
             </button>
 
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-black text-amber-100 bg-red-950/60 hover:bg-red-950 border border-amber-400/30 rounded-xl transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-200 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all cursor-pointer"
               title="Export directly to Google Sheets CSV"
             >
-              <FileSpreadsheet size={14} className="text-amber-300" />
+              <FileSpreadsheet size={14} className="text-emerald-400" />
               <span className="hidden md:inline">Export CSV</span>
             </button>
 
-            {/* Reset to Start Phase Button */}
+            {/* Reset Button */}
             <button
               onClick={handleResetToStartPhase}
-              className="p-2 text-amber-200/80 hover:text-white hover:bg-red-950/70 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
               title="Reset data back to clean start phase"
             >
               <RotateCcw size={16} />
@@ -245,10 +244,10 @@ export default function Home() {
                 setUserLoggedIn(!userLoggedIn);
                 showToast(userLoggedIn ? 'Logged out' : 'Connected with Google Account');
               }}
-              className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-xl transition-all shadow-xs cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer ${
                 userLoggedIn 
-                  ? 'bg-emerald-600 text-white border border-emerald-400'
-                  : 'bg-white text-red-950 hover:bg-amber-100'
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                  : 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black shadow-amber-500/20'
               }`}
             >
               <LogIn size={14} />
@@ -258,7 +257,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         
         {/* Hero Visual Graphics Banner */}
@@ -270,53 +269,53 @@ export default function Home() {
           onCelebration={triggerCelebration}
         />
 
-        {/* Shahi Barat Interactive Animal Celebration Troupe Section */}
+        {/* Shahi Barat Animal Celebration Troupe Section */}
         <AnimalCelebrationSection />
 
         {/* Navigation Tabs with Golden Accent */}
-        <div className="flex border-2 border-amber-200/80 gap-6 text-sm font-bold bg-white/80 backdrop-blur-xs px-5 py-1.5 rounded-2xl shadow-xs">
+        <div className="flex border border-white/10 gap-6 text-sm font-bold bg-[#121624]/80 backdrop-blur-md px-5 py-2 rounded-2xl shadow-xl">
           <button
             onClick={() => setCurrentTab('budget')}
-            className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'budget' 
-                ? 'text-red-700 font-black' 
-                : 'text-stone-600 hover:text-red-800'
+                ? 'text-amber-400 font-black' 
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             <ListFilter size={17} />
             <span>Budget & Split Ledger</span>
             {currentTab === 'budget' && (
-              <span className="absolute -bottom-1.5 left-0 right-0 h-1 bg-red-600 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
             )}
           </button>
 
           <button
             onClick={() => setCurrentTab('charts')}
-            className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'charts' 
-                ? 'text-red-700 font-black' 
-                : 'text-stone-600 hover:text-red-800'
+                ? 'text-amber-400 font-black' 
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             <ChartIcon size={17} />
             <span>Visual Analytics</span>
             {currentTab === 'charts' && (
-              <span className="absolute -bottom-1.5 left-0 right-0 h-1 bg-red-600 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
             )}
           </button>
 
           <button
             onClick={() => setCurrentTab('itinerary')}
-            className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'itinerary' 
-                ? 'text-red-700 font-black' 
-                : 'text-stone-600 hover:text-red-800'
+                ? 'text-amber-400 font-black' 
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             <Calendar size={17} />
             <span>Ceremony Itinerary</span>
             {currentTab === 'itinerary' && (
-              <span className="absolute -bottom-1.5 left-0 right-0 h-1 bg-red-600 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" />
             )}
           </button>
         </div>

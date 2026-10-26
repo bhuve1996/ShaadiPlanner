@@ -1,18 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FFFDF9;
-  --foreground: #2A1810;
+  --background: #090A0F;
+  --foreground: #F8FAFC;
   
-  /* Auspicious Indian Wedding Palette */
-  --royal-vermilion: #B91C1C;
-  --sacred-sindoor: #991B1B;
-  --deep-maroon: #7F1D1D;
-  --auspicious-haldi: #F59E0B;
-  --shagun-gold: #D97706;
-  --royal-gold-light: #FEF3C7;
-  --mehendi-green: #047857;
-  --royal-peacock: #1E3A8A;
+  --champagne-gold: #E5C388;
+  --royal-gold-bright: #F59E0B;
+  --dark-surface: #12151F;
+  --dark-surface-card: #181C2A;
+  --dark-border: rgba(229, 195, 136, 0.22);
 }
 
 @theme inline {
@@ -20,36 +16,36 @@
   --color-foreground: var(--foreground);
 }
 
-/* Enable smooth scrolling across the entire site */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #FAF5EE;
+  background-color: #0B0E17;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.10) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(185, 28, 28, 0.08) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(217, 119, 6, 0.06) 0px, transparent 50%);
-  color: #261612;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.15) 0px, transparent 40%),
+    radial-gradient(at 100% 0%, rgba(190, 24, 93, 0.12) 0px, transparent 40%),
+    radial-gradient(at 50% 100%, rgba(30, 58, 138, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.8) 0px, transparent 100%);
+  color: #F1F5F9;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
   min-height: 100vh;
 }
 
-/* Custom wedding decorative scrollbars */
+/* Luxury Custom Gold Scrollbars */
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #FDF6EC;
+  background: #0B0E17;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #E5C388, #D97706);
+  background: linear-gradient(to bottom, #D4AF37, #996515);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #C89947, #B45309);
+  background: linear-gradient(to bottom, #F59E0B, #D97706);
 }
 
 /* Keyframes for animal walking smoothly across entire screen */
@@ -70,7 +66,6 @@ body {
   }
 }
 
-/* Subtle celebratory walking bounce */
 @keyframes bounceSubtle {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -100,5 +95,5 @@ body {
 }
 
 .animate-spin-slow {
-  animation: spinSlow 12s linear infinite;
+  animation: spinSlow 16s linear infinite;
 }

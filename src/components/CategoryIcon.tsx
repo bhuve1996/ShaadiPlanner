@@ -56,13 +56,17 @@ export const CategoryIcon: React.FC<CategoryIconProps> = ({
     }
   };
 
-  const color = CATEGORY_COLORS[category] || '#64748B';
+  const color = CATEGORY_COLORS[category] || '#E5C388';
 
   if (showBadge) {
     return (
       <div 
-        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-        style={{ backgroundColor: `${color}15`, color: color }}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border"
+        style={{ 
+          backgroundColor: `${color}18`, 
+          borderColor: `${color}40`,
+          color: color 
+        }}
       >
         {getIcon()}
         <span>{category}</span>
@@ -76,4 +80,3 @@ export const CategoryIcon: React.FC<CategoryIconProps> = ({
     </span>
   );
 };
-
