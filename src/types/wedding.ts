@@ -29,11 +29,12 @@ export type WeddingEvent =
 
 export interface SubTaskItem {
   id: string;
-  name: string; // e.g. "Gold Mangalsutra", "Gold Bangles", "Bridal Sandals", "7 Suits", "Makeup Vanity Kit"
+  name: string; // e.g. "Sister Gold Jewelry", "Jiju Gold Ring", "Shagun Envelopes"
   cost: number;
   paidAmount?: number;
   status: 'Pending' | 'Purchased' | 'Done';
-  notes?: string;
+  label?: string; // e.g. "Jewelry", "Shagun", "Shopping", "Attire", "Ritual"
+  notes?: string; // Individual notes specific to this subtask
 }
 
 export interface ExpenseItem {

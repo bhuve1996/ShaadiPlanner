@@ -538,47 +538,74 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
             </div>
 
             {formData.subtasks && formData.subtasks.length > 0 ? (
-              <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
                 {formData.subtasks.map((st, idx) => (
-                  <div key={st.id || idx} className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-xl border border-purple-100 dark:border-white/5 shadow-2xs">
-                    <input
-                      type="text"
-                      placeholder="e.g. Gold Mangalsutra, 3 Pairs Sandals..."
-                      value={st.name}
-                      onChange={(e) => {
-                        const updated = [...formData.subtasks!];
-                        updated[idx].name = e.target.value;
-                        setFormData({ ...formData, subtasks: updated });
-                      }}
-                      className="flex-1 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs text-slate-900 dark:text-white font-medium"
-                    />
-
-                    <div className="relative w-32">
-                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
+                  <div key={st.id || idx} className="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-purple-100 dark:border-white/5 shadow-2xs space-y-1.5">
+                    <div className="flex items-center gap-2">
                       <input
-                        type="number"
-                        placeholder="Cost"
-                        value={st.cost || ''}
+                        type="text"
+                        placeholder="Label (e.g. Jewelry, Ring, Shagun)"
+                        value={st.label || ''}
                         onChange={(e) => {
                           const updated = [...formData.subtasks!];
-                          updated[idx].cost = Number(e.target.value);
+                          updated[idx].label = e.target.value;
                           setFormData({ ...formData, subtasks: updated });
                         }}
-                        className="w-full pl-6 pr-2 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs font-bold text-slate-900 dark:text-white text-right"
+                        className="w-24 px-2 py-1.5 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-lg text-[10px] font-black uppercase text-purple-800 dark:text-purple-300 placeholder:text-purple-300"
                       />
+
+                      <input
+                        type="text"
+                        placeholder="Subtask name (e.g. Sister Bharti Gold Set, Jiju Ring)"
+                        value={st.name}
+                        onChange={(e) => {
+                          const updated = [...formData.subtasks!];
+                          updated[idx].name = e.target.value;
+                          setFormData({ ...formData, subtasks: updated });
+                        }}
+                        className="flex-1 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs text-slate-900 dark:text-white font-bold"
+                      />
+
+                      <div className="relative w-28">
+                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
+                        <input
+                          type="number"
+                          placeholder="Cost"
+                          value={st.cost || ''}
+                          onChange={(e) => {
+                            const updated = [...formData.subtasks!];
+                            updated[idx].cost = Number(e.target.value);
+                            setFormData({ ...formData, subtasks: updated });
+                          }}
+                          className="w-full pl-5 pr-2 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs font-bold text-slate-900 dark:text-white text-right"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = formData.subtasks!.filter((_, i) => i !== idx);
+                          setFormData({ ...formData, subtasks: updated });
+                        }}
+                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                        title="Remove subtask"
+                      >
+                        <Trash2 size={13} />
+                      </button>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updated = formData.subtasks!.filter((_, i) => i !== idx);
+                    {/* Individual Subtask Notes */}
+                    <input
+                      type="text"
+                      placeholder="Notes for this subtask (e.g. 22k pure gold, includes gold ring from sister side...)"
+                      value={st.notes || ''}
+                      onChange={(e) => {
+                        const updated = [...formData.subtasks!];
+                        updated[idx].notes = e.target.value;
                         setFormData({ ...formData, subtasks: updated });
                       }}
-                      className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-700 transition-colors"
-                      title="Remove subtask"
-                    >
-                      <Trash2 size={13} />
-                    </button>
+                      className="w-full px-2.5 py-1 bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200/60 dark:border-white/5 rounded-lg text-[11px] text-slate-600 dark:text-slate-400 italic"
+                    />
                   </div>
                 ))}
 

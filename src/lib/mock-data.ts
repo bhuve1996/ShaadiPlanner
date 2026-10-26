@@ -30,11 +30,11 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     status: 'Estimated',
     notes: '₹6,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.',
     subtasks: [
-      { id: 'sub-gold-1', name: 'Gold Bridal Mangalsutra', cost: 110000, status: 'Pending', notes: 'Traditional black beads & 22k gold mangalsutra' },
-      { id: 'sub-gold-2', name: 'Gold Bangles / Kadas (Pair)', cost: 160000, status: 'Pending', notes: '2 solid gold wedding kadas' },
-      { id: 'sub-gold-3', name: 'Gold Bridal Choker & Necklace', cost: 230000, status: 'Pending', notes: 'Necklace set for wedding day' },
-      { id: 'sub-gold-4', name: 'Gold Earrings / Jhumkas', cost: 100000, status: 'Pending', notes: 'Heavy gold jhumkis' },
-      { id: 'sub-gold-5', name: 'Gold Tops (To confirm inclusion)', cost: 35000, status: 'Pending', notes: 'Clarification item: ₹35,000 tops' },
+      { id: 'sub-gold-1', name: 'Gold Bridal Mangalsutra', cost: 110000, status: 'Pending', label: 'Gold Mangalsutra', notes: 'Traditional black beads & 22k gold mangalsutra' },
+      { id: 'sub-gold-2', name: 'Gold Bangles / Kadas (Pair)', cost: 160000, status: 'Pending', label: 'Gold Bangles', notes: '2 solid gold wedding kadas' },
+      { id: 'sub-gold-3', name: 'Gold Bridal Choker & Necklace', cost: 230000, status: 'Pending', label: 'Gold Necklace', notes: 'Necklace set for wedding day' },
+      { id: 'sub-gold-4', name: 'Gold Earrings / Jhumkas', cost: 100000, status: 'Pending', label: 'Gold Earrings', notes: 'Heavy gold jhumkis' },
+      { id: 'sub-gold-5', name: 'Gold Tops (To confirm inclusion)', cost: 35000, status: 'Pending', label: 'Gold Tops', notes: 'Clarification item: ₹35,000 tops' },
     ]
   },
   {
@@ -97,9 +97,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     status: 'Estimated',
     notes: "Boy to Girl Attire Gifts: ₹2,00,000 budget covering main wedding lehenga plus 7 / 11 / 21 unstitched suits and trousseau items.",
     subtasks: [
-      { id: 'sub-suit-1', name: "Harsha's Main Bridal Wedding Lehenga", cost: 100000, status: 'Pending', notes: 'Main bridal wedding lehenga' },
-      { id: 'sub-suit-2', name: '7 / 11 Shagun Heavy Silk Suits Pack', cost: 60000, status: 'Pending', notes: 'Traditional 7/11 suits given to bride' },
-      { id: 'sub-suit-3', name: '21 Dailywear & Partywear Suits Pack', cost: 40000, status: 'Pending', notes: '21 suits trousseau collection' },
+      { id: 'sub-suit-1', name: "Harsha's Main Bridal Wedding Lehenga", cost: 100000, status: 'Pending', label: 'Bridal Lehenga', notes: 'Main bridal wedding lehenga' },
+      { id: 'sub-suit-2', name: '7 / 11 Shagun Heavy Silk Suits Pack', cost: 60000, status: 'Pending', label: '7/11 Suits', notes: 'Traditional 7/11 heavy suits gifted to bride' },
+      { id: 'sub-suit-3', name: '21 Dailywear & Partywear Suits Pack', cost: 40000, status: 'Pending', label: '21 Suits', notes: '21 suits trousseau collection' },
     ]
   },
   {
@@ -147,9 +147,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     status: 'Estimated',
     notes: '₹50,000 boy-to-girl vanity trousseau gifted to Harsha from Bhuvesh side. Split into 3 subtasks: Makeup box, Sandals/Slippers, and Bridal vanity perfume accessories.',
     subtasks: [
-      { id: 'sub-vanity-1', name: 'Bridal Makeup Vanity Box & Cosmetics', cost: 25000, status: 'Pending', notes: 'Complete luxury bridal makeup kit (foundation, palettes, lipsticks)' },
-      { id: 'sub-vanity-2', name: 'Bridal Sandals & Traditional Mojaris / Slippers', cost: 15000, status: 'Pending', notes: '3 pairs bridal heels, wedges and embroidered wedding mojaris' },
-      { id: 'sub-vanity-3', name: 'Perfumes, Nightwear & Vanity Accessories', cost: 10000, status: 'Pending', notes: 'Signature wedding fragrance, clutches and grooming items' },
+      { id: 'sub-vanity-1', name: 'Bridal Makeup Vanity Box & Cosmetics', cost: 25000, status: 'Pending', label: 'Makeup Kit', notes: 'Complete luxury bridal makeup kit (foundation, palettes, lipsticks)' },
+      { id: 'sub-vanity-2', name: 'Bridal Sandals & Traditional Mojaris / Slippers', cost: 15000, status: 'Pending', label: 'Sandals/Mojaris', notes: '3 pairs bridal heels, wedges and embroidered wedding mojaris' },
+      { id: 'sub-vanity-3', name: 'Perfumes, Nightwear & Vanity Accessories', cost: 10000, status: 'Pending', label: 'Perfume/Nightwear', notes: 'Signature wedding fragrance, clutches and grooming items' },
     ]
   },
   {
@@ -232,17 +232,20 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     status: 'Estimated',
     notes: '₹5,13,600 consolidated family shagun to Bhuvesh relatives & ceremonial rituals. Split into subtasks below.',
     subtasks: [
-      { id: 'sub-rel-1', name: 'Chache–Bhua (8 × ₹5,100)', cost: 40800, status: 'Pending', notes: '8 family units @ ₹5,100' },
-      { id: 'sub-rel-2', name: 'Pawne chache kudian (8 × ₹2,100)', cost: 16800, status: 'Pending', notes: '8 daughters @ ₹2,100' },
-      { id: 'sub-rel-3', name: 'Ritu, Neeru, Bunty, Raju (4 × ₹2,100)', cost: 8400, status: 'Pending', notes: '4 first cousins @ ₹2,100' },
-      { id: 'sub-rel-4', name: 'Chache, mamma, mamma, massi Jagadhri (5 × ₹5,100 + ₹5,100)', cost: 30600, status: 'Pending', notes: '5 families @ ₹5,100 + ₹5,100 special envelope' },
-      { id: 'sub-rel-5', name: 'Isha and Shippu (₹5,100 + 2 × ₹2,100)', cost: 9300, status: 'Pending', notes: 'Base ₹5,100 + 2 × ₹2,100' },
-      { id: 'sub-rel-6', name: 'Aditi and Ananya (2 × ₹11,000)', cost: 22000, status: 'Pending', notes: '2 × ₹11,000' },
-      { id: 'sub-rel-7', name: 'Bharti and jiju — ring, gold, gifts and shopping', cost: 350300, status: 'Pending', notes: '₹75k Ring + ₹2.5L Gold + 3 × ₹5,100 + ₹10k Shopping' },
-      { id: 'sub-rel-8', name: 'Monty and Shanu (2 × ₹2,100)', cost: 4200, status: 'Pending', notes: '2 × ₹2,100' },
-      { id: 'sub-rel-9', name: 'Ceremony: Ribbon katai', cost: 21000, status: 'Pending', notes: 'Bridal sisters gate entry shagun' },
-      { id: 'sub-rel-10', name: 'Ceremony: Juta lukai (Shoe hiding)', cost: 5100, status: 'Pending', notes: 'Bridal squad shoe negotiation' },
-      { id: 'sub-rel-11', name: 'Ceremony: Chand ritual', cost: 5100, status: 'Pending', notes: 'Customary Chand ritual' },
+      { id: 'sub-rel-1', name: 'Chache–Bhua (8 Families Shagun)', cost: 40800, status: 'Pending', label: 'Shagun', notes: '8 family units @ ₹5,100 cash envelopes' },
+      { id: 'sub-rel-2', name: 'Pawne chache kudian (8 Nieces)', cost: 16800, status: 'Pending', label: 'Shagun', notes: '8 extended chache daughters @ ₹2,100 each' },
+      { id: 'sub-rel-3', name: 'Ritu, Neeru, Bunty, Raju (4 Cousins)', cost: 8400, status: 'Pending', label: 'Shagun', notes: '4 first cousins @ ₹2,100 each' },
+      { id: 'sub-rel-4', name: 'Chache, Mamma & Massi Jagadhri Relatives', cost: 30600, status: 'Pending', label: 'Shagun', notes: '5 family envelopes @ ₹5,100 + ₹5,100 special envelope' },
+      { id: 'sub-rel-5', name: 'Isha and Shippu', cost: 9300, status: 'Pending', label: 'Shagun', notes: 'Base ₹5,100 + 2 × ₹2,100 special gifts' },
+      { id: 'sub-rel-6', name: 'Aditi and Ananya', cost: 22000, status: 'Pending', label: 'Shagun', notes: '2 nieces @ ₹11,000 each' },
+      { id: 'sub-rel-bharti-gold', name: 'Sister Bharti: Pure Gold Jewelry Set', cost: 250000, status: 'Pending', label: 'Sister Gold', notes: 'Gold necklace/bangles wedding set gifted to sister Bharti' },
+      { id: 'sub-rel-jiju-ring', name: 'Jiju: Gold Ring with Diamond Accent', cost: 75000, status: 'Pending', label: 'Jiju Ring', notes: 'Gold & Diamond ring ceremony gift for Brother-in-law (Jiju)' },
+      { id: 'sub-rel-sister-shagun', name: 'Sister Bharti & Jiju Shagun Envelopes (3 × ₹5,100)', cost: 15300, status: 'Pending', label: 'Shagun', notes: '3 auspicious cash envelopes @ ₹5,100' },
+      { id: 'sub-rel-sister-shopping', name: 'Sister Bharti & Jiju Wedding Shopping Allowance', cost: 10000, status: 'Pending', label: 'Shopping', notes: 'Wedding apparel and shopping contribution' },
+      { id: 'sub-rel-8', name: 'Monty and Shanu (2 Cousins)', cost: 4200, status: 'Pending', label: 'Shagun', notes: '2 × ₹2,100 envelopes' },
+      { id: 'sub-rel-9', name: 'Ceremony: Ribbon katai', cost: 21000, status: 'Pending', label: 'Ritual', notes: 'Bridal sisters gate entry shagun' },
+      { id: 'sub-rel-10', name: 'Ceremony: Juta lukai (Shoe hiding)', cost: 5100, status: 'Pending', label: 'Ritual', notes: 'Bridal squad shoe negotiation' },
+      { id: 'sub-rel-11', name: 'Ceremony: Chand ritual', cost: 5100, status: 'Pending', label: 'Ritual', notes: 'Customary Chand ritual' },
     ]
   },
 
