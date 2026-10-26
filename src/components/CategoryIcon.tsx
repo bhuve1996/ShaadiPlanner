@@ -16,19 +16,22 @@ import {
 } from 'lucide-react';
 import { ExpenseCategory } from '@/types/wedding';
 import { CATEGORY_COLORS } from '@/lib/constants';
+import { CATEGORY_HERO_IMAGES } from '@/lib/event-images';
 
 interface CategoryIconProps {
   category: ExpenseCategory;
   className?: string;
   size?: number;
   showBadge?: boolean;
+  showImageThumbnail?: boolean;
 }
 
 export const CategoryIcon: React.FC<CategoryIconProps> = ({ 
   category, 
   className = "w-4 h-4", 
   size = 18,
-  showBadge = false
+  showBadge = false,
+  showImageThumbnail = true
 }) => {
   const getIcon = () => {
     switch (category) {
@@ -57,6 +60,22 @@ export const CategoryIcon: React.FC<CategoryIconProps> = ({
   };
 
   const color = CATEGORY_COLORS[category] || '#E5C388';
+  const imgUrl = CATEGORY_HERO_IMAGES[category];
+
+  if (showImageThumbnail && imgUrl) {
+    return (
+      <div className={`relative overflow-hidden rounded-xl border border-white/60 dark:border-white/10 shadow-xs flex-shrink-0 ${className}`} style={{ width: size + 10, height: size + 10 }}>
+        <img 
+          src={imgUrl} 
+          alt={category} 
+          className="w-full h-full object-cover" 
+          onError={(e) => {
+            (e.currentTarget as HTMLElement).style.display = 'none';
+          }}
+        />
+      </div>
+    );
+  }
 
   if (showBadge) {
     return (

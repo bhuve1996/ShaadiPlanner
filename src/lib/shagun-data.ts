@@ -198,3 +198,4 @@ export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [
     notes: 'Sangeet performances & Ribbon katai squad',
   },
 ];
+

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
+import { EVENT_IMAGES } from '@/lib/event-images';
 import { computeExpenseShares } from '@/lib/calculator';
 import { formatINR } from '@/lib/constants';
 import { ExpenseEditModal } from './ExpenseEditModal';
@@ -577,12 +578,22 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </div>
                       </td>
 
-                      {/* 2. Occasion & Guest Pill */}
-                      <td className="py-4 px-4 whitespace-nowrap">
-                        <div className="space-y-1">
-                          <span className="inline-block px-2.5 py-1 rounded-xl bg-white/90 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-white/10 shadow-2xs">
-                            {item.event}
-                          </span>
+                      {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill */}
+                      <td className="py-3 px-4 whitespace-nowrap">
+                        <div className="space-y-1.5">
+                          {/* Visual Ceremony Capsule */}
+                          <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
+                            <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border border-pink-200 dark:border-white/10">
+                              <img 
+                                src={EVENT_IMAGES[item.event]?.image || EVENT_IMAGES['All Events'].image} 
+                                alt={item.event} 
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <span className="text-xs font-black text-slate-800 dark:text-slate-200">
+                              {item.event}
+                            </span>
+                          </div>
                           
                           {/* SMART GUEST BADGE */}
                           {shares.isCustomOccasionGuests ? (
@@ -591,7 +602,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
                             </div>
                           ) : (
-                            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
+                            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium pl-1">
                               Global: {groomGuestCount + brideGuestCount} Guests
                             </div>
                           )}

@@ -100,3 +100,27 @@ export interface GuestGroupItem {
   isAnonymousNumbers?: boolean; // toggle if only anonymous number count is entered
   notes?: string;
 }
+
+export interface FamilyShagunItem {
+  id: string;
+  recipientName: string;
+  relation: string; // e.g. 'Chache-Bhua', 'Chache, Mamma, Massi', 'Sister & Jiju', 'Niece'
+  group: 'Chache-Bhua' | 'Mamma-Massi' | 'Sisters & In-laws' | 'Cousins & Youth' | 'Custom Rituals / Shagun' | 'General Family';
+  amount: number;
+  calculationFormula?: string; // e.g. '8 × ₹5,100', '₹75,000 + ₹2,50,000 + 3 × ₹5,100 + ₹10,000'
+  status: 'Planned' | 'Given' | 'Pending Confirmation';
+  notes?: string;
+  side: 'GROOM' | 'BRIDE';
+}
+
+export interface GuestGroupItem {
+  id: string;
+  name: string; // e.g. 'Jagadhri Relatives', 'College Friends', 'Office Colleagues', 'Bhua & Chacha Parivaar'
+  side: 'GROOM' | 'BRIDE' | 'BOTH';
+  count: number;
+  estimatedPerPlate?: number;
+  contactPerson?: string;
+  contactPhone?: string;
+  isAnonymousNumbers?: boolean; // toggle if only anonymous number count is entered
+  notes?: string;
+}
