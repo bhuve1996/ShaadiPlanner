@@ -1,9 +1,9 @@
 import { ExpenseItem, WeddingSettings } from '@/types/wedding';
 
 export const INITIAL_SETTINGS: WeddingSettings = {
-  coupleTitle: "Bhuvesh & Partner's Wedding",
+  coupleTitle: "Bhuvesh & Harsha's Wedding",
   groomName: "Bhuvesh (Groom)",
-  brideName: "Bride's Side",
+  brideName: "Harsha (Bride)",
   weddingDate: "2026-11-28",
   groomGuestCount: 220,
   brideGuestCount: 180,
@@ -11,7 +11,7 @@ export const INITIAL_SETTINGS: WeddingSettings = {
   currency: "INR",
 };
 
-// Initial state: Start phase (Planning & Estimations, advance payments yet to be made)
+// Initial state: Start phase (Planning & Estimations for Bhuvesh & Harsha)
 export const INITIAL_EXPENSES: ExpenseItem[] = [
   // 1. Venue & Stay
   {
@@ -42,7 +42,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     paidBy: 'UNPAID',
     status: 'Estimated',
     dueDate: '2026-11-20',
-    notes: 'Rooms to be split based on 220 Groom guests vs 180 Bride guests.'
+    notes: 'Rooms to be split based on 220 Bhuvesh guests vs 180 Harsha guests.'
   },
 
   // 2. Catering & Dining
@@ -120,13 +120,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     paidBy: 'UNPAID',
     status: 'Estimated',
     dueDate: '2026-12-05',
-    notes: 'Shortlisting team: 4-day coverage + teaser film + traditional album.'
+    notes: 'Coverage across all events for Bhuvesh & Harsha + teaser film + traditional album.'
   },
 
   // 5. Attire, Jewelry & MUA
   {
     id: 'exp-8',
-    name: 'Bridal Luxury Lehenga & Reception Outfit',
+    name: "Harsha's Bridal Luxury Lehenga & Reception Gown",
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Heritage Bridal Couture',
@@ -136,11 +136,11 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'BRIDE_ONLY',
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: 'Bride side outfit budget allocation.'
+    notes: "100% Harsha's side attire budget."
   },
   {
     id: 'exp-9',
-    name: 'Groom Silk Sherwani, Safa & Stole',
+    name: "Bhuvesh's Silk Sherwani, Safa & Stole",
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Manyavar / Regalia',
@@ -150,11 +150,11 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY',
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: 'Groom side sherwani & accessories.'
+    notes: "100% Bhuvesh's side sherwani & accessories."
   },
   {
     id: 'exp-10',
-    name: 'Bridal Makeup Artist (Sangeet + Wedding HD Makeup)',
+    name: "Harsha's Bridal Makeup (Sangeet + Wedding HD Makeup)",
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Glamour Studio',
@@ -195,7 +195,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY',
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: '5 Dholis for Baraat procession.'
+    notes: '5 Dholis for Bhuvesh Baraat procession.'
   },
 
   // 7. Logistics & Shuttles
