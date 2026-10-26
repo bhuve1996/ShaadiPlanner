@@ -16,7 +16,12 @@ import {
   Clock,
   Sparkles,
   Flower2,
-  Heart
+  Heart,
+  Info,
+  Calendar,
+  Building2,
+  CreditCard,
+  FileText
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -82,6 +87,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   // Modal states
   const [editingItem, setEditingItem] = useState<ExpenseItem | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  // Hover Popover Card State
+  const [hoveredItem, setHoveredItem] = useState<{ item: ExpenseItem; x: number; y: number } | null>(null);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -231,7 +239,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 relative">
       {/* Table Container */}
       <div className="theme-card bg-white/95 rounded-3xl border-2 border-pink-200 shadow-xl overflow-hidden transition-all">
         
@@ -265,7 +273,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
-                Row Colors: <strong className="text-rose-600 dark:text-rose-400">Pink = Bride Only</strong> • <strong className="text-blue-600 dark:text-blue-400">Blue = Groom Only</strong> • <strong className="text-purple-600 dark:text-purple-400">Purple = Ratio Mix</strong> • <strong className="text-amber-600 dark:text-amber-400">Amber = 50:50 Shared</strong>
+                Tip: <strong>Hover over any expense title</strong> to instantly preview the vendor dossier card with contracts, rates & due dates.
               </p>
             </div>
 
@@ -363,7 +371,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </div>
         </div>
 
-        {/* Interactive Sortable Table with Color-Coded Rows */}
+        {/* Interactive Sortable Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
@@ -372,7 +380,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className="py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none"
+                  className="py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none min-w-[280px]"
                 >
                   <div className="flex items-center">
                     <span>Expense Item & Vendor</span>
@@ -473,38 +481,62 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   return (
                     <tr 
                       key={item.id} 
-                      className={`transition-all cursor-pointer ${rowClass}`}
+                      className={`transition-all cursor-pointer ${rowClass} group`}
                       onClick={() => {
                         setEditingItem(item);
                         setShowAddModal(false);
                       }}
                     >
-                      {/* 1. Item Name + Category */}
-                      <td className="py-3.5 px-5">
-                        <div className="flex items-start gap-3">
-                          <div className="mt-0.5 p-2 rounded-xl bg-white dark:bg-slate-800 shadow-xs border border-pink-100 dark:border-white/10">
-                            <CategoryIcon category={item.category} size={18} />
+                      {/* 1. Item Name + Crisp Typography + Hover Dossier Card */}
+                      <td className="py-4 px-5">
+                        <div 
+                          className="flex items-start gap-3.5 relative"
+                          onMouseEnter={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setHoveredItem({ item, x: rect.left, y: rect.bottom + 8 });
+                          }}
+                          onMouseLeave={() => setHoveredItem(null)}
+                        >
+                          <div className="mt-1 p-2.5 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-pink-100 dark:border-white/10 flex-shrink-0">
+                            <CategoryIcon category={item.category} size={20} />
                           </div>
-                          <div>
-                            <div className="font-bold text-slate-900 dark:text-white group-hover:text-pink-700 dark:group-hover:text-pink-300 transition-colors text-[13px] flex items-center gap-1.5">
-                              <span>{item.name}</span>
-                              <Edit3 size={12} className="opacity-0 group-hover:opacity-70 text-pink-600 transition-opacity" />
+                          
+                          <div className="flex-1 min-w-0">
+                            {/* Larger Crisp Title */}
+                            <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[14px] leading-snug tracking-tight">
+                              {item.name}
                             </div>
-                            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 flex flex-wrap items-center gap-2 font-medium">
-                              <span>{item.category}</span>
-                              {item.vendorName && (
+
+                            {/* Crisp Clean Subline with Badges */}
+                            <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
+                              {/* Category Badge */}
+                              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                                {item.category}
+                              </span>
+
+                              {/* Vendor Tag */}
+                              {item.vendorName ? (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="font-bold text-slate-700 dark:text-slate-200 bg-white/80 dark:bg-slate-800 px-1.5 py-0.2 rounded border border-slate-200 dark:border-white/10">
-                                    {item.vendorName}
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-black text-slate-800 dark:text-slate-200 bg-white/90 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200/80 dark:border-white/10 shadow-2xs">
+                                    <Building2 size={11} className="text-pink-500 flex-shrink-0" />
+                                    <span className="truncate max-w-[160px]">{item.vendorName}</span>
                                   </span>
                                 </>
+                              ) : (
+                                <>
+                                  <span className="text-slate-300 dark:text-slate-600">•</span>
+                                  <span className="text-[10px] text-slate-400 italic">No vendor assigned</span>
+                                </>
                               )}
+
+                              {/* Due Date Indicator */}
                               {item.dueDate && (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="text-rose-600 dark:text-rose-400 flex items-center gap-1 font-semibold">
-                                    <Clock size={10} /> Due: {item.dueDate}
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400">
+                                    <Clock size={10} />
+                                    <span>{item.dueDate}</span>
                                   </span>
                                 </>
                               )}
@@ -514,9 +546,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       </td>
 
                       {/* 2. Occasion & Guest Pill */}
-                      <td className="py-3.5 px-3 whitespace-nowrap">
+                      <td className="py-4 px-3 whitespace-nowrap">
                         <div className="space-y-1">
-                          <span className="inline-block px-2.5 py-1 rounded-lg bg-white/90 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-[11px] font-bold border border-slate-200 dark:border-white/10 shadow-2xs">
+                          <span className="inline-block px-2.5 py-1 rounded-xl bg-white/90 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-white/10 shadow-2xs">
                             {item.event}
                           </span>
                           
@@ -535,8 +567,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       </td>
 
                       {/* 3. Actual Cost */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="font-black text-slate-900 dark:text-white text-sm">
+                      <td className="py-4 px-4 text-right whitespace-nowrap">
+                        <div className="font-black text-slate-900 dark:text-white text-base">
                           {formatINR(item.actualCost || item.estimatedCost)}
                         </div>
                         {item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0 && (
@@ -548,7 +580,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {/* 4. Split Type Selector */}
                       <td 
-                        className="py-3.5 px-4 text-center whitespace-nowrap"
+                        className="py-4 px-4 text-center whitespace-nowrap"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <select
@@ -577,7 +609,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       </td>
 
                       {/* 5. Groom Share */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap font-sans">
+                      <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
                         <div className="font-black text-blue-700 dark:text-blue-400 text-sm">
                           {formatINR(shares.groomDue)}
                         </div>
@@ -587,7 +619,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       </td>
 
                       {/* 6. Bride Share */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap font-sans">
+                      <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
                         <div className="font-black text-rose-600 dark:text-rose-400 text-sm">
                           {formatINR(shares.brideDue)}
                         </div>
@@ -598,10 +630,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {/* 7. Payment Progress & Status */}
                       <td 
-                        className="py-3.5 px-4 whitespace-nowrap"
+                        className="py-4 px-4 whitespace-nowrap"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="flex flex-col gap-1 w-36">
+                        <div className="flex flex-col gap-1.5 w-36">
                           <div className="flex items-center justify-between text-[11px]">
                             <span className="font-bold text-slate-700 dark:text-slate-300">
                               {formatINR(item.paidAmount)}
@@ -635,7 +667,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {/* 8. Actions */}
                       <td 
-                        className="py-3.5 px-4 text-center whitespace-nowrap"
+                        className="py-4 px-4 text-center whitespace-nowrap"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <div className="flex items-center justify-center gap-1">
@@ -670,6 +702,89 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </table>
         </div>
       </div>
+
+      {/* Floating Hover Dossier Card */}
+      {hoveredItem && (
+        <div 
+          className="fixed z-50 pointer-events-none animate-in fade-in zoom-in-95 duration-150"
+          style={{
+            left: Math.min(hoveredItem.x, typeof window !== 'undefined' ? window.innerWidth - 380 : 500),
+            top: Math.min(hoveredItem.y, typeof window !== 'undefined' ? window.innerHeight - 300 : 500),
+            width: '360px'
+          }}
+        >
+          <div className="bg-white/95 dark:bg-[#151A2E]/95 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border-2 border-pink-300 dark:border-white/20 text-xs space-y-2.5">
+            {/* Header */}
+            <div className="flex items-start justify-between gap-2 border-b border-pink-100 dark:border-white/10 pb-2">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-pink-600 dark:text-pink-400">
+                  {hoveredItem.item.category}
+                </span>
+                <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">
+                  {hoveredItem.item.name}
+                </h4>
+              </div>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                hoveredItem.item.status === 'Settled' 
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' 
+                  : hoveredItem.item.status === 'Partially Paid'
+                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                  : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+              }`}>
+                {hoveredItem.item.status}
+              </span>
+            </div>
+
+            {/* Quick Vendor & Event Meta */}
+            <div className="grid grid-cols-2 gap-2 text-[11px]">
+              <div>
+                <span className="text-slate-400 text-[10px] block font-semibold">Vendor:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">
+                  {hoveredItem.item.vendorName || 'Not Booked Yet'}
+                </span>
+              </div>
+              <div>
+                <span className="text-slate-400 text-[10px] block font-semibold">Ceremony:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">
+                  {hoveredItem.item.event}
+                </span>
+              </div>
+            </div>
+
+            {/* Split Breakdown */}
+            <div className="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5 space-y-1">
+              <div className="flex justify-between font-bold text-slate-900 dark:text-white text-xs">
+                <span>Total Amount:</span>
+                <span>{formatINR(hoveredItem.item.actualCost || hoveredItem.item.estimatedCost)}</span>
+              </div>
+              <div className="flex justify-between text-[11px] text-blue-600 dark:text-blue-400">
+                <span>Bhuvesh Share:</span>
+                <span className="font-semibold">
+                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount).groomDue)}
+                </span>
+              </div>
+              <div className="flex justify-between text-[11px] text-rose-600 dark:text-rose-400">
+                <span>Harsha Share:</span>
+                <span className="font-semibold">
+                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount).brideDue)}
+                </span>
+              </div>
+              <div className="flex justify-between text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-200/60 dark:border-white/5">
+                <span>Advance Cleared:</span>
+                <span className="font-bold">{formatINR(hoveredItem.item.paidAmount)}</span>
+              </div>
+            </div>
+
+            {/* Notes / Special Terms */}
+            {hoveredItem.item.notes && (
+              <div className="text-[11px] text-slate-600 dark:text-slate-400 bg-pink-50/50 dark:bg-pink-950/20 p-2 rounded-lg border border-pink-100 dark:border-pink-900/30">
+                <span className="font-bold text-pink-700 dark:text-pink-300 block text-[10px]">Notes & Inclusions:</span>
+                <p className="line-clamp-2 mt-0.5">{hoveredItem.item.notes}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Edit & Add Expense Modal */}
       <ExpenseEditModal
