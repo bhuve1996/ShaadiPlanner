@@ -1,14 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #090A0F;
-  --foreground: #F8FAFC;
+  --background: #FFF9FA;
+  --foreground: #1E293B;
   
-  --champagne-gold: #E5C388;
-  --royal-gold-bright: #F59E0B;
-  --dark-surface: #12151F;
-  --dark-surface-card: #181C2A;
-  --dark-border: rgba(229, 195, 136, 0.22);
+  --bride-pink: #F43F5E;
+  --bride-pink-light: #FFF1F2;
+  --bride-pink-border: #FECDD3;
+  
+  --groom-blue: #3B82F6;
+  --groom-blue-light: #EFF6FF;
+  --groom-blue-border: #BFDBFE;
+  
+  --mutual-purple: #8B5CF6;
+  --mutual-purple-light: #FAF5FF;
+  --mutual-purple-border: #E9D5FF;
 }
 
 @theme inline {
@@ -20,35 +26,38 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Floral Pastel Blossom Wedding Background */
 body {
-  background-color: #0B0E17;
+  background-color: #FFF9FB;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.15) 0px, transparent 40%),
-    radial-gradient(at 100% 0%, rgba(190, 24, 93, 0.12) 0px, transparent 40%),
-    radial-gradient(at 50% 100%, rgba(30, 58, 138, 0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.8) 0px, transparent 100%);
-  color: #F1F5F9;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 45%),
+    radial-gradient(at 50% 50%, rgba(251, 191, 36, 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.10) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.08) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: #1E293B;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
 }
 
-/* Luxury Custom Gold Scrollbars */
+/* Colorful Flowery Pink & Blue Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0E17;
+  background: #FFF1F4;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #D4AF37, #996515);
+  background: linear-gradient(to bottom, #F43F5E, #8B5CF6, #3B82F6);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #F59E0B, #D97706);
+  background: linear-gradient(to bottom, #E11D48, #7C3AED, #2563EB);
 }
 
-/* Keyframes for animal walking smoothly across entire screen */
+/* Animal walking animation */
 @keyframes walkAcross {
   0% {
     transform: translateX(-150px);

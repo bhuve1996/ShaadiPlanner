@@ -14,7 +14,9 @@ import {
   Utensils,
   CheckCircle2,
   Clock,
-  Sparkles
+  Sparkles,
+  Flower2,
+  Heart
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -90,10 +92,6 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     }
   };
 
-  // Filtered & Sorted Expenses: SMART SCOPE
-  // When GROOM is clicked: shows Groom-specific (100% Groom) AND Shared/Mutual (50:50 or Guest Ratio)
-  // When BRIDE is clicked: shows Bride-specific (100% Bride) AND Shared/Mutual (50:50 or Guest Ratio)
-  // When ALL is clicked: shows everything
   const processedExpenses = useMemo(() => {
     let result = expenses.filter(item => {
       const matchesSearch = 
@@ -108,17 +106,14 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
       let matchesSide = true;
       if (sideFilter === 'GROOM') {
-        // Show Groom-specific expenses and all Mutual / Shared expenses that groom participates in
         matchesSide = item.splitType !== 'BRIDE_ONLY';
       } else if (sideFilter === 'BRIDE') {
-        // Show Bride-specific expenses and all Mutual / Shared expenses that bride participates in
         matchesSide = item.splitType !== 'GROOM_ONLY';
       }
 
       return matchesSearch && matchesCategory && matchesEvent && matchesSplit && matchesStatus && matchesSide;
     });
 
-    // Apply Sorting
     return result.sort((a, b) => {
       let aVal: any = 0;
       let bVal: any = 0;
@@ -217,56 +212,84 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
       return <ArrowUpDown size={12} className="opacity-30 group-hover:opacity-70 transition-opacity ml-1" />;
     }
     return sortOrder === 'asc' 
-      ? <ArrowUp size={13} className="text-amber-400 ml-1" />
-      : <ArrowDown size={13} className="text-amber-400 ml-1" />;
+      ? <ArrowUp size={13} className="text-pink-600 ml-1" />
+      : <ArrowDown size={13} className="text-blue-600 ml-1" />;
+  };
+
+  // Helper to get row background color specifying Bride (Pink), Groom (Blue), or Mix/Shared (Soft Purple / Gradient)
+  const getRowStyle = (splitType: SplitType) => {
+    switch (splitType) {
+      case 'BRIDE_ONLY':
+        return {
+          bg: 'bg-rose-50/80 hover:bg-rose-100/90 border-l-4 border-l-rose-500',
+          badge: 'bg-rose-100 text-rose-700 border-rose-300',
+          icon: '👰 Harsha 100%',
+        };
+      case 'GROOM_ONLY':
+        return {
+          bg: 'bg-sky-50/80 hover:bg-sky-100/90 border-l-4 border-l-blue-500',
+          badge: 'bg-blue-100 text-blue-700 border-blue-300',
+          icon: '🤵 Bhuvesh 100%',
+        };
+      case 'GUEST_RATIO':
+        return {
+          bg: 'bg-purple-50/60 hover:bg-purple-100/70 border-l-4 border-l-purple-500',
+          badge: 'bg-purple-100 text-purple-700 border-purple-300',
+          icon: '👥 Guest Ratio (Mix)',
+        };
+      case 'EQUAL_50_50':
+      default:
+        return {
+          bg: 'bg-gradient-to-r from-sky-50/40 via-purple-50/40 to-rose-50/40 hover:from-sky-100/60 hover:to-rose-100/60 border-l-4 border-l-amber-400',
+          badge: 'bg-amber-100 text-amber-800 border-amber-300',
+          icon: '🤝 50:50 Shared',
+        };
+    }
   };
 
   return (
     <div className="space-y-4">
-      {/* Table Container in Luxury Dark Theme */}
-      <div className="bg-[#121624]/90 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden transition-all">
+      {/* Table Container in Colorful Flowery Theme */}
+      <div className="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-pink-200/80 shadow-xl overflow-hidden transition-all">
         
-        {/* Top Control Bar with Comprehensive Filters */}
-        <div className="p-5 sm:p-6 border-b border-white/10 flex flex-col gap-4 bg-gradient-to-r from-white/[0.03] to-amber-500/[0.04]">
+        {/* Top Control Bar with Flowery Accents */}
+        <div className="p-5 sm:p-6 border-b border-pink-100 flex flex-col gap-4 bg-gradient-to-r from-rose-50/60 via-purple-50/40 to-sky-50/60">
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2.5">
-                <h2 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
-                  <span>Expenses & Occasions Ledger</span>
+                <Flower2 className="text-pink-500 w-6 h-6 animate-spin-slow" />
+                <h2 className="text-xl font-black tracking-tight text-slate-900 flex items-center gap-2">
+                  <span>Wedding Registry & Color-Coded Splits</span>
                   {sideFilter === 'GROOM' && (
-                    <span className="text-xs bg-blue-500/20 text-blue-400 border border-blue-500/30 font-bold px-2.5 py-0.5 rounded-full">
-                      🤵 Bhuvesh & Mutual
+                    <span className="text-xs bg-sky-100 text-blue-700 border border-blue-300 font-bold px-2.5 py-0.5 rounded-full">
+                      🤵 Bhuvesh (Blue) + Shared
                     </span>
                   )}
                   {sideFilter === 'BRIDE' && (
-                    <span className="text-xs bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold px-2.5 py-0.5 rounded-full">
-                      👰 Harsha & Mutual
+                    <span className="text-xs bg-rose-100 text-rose-700 border border-rose-300 font-bold px-2.5 py-0.5 rounded-full">
+                      👰 Harsha (Pink) + Shared
                     </span>
                   )}
                   {sideFilter === 'ALL' && (
-                    <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold px-2.5 py-0.5 rounded-full">
-                      🤝 Consolidated
+                    <span className="text-xs bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 text-purple-800 border border-purple-300 font-bold px-2.5 py-0.5 rounded-full">
+                      🌸 Mixed Mutual (All)
                     </span>
                   )}
                 </h2>
-                <span className="text-xs bg-white/10 text-slate-300 font-bold px-2.5 py-0.5 rounded-full">
-                  {processedExpenses.length} entries
+                <span className="text-xs bg-pink-100 text-pink-700 font-black px-2.5 py-0.5 rounded-full border border-pink-200">
+                  {processedExpenses.length} items
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-medium mt-0.5">
-                {sideFilter === 'GROOM' 
-                  ? "Showing Bhuvesh's individual expenses + all shared/mutual ceremony expenses." 
-                  : sideFilter === 'BRIDE' 
-                  ? "Showing Harsha's individual expenses + all shared/mutual ceremony expenses." 
-                  : "Consolidated joint ledger showing all mutual, groom, and bride wedding costs."}
+              <p className="text-xs text-slate-600 font-medium mt-1">
+                Row Colors: <strong className="text-rose-600">Pink = Bride Only</strong> • <strong className="text-blue-600">Blue = Groom Only</strong> • <strong className="text-purple-600">Purple / Gradient = Mixed & Shared</strong>
               </p>
             </div>
 
             {/* Add Expense Button */}
             <button
               onClick={handleOpenAddModal}
-              className="self-start md:self-auto flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 text-xs font-black shadow-lg shadow-amber-500/20 active:scale-95 transition-all cursor-pointer"
+              className="self-start md:self-auto flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-blue-500 text-white text-xs font-black shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
             >
               <Plus size={16} />
               <span>Add Expense</span>
@@ -284,17 +307,17 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 placeholder="Search vendor, item, notes..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-[#161B2E] border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30 font-medium"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-pink-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-pink-400 font-medium shadow-2xs"
               />
             </div>
 
-            {/* 2. Occasion / Event Filter */}
+            {/* 2. Occasion Filter */}
             <select
               value={selectedEvent}
               onChange={(e) => setSelectedEvent(e.target.value)}
-              className="text-xs bg-[#161B2E] border border-white/10 rounded-xl px-3 py-2 text-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+              className="text-xs bg-white border border-pink-200 rounded-xl px-3 py-2 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
             >
-              <option value="ALL">All Occasions</option>
+              <option value="ALL">🌸 All Occasions</option>
               {ALL_EVENTS.map(ev => (
                 <option key={ev} value={ev}>{ev}</option>
               ))}
@@ -304,9 +327,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="text-xs bg-[#161B2E] border border-white/10 rounded-xl px-3 py-2 text-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+              className="text-xs bg-white border border-pink-200 rounded-xl px-3 py-2 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
             >
-              <option value="ALL">All Categories</option>
+              <option value="ALL">🌺 All Categories</option>
               {ALL_CATEGORIES.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
@@ -316,13 +339,13 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <select
               value={selectedSplitType}
               onChange={(e) => setSelectedSplitType(e.target.value)}
-              className="text-xs bg-[#161B2E] border border-white/10 rounded-xl px-3 py-2 text-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+              className="text-xs bg-white border border-pink-200 rounded-xl px-3 py-2 text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
             >
-              <option value="ALL">All Split Rules</option>
-              <option value="EQUAL_50_50">50 : 50 Equal Split</option>
-              <option value="GUEST_RATIO">By Guest Ratio</option>
-              <option value="GROOM_ONLY">100% Bhuvesh (Groom)</option>
-              <option value="BRIDE_ONLY">100% Harsha (Bride)</option>
+              <option value="ALL">✨ All Color Split Rules</option>
+              <option value="BRIDE_ONLY">👰 Pink (100% Harsha Bride)</option>
+              <option value="GROOM_ONLY">🤵 Blue (100% Bhuvesh Groom)</option>
+              <option value="GUEST_RATIO">👥 Purple (Guest Ratio Mix)</option>
+              <option value="EQUAL_50_50">🤝 Half-Half (50:50 Shared)</option>
             </select>
 
           </div>
@@ -330,25 +353,25 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         </div>
 
         {/* Quick Filter Pill Summary & Status Pills */}
-        <div className="px-5 sm:px-6 py-2.5 bg-black/30 border-b border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-3">
+        <div className="px-5 sm:px-6 py-2.5 bg-gradient-to-r from-pink-50/50 via-white to-blue-50/50 border-b border-pink-100 flex flex-wrap items-center justify-between text-xs text-slate-700 gap-3">
           <div className="flex flex-wrap items-center gap-3">
-            <span>Filtered: <strong className="text-white">{processedExpenses.length}</strong></span>
-            <span>Total Value: <strong className="text-amber-400 font-bold">{formatINR(filteredTotalCost)}</strong></span>
-            <span>Paid: <strong className="text-emerald-400 font-bold">{formatINR(filteredTotalPaid)}</strong></span>
-            <span>Pending: <strong className="text-rose-400 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
+            <span>Filtered: <strong className="text-slate-900">{processedExpenses.length}</strong></span>
+            <span>Total: <strong className="text-purple-700 font-bold">{formatINR(filteredTotalCost)}</strong></span>
+            <span>Paid: <strong className="text-emerald-700 font-bold">{formatINR(filteredTotalPaid)}</strong></span>
+            <span>Pending: <strong className="text-rose-700 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
           </div>
 
           {/* Status Filter buttons */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-slate-400 uppercase font-bold mr-1">Status:</span>
+            <span className="text-[11px] text-slate-500 uppercase font-bold mr-1">Status:</span>
             {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
                 className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
                   statusFilter === st 
-                    ? 'bg-amber-500 text-slate-950 shadow-md font-black' 
-                    : 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10'
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-xs font-black' 
+                    : 'bg-white border border-pink-200 text-slate-600 hover:bg-pink-50'
                 }`}
               >
                 {st}
@@ -357,19 +380,19 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </div>
         </div>
 
-        {/* Interactive Sortable Table */}
+        {/* Interactive Sortable Table with Color-Coded Rows */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-white/[0.02] text-slate-400 uppercase tracking-wider text-[11px] font-bold border-b border-white/10">
+              <tr className="bg-slate-50 text-slate-600 uppercase tracking-wider text-[11px] font-black border-b border-pink-100">
                 
                 {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className="py-3.5 px-5 cursor-pointer hover:text-white transition-colors group select-none"
+                  className="py-3.5 px-5 cursor-pointer hover:text-pink-600 transition-colors group select-none"
                 >
                   <div className="flex items-center">
-                    <span>Item & Vendor</span>
+                    <span>Expense Item & Vendor</span>
                     {renderSortIndicator('name')}
                   </div>
                 </th>
@@ -377,7 +400,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 2. Occasion */}
                 <th 
                   onClick={() => handleSort('event')}
-                  className="py-3.5 px-3 cursor-pointer hover:text-white transition-colors group select-none"
+                  className="py-3.5 px-3 cursor-pointer hover:text-pink-600 transition-colors group select-none"
                 >
                   <div className="flex items-center">
                     <span>Occasion / Guests</span>
@@ -388,7 +411,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 3. Actual Cost */}
                 <th 
                   onClick={() => handleSort('actualCost')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-white transition-colors group select-none"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-purple-600 transition-colors group select-none"
                 >
                   <div className="flex items-center justify-end">
                     <span>Total Cost</span>
@@ -396,18 +419,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 4. Split Rule */}
+                {/* 4. Split Rule with Color Pill */}
                 <th className="py-3.5 px-4 text-center">
-                  <span>Split Formula</span>
+                  <span>Side / Split Color</span>
                 </th>
 
                 {/* 5. Groom Liability */}
                 <th 
                   onClick={() => handleSort('groomDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-300 transition-colors group select-none text-blue-400"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 transition-colors group select-none text-blue-700"
                 >
                   <div className="flex items-center justify-end">
-                    <span>🤵 Bhuvesh Due</span>
+                    <span>🤵 Bhuvesh (Blue)</span>
                     {renderSortIndicator('groomDue')}
                   </div>
                 </th>
@@ -415,10 +438,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 6. Bride Liability */}
                 <th 
                   onClick={() => handleSort('brideDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-300 transition-colors group select-none text-rose-400"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 transition-colors group select-none text-rose-700"
                 >
                   <div className="flex items-center justify-end">
-                    <span>👰 Harsha Due</span>
+                    <span>👰 Harsha (Pink)</span>
                     {renderSortIndicator('brideDue')}
                   </div>
                 </th>
@@ -426,7 +449,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 7. Paid & Progress */}
                 <th 
                   onClick={() => handleSort('paidAmount')}
-                  className="py-3.5 px-4 cursor-pointer hover:text-white transition-colors group select-none"
+                  className="py-3.5 px-4 cursor-pointer hover:text-pink-600 transition-colors group select-none"
                 >
                   <div className="flex items-center">
                     <span>Payment Progress</span>
@@ -438,15 +461,15 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-pink-100/60">
               {processedExpenses.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-16 text-center text-slate-500">
-                    <p className="text-sm font-bold text-slate-300 mb-1">No matching expenses found</p>
-                    <p className="text-xs text-slate-500 mb-3">Try clearing search terms or changing your filters.</p>
+                  <td colSpan={8} className="py-16 text-center text-slate-400">
+                    <p className="text-sm font-bold text-slate-700 mb-1">No matching expenses found</p>
+                    <p className="text-xs text-slate-400 mb-3">Try clearing search terms or changing your filters.</p>
                     <button
                       onClick={handleOpenAddModal}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-pink-500 text-white font-bold text-xs cursor-pointer shadow-md"
                     >
                       <Plus size={14} /> Add new expense
                     </button>
@@ -462,11 +485,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                   const isFullyPaid = item.paidAmount >= item.actualCost && item.actualCost > 0;
                   const percentPaid = Math.min(100, Math.round((item.paidAmount / (item.actualCost || 1)) * 100));
+                  const rowTheme = getRowStyle(item.splitType);
 
                   return (
                     <tr 
                       key={item.id} 
-                      className="group hover:bg-white/[0.04] transition-colors cursor-pointer"
+                      className={`transition-all cursor-pointer ${rowTheme.bg}`}
                       onClick={() => {
                         setEditingItem(item);
                         setShowAddModal(false);
@@ -475,28 +499,28 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       {/* 1. Item Name + Category */}
                       <td className="py-3.5 px-5">
                         <div className="flex items-start gap-3">
-                          <div className="mt-0.5 p-2 rounded-xl bg-white/5 border border-white/10 group-hover:border-amber-400/40 transition-colors">
+                          <div className="mt-0.5 p-2 rounded-xl bg-white shadow-xs border border-pink-100">
                             <CategoryIcon category={item.category} size={18} />
                           </div>
                           <div>
-                            <div className="font-bold text-white group-hover:text-amber-300 transition-colors text-[13px] flex items-center gap-1.5">
+                            <div className="font-bold text-slate-900 group-hover:text-pink-700 transition-colors text-[13px] flex items-center gap-1.5">
                               <span>{item.name}</span>
-                              <Edit3 size={12} className="opacity-0 group-hover:opacity-70 text-amber-400 transition-opacity" />
+                              <Edit3 size={12} className="opacity-0 group-hover:opacity-70 text-pink-600 transition-opacity" />
                             </div>
-                            <div className="text-[11px] text-slate-400 mt-0.5 flex flex-wrap items-center gap-2 font-medium">
+                            <div className="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-2 font-medium">
                               <span>{item.category}</span>
                               {item.vendorName && (
                                 <>
-                                  <span className="text-slate-600">•</span>
-                                  <span className="font-bold text-slate-300 bg-white/5 px-1.5 py-0.2 rounded border border-white/10">
+                                  <span className="text-slate-300">•</span>
+                                  <span className="font-bold text-slate-700 bg-white/80 px-1.5 py-0.2 rounded border border-slate-200">
                                     {item.vendorName}
                                   </span>
                                 </>
                               )}
                               {item.dueDate && (
                                 <>
-                                  <span className="text-slate-600">•</span>
-                                  <span className="text-amber-400/90 flex items-center gap-1 font-semibold">
+                                  <span className="text-slate-300">•</span>
+                                  <span className="text-rose-600 flex items-center gap-1 font-semibold">
                                     <Clock size={10} /> Due: {item.dueDate}
                                   </span>
                                 </>
@@ -509,18 +533,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       {/* 2. Occasion & Guest Pill */}
                       <td className="py-3.5 px-3 whitespace-nowrap">
                         <div className="space-y-1">
-                          <span className="inline-block px-2.5 py-1 rounded-lg bg-white/5 text-slate-200 text-[11px] font-bold border border-white/10">
+                          <span className="inline-block px-2.5 py-1 rounded-lg bg-white/90 text-slate-800 text-[11px] font-bold border border-slate-200 shadow-2xs">
                             {item.event}
                           </span>
                           
                           {/* SMART GUEST BADGE */}
                           {shares.isCustomOccasionGuests ? (
-                            <div className="flex items-center gap-1 text-[10px] text-amber-300 font-bold bg-amber-500/15 px-2 py-0.5 rounded-md border border-amber-500/30">
-                              <Users size={11} className="text-amber-400" />
+                            <div className="flex items-center gap-1 text-[10px] text-purple-700 font-bold bg-purple-100/80 px-2 py-0.5 rounded-md border border-purple-200">
+                              <Users size={11} className="text-purple-600" />
                               <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
                             </div>
                           ) : (
-                            <div className="text-[10px] text-slate-500 font-medium">
+                            <div className="text-[10px] text-slate-400 font-medium">
                               Global: {groomGuestCount + brideGuestCount} Guests
                             </div>
                           )}
@@ -529,11 +553,11 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {/* 3. Actual Cost */}
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="font-black text-white text-sm">
+                        <div className="font-black text-slate-900 text-sm">
                           {formatINR(item.actualCost || item.estimatedCost)}
                         </div>
                         {item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0 && (
-                          <div className="text-[10px] text-amber-400/90 font-semibold">
+                          <div className="text-[10px] text-pink-600 font-bold">
                             ₹{item.ratePerGuestOrPlate}/guest
                           </div>
                         )}
@@ -552,40 +576,40 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               splitType: e.target.value as SplitType,
                             });
                           }}
-                          className={`text-xs font-bold px-2.5 py-1 rounded-xl border focus:outline-none transition-all ${
-                            item.splitType === 'EQUAL_50_50' 
-                              ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                              : item.splitType === 'GUEST_RATIO'
-                              ? 'bg-purple-500/15 text-purple-300 border-purple-500/30'
+                          className={`text-xs font-black px-2.5 py-1.5 rounded-xl border shadow-xs focus:outline-none transition-all cursor-pointer ${
+                            item.splitType === 'BRIDE_ONLY'
+                              ? 'bg-rose-100 text-rose-800 border-rose-300'
                               : item.splitType === 'GROOM_ONLY'
-                              ? 'bg-blue-500/15 text-blue-300 border-blue-500/30'
-                              : 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+                              ? 'bg-blue-100 text-blue-800 border-blue-300'
+                              : item.splitType === 'GUEST_RATIO'
+                              ? 'bg-purple-100 text-purple-800 border-purple-300'
+                              : 'bg-gradient-to-r from-blue-100 via-purple-100 to-rose-100 text-purple-900 border-purple-300'
                           }`}
                         >
-                          <option value="EQUAL_50_50" className="bg-[#121624] text-white">50 : 50 Split</option>
-                          <option value="GUEST_RATIO" className="bg-[#121624] text-white">Guest Ratio ({shares.groomPercent}% : {shares.bridePercent}%)</option>
-                          <option value="GROOM_ONLY" className="bg-[#121624] text-white">100% Bhuvesh</option>
-                          <option value="BRIDE_ONLY" className="bg-[#121624] text-white">100% Harsha</option>
+                          <option value="BRIDE_ONLY">🌸 100% Harsha (Bride Pink)</option>
+                          <option value="GROOM_ONLY">🤵 100% Bhuvesh (Groom Blue)</option>
+                          <option value="GUEST_RATIO">👥 Guest Ratio Mix ({shares.groomPercent}% : {shares.bridePercent}%)</option>
+                          <option value="EQUAL_50_50">🤝 50 : 50 Shared Equal</option>
                         </select>
                       </td>
 
                       {/* 5. Groom Share */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="font-black text-blue-400 text-sm">
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap font-sans">
+                        <div className="font-black text-blue-700 text-sm">
                           {formatINR(shares.groomDue)}
                         </div>
-                        <div className="text-[10px] text-slate-400 font-bold">
-                          {shares.groomPercent}% share
+                        <div className="text-[10px] text-blue-600 font-bold">
+                          {shares.groomPercent}% Bhuvesh
                         </div>
                       </td>
 
                       {/* 6. Bride Share */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="font-black text-rose-400 text-sm">
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap font-sans">
+                        <div className="font-black text-rose-600 text-sm">
                           {formatINR(shares.brideDue)}
                         </div>
-                        <div className="text-[10px] text-slate-400 font-bold">
-                          {shares.bridePercent}% share
+                        <div className="text-[10px] text-rose-600 font-bold">
+                          {shares.bridePercent}% Harsha
                         </div>
                       </td>
 
@@ -596,29 +620,29 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       >
                         <div className="flex flex-col gap-1 w-36">
                           <div className="flex items-center justify-between text-[11px]">
-                            <span className="font-bold text-slate-200">
+                            <span className="font-bold text-slate-700">
                               {formatINR(item.paidAmount)}
                             </span>
-                            <span className="text-[10px] font-bold text-slate-400">
+                            <span className="text-[10px] font-bold text-slate-500">
                               {percentPaid}%
                             </span>
                           </div>
-                          <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                          <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
                             <div 
                               className={`h-full transition-all duration-300 ${
-                                isFullyPaid ? 'bg-emerald-400' : 'bg-amber-400'
+                                isFullyPaid ? 'bg-emerald-500' : 'bg-gradient-to-r from-blue-400 to-pink-500'
                               }`} 
                               style={{ width: `${percentPaid}%` }}
                             />
                           </div>
-                          <div className="flex items-center justify-between text-[10px] text-slate-400">
-                            <span>By: <strong className="text-slate-300">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harsha' : 'Unpaid'}</strong></span>
+                          <div className="flex items-center justify-between text-[10px] text-slate-500">
+                            <span>By: <strong className="text-slate-800">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harsha' : 'Unpaid'}</strong></span>
                             <span className={`font-bold ${
                               item.status === 'Settled' 
-                                ? 'text-emerald-400' 
+                                ? 'text-emerald-700' 
                                 : item.status === 'Partially Paid' 
-                                ? 'text-amber-400' 
-                                : 'text-slate-400'
+                                ? 'text-amber-700' 
+                                : 'text-slate-500'
                             }`}>
                               {item.status}
                             </span>
@@ -637,7 +661,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               setEditingItem(item);
                               setShowAddModal(false);
                             }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-amber-300 hover:bg-white/10 transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-pink-600 hover:bg-pink-100 transition-colors cursor-pointer"
                             title="Edit full expense"
                           >
                             <Edit3 size={15} />
@@ -648,7 +672,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 onDeleteExpense(item.id);
                               }
                             }}
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
                             title="Delete expense"
                           >
                             <Trash2 size={15} />

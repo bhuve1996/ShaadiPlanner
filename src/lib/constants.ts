@@ -13,18 +13,18 @@ export const CATEGORY_ICONS: Record<ExpenseCategory, string> = {
   'Invitations & Miscellaneous': 'Mail',
 };
 
-// Modern Luxury Champagne Gold & Jewel Accent Palette
+// Vibrant Colorful Floral Wedding Palette
 export const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
-  'Venue & Accommodation': '#F59E0B', // Amber Gold
-  'Catering & Dining': '#EF4444',    // Ruby Red
-  'Decor & Production': '#EAB308',   // Pure Gold
-  'Photography & Cinema': '#A855F7',// Amethyst Violet
-  'Attire, Jewelry & MUA': '#F43F5E',// Rose Diamond
-  'Music & Entertainment': '#3B82F6',// Sapphire Blue
-  'Logistics & Shuttles': '#10B981', // Emerald
-  'Gifts, Shagun & Favors': '#D97706',// Warm Bronze
-  'Ritual & Puja Items': '#F97316', // Sunset Fire
-  'Invitations & Miscellaneous': '#94A3B8', // Platinum Slate
+  'Venue & Accommodation': '#F59E0B', // Marigold Amber
+  'Catering & Dining': '#F43F5E',    // Rose Blossom Pink
+  'Decor & Production': '#EC4899',   // Lotus Pink
+  'Photography & Cinema': '#8B5CF6',// Lavender Violet
+  'Attire, Jewelry & MUA': '#FB7185',// Bridal Peony Pink
+  'Music & Entertainment': '#3B82F6',// Royal Groom Blue
+  'Logistics & Shuttles': '#10B981', // Mint Green
+  'Gifts, Shagun & Favors': '#F97316',// Sunset Peach
+  'Ritual & Puja Items': '#EAB308', // Turmeric Haldi
+  'Invitations & Miscellaneous': '#6366F1', // Indigo Floral
 };
 
 export function formatINR(val: number): string {
