@@ -23,6 +23,14 @@ import { INITIAL_SHAGUN_LIST, INITIAL_GUEST_GROUPS } from '@/lib/shagun-data';
 import { INITIAL_VENDOR_DIRECTORY } from '@/lib/vendor-data';
 import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem, VendorDirectoryItem, WeddingEvent } from '@/types/wedding';
 import { calculateSummary, computeExpenseShares } from '@/lib/calculator';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { 
+  fetchRemoteWeddingData, 
+  syncSettingsToRemote, 
+  syncExpenseToRemote, 
+  deleteExpenseFromRemote, 
+  seedInitialDataIfEmpty 
+} from '@/lib/supabase-sync';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
 import { ExpenseTable } from '@/components/ExpenseTable';
@@ -98,6 +106,31 @@ export default function Home() {
           const parsed = JSON.parse(storedVendors);
           if (Array.isArray(parsed) && parsed.length > 0) setVendors(parsed);
         }
+
+        // 2. Fetch from Supabase Cloud if configured (Global Sync)
+        if (isSupabaseConfigured()) {
+          fetchRemoteWeddingData().then(remoteData => {
+            if (remoteData) {
+              if (remoteData.settings) setSettings(remoteData.settings);
+              if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
+              if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
+              if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
+              if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
+              if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+              console.log('Synchronized state with Supabase cloud database');
+            } else {
+              // Seed if brand new Supabase instance
+              seedInitialDataIfEmpty(
+                INITIAL_SETTINGS,
+                INITIAL_EXPENSES,
+                INITIAL_CEREMONY_SCHEDULE,
+                INITIAL_SHAGUN_LIST,
+                INITIAL_GUEST_GROUPS,
+                INITIAL_VENDOR_DIRECTORY
+              );
+            }
+          });
+        }
       }
     } catch (e) {
       console.warn('LocalStorage load error:', e);
@@ -106,7 +139,7 @@ export default function Home() {
     }
   }, []);
 
-  // 2. Continuous Auto-Sync
+  // 2. Continuous Auto-Sync to LocalStorage & Remote Supabase
   useEffect(() => {
     if (!isLoaded) return;
     try {
@@ -116,6 +149,11 @@ export default function Home() {
       localStorage.setItem(STORAGE_KEY_SHAGUN, JSON.stringify(shagunList));
       localStorage.setItem(STORAGE_KEY_GROUPS, JSON.stringify(guestGroups));
       localStorage.setItem(STORAGE_KEY_VENDORS, JSON.stringify(vendors));
+
+      // Push settings update to Supabase
+      if (isSupabaseConfigured()) {
+        syncSettingsToRemote(settings);
+      }
     } catch (err) {
       console.error('Failed to auto-save to localStorage:', err);
     }
@@ -129,18 +167,27 @@ export default function Home() {
   const handleUpdateExpense = (updated: ExpenseItem) => {
     setExpenses(prev => prev.map(item => item.id === updated.id ? updated : item));
     showToast(`Updated "${updated.name}"`);
+    if (isSupabaseConfigured()) {
+      syncExpenseToRemote(updated);
+    }
   };
 
   const handleDeleteExpense = (id: string) => {
     const itemToDelete = expenses.find(x => x.id === id);
     setExpenses(prev => prev.filter(item => item.id !== id));
     showToast(`Deleted ${itemToDelete?.name || 'expense'}`);
+    if (isSupabaseConfigured()) {
+      deleteExpenseFromRemote(id);
+    }
   };
 
   const handleAddNewExpense = (created: ExpenseItem) => {
     setExpenses(prev => [created, ...prev]);
     showToast(`Added "${created.name}"`);
     triggerCelebration();
+    if (isSupabaseConfigured()) {
+      syncExpenseToRemote(created);
+    }
   };
 
   const handleUpdateScheduleItem = (updated: CeremonyScheduleItem) => {
@@ -358,9 +405,28 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Action buttons: Theme Toggle + Settings + Export + Reset */}
+          {/* Action buttons: Theme Toggle + Cloud Status + Settings + Export + Reset */}
           <div className="flex items-center gap-2 sm:gap-3">
             
+            {/* Global Cloud Sync Status Pill */}
+            {isSupabaseConfigured() ? (
+              <div 
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-600/50 rounded-xl shadow-2xs"
+                title="Connected to Supabase PostgreSQL: All changes auto-sync globally across devices"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Cloud Live</span>
+              </div>
+            ) : (
+              <div 
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-600/50 rounded-xl shadow-2xs"
+                title="Running locally on browser storage. Add Supabase keys to Vercel to enable global multi-device sync"
+              >
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                <span>Local Mode</span>
+              </div>
+            )}
+
             {/* Day / Night Theme Toggle */}
             <ThemeToggle />
 
