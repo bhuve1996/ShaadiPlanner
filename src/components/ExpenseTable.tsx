@@ -12,7 +12,9 @@ import {
   Users, 
   Clock, 
   Flower2, 
-  Building2 
+  Building2,
+  Pin,
+  PinOff
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -70,6 +72,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [selectedEvent, setSelectedEvent] = useState<string>('ALL');
   const [selectedSplitType, setSelectedSplitType] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
+  const [isHeaderSticky, setIsHeaderSticky] = useState<boolean>(true);
   
   // Sorting State
   const [sortField, setSortField] = useState<SortField>('actualCost');
@@ -343,30 +346,57 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <span>Pending: <strong className="text-rose-700 dark:text-rose-300 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
           </div>
 
-          {/* Status Filter buttons */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
-            {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
-              <button
-                key={st}
-                onClick={() => setStatusFilter(st)}
-                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
-                  statusFilter === st 
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-xs font-black' 
-                    : 'bg-white dark:bg-slate-800 border border-pink-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-slate-700'
-                }`}
-              >
-                {st}
-              </button>
-            ))}
+          {/* Status Filter buttons & Sticky Header Toggle */}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
+              {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
+                <button
+                  key={st}
+                  onClick={() => setStatusFilter(st)}
+                  className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                    statusFilter === st 
+                      ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-xs font-black' 
+                      : 'bg-white dark:bg-slate-800 border border-pink-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  {st}
+                </button>
+              ))}
+            </div>
+
+            {/* Freeze / Sticky Headers Toggle Option */}
+            <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
+
+            <button
+              onClick={() => setIsHeaderSticky(prev => !prev)}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border shadow-xs ${
+                isHeaderSticky
+                  ? 'bg-purple-100 dark:bg-purple-950/70 border-purple-300 dark:border-purple-600 text-purple-800 dark:text-purple-200 font-extrabold'
+                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700'
+              }`}
+              title={isHeaderSticky ? 'Header rows frozen at top (Sticky ON)' : 'Click to freeze header rows at top'}
+            >
+              {isHeaderSticky ? (
+                <>
+                  <Pin size={12} className="text-purple-600 dark:text-purple-400 fill-purple-600 dark:fill-purple-400 rotate-45" />
+                  <span>Freeze Header: <strong className="text-purple-700 dark:text-purple-300">ON</strong></span>
+                </>
+              ) : (
+                <>
+                  <PinOff size={12} className="text-slate-400" />
+                  <span>Freeze Header: <strong>OFF</strong></span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
         {/* Interactive Sortable Table: Guaranteed Wide Visibility (min-w-[1100px]) */}
-        <div className="overflow-x-auto w-full">
+        <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
           <table className="w-full text-left text-xs border-collapse min-w-[1100px]">
-            <thead>
-              <tr className="bg-slate-50 dark:bg-slate-900/70 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[11px] font-black border-b border-pink-100 dark:border-white/10">
+            <thead className={isHeaderSticky ? 'sticky top-0 z-20 shadow-xs' : ''}>
+              <tr className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md text-slate-700 dark:text-slate-300 uppercase tracking-wider text-[11px] font-black border-b-2 border-pink-200 dark:border-white/10">
                 
                 {/* 1. Item Name (320px) */}
                 <th 
