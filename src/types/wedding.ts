@@ -39,8 +39,8 @@ export interface ExpenseItem {
   customGroomPercent?: number; // Used when splitType is CUSTOM
   
   // Smart Event/Occasion specific guest & per-plate fields
-  isPerPlateCalculation?: boolean; // By default checked for catering/events!
-  ratePerGuestOrPlate?: number; // e.g. 2000 per plate
+  isPerPlateCalculation?: boolean;
+  ratePerGuestOrPlate?: number;
   overrideGuestCount?: boolean;
   eventGroomGuests?: number;
   eventBrideGuests?: number;
@@ -49,6 +49,20 @@ export interface ExpenseItem {
   status: 'Estimated' | 'Booked' | 'Partially Paid' | 'Settled';
   notes?: string;
   dueDate?: string;
+}
+
+export interface CeremonyScheduleItem {
+  id: string;
+  title: WeddingEvent;
+  date: string; // YYYY-MM-DD
+  startTime: string; // e.g. "11:00 AM"
+  endTime: string; // e.g. "03:30 PM"
+  venue: string;
+  emoji: string;
+  image: string;
+  description: string;
+  tagColor: string;
+  guestCount?: number;
 }
 
 export interface WeddingSettings {

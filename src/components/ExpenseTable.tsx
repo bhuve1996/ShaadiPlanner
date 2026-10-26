@@ -6,22 +6,13 @@ import {
   Trash2, 
   Edit3, 
   Search, 
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  Filter,
-  Users,
-  Utensils,
-  CheckCircle2,
-  Clock,
-  Sparkles,
-  Flower2,
-  Heart,
-  Info,
-  Calendar,
-  Building2,
-  CreditCard,
-  FileText
+  ArrowUpDown, 
+  ArrowUp, 
+  ArrowDown, 
+  Users, 
+  Clock, 
+  Flower2, 
+  Building2 
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -240,10 +231,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
   return (
     <div className="space-y-4 relative">
-      {/* Table Container */}
+      {/* Table Container with proper horizontal overflow scroll */}
       <div className="theme-card bg-white/95 rounded-3xl border-2 border-pink-200 shadow-xl overflow-hidden transition-all">
         
-        {/* Top Control Bar with Flowery Accents */}
+        {/* Top Control Bar */}
         <div className="p-5 sm:p-6 border-b border-pink-100 dark:border-white/10 flex flex-col gap-4 bg-gradient-to-r from-rose-50/50 via-purple-50/30 to-sky-50/50 dark:from-rose-950/20 dark:via-purple-950/15 dark:to-sky-950/20">
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -273,7 +264,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
-                Tip: <strong>Hover over any expense title</strong> to instantly preview the vendor dossier card with contracts, rates & due dates.
+                Tip: <strong>All columns are fully visible with dedicated min-widths and horizontal scrolling</strong>. Hover over any row for full vendor dossier card.
               </p>
             </div>
 
@@ -332,7 +323,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               onChange={(e) => setSelectedSplitType(e.target.value)}
               className="text-xs bg-white dark:bg-slate-900 border border-pink-200 dark:border-white/10 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
             >
-              <option value="ALL">✨ All Color Split Rules</option>
+              <option value="ALL">✨ All Split Rules</option>
               <option value="BRIDE_ONLY">🌸 Pink (100% Harsha Bride)</option>
               <option value="GROOM_ONLY">🤵 Blue (100% Bhuvesh Groom)</option>
               <option value="GUEST_RATIO">👥 Purple (Guest Ratio Mix)</option>
@@ -371,16 +362,16 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </div>
         </div>
 
-        {/* Interactive Sortable Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+        {/* Interactive Sortable Table: Guaranteed Wide Visibility (min-w-[1100px]) */}
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left text-xs border-collapse min-w-[1100px]">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-900/70 text-slate-600 dark:text-slate-400 uppercase tracking-wider text-[11px] font-black border-b border-pink-100 dark:border-white/10">
                 
-                {/* 1. Item Name */}
+                {/* 1. Item Name (320px) */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className="py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none min-w-[280px]"
+                  className="py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[320px]"
                 >
                   <div className="flex items-center">
                     <span>Expense Item & Vendor</span>
@@ -388,10 +379,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 2. Occasion */}
+                {/* 2. Occasion & Guests (170px) */}
                 <th 
                   onClick={() => handleSort('event')}
-                  className="py-3.5 px-3 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none"
+                  className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[170px]"
                 >
                   <div className="flex items-center">
                     <span>Occasion / Guests</span>
@@ -399,10 +390,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 3. Actual Cost */}
+                {/* 3. Actual Cost (130px) */}
                 <th 
                   onClick={() => handleSort('actualCost')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors group select-none"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors group select-none w-[130px]"
                 >
                   <div className="flex items-center justify-end">
                     <span>Total Cost</span>
@@ -410,15 +401,15 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 4. Split Rule with Color Pill */}
-                <th className="py-3.5 px-4 text-center">
-                  <span>Side / Split Color</span>
+                {/* 4. Split Rule (170px) */}
+                <th className="py-3.5 px-4 text-center w-[170px]">
+                  <span>Side / Split Rule</span>
                 </th>
 
-                {/* 5. Groom Liability */}
+                {/* 5. Groom Liability (120px) */}
                 <th 
                   onClick={() => handleSort('groomDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400 w-[120px]"
                 >
                   <div className="flex items-center justify-end">
                     <span>🤵 Bhuvesh (Blue)</span>
@@ -426,10 +417,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 6. Bride Liability */}
+                {/* 6. Bride Liability (120px) */}
                 <th 
                   onClick={() => handleSort('brideDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400 w-[120px]"
                 >
                   <div className="flex items-center justify-end">
                     <span>👰 Harsha (Pink)</span>
@@ -437,10 +428,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 7. Paid & Progress */}
+                {/* 7. Paid & Progress (160px) */}
                 <th 
                   onClick={() => handleSort('paidAmount')}
-                  className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none"
+                  className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[160px]"
                 >
                   <div className="flex items-center">
                     <span>Payment Progress</span>
@@ -448,7 +439,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                <th className="py-3.5 px-4 text-center">Actions</th>
+                {/* 8. Actions (90px) */}
+                <th className="py-3.5 px-4 text-center w-[90px]">Actions</th>
               </tr>
             </thead>
 
@@ -507,20 +499,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               {item.name}
                             </div>
 
-                            {/* Crisp Clean Subline with Badges */}
+                            {/* Clean Subline with Badges */}
                             <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
-                              {/* Category Badge */}
                               <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                                 {item.category}
                               </span>
 
-                              {/* Vendor Tag */}
                               {item.vendorName ? (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
                                   <span className="inline-flex items-center gap-1 text-[11px] font-black text-slate-800 dark:text-slate-200 bg-white/90 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200/80 dark:border-white/10 shadow-2xs">
                                     <Building2 size={11} className="text-pink-500 flex-shrink-0" />
-                                    <span className="truncate max-w-[160px]">{item.vendorName}</span>
+                                    <span className="truncate max-w-[150px]">{item.vendorName}</span>
                                   </span>
                                 </>
                               ) : (
@@ -530,7 +520,6 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 </>
                               )}
 
-                              {/* Due Date Indicator */}
                               {item.dueDate && (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
@@ -546,7 +535,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       </td>
 
                       {/* 2. Occasion & Guest Pill */}
-                      <td className="py-4 px-3 whitespace-nowrap">
+                      <td className="py-4 px-4 whitespace-nowrap">
                         <div className="space-y-1">
                           <span className="inline-block px-2.5 py-1 rounded-xl bg-white/90 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-white/10 shadow-2xs">
                             {item.event}
@@ -573,7 +562,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </div>
                         {item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0 && (
                           <div className="text-[10px] text-pink-600 dark:text-pink-400 font-bold">
-                            ₹{item.ratePerGuestOrPlate}/guest
+                            ₹{item.ratePerGuestOrPlate}/plate
                           </div>
                         )}
                       </td>

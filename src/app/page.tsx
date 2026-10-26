@@ -7,37 +7,41 @@ import {
   Download, 
   ListFilter, 
   PieChart as ChartIcon, 
-  Calendar, 
+  Calendar as CalendarIcon, 
   LogIn, 
   Sparkles, 
   CheckCircle, 
   FileSpreadsheet, 
   Crown, 
   RotateCcw, 
-  Flower2 
+  Flower2,
+  CalendarDays
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
-import { ExpenseItem, WeddingSettings } from '@/types/wedding';
+import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
+import { ExpenseItem, WeddingSettings, CeremonyScheduleItem } from '@/types/wedding';
 import { calculateSummary } from '@/lib/calculator';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
 import { ExpenseTable } from '@/components/ExpenseTable';
 import { SettingsModal } from '@/components/SettingsModal';
-import { ItineraryView } from '@/components/ItineraryView';
+import { WeddingCalendar } from '@/components/WeddingCalendar';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 
-const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v4';
-const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v4';
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v5';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v5';
+const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v5';
 
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);
   const [expenses, setExpenses] = useState<ExpenseItem[]>(INITIAL_EXPENSES);
+  const [schedule, setSchedule] = useState<CeremonyScheduleItem[]>(INITIAL_CEREMONY_SCHEDULE);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
-  const [currentTab, setCurrentTab] = useState<'budget' | 'charts' | 'itinerary'>('budget');
+  const [currentTab, setCurrentTab] = useState<'budget' | 'calendar' | 'charts'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -48,19 +52,21 @@ export default function Home() {
       if (typeof window !== 'undefined') {
         const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
         const storedExpenses = localStorage.getItem(STORAGE_KEY_EXPENSES);
+        const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE);
 
         if (storedSettings) {
           const parsed = JSON.parse(storedSettings);
-          if (parsed && parsed.coupleTitle) {
-            setSettings(parsed);
-          }
+          if (parsed && parsed.coupleTitle) setSettings(parsed);
         }
 
         if (storedExpenses) {
           const parsed = JSON.parse(storedExpenses);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setExpenses(parsed);
-          }
+          if (Array.isArray(parsed) && parsed.length > 0) setExpenses(parsed);
+        }
+
+        if (storedSchedule) {
+          const parsed = JSON.parse(storedSchedule);
+          if (Array.isArray(parsed) && parsed.length > 0) setSchedule(parsed);
         }
       }
     } catch (e) {
@@ -76,10 +82,11 @@ export default function Home() {
     try {
       localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
       localStorage.setItem(STORAGE_KEY_EXPENSES, JSON.stringify(expenses));
+      localStorage.setItem(STORAGE_KEY_SCHEDULE, JSON.stringify(schedule));
     } catch (err) {
       console.error('Failed to auto-save to localStorage:', err);
     }
-  }, [expenses, settings, isLoaded]);
+  }, [expenses, settings, schedule, isLoaded]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -103,17 +110,24 @@ export default function Home() {
     triggerCelebration();
   };
 
+  const handleUpdateScheduleItem = (updated: CeremonyScheduleItem) => {
+    setSchedule(prev => prev.map(s => s.id === updated.id ? updated : s));
+    showToast(`Updated schedule for ${updated.title}`);
+  };
+
   const handleSaveSettings = (newSettings: WeddingSettings) => {
     setSettings(newSettings);
     showToast('Saved wedding configuration & guest split');
   };
 
   const handleResetToStartPhase = () => {
-    if (confirm('Reset all expenses back to the clean initial start phase?')) {
+    if (confirm('Reset all expenses and ceremonies back to clean initial start phase?')) {
       setExpenses(INITIAL_EXPENSES);
       setSettings(INITIAL_SETTINGS);
+      setSchedule(INITIAL_CEREMONY_SCHEDULE);
       localStorage.removeItem(STORAGE_KEY_EXPENSES);
       localStorage.removeItem(STORAGE_KEY_SETTINGS);
+      localStorage.removeItem(STORAGE_KEY_SCHEDULE);
       showToast('Reset to clean start phase');
     }
   };
@@ -174,7 +188,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Colorful Floral Header with Day/Night Toggle */}
+      {/* Colorful Floral Header */}
       <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0E1220]/90 backdrop-blur-xl border-b-2 border-pink-200 dark:border-white/10 shadow-md transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           
@@ -280,7 +294,7 @@ export default function Home() {
         {/* Shahi Barat Dhol & Animal Celebration Troupe Section */}
         <AnimalCelebrationSection />
 
-        {/* Navigation Tabs with Pink & Blue Accent */}
+        {/* Navigation Tabs with Interactive Calendar */}
         <div className="flex border-2 border-pink-200 dark:border-white/10 gap-6 text-sm font-bold bg-white/90 dark:bg-[#121626]/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md transition-colors">
           <button
             onClick={() => setCurrentTab('budget')}
@@ -298,31 +312,31 @@ export default function Home() {
           </button>
 
           <button
+            onClick={() => setCurrentTab('calendar')}
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
+              currentTab === 'calendar' 
+                ? 'text-purple-600 dark:text-purple-400 font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
+            }`}
+          >
+            <CalendarDays size={17} />
+            <span>Ceremony Calendar & Timings</span>
+            {currentTab === 'calendar' && (
+              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+            )}
+          </button>
+
+          <button
             onClick={() => setCurrentTab('charts')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'charts' 
-                ? 'text-purple-600 dark:text-purple-400 font-black' 
+                ? 'text-blue-600 dark:text-blue-400 font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <ChartIcon size={17} />
             <span>Visual Analytics</span>
             {currentTab === 'charts' && (
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
-            )}
-          </button>
-
-          <button
-            onClick={() => setCurrentTab('itinerary')}
-            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
-              currentTab === 'itinerary' 
-                ? 'text-blue-600 dark:text-blue-400 font-black' 
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
-            }`}
-          >
-            <Calendar size={17} />
-            <span>Ceremony Itinerary</span>
-            {currentTab === 'itinerary' && (
               <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
             )}
           </button>
@@ -337,7 +351,7 @@ export default function Home() {
           onOpenSettings={() => setIsSettingsOpen(true)}
         />
 
-        {/* Tab 1: Color-Coded Expense Table */}
+        {/* Tab 1: Color-Coded Expense Table with full horizontal visibility */}
         {currentTab === 'budget' && (
           <ExpenseTable
             expenses={expenses}
@@ -350,18 +364,22 @@ export default function Home() {
           />
         )}
 
-        {/* Tab 2: Visual Charts */}
+        {/* Tab 2: Interactive Wedding Calendar & Time Slots */}
+        {currentTab === 'calendar' && (
+          <WeddingCalendar
+            schedule={schedule}
+            expenses={expenses}
+            onUpdateScheduleItem={handleUpdateScheduleItem}
+          />
+        )}
+
+        {/* Tab 3: Visual Analytics */}
         {currentTab === 'charts' && (
           <BudgetCharts
             expenses={expenses}
             groomGuestCount={settings.groomGuestCount}
             brideGuestCount={settings.brideGuestCount}
           />
-        )}
-
-        {/* Tab 3: Itinerary View */}
-        {currentTab === 'itinerary' && (
-          <ItineraryView expenses={expenses} />
         )}
       </main>
 
