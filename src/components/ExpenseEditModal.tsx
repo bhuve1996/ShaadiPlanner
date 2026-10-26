@@ -13,7 +13,8 @@ import {
   CreditCard,
   Percent,
   Calculator,
-  Utensils
+  Utensils,
+  Plus
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { computeExpenseShares } from '@/lib/calculator';
@@ -501,6 +502,98 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                 <option value="Settled">Fully Settled</option>
               </select>
             </div>
+          </div>
+
+          {/* Subtasks & Sub-costs Editor */}
+          <div className="bg-purple-50/50 dark:bg-slate-900/60 p-4 rounded-2xl border border-purple-200 dark:border-white/10 space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="font-extrabold text-slate-900 dark:text-white block text-xs flex items-center gap-1.5">
+                  <Sparkles size={14} className="text-purple-600" />
+                  <span>Subtasks & Sub-Costs Breakdown</span>
+                </span>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                  Split this item into individual items (e.g. Gold into Mangalsutra, Bangles; Vanity into Makeup, Sandals, 7/11/21 Suits).
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const newSubtask = {
+                    id: `sub-${Date.now()}`,
+                    name: '',
+                    cost: 0,
+                    status: 'Pending' as const,
+                    notes: '',
+                  };
+                  const currentSubtasks = formData.subtasks || [];
+                  setFormData({ ...formData, subtasks: [...currentSubtasks, newSubtask] });
+                }}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold shadow-xs cursor-pointer transition-all"
+              >
+                <Plus size={12} />
+                <span>Add Subtask</span>
+              </button>
+            </div>
+
+            {formData.subtasks && formData.subtasks.length > 0 ? (
+              <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
+                {formData.subtasks.map((st, idx) => (
+                  <div key={st.id || idx} className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-xl border border-purple-100 dark:border-white/5 shadow-2xs">
+                    <input
+                      type="text"
+                      placeholder="e.g. Gold Mangalsutra, 3 Pairs Sandals..."
+                      value={st.name}
+                      onChange={(e) => {
+                        const updated = [...formData.subtasks!];
+                        updated[idx].name = e.target.value;
+                        setFormData({ ...formData, subtasks: updated });
+                      }}
+                      className="flex-1 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs text-slate-900 dark:text-white font-medium"
+                    />
+
+                    <div className="relative w-32">
+                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
+                      <input
+                        type="number"
+                        placeholder="Cost"
+                        value={st.cost || ''}
+                        onChange={(e) => {
+                          const updated = [...formData.subtasks!];
+                          updated[idx].cost = Number(e.target.value);
+                          setFormData({ ...formData, subtasks: updated });
+                        }}
+                        className="w-full pl-6 pr-2 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs font-bold text-slate-900 dark:text-white text-right"
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = formData.subtasks!.filter((_, i) => i !== idx);
+                        setFormData({ ...formData, subtasks: updated });
+                      }}
+                      className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-700 transition-colors"
+                      title="Remove subtask"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                ))}
+
+                <div className="flex items-center justify-between pt-1 text-[11px] text-purple-700 dark:text-purple-300 font-bold px-1">
+                  <span>Subtasks Total:</span>
+                  <span className="font-mono text-xs">
+                    {formatINR(formData.subtasks.reduce((sum, s) => sum + (s.cost || 0), 0))}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-2 text-[11px] text-slate-400 italic">
+                No subtasks added yet. Click &quot;Add Subtask&quot; to break down this expense.
+              </div>
+            )}
           </div>
 
           {/* Notes */}

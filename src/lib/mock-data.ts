@@ -17,7 +17,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   // ==========================================
   {
     id: 'groom-exp-1',
-    name: 'Gold & Jewelry (includes ₹35k Tops to confirm)',
+    name: 'Gold & Jewelry (Boy to Girl Gifts - Mangalsutra, Bangles, Necklace, Earrings)',
     category: 'Attire, Jewelry & MUA',
     event: 'All Events',
     vendorName: 'Tanishq / Kalyan Jewellers',
@@ -28,7 +28,14 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: '₹6,35,000 listed for Gold. Clarification: ₹35,000 tops is currently included.',
+    notes: '₹6,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.',
+    subtasks: [
+      { id: 'sub-gold-1', name: 'Gold Bridal Mangalsutra', cost: 110000, status: 'Pending', notes: 'Traditional black beads & 22k gold mangalsutra' },
+      { id: 'sub-gold-2', name: 'Gold Bangles / Kadas (Pair)', cost: 160000, status: 'Pending', notes: '2 solid gold wedding kadas' },
+      { id: 'sub-gold-3', name: 'Gold Bridal Choker & Necklace', cost: 230000, status: 'Pending', notes: 'Necklace set for wedding day' },
+      { id: 'sub-gold-4', name: 'Gold Earrings / Jhumkas', cost: 100000, status: 'Pending', notes: 'Heavy gold jhumkis' },
+      { id: 'sub-gold-5', name: 'Gold Tops (To confirm inclusion)', cost: 35000, status: 'Pending', notes: 'Clarification item: ₹35,000 tops' },
+    ]
   },
   {
     id: 'groom-exp-2',
@@ -77,7 +84,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     id: 'groom-exp-5',
-    name: "Harsha's Clothes + Bridal Lehenga (Groom Side Gift)",
+    name: "Harsha's Clothes & Suits Pack (7 / 11 / 21 Suits & Bridal Lehenga)",
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
     vendorName: 'Bridal Heritage Couture',
@@ -88,7 +95,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: "Harsha's wedding lehenga and attire given from Bhuvesh side.",
+    notes: "Boy to Girl Attire Gifts: Wedding lehenga plus customary 7 / 11 / 21 unstitched & partywear suits given from Bhuvesh side.",
+    subtasks: [
+      { id: 'sub-suit-1', name: "Harsha's Main Bridal Wedding Lehenga", cost: 50000, status: 'Pending', notes: 'Main bridal lehenga gift' },
+      { id: 'sub-suit-2', name: '7 / 11 Shagun Heavy Silk Suits Pack', cost: 30000, status: 'Pending', notes: 'Traditional 7/11 suits gifted to bride' },
+      { id: 'sub-suit-3', name: '21 Dailywear & Partywear Suits Pack', cost: 20000, status: 'Pending', notes: 'Complete 21 suits trousseau pack' },
+    ]
   },
   {
     id: 'groom-exp-6',
@@ -107,10 +119,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     id: 'groom-exp-7',
-    name: 'Makeup, Gifts, Bridal Slippers & Beauty Items',
+    name: 'Boy to Girl Vanity Gifts: Makeup Kit, Bridal Sandals & Scent Items',
     category: 'Attire, Jewelry & MUA',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Bridal Beauty Emporium',
+    vendorName: 'Bridal Beauty Emporium / Metro Shoes',
     imageUrl: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80',
     estimatedCost: 50000,
     actualCost: 50000,
@@ -118,7 +130,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: 'Bridal vanity gifts, custom sandals/slippers and vanity items.',
+    notes: '₹50,000 boy-to-girl vanity trousseau gifted to Harsha from Bhuvesh side. Split into 3 subtasks: Makeup box, Sandals/Slippers, and Bridal vanity perfume accessories.',
+    subtasks: [
+      { id: 'sub-vanity-1', name: 'Bridal Makeup Vanity Box & Cosmetics', cost: 25000, status: 'Pending', notes: 'Complete luxury bridal makeup kit (foundation, palettes, lipsticks)' },
+      { id: 'sub-vanity-2', name: 'Bridal Sandals & Traditional Mojaris / Slippers', cost: 15000, status: 'Pending', notes: '3 pairs bridal heels, wedges and embroidered wedding mojaris' },
+      { id: 'sub-vanity-3', name: 'Perfumes, Nightwear & Vanity Accessories', cost: 10000, status: 'Pending', notes: 'Signature wedding fragrance, clutches and grooming items' },
+    ]
   },
   {
     id: 'groom-exp-8',
@@ -182,172 +199,36 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
 
   // ==========================================
-  // SECTION 2: FAMILY GIFTS & WEDDING CEREMONIES (₹5,13,600)
+  // SECTION 2: BHUVESH FAMILY RELATIVE GIFTS & WEDDING CEREMONIES (₹5,13,600)
+  // Consolidated under Bhuvesh Relatives Gifting Category with detailed subtasks
   // ==========================================
   {
-    id: 'groom-exp-12',
-    name: 'Family Shagun: Chache–Bhua Envelopes',
+    id: 'groom-exp-relatives-consolidated',
+    name: 'Shagun to Bhuvesh Relatives & Ceremonies (Chache, Mamma, Sisters & Rituals)',
     category: 'Gifts, Shagun & Favors',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
+    vendorName: 'Bhuvesh Family Cash Envelopes',
     imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 40800,
-    actualCost: 40800,
+    estimatedCost: 513600,
+    actualCost: 513600,
     paidAmount: 0,
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: 'Calculation: 8 families × ₹5,100 = ₹40,800.',
-  },
-  {
-    id: 'groom-exp-13',
-    name: 'Family Shagun: Pawne chache kudian',
-    category: 'Gifts, Shagun & Favors',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 16800,
-    actualCost: 16800,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: 8 daughters × ₹2,100 = ₹16,800.',
-  },
-  {
-    id: 'groom-exp-14',
-    name: 'Family Shagun: Ritu, Neeru, Bunty, Raju',
-    category: 'Gifts, Shagun & Favors',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 8400,
-    actualCost: 8400,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: 4 cousins × ₹2,100 = ₹8,400.',
-  },
-  {
-    id: 'groom-exp-15',
-    name: 'Family Shagun: Chache, mamma, mamma, massi Jagadhri',
-    category: 'Gifts, Shagun & Favors',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 30600,
-    actualCost: 30600,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: 5 × ₹5,100 + ₹5,100 = ₹30,600.',
-  },
-  {
-    id: 'groom-exp-16',
-    name: 'Family Shagun: Isha and Shippu',
-    category: 'Gifts, Shagun & Favors',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 9300,
-    actualCost: 9300,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: ₹5,100 + 2 × ₹2,100 = ₹9,300.',
-  },
-  {
-    id: 'groom-exp-17',
-    name: 'Family Shagun: Aditi and Ananya',
-    category: 'Gifts, Shagun & Favors',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 22000,
-    actualCost: 22000,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: 2 × ₹11,000 = ₹22,000.',
-  },
-  {
-    id: 'groom-exp-18',
-    name: 'Bharti and jiju — ring, gold, gifts and shopping',
-    category: 'Attire, Jewelry & MUA',
-    event: 'All Events',
-    vendorName: 'Jewellery & Gift Store',
-    imageUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 350300,
-    actualCost: 350300,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: ₹75,000 (Ring) + ₹2,50,000 (Gold) + 3 × ₹5,100 (Shagun) + ₹10,000 (Shopping) = ₹3,50,300.',
-  },
-  {
-    id: 'groom-exp-19',
-    name: 'Family Shagun: Monty and Shanu',
-    category: 'Gifts, Shagun & Favors',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Cash Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 4200,
-    actualCost: 4200,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Calculation: 2 × ₹2,100 = ₹4,200.',
-  },
-  {
-    id: 'groom-exp-20',
-    name: 'Ceremony: Ribbon katai (Bridal sister shagun)',
-    category: 'Ritual & Puja Items',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Bridal Sisters Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 21000,
-    actualCost: 21000,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Ceremonial ribbon cutting shagun for bridal squad at entry.',
-  },
-  {
-    id: 'groom-exp-21',
-    name: 'Ceremony: Juta lukai (Shoe hiding negotiation)',
-    category: 'Ritual & Puja Items',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Bridal Squad Envelopes',
-    imageUrl: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 5100,
-    actualCost: 5100,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Juta chupai customary shagun negotiation.',
-  },
-  {
-    id: 'groom-exp-22',
-    name: 'Ceremony: Chand ritual',
-    category: 'Ritual & Puja Items',
-    event: 'Baraat & Wedding Pheras',
-    vendorName: 'Family Tradition',
-    imageUrl: 'https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?auto=format&fit=crop&w=300&q=80',
-    estimatedCost: 5100,
-    actualCost: 5100,
-    paidAmount: 0,
-    splitType: 'GROOM_ONLY', // 100% Blue
-    paidBy: 'UNPAID',
-    status: 'Estimated',
-    notes: 'Customary Chand shagun ceremony.',
+    notes: '₹5,13,600 consolidated family shagun to Bhuvesh relatives & ceremonial rituals. Split into subtasks below.',
+    subtasks: [
+      { id: 'sub-rel-1', name: 'Chache–Bhua (8 × ₹5,100)', cost: 40800, status: 'Pending', notes: '8 family units @ ₹5,100' },
+      { id: 'sub-rel-2', name: 'Pawne chache kudian (8 × ₹2,100)', cost: 16800, status: 'Pending', notes: '8 daughters @ ₹2,100' },
+      { id: 'sub-rel-3', name: 'Ritu, Neeru, Bunty, Raju (4 × ₹2,100)', cost: 8400, status: 'Pending', notes: '4 first cousins @ ₹2,100' },
+      { id: 'sub-rel-4', name: 'Chache, mamma, mamma, massi Jagadhri (5 × ₹5,100 + ₹5,100)', cost: 30600, status: 'Pending', notes: '5 families @ ₹5,100 + ₹5,100 special envelope' },
+      { id: 'sub-rel-5', name: 'Isha and Shippu (₹5,100 + 2 × ₹2,100)', cost: 9300, status: 'Pending', notes: 'Base ₹5,100 + 2 × ₹2,100' },
+      { id: 'sub-rel-6', name: 'Aditi and Ananya (2 × ₹11,000)', cost: 22000, status: 'Pending', notes: '2 × ₹11,000' },
+      { id: 'sub-rel-7', name: 'Bharti and jiju — ring, gold, gifts and shopping', cost: 350300, status: 'Pending', notes: '₹75k Ring + ₹2.5L Gold + 3 × ₹5,100 + ₹10k Shopping' },
+      { id: 'sub-rel-8', name: 'Monty and Shanu (2 × ₹2,100)', cost: 4200, status: 'Pending', notes: '2 × ₹2,100' },
+      { id: 'sub-rel-9', name: 'Ceremony: Ribbon katai', cost: 21000, status: 'Pending', notes: 'Bridal sisters gate entry shagun' },
+      { id: 'sub-rel-10', name: 'Ceremony: Juta lukai (Shoe hiding)', cost: 5100, status: 'Pending', notes: 'Bridal squad shoe negotiation' },
+      { id: 'sub-rel-11', name: 'Ceremony: Chand ritual', cost: 5100, status: 'Pending', notes: 'Customary Chand ritual' },
+    ]
   },
 
   // ==========================================

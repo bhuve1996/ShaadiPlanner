@@ -540,8 +540,15 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           
                           <div className="flex-1 min-w-0">
                             {/* Larger Crisp Title with Dynamic Gradient Text on Row Hover */}
-                            <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[15px] leading-snug tracking-tight">
-                              {item.name}
+                            <div className="flex items-center gap-2">
+                              <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[15px] leading-snug tracking-tight">
+                                {item.name}
+                              </div>
+                              {item.subtasks && item.subtasks.length > 0 && (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-600 shadow-2xs">
+                                  <span>{item.subtasks.length} Subtasks</span>
+                                </span>
+                              )}
                             </div>
 
                             {/* Clean Subline with Badges */}
@@ -827,6 +834,23 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 <span className="font-bold">{formatINR(hoveredItem.item.paidAmount)}</span>
               </div>
             </div>
+
+            {/* Subtasks breakdown in Hover Dossier if present */}
+            {hoveredItem.item.subtasks && hoveredItem.item.subtasks.length > 0 && (
+              <div className="bg-purple-50/70 dark:bg-purple-950/30 p-2.5 rounded-xl border border-purple-200 dark:border-purple-800/40 space-y-1">
+                <span className="font-bold text-purple-700 dark:text-purple-300 block text-[10px] uppercase tracking-wider">
+                  Sub-costs & Item Breakdown ({hoveredItem.item.subtasks.length}):
+                </span>
+                <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
+                  {hoveredItem.item.subtasks.map((st) => (
+                    <div key={st.id} className="flex items-center justify-between text-[11px] text-slate-700 dark:text-slate-300 bg-white/70 dark:bg-slate-900/60 p-1.5 rounded-lg border border-purple-100 dark:border-white/5">
+                      <span className="truncate pr-2 font-medium">• {st.name}</span>
+                      <span className="font-bold font-mono text-purple-800 dark:text-purple-200 flex-shrink-0">{formatINR(st.cost)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Notes / Special Terms */}
             {hoveredItem.item.notes && (

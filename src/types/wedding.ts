@@ -27,6 +27,15 @@ export type WeddingEvent =
   | 'Vida (Bidai / Doli)'
   | 'Reception';
 
+export interface SubTaskItem {
+  id: string;
+  name: string; // e.g. "Gold Mangalsutra", "Gold Bangles", "Bridal Sandals", "7 Suits", "Makeup Vanity Kit"
+  cost: number;
+  paidAmount?: number;
+  status: 'Pending' | 'Purchased' | 'Done';
+  notes?: string;
+}
+
 export interface ExpenseItem {
   id: string;
   name: string;
@@ -39,6 +48,9 @@ export interface ExpenseItem {
   paidAmount: number;
   splitType: SplitType;
   customGroomPercent?: number;
+  
+  // Subtasks & Sub-costs breakdown (e.g. Gold split into mangalsutra, bangles; Gifts split into makeup, sandals, 7/11/21 suits)
+  subtasks?: SubTaskItem[];
   
   // Smart Event/Occasion specific guest & per-plate fields
   isPerPlateCalculation?: boolean;
