@@ -22,7 +22,7 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     endTime: '03:30 PM',
     venue: 'Heritage Poolside Courtyard',
     emoji: '🌿',
-    image: 'https://images.unsplash.com/photo-1598887142487-3c854d51d2c7?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80',
     description: 'Intricate henna application for Harsha, family & friends, live dholak singers, and sugarcane juice bar.',
     tagColor: 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-400/40',
     guestCount: 150,

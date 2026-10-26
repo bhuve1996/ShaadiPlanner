@@ -20,7 +20,7 @@ export const EVENT_IMAGES: Record<WeddingEvent, {
     subtext: 'Roka & Engagement Pheras'
   },
   'Mehendi': {
-    image: 'https://images.unsplash.com/photo-1598887142487-3c854d51d2c7?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=80',
     badge: 'Bridal Henna & Floral Poolside',
     color: '#10B981',
     subtext: 'Mehendi & Dholak Beats'
@@ -67,7 +67,7 @@ export const CATEGORY_HERO_IMAGES: Record<ExpenseCategory, string> = {
   'Music & Entertainment': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80',
   'Logistics & Shuttles': 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80',
   'Gifts, Shagun & Favors': 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80',
-  'Ritual & Puja Items': 'https://images.unsplash.com/photo-1609137144822-42177372d8fc?auto=format&fit=crop&w=300&q=80',
+  'Ritual & Puja Items': 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=300&q=80',
   'Invitations & Miscellaneous': 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=300&q=80',
 };
 
