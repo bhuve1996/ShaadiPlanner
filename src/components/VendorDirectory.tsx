@@ -410,3 +410,4 @@ export const VendorDirectory: React.FC<VendorDirectoryProps> = ({
     </div>
   );
 };
+

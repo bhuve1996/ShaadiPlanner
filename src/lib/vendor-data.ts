@@ -101,3 +101,4 @@ export const INITIAL_VENDOR_DIRECTORY: VendorDirectoryItem[] = [
     totalAgreedAmount: 50000,
   },
 ];
+
