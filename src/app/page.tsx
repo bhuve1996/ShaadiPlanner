@@ -12,7 +12,8 @@ import {
   Sparkles,
   Share2,
   CheckCircle,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Crown
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { ExpenseItem, WeddingSettings } from '@/types/wedding';
@@ -90,15 +91,15 @@ export default function Home() {
 
   const triggerCelebration = () => {
     confetti({
-      particleCount: 75,
+      particleCount: 80,
       spread: 70,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
+      colors: ['#DC2626', '#D97706', '#F59E0B', '#E11D48', '#047857']
     });
   };
 
   const summary = calculateSummary(expenses, settings);
 
-  // Export as Google Sheets / Excel compatible CSV
   const handleExportCSV = () => {
     const headers = [
       'ID', 'Item Name', 'Category', 'Ceremony Event', 'Vendor Name', 
@@ -130,44 +131,45 @@ export default function Home() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    showToast('Exported CSV for Google Sheets & Excel');
+    showToast('Exported CSV for Google Sheets');
   };
 
   return (
-    <div className="min-h-screen bg-stone-100/70 text-stone-900 pb-20 font-sans selection:bg-amber-100">
+    <div className="min-h-screen text-stone-900 pb-20 font-sans selection:bg-amber-200">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 animate-in slide-in-from-bottom-5 duration-200">
-          <CheckCircle size={15} className="text-emerald-400" />
+        <div className="fixed bottom-6 right-6 z-50 bg-stone-900 text-amber-200 text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl border border-amber-500/40 flex items-center gap-2.5 animate-in slide-in-from-bottom-5 duration-200">
+          <CheckCircle size={16} className="text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-stone-200/80 shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      {/* Auspicious Red & Gold Header */}
+      <header className="sticky top-0 z-40 bg-gradient-to-r from-red-800 via-red-900 to-amber-900 text-white border-b-2 border-amber-400/80 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           
           {/* Logo & Wedding Title */}
           <div className="flex items-center gap-3">
             <button
               onClick={triggerCelebration}
-              className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-600 via-rose-500 to-amber-500 flex items-center justify-center text-white shadow-sm hover:scale-105 active:scale-95 transition-transform cursor-pointer"
-              title="Click to celebrate!"
+              className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-amber-200 to-yellow-500 flex items-center justify-center text-red-900 shadow-md hover:scale-105 active:scale-95 transition-transform cursor-pointer border border-amber-300"
+              title="Click for celebratory flower shower!"
             >
-              <Heart size={20} className="fill-white" />
+              <Crown size={22} className="fill-amber-600 text-amber-900" />
             </button>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-extrabold tracking-tight text-stone-900">
+                <h1 className="text-lg sm:text-xl font-black tracking-tight text-amber-100 flex items-center gap-1.5">
                   ShaadiPlanner
+                  <span className="text-amber-400 text-sm">✨</span>
                 </h1>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
-                  Royal Edition
+                <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40">
+                  शुभ विवाह
                 </span>
               </div>
-              <p className="text-xs text-stone-500 font-medium truncate max-w-xs sm:max-w-md">
-                {settings.coupleTitle} • {settings.weddingDate}
+              <p className="text-xs text-amber-200/90 font-medium truncate max-w-xs sm:max-w-md">
+                {settings.coupleTitle} • 🗓️ {settings.weddingDate}
               </p>
             </div>
           </div>
@@ -176,18 +178,18 @@ export default function Home() {
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-stone-700 bg-white hover:bg-stone-50 border border-stone-200 rounded-xl transition-all shadow-2xs cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-black text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 hover:from-amber-300 hover:to-amber-400 border border-amber-400 rounded-xl transition-all shadow-xs cursor-pointer"
             >
-              <SettingsIcon size={14} className="text-stone-600" />
+              <SettingsIcon size={14} />
               <span className="hidden sm:inline">Guest Ratios & Budget</span>
             </button>
 
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-stone-700 bg-white hover:bg-stone-50 border border-stone-200 rounded-xl transition-all shadow-2xs cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-black text-amber-100 bg-red-950/60 hover:bg-red-950 border border-amber-400/30 rounded-xl transition-all cursor-pointer"
               title="Export directly to Google Sheets CSV"
             >
-              <FileSpreadsheet size={14} className="text-emerald-600" />
+              <FileSpreadsheet size={14} className="text-amber-300" />
               <span className="hidden md:inline">Export CSV</span>
             </button>
 
@@ -197,14 +199,14 @@ export default function Home() {
                 setUserLoggedIn(!userLoggedIn);
                 showToast(userLoggedIn ? 'Logged out' : 'Connected with Google Account');
               }}
-              className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl transition-all shadow-2xs cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-xl transition-all shadow-xs cursor-pointer ${
                 userLoggedIn 
-                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-300'
-                  : 'bg-stone-900 text-white hover:bg-stone-800'
+                  ? 'bg-emerald-600 text-white border border-emerald-400'
+                  : 'bg-white text-red-950 hover:bg-amber-100'
               }`}
             >
               <LogIn size={14} />
-              <span>{userLoggedIn ? 'Google Connected' : 'Sign In'}</span>
+              <span>{userLoggedIn ? 'Google Connected' : 'Google Sign In'}</span>
             </button>
           </div>
         </div>
@@ -213,50 +215,50 @@ export default function Home() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-stone-200 gap-6 text-sm font-bold">
+        {/* Navigation Tabs with Golden Accent */}
+        <div className="flex border-b-2 border-amber-200/80 gap-6 text-sm font-bold bg-white/60 backdrop-blur-xs px-4 py-1 rounded-2xl border">
           <button
             onClick={() => setCurrentTab('budget')}
-            className={`pb-3 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'budget' 
-                ? 'text-amber-700 font-extrabold' 
-                : 'text-stone-500 hover:text-stone-800'
+                ? 'text-red-700 font-black' 
+                : 'text-stone-600 hover:text-red-800'
             }`}
           >
             <ListFilter size={17} />
             <span>Budget & Split Ledger</span>
             {currentTab === 'budget' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-red-600 rounded-full" />
             )}
           </button>
 
           <button
             onClick={() => setCurrentTab('charts')}
-            className={`pb-3 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'charts' 
-                ? 'text-amber-700 font-extrabold' 
-                : 'text-stone-500 hover:text-stone-800'
+                ? 'text-red-700 font-black' 
+                : 'text-stone-600 hover:text-red-800'
             }`}
           >
             <ChartIcon size={17} />
             <span>Visual Analytics</span>
             {currentTab === 'charts' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-red-600 rounded-full" />
             )}
           </button>
 
           <button
             onClick={() => setCurrentTab('itinerary')}
-            className={`pb-3 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2.5 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'itinerary' 
-                ? 'text-amber-700 font-extrabold' 
-                : 'text-stone-500 hover:text-stone-800'
+                ? 'text-red-700 font-black' 
+                : 'text-stone-600 hover:text-red-800'
             }`}
           >
             <Calendar size={17} />
             <span>Ceremony Itinerary</span>
             {currentTab === 'itinerary' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-red-600 rounded-full" />
             )}
           </button>
         </div>

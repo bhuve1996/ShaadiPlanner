@@ -405,3 +405,4 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
     </div>
   );
 };
+

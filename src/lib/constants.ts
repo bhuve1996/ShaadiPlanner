@@ -13,17 +13,18 @@ export const CATEGORY_ICONS: Record<ExpenseCategory, string> = {
   'Invitations & Miscellaneous': 'Mail',
 };
 
+// Auspicious wedding palette: Sindoor Red, Marigold Gold, Royal Emerald, Haldi Yellow, Peacock Blue, Gulabi Pink
 export const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
-  'Venue & Accommodation': '#D97706', // Amber
-  'Catering & Dining': '#DC2626',    // Crimson Red
-  'Decor & Production': '#E11D48',   // Rose
-  'Photography & Cinema': '#7C3AED',// Royal Purple
-  'Attire, Jewelry & MUA': '#DB2777',// Fuchsia/Pink
-  'Music & Entertainment': '#2563EB',// Royal Blue
-  'Logistics & Shuttles': '#059669', // Emerald
-  'Gifts, Shagun & Favors': '#CA8A04',// Golden Yellow
-  'Ritual & Puja Items': '#EA580C', // Saffron / Marigold
-  'Invitations & Miscellaneous': '#64748B', // Slate
+  'Venue & Accommodation': '#C2410C', // Royal Terracotta / Palace Amber
+  'Catering & Dining': '#B91C1C',    // Sacred Sindoor Red
+  'Decor & Production': '#D97706',   // Rich Marigold Gold
+  'Photography & Cinema': '#7E22CE',// Royal Rani Purple
+  'Attire, Jewelry & MUA': '#E11D48',// Gulabi Rani Pink
+  'Music & Entertainment': '#1D4ED8',// Royal Peacock Blue
+  'Logistics & Shuttles': '#047857', // Auspicious Mehendi Emerald
+  'Gifts, Shagun & Favors': '#B45309',// Shagun Warm Gold
+  'Ritual & Puja Items': '#EA580C', // Sacred Havan Flame
+  'Invitations & Miscellaneous': '#854D0E', // Golden Antique Scroll
 };
 
 export function formatINR(val: number): string {
@@ -40,4 +41,3 @@ export function formatLakh(val: number): string {
   }
   return formatINR(val);
 }
-
