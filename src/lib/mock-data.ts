@@ -173,10 +173,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     id: 'groom-exp-9',
-    name: 'Rath, Royal Ghodi & Baraat Procession',
+    name: 'Ghodi Function, Royal Rath & Punjabi Dhol Wala Troupe (Baraat)',
     category: 'Logistics & Shuttles',
     event: 'Baraat & Wedding Pheras',
-    vendorName: 'Shahi Baraat Horse & Chariot Service',
+    vendorName: 'Shahi Baraat Horse, Chariot & King Dholis',
     imageUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80',
     estimatedCost: 55000,
     actualCost: 55000,
@@ -184,7 +184,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: 'Decorated royal carriage (rath), ghodi, umbrellas and lights.',
+    notes: 'Complete Baraat Procession: Covers Ghodi चढ़ाई ceremony, Royal Rath carriage, and Dhol-Tasha masters troupe.',
+    subtasks: [
+      { id: 'sub-ghodi-1', name: 'Baraat Ghodi (White Mare) & Chadhai Custom', cost: 20000, status: 'Pending', label: 'Ghodi', notes: 'Decorated mare with traditional ghughrus & saafas' },
+      { id: 'sub-ghodi-2', name: 'Royal Rath (Vintage Carriage) & Lights/Chattar', cost: 20000, status: 'Pending', label: 'Royal Rath', notes: 'Illuminated carriage with royal umbrellas and lighting' },
+      { id: 'sub-ghodi-3', name: 'Punjabi Dhol Wala Master Troupe (5 Dholis)', cost: 15000, status: 'Pending', label: 'Dholis', notes: '5 Punjabi Dhol players for high-energy Baraat beats' },
+    ]
   },
   {
     id: 'groom-exp-10',

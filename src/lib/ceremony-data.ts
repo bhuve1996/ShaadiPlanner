@@ -2,6 +2,19 @@ import { CeremonyScheduleItem } from '@/types/wedding';
 
 export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
   {
+    id: 'sched-roka',
+    title: 'Roka / Engagement',
+    date: '2026-11-26',
+    startTime: '05:00 PM',
+    endTime: '07:00 PM',
+    venue: 'Palace Royal Courtyard / Accommodates 200 Guests from Harsha Side',
+    emoji: '💍',
+    image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+    description: "Exchange of Rings (Gold with Diamond for Harsha, Gold Band for Bhuvesh). Hall accommodated within the 3-day stay without extra venue charges; accommodating Harsha's 200 guests.",
+    tagColor: 'bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border-indigo-400/40',
+    guestCount: 200,
+  },
+  {
     id: 'sched-1',
     title: 'Mehendi',
     date: '2026-11-26',
