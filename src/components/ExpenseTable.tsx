@@ -438,24 +438,24 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   <span>Side / Split Rule</span>
                 </th>
 
-                {/* 5. Groom Liability (120px) */}
+                {/* 5. Groom Spend (130px) */}
                 <th 
                   onClick={() => handleSort('groomDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400 w-[120px]"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400 w-[130px]"
                 >
                   <div className="flex items-center justify-end">
-                    <span>🤵 Bhuvesh (Blue)</span>
+                    <span>🤵 Bhuvesh Spend</span>
                     {renderSortIndicator('groomDue')}
                   </div>
                 </th>
 
-                {/* 6. Bride Liability (120px) */}
+                {/* 6. Bride Spend (130px) */}
                 <th 
                   onClick={() => handleSort('brideDue')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400 w-[120px]"
+                  className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400 w-[130px]"
                 >
                   <div className="flex items-center justify-end">
-                    <span>👰 Harsha (Pink)</span>
+                    <span>👰 Harsha Spend</span>
                     {renderSortIndicator('brideDue')}
                   </div>
                 </th>
@@ -665,7 +665,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           {formatINR(shares.groomDue)}
                         </div>
                         <div className="text-[10px] text-blue-600 dark:text-blue-400 font-bold">
-                          {shares.groomPercent}% Bhuvesh
+                          {shares.groomPercent}% by Bhuvesh
                         </div>
                       </td>
 
@@ -675,7 +675,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           {formatINR(shares.brideDue)}
                         </div>
                         <div className="text-[10px] text-rose-600 dark:text-rose-400 font-bold">
-                          {shares.bridePercent}% Harsha
+                          {shares.bridePercent}% by Harsha
                         </div>
                       </td>
 
@@ -818,13 +818,13 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 <span>{formatINR(hoveredItem.item.actualCost || hoveredItem.item.estimatedCost)}</span>
               </div>
               <div className="flex justify-between text-[11px] text-blue-600 dark:text-blue-400">
-                <span>Bhuvesh Share:</span>
+                <span>Bhuvesh Spends:</span>
                 <span className="font-semibold">
                   {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount).groomDue)}
                 </span>
               </div>
               <div className="flex justify-between text-[11px] text-rose-600 dark:text-rose-400">
-                <span>Harsha Share:</span>
+                <span>Harsha Spends:</span>
                 <span className="font-semibold">
                   {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount).brideDue)}
                 </span>

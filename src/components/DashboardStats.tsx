@@ -217,57 +217,44 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
           </div>
         </div>
 
-        {/* Card 4: Inter-Family Net Settlement */}
-        <div className={`rounded-3xl p-5 border-2 shadow-md flex flex-col justify-between transition-all ${
-          summary.netBalance > 0 
-            ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-300 dark:border-rose-700' 
-            : summary.netBalance < 0 
-            ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-300 dark:border-blue-700' 
-            : 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-300 dark:border-purple-700'
-        }`}>
+        {/* Card 4: Clean Spending Allocation (Who Spends How Much) */}
+        <div className="rounded-3xl p-5 border-2 border-purple-200 dark:border-purple-800/40 bg-purple-50/70 dark:bg-purple-950/30 shadow-md flex flex-col justify-between transition-all">
           <div>
             <div className="flex justify-between items-start">
-              <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                Family Settlement Ledger
+              <span className="text-xs font-black uppercase tracking-wider text-purple-900 dark:text-purple-300">
+                Spending Allocation Overview
               </span>
               <div className="w-9 h-9 rounded-2xl bg-white dark:bg-slate-800 shadow-xs flex items-center justify-center text-purple-600 dark:text-purple-400 border border-slate-200 dark:border-white/10">
-                <ArrowRightLeft size={17} />
+                <Sparkles size={17} />
               </div>
             </div>
-            <div className="mt-3">
-              {summary.netBalance > 0 ? (
-                <>
-                  <h3 className="text-xl sm:text-2xl font-black text-rose-700 dark:text-rose-300 tracking-tight">
-                    Harsha owes Bhuvesh {formatINR(summary.netBalance)}
-                  </h3>
-                  <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-bold">
-                    Bhuvesh fronted shared vendor advances.
-                  </p>
-                </>
-              ) : summary.netBalance < 0 ? (
-                <>
-                  <h3 className="text-xl sm:text-2xl font-black text-blue-700 dark:text-blue-300 tracking-tight">
-                    Bhuvesh owes Harsha {formatINR(Math.abs(summary.netBalance))}
-                  </h3>
-                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1 font-bold">
-                    Harsha fronted shared vendor advances.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-300 tracking-tight">
-                    Perfect Harmony 🌸
-                  </h3>
-                  <p className="text-xs text-purple-600 dark:text-purple-400 mt-1 font-bold">
-                    Both sides have paid exact split amounts!
-                  </p>
-                </>
-              )}
+            
+            <div className="mt-3 space-y-2.5">
+              <div className="flex items-center justify-between bg-white/80 dark:bg-slate-900/60 p-2 rounded-xl border border-blue-100 dark:border-blue-900/30">
+                <span className="text-xs font-bold text-blue-700 dark:text-blue-300 flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                  <span>Bhuvesh Spends:</span>
+                </span>
+                <span className="text-sm sm:text-base font-black text-blue-800 dark:text-blue-200">
+                  {formatINR(summary.groomShareDue)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between bg-white/80 dark:bg-slate-900/60 p-2 rounded-xl border border-rose-100 dark:border-rose-900/30">
+                <span className="text-xs font-bold text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                  <span>Harsha Spends:</span>
+                </span>
+                <span className="text-sm sm:text-base font-black text-rose-800 dark:text-rose-200">
+                  {formatINR(summary.brideShareDue)}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-slate-400 font-medium">
-            Self-balancing net reimbursement.
+          <div className="mt-4 pt-3 border-t border-purple-200/60 dark:border-white/10 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+            <span>Independent allocation</span>
+            <span className="font-bold text-purple-700 dark:text-purple-300">No mutual debts or IOUs</span>
           </div>
         </div>
 
