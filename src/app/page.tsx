@@ -190,7 +190,7 @@ export default function Home() {
 
       {/* Colorful Floral Header */}
       <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0E1220]/90 backdrop-blur-xl border-b-2 border-pink-200 dark:border-white/10 shadow-md transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 h-18 flex items-center justify-between">
           
           {/* Logo & Wedding Title */}
           <div className="flex items-center gap-3">
@@ -279,8 +279,8 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+      {/* Main Content Area: Expanded to full modern widescreen */}
+      <main className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 pt-6 space-y-6">
         
         {/* Hero Visual Graphics Banner */}
         <WeddingHeroBanner

@@ -291,3 +291,4 @@ export const WeddingCalendar: React.FC<WeddingCalendarProps> = ({
     </div>
   );
 };
+

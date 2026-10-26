@@ -67,3 +67,4 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     guestCount: 400,
   },
 ];
+
