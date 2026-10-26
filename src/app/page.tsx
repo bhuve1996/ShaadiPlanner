@@ -19,7 +19,8 @@ import {
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
-import { ExpenseItem, WeddingSettings, CeremonyScheduleItem } from '@/types/wedding';
+import { INITIAL_SHAGUN_LIST, INITIAL_GUEST_GROUPS } from '@/lib/shagun-data';
+import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem } from '@/types/wedding';
 import { calculateSummary } from '@/lib/calculator';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
@@ -28,20 +29,26 @@ import { SettingsModal } from '@/components/SettingsModal';
 import { WeddingCalendar } from '@/components/WeddingCalendar';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
+import { ShagunAndGuestManager } from '@/components/ShagunAndGuestManager';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
+import { Gift, Users as UsersIcon } from 'lucide-react';
 
-const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v5';
-const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v5';
-const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v5';
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v6';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v6';
+const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v6';
+const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v6';
+const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v6';
 
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);
   const [expenses, setExpenses] = useState<ExpenseItem[]>(INITIAL_EXPENSES);
   const [schedule, setSchedule] = useState<CeremonyScheduleItem[]>(INITIAL_CEREMONY_SCHEDULE);
+  const [shagunList, setShagunList] = useState<FamilyShagunItem[]>(INITIAL_SHAGUN_LIST);
+  const [guestGroups, setGuestGroups] = useState<GuestGroupItem[]>(INITIAL_GUEST_GROUPS);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
-  const [currentTab, setCurrentTab] = useState<'budget' | 'calendar' | 'charts'>('budget');
+  const [currentTab, setCurrentTab] = useState<'budget' | 'shagun' | 'calendar' | 'charts'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -53,6 +60,8 @@ export default function Home() {
         const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
         const storedExpenses = localStorage.getItem(STORAGE_KEY_EXPENSES);
         const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE);
+        const storedShagun = localStorage.getItem(STORAGE_KEY_SHAGUN);
+        const storedGroups = localStorage.getItem(STORAGE_KEY_GROUPS);
 
         if (storedSettings) {
           const parsed = JSON.parse(storedSettings);
@@ -67,6 +76,16 @@ export default function Home() {
         if (storedSchedule) {
           const parsed = JSON.parse(storedSchedule);
           if (Array.isArray(parsed) && parsed.length > 0) setSchedule(parsed);
+        }
+
+        if (storedShagun) {
+          const parsed = JSON.parse(storedShagun);
+          if (Array.isArray(parsed) && parsed.length > 0) setShagunList(parsed);
+        }
+
+        if (storedGroups) {
+          const parsed = JSON.parse(storedGroups);
+          if (Array.isArray(parsed) && parsed.length > 0) setGuestGroups(parsed);
         }
       }
     } catch (e) {
@@ -83,10 +102,12 @@ export default function Home() {
       localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
       localStorage.setItem(STORAGE_KEY_EXPENSES, JSON.stringify(expenses));
       localStorage.setItem(STORAGE_KEY_SCHEDULE, JSON.stringify(schedule));
+      localStorage.setItem(STORAGE_KEY_SHAGUN, JSON.stringify(shagunList));
+      localStorage.setItem(STORAGE_KEY_GROUPS, JSON.stringify(guestGroups));
     } catch (err) {
       console.error('Failed to auto-save to localStorage:', err);
     }
-  }, [expenses, settings, schedule, isLoaded]);
+  }, [expenses, settings, schedule, shagunList, guestGroups, isLoaded]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -294,11 +315,11 @@ export default function Home() {
         {/* Shahi Barat Dhol & Animal Celebration Troupe Section */}
         <AnimalCelebrationSection />
 
-        {/* Navigation Tabs with Interactive Calendar */}
-        <div className="flex border-2 border-pink-200 dark:border-white/10 gap-6 text-sm font-bold bg-white/90 dark:bg-[#121626]/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md transition-colors">
+        {/* Navigation Tabs with Interactive Calendar, Shagun & Groups */}
+        <div className="flex border-2 border-pink-200 dark:border-white/10 gap-4 sm:gap-6 text-sm font-bold bg-white/90 dark:bg-[#121626]/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md transition-colors overflow-x-auto">
           <button
             onClick={() => setCurrentTab('budget')}
-            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'budget' 
                 ? 'text-pink-600 dark:text-pink-400 font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
@@ -312,8 +333,26 @@ export default function Home() {
           </button>
 
           <button
+            onClick={() => setCurrentTab('shagun')}
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+              currentTab === 'shagun' 
+                ? 'text-rose-600 dark:text-rose-400 font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
+            }`}
+          >
+            <Gift size={17} />
+            <span>Family Shagun & Guest Groups</span>
+            <span className="text-[10px] bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 font-extrabold px-1.5 py-0.2 rounded-full border border-rose-300 dark:border-rose-700">
+              ₹5.13L
+            </span>
+            {currentTab === 'shagun' && (
+              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+            )}
+          </button>
+
+          <button
             onClick={() => setCurrentTab('calendar')}
-            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'calendar' 
                 ? 'text-purple-600 dark:text-purple-400 font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
@@ -328,7 +367,7 @@ export default function Home() {
 
           <button
             onClick={() => setCurrentTab('charts')}
-            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'charts' 
                 ? 'text-blue-600 dark:text-blue-400 font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
@@ -364,7 +403,39 @@ export default function Home() {
           />
         )}
 
-        {/* Tab 2: Interactive Wedding Calendar & Time Slots */}
+        {/* Tab 2: Family Shagun & Guest Groups Manager */}
+        {currentTab === 'shagun' && (
+          <ShagunAndGuestManager
+            shagunList={shagunList}
+            guestGroups={guestGroups}
+            onUpdateShagun={(item) => {
+              setShagunList(prev => prev.map(s => s.id === item.id ? item : s));
+              showToast(`Updated shagun for ${item.recipientName}`);
+            }}
+            onAddShagun={(item) => {
+              setShagunList(prev => [item, ...prev]);
+              showToast(`Added shagun for ${item.recipientName}`);
+            }}
+            onDeleteShagun={(id) => {
+              setShagunList(prev => prev.filter(s => s.id !== id));
+              showToast('Deleted shagun entry');
+            }}
+            onUpdateGuestGroup={(grp) => {
+              setGuestGroups(prev => prev.map(g => g.id === grp.id ? grp : g));
+              showToast(`Updated ${grp.name}`);
+            }}
+            onAddGuestGroup={(grp) => {
+              setGuestGroups(prev => [grp, ...prev]);
+              showToast(`Added ${grp.name} (${grp.count} guests)`);
+            }}
+            onDeleteGuestGroup={(id) => {
+              setGuestGroups(prev => prev.filter(g => g.id !== id));
+              showToast('Deleted guest group');
+            }}
+          />
+        )}
+
+        {/* Tab 3: Interactive Wedding Calendar & Time Slots */}
         {currentTab === 'calendar' && (
           <WeddingCalendar
             schedule={schedule}
@@ -373,7 +444,7 @@ export default function Home() {
           />
         )}
 
-        {/* Tab 3: Visual Analytics */}
+        {/* Tab 4: Visual Analytics */}
         {currentTab === 'charts' && (
           <BudgetCharts
             expenses={expenses}
