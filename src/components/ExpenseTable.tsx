@@ -503,14 +503,14 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   return (
                     <tr 
                       key={item.id} 
-                      className={`transition-all cursor-pointer ${rowClass} group`}
+                      className={`cursor-pointer ${rowClass} group transition-all duration-200 select-none`}
                       onClick={() => {
                         setEditingItem(item);
                         setShowAddModal(false);
                       }}
                     >
                       {/* 1. Item Name + Photographic Image + Crisp Typography + Hover Dossier Card */}
-                      <td className="py-3 px-5">
+                      <td className="py-3.5 px-5">
                         <div 
                           className="flex items-center gap-3.5 relative"
                           onMouseEnter={(e) => {
@@ -520,7 +520,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           onMouseLeave={() => setHoveredItem(null)}
                         >
                           {/* Photographic Thumbnail or Icon */}
-                          <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center">
+                          <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center group-hover:shadow-lg group-hover:border-pink-300 dark:group-hover:border-pink-500 transition-all">
                             {item.imageUrl ? (
                               <img 
                                 src={item.imageUrl} 
@@ -537,21 +537,21 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           </div>
                           
                           <div className="flex-1 min-w-0">
-                            {/* Larger Crisp Title */}
+                            {/* Larger Crisp Title with Dynamic Gradient Text on Row Hover */}
                             <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[15px] leading-snug tracking-tight">
                               {item.name}
                             </div>
 
                             {/* Clean Subline with Badges */}
                             <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
-                              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                                 {item.category}
                               </span>
 
                               {item.vendorName ? (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-black text-slate-800 dark:text-slate-200 bg-white/90 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200/80 dark:border-white/10 shadow-2xs">
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-black text-slate-800 dark:text-slate-200 bg-white/90 dark:bg-slate-800 group-hover:bg-white dark:group-hover:bg-slate-700/80 px-2 py-0.5 rounded-lg border border-slate-200/80 dark:border-white/10 shadow-2xs transition-all">
                                     <Building2 size={11} className="text-pink-500 flex-shrink-0" />
                                     <span className="truncate max-w-[150px]">{item.vendorName}</span>
                                   </span>
