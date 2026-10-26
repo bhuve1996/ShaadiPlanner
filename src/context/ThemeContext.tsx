@@ -16,17 +16,20 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>('day');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     try {
       const saved = localStorage.getItem('shaadi_theme_mode');
-      if (saved === 'night' || saved === 'day') {
-        setMode(saved);
-        if (saved === 'night') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialMode = saved === 'night' || saved === 'day' ? saved : (prefersDark ? 'night' : 'day');
+      
+      setMode(initialMode as ThemeMode);
+      if (initialMode === 'night') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
       }
     } catch (e) {
       console.warn(e);

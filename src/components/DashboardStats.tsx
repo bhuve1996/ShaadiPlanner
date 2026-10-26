@@ -53,16 +53,16 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
   return (
     <div className="space-y-4">
       {/* Scope Selector: Pink (Bride), Blue (Groom), Mix (Mutual) */}
-      <div className="bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-3xl border-2 border-pink-200/80 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="theme-card bg-white/95 p-3.5 sm:p-4 rounded-3xl border-2 border-pink-200 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-3 transition-colors">
         
         {/* Family Perspective Scope */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-black uppercase tracking-wider text-slate-700 mr-1 flex items-center gap-1.5">
+          <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 mr-1 flex items-center gap-1.5">
             <Heart size={14} className="text-pink-500 fill-pink-500" />
             <span>Select View:</span>
           </span>
 
-          <div className="inline-flex rounded-2xl bg-slate-100 p-1 border border-slate-200 shadow-inner">
+          <div className="inline-flex rounded-2xl bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-white/10 shadow-inner">
             
             {/* 1. Mutual / Both */}
             <button
@@ -70,7 +70,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
               className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
                 activeSide === 'ALL'
                   ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-md'
-                  : 'text-slate-600 hover:text-slate-900'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <span>🌸</span>
@@ -83,7 +83,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
               className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
                 activeSide === 'GROOM'
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                  : 'text-slate-600 hover:text-blue-700'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-300'
               }`}
             >
               <span>🤵</span>
@@ -96,7 +96,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
               className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
                 activeSide === 'BRIDE'
                   ? 'bg-rose-500 text-white shadow-md shadow-rose-500/30'
-                  : 'text-slate-600 hover:text-rose-700'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-300'
               }`}
             >
               <span>👰</span>
@@ -109,12 +109,12 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
         {/* Guest Ratio Pill */}
         <div 
           onClick={onOpenSettings}
-          className="flex items-center gap-2.5 text-xs text-slate-700 bg-pink-50/70 hover:bg-pink-100/70 border border-pink-300 px-4 py-2 rounded-2xl cursor-pointer transition-all shadow-xs group"
+          className="flex items-center gap-2.5 text-xs text-slate-700 dark:text-slate-300 bg-pink-50/70 dark:bg-slate-900/80 hover:bg-pink-100/70 dark:hover:bg-slate-800 border border-pink-300 dark:border-white/10 px-4 py-2 rounded-2xl cursor-pointer transition-all shadow-xs group"
           title="Click to adjust guest ratios"
         >
-          <Users className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform" />
+          <Users className="w-4 h-4 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
           <span>
-            Guests: <strong className="text-blue-600">{settings.groomGuestCount} Bhuvesh</strong> ({summary.guestRatioGroomPercent}%) : <strong className="text-rose-600">{settings.brideGuestCount} Harsha</strong> ({summary.guestRatioBridePercent}%)
+            Guests: <strong className="text-blue-600 dark:text-blue-400">{settings.groomGuestCount} Bhuvesh</strong> ({summary.guestRatioGroomPercent}%) : <strong className="text-rose-600 dark:text-rose-400">{settings.brideGuestCount} Harsha</strong> ({summary.guestRatioBridePercent}%)
           </span>
           <span className="text-[10px] bg-pink-500 text-white px-2 py-0.5 rounded-full font-bold shadow-2xs">
             Edit
@@ -123,27 +123,27 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
 
       </div>
 
-      {/* KPI Cards: Flowery Pastel Theme */}
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Card 1: Total Liability */}
-        <div className="bg-white/95 rounded-3xl p-5 border-2 border-purple-200/90 shadow-md flex flex-col justify-between hover:border-purple-400 transition-all">
+        <div className="theme-card bg-white/95 rounded-3xl p-5 border-2 border-purple-200 shadow-md flex flex-col justify-between hover:border-purple-400 transition-all">
           <div>
             <div className="flex justify-between items-start">
-              <span className="text-xs font-black uppercase tracking-wider text-purple-900">
+              <span className="text-xs font-black uppercase tracking-wider text-purple-900 dark:text-purple-300">
                 {activeSide === 'ALL' ? 'Total Wedding Budget' : activeSide === 'GROOM' ? "Bhuvesh's Total Share" : "Harsha's Total Share"}
               </span>
-              <div className="w-9 h-9 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+              <div className="w-9 h-9 rounded-2xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
                 <IndianRupee size={17} />
               </div>
             </div>
             <div className="mt-3">
-              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                 {formatINR(activeDue)}
               </h3>
-              <p className="text-xs text-slate-500 mt-1 font-semibold">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold">
                 {activeSide === 'ALL' ? (
-                  <span>Budget Target: <strong className="text-purple-700">{formatLakh(settings.totalTargetBudget)}</strong></span>
+                  <span>Budget Target: <strong className="text-purple-700 dark:text-purple-400">{formatLakh(settings.totalTargetBudget)}</strong></span>
                 ) : (
                   <span>~{Math.round((activeDue / (summary.totalActual || 1)) * 100)}% of joint expenditure</span>
                 )}
@@ -151,37 +151,37 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-purple-100 flex items-center justify-between text-[11px] text-slate-600">
+          <div className="mt-4 pt-3 border-t border-purple-100 dark:border-white/10 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400">
             <span>Perspective:</span>
-            <span className="font-bold text-purple-700">
+            <span className="font-bold text-purple-700 dark:text-purple-300">
               {activeSide === 'ALL' ? 'Mutual & Both Families' : activeSide === 'GROOM' ? "Bhuvesh's Obligations" : "Harsha's Obligations"}
             </span>
           </div>
         </div>
 
         {/* Card 2: Advance Paid */}
-        <div className="bg-white/95 rounded-3xl p-5 border-2 border-emerald-200/90 shadow-md flex flex-col justify-between hover:border-emerald-400 transition-all">
+        <div className="theme-card bg-white/95 rounded-3xl p-5 border-2 border-emerald-200 shadow-md flex flex-col justify-between hover:border-emerald-400 transition-all">
           <div>
             <div className="flex justify-between items-start">
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-900">
+              <span className="text-xs font-black uppercase tracking-wider text-emerald-900 dark:text-emerald-300">
                 {activeSide === 'ALL' ? 'Cleared Advances' : activeSide === 'GROOM' ? "Bhuvesh Paid" : "Harsha Paid"}
               </span>
-              <div className="w-9 h-9 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 flex items-center justify-center">
                 <CheckCircle2 size={17} />
               </div>
             </div>
             <div className="mt-3">
-              <h3 className="text-2xl sm:text-3xl font-black text-emerald-700 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-black text-emerald-700 dark:text-emerald-400 tracking-tight">
                 {formatINR(activePaid)}
               </h3>
-              <p className="text-xs text-emerald-600 mt-1 font-bold">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-bold">
                 {percentPaid}% of dues cleared
               </p>
             </div>
           </div>
 
           <div className="mt-4">
-            <div className="w-full bg-emerald-100/70 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-emerald-100/70 dark:bg-white/10 rounded-full h-2 overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all duration-500" 
                 style={{ width: `${percentPaid}%` }}
@@ -191,74 +191,74 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
         </div>
 
         {/* Card 3: Pending Balance */}
-        <div className="bg-white/95 rounded-3xl p-5 border-2 border-rose-200/90 shadow-md flex flex-col justify-between hover:border-rose-400 transition-all">
+        <div className="theme-card bg-white/95 rounded-3xl p-5 border-2 border-rose-200 shadow-md flex flex-col justify-between hover:border-rose-400 transition-all">
           <div>
             <div className="flex justify-between items-start">
-              <span className="text-xs font-black uppercase tracking-wider text-rose-900">
+              <span className="text-xs font-black uppercase tracking-wider text-rose-900 dark:text-rose-300">
                 {activeSide === 'ALL' ? 'Remaining Vendor Dues' : activeSide === 'GROOM' ? "Bhuvesh Remaining" : "Harsha Remaining"}
               </span>
-              <div className="w-9 h-9 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center">
+              <div className="w-9 h-9 rounded-2xl bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 flex items-center justify-center">
                 <Clock size={17} />
               </div>
             </div>
             <div className="mt-3">
-              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                 {formatINR(activePending)}
               </h3>
-              <p className="text-xs text-rose-600 mt-1 font-bold">
+              <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-bold">
                 Pending before ceremonies
               </p>
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-rose-100 flex items-center justify-between text-[11px] text-slate-600">
+          <div className="mt-4 pt-3 border-t border-rose-100 dark:border-white/10 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400">
             <span>Outstanding:</span>
-            <span className="font-bold text-rose-700">{100 - percentPaid}% remaining</span>
+            <span className="font-bold text-rose-700 dark:text-rose-400">{100 - percentPaid}% remaining</span>
           </div>
         </div>
 
         {/* Card 4: Inter-Family Net Settlement */}
         <div className={`rounded-3xl p-5 border-2 shadow-md flex flex-col justify-between transition-all ${
           summary.netBalance > 0 
-            ? 'bg-rose-50/90 border-rose-300' 
+            ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-300 dark:border-rose-700' 
             : summary.netBalance < 0 
-            ? 'bg-blue-50/90 border-blue-300' 
-            : 'bg-purple-50/90 border-purple-300'
+            ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-300 dark:border-blue-700' 
+            : 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-300 dark:border-purple-700'
         }`}>
           <div>
             <div className="flex justify-between items-start">
-              <span className="text-xs font-black uppercase tracking-wider text-slate-800">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
                 Family Settlement Ledger
               </span>
-              <div className="w-9 h-9 rounded-2xl bg-white shadow-xs flex items-center justify-center text-purple-600 border border-slate-200">
+              <div className="w-9 h-9 rounded-2xl bg-white dark:bg-slate-800 shadow-xs flex items-center justify-center text-purple-600 dark:text-purple-400 border border-slate-200 dark:border-white/10">
                 <ArrowRightLeft size={17} />
               </div>
             </div>
             <div className="mt-3">
               {summary.netBalance > 0 ? (
                 <>
-                  <h3 className="text-xl sm:text-2xl font-black text-rose-700 tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-black text-rose-700 dark:text-rose-300 tracking-tight">
                     Harsha owes Bhuvesh {formatINR(summary.netBalance)}
                   </h3>
-                  <p className="text-xs text-rose-600 mt-1 font-bold">
+                  <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-bold">
                     Bhuvesh fronted shared vendor advances.
                   </p>
                 </>
               ) : summary.netBalance < 0 ? (
                 <>
-                  <h3 className="text-xl sm:text-2xl font-black text-blue-700 tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-black text-blue-700 dark:text-blue-300 tracking-tight">
                     Bhuvesh owes Harsha {formatINR(Math.abs(summary.netBalance))}
                   </h3>
-                  <p className="text-xs text-blue-600 mt-1 font-bold">
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1 font-bold">
                     Harsha fronted shared vendor advances.
                   </p>
                 </>
               ) : (
                 <>
-                  <h3 className="text-xl sm:text-2xl font-black text-purple-700 tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-300 tracking-tight">
                     Perfect Harmony 🌸
                   </h3>
-                  <p className="text-xs text-purple-600 mt-1 font-bold">
+                  <p className="text-xs text-purple-600 dark:text-purple-400 mt-1 font-bold">
                     Both sides have paid exact split amounts!
                   </p>
                 </>
@@ -266,7 +266,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-black/10 text-[11px] text-slate-600 font-medium">
+          <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10 text-[11px] text-slate-600 dark:text-slate-400 font-medium">
             Self-balancing net reimbursement.
           </div>
         </div>
