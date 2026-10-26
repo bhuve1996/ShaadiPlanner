@@ -56,6 +56,7 @@ const ALL_EVENTS: WeddingEvent[] = [
   'Haldi',
   'Sangeet & Cocktail',
   'Baraat & Wedding Pheras',
+  'Vida (Bidai / Doli)',
   'Reception',
 ];
 

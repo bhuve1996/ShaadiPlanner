@@ -43,6 +43,12 @@ export const EVENT_IMAGES: Record<WeddingEvent, {
     color: '#F43F5E',
     subtext: 'Main Wedding & Holy Havan'
   },
+  'Vida (Bidai / Doli)': {
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80',
+    badge: 'Doli, Shagun Saree & Suit Gifting',
+    color: '#EC4899',
+    subtext: 'Emotional Doli & Relative Farewell Gifts'
+  },
   'Reception': {
     image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=400&q=80',
     badge: 'Gala Banquet & Grand Toast',
@@ -64,3 +70,4 @@ export const CATEGORY_HERO_IMAGES: Record<ExpenseCategory, string> = {
   'Ritual & Puja Items': 'https://images.unsplash.com/photo-1609137144822-42177372d8fc?auto=format&fit=crop&w=300&q=80',
   'Invitations & Miscellaneous': 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=300&q=80',
 };
+

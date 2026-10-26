@@ -122,6 +122,17 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     notes: 'Chand tradition shagun ceremony.',
     side: 'GROOM',
   },
+  {
+    id: 'shagun-12',
+    recipientName: 'Vida Rasam: Relative Farewell Gifts (Saris & Suits)',
+    relation: 'Departing Relatives from Bride Side',
+    group: 'Custom Rituals / Shagun',
+    calculationFormula: "Budget for Girl's side farewell gifts",
+    amount: 100000,
+    status: 'Planned',
+    notes: "Girl's side Vida custom: When relatives depart, they are gifted curated saris and suits as blessing/farewell token.",
+    side: 'BRIDE',
+  },
 ];
 
 export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [

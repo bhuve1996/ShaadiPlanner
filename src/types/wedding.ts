@@ -24,6 +24,7 @@ export type WeddingEvent =
   | 'Haldi'
   | 'Sangeet & Cocktail'
   | 'Baraat & Wedding Pheras'
+  | 'Vida (Bidai / Doli)'
   | 'Reception';
 
 export interface ExpenseItem {

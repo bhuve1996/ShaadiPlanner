@@ -349,4 +349,23 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     status: 'Estimated',
     notes: 'Customary Chand shagun ceremony.',
   },
+
+  // ==========================================
+  // SECTION 3: BRIDE SIDE SPECIFIC RASAMS & GIFTS
+  // ==========================================
+  {
+    id: 'bride-exp-vida-1',
+    name: "Vida Rasam: Relative Farewell Gifts (Saris & Suit Lengths)",
+    category: 'Gifts, Shagun & Favors',
+    event: 'Vida (Bidai / Doli)',
+    vendorName: 'Textile Silk & Suit Emporium',
+    imageUrl: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 100000,
+    actualCost: 100000,
+    paidAmount: 0,
+    splitType: 'BRIDE_ONLY', // 100% Pink (Harsha Side)
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: "Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths.",
+  },
 ];
