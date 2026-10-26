@@ -88,9 +88,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     id: 'groom-exp-5',
-    name: "Harsha's Clothes, Lehenga & Suits Pack (Boy to Girl Wedding Gifts)",
+    name: "Harsha's Clothes, Lehenga, Ring Ceremony Gown & Suits (Boy to Girl Gifts)",
     category: 'Attire, Jewelry & MUA',
-    event: 'Baraat & Wedding Pheras',
+    event: 'All Events',
     vendorName: 'Bridal Heritage Couture',
     imageUrl: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=300&q=80',
     estimatedCost: 200000,
@@ -99,11 +99,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     splitType: 'GROOM_ONLY', // 100% Blue
     paidBy: 'UNPAID',
     status: 'Estimated',
-    notes: "Boy to Girl Attire Gifts: ₹2,00,000 budget covering main wedding lehenga plus 7 / 11 / 21 unstitched suits and trousseau items.",
+    notes: "Boy to Girl Attire Gifts: ₹2,00,000 budget covering main wedding lehenga, Ring Ceremony gown/dress, plus 7 / 11 / 21 unstitched suits.",
     subtasks: [
-      { id: 'sub-suit-1', name: "Harsha's Main Bridal Wedding Lehenga", cost: 100000, status: 'Pending', label: 'Bridal Lehenga', notes: 'Main bridal wedding lehenga' },
-      { id: 'sub-suit-2', name: '7 / 11 Shagun Heavy Silk Suits Pack', cost: 60000, status: 'Pending', label: '7/11 Suits', notes: 'Traditional 7/11 heavy suits gifted to bride' },
-      { id: 'sub-suit-3', name: '21 Dailywear & Partywear Suits Pack', cost: 40000, status: 'Pending', label: '21 Suits', notes: '21 suits trousseau collection' },
+      { id: 'sub-suit-1', name: "Harsha's Main Bridal Wedding Lehenga", cost: 90000, status: 'Pending', label: 'Bridal Lehenga', notes: 'Main heavy bridal wedding lehenga' },
+      { id: 'sub-suit-ring', name: "Harsha's Ring Ceremony Gown / Designer Dress", cost: 30000, status: 'Pending', label: 'Ring Dress', notes: 'Ring Ceremony evening gown / outfit gifted to bride' },
+      { id: 'sub-suit-2', name: '7 / 11 Shagun Heavy Silk Suits Pack', cost: 50000, status: 'Pending', label: '7/11 Suits', notes: 'Traditional 7/11 heavy suits gifted to bride' },
+      { id: 'sub-suit-3', name: '21 Dailywear & Partywear Suits Pack', cost: 30000, status: 'Pending', label: '21 Suits', notes: '21 suits trousseau collection' },
     ]
   },
   {
@@ -406,5 +407,99 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     paidBy: 'UNPAID',
     status: 'Estimated',
     notes: "Kept open (₹0 currently): Boy side already covers vanity/makeup; to see later if splitting or separate girl side MUA is needed.",
+  },
+
+  // ==========================================
+  // SECTION 4: CEREMONIAL OPERATIONS & EXTRA BUFFER (RING HIGH-TEA, SOUND, FIREWORKS, WATER)
+  // ==========================================
+  {
+    id: 'exp-ring-extra-hightea',
+    name: 'Ring Ceremony: Extra High-Tea / Snacks Buffer for 100 Extra Guests',
+    category: 'Catering & Dining',
+    event: 'Roka / Engagement',
+    vendorName: 'Resort In-House Caterer',
+    imageUrl: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 75000,
+    actualCost: 75000,
+    paidAmount: 0,
+    splitType: 'GROOM_ONLY', // 100% Blue
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of ₹75,000 (₹50k-₹1L) added for extra high-tea & snacks.',
+  },
+  {
+    id: 'exp-inhouse-dj-sound',
+    name: 'In-House Banquet Sound & DJ (3 Days × ₹5,000/day)',
+    category: 'Music & Entertainment',
+    event: 'All Events',
+    vendorName: 'Resort In-House Sound Operator',
+    imageUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 15000,
+    actualCost: 15000,
+    paidAmount: 0,
+    splitType: 'GROOM_ONLY', // 100% Blue
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'In-house hall sound operator for Mehndi, Sangeet & functions: ₹5,000/day × 3 days = ₹15,000. (Separate from main wedding day DJ).',
+  },
+  {
+    id: 'exp-mehendi-artist',
+    name: 'Professional Mehendi Artist & Cones for Bride & Family',
+    category: 'Attire, Jewelry & MUA',
+    event: 'Mehendi',
+    vendorName: 'Mehendi Artist Collective',
+    imageUrl: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 20000,
+    actualCost: 20000,
+    paidAmount: 0,
+    splitType: 'GROOM_ONLY', // 100% Blue
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Professional mehendi artist for bridal hands/feet + family members. Cost may adjust based on final guest count.',
+  },
+  {
+    id: 'exp-sangeet-choreography',
+    name: 'Sangeet Dance Choreography (Budget Cap ₹5,000)',
+    category: 'Music & Entertainment',
+    event: 'Sangeet & Cocktail',
+    vendorName: 'Dance Choreographer / Friend Lead',
+    imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 5000,
+    actualCost: 5000,
+    paidAmount: 0,
+    splitType: 'GROOM_ONLY', // 100% Blue
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Strict budget cap of ₹5,000 for family & couple dance rehearsals for Sangeet evening.',
+  },
+  {
+    id: 'exp-baraat-fireworks',
+    name: 'Baraat Aatishbaji & Cold Pyro Fireworks',
+    category: 'Decor & Production',
+    event: 'Baraat & Wedding Pheras',
+    vendorName: 'Fireworks & Sparklers Vendor',
+    imageUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 15000,
+    actualCost: 15000,
+    paidAmount: 0,
+    splitType: 'GROOM_ONLY', // 100% Blue
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Celebratory fireworks and cold pyro sparklers for Bhuvesh Baraat entry & Varmala stage.',
+  },
+  {
+    id: 'exp-water-extra-crates',
+    name: 'Packaged Mineral Water Bottles Extra Buffer',
+    category: 'Catering & Dining',
+    event: 'All Events',
+    vendorName: 'Beverage Wholesale Dealer',
+    imageUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80',
+    estimatedCost: 10000,
+    actualCost: 10000,
+    paidAmount: 0,
+    splitType: 'GROOM_ONLY', // 100% Blue
+    paidBy: 'UNPAID',
+    status: 'Estimated',
+    notes: 'Resort supplies a limited initial count of water bottles. Buffer for additional 250ml/500ml crates as needed over 3 days.',
   },
 ];
