@@ -16,7 +16,7 @@ import {
   Utensils,
   Plus
 } from 'lucide-react';
-import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
+import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType, ExpensePayerCategory } from '@/types/wedding';
 import { computeExpenseShares } from '@/lib/calculator';
 import { formatINR } from '@/lib/constants';
 
@@ -28,6 +28,7 @@ interface ExpenseEditModalProps {
   onDelete?: (id: string) => void;
   groomGuestCount: number;
   brideGuestCount: number;
+  eventGuestCounts?: Record<string, { groom: number; bride: number; perPlateRate?: number }>;
 }
 
 const ALL_CATEGORIES: ExpenseCategory[] = [
@@ -62,6 +63,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   onDelete,
   groomGuestCount,
   brideGuestCount,
+  eventGuestCounts,
 }) => {
   const [formData, setFormData] = useState<ExpenseItem | null>(null);
 
@@ -69,11 +71,18 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
     if (item) {
       // By default, check per-plate calculation enabled for items or default to true
       const isCatering = item.category === 'Catering & Dining';
-      const isPerPlate = item.isPerPlateCalculation ?? (item.ratePerGuestOrPlate ? true : (isCatering ? true : true));
-      const defaultRate = item.ratePerGuestOrPlate || (isCatering ? 2000 : 0);
+      const eventConfig = eventGuestCounts && item.event ? eventGuestCounts[item.event] : undefined;
 
-      const gGuests = item.eventGroomGuests ?? groomGuestCount;
-      const bGuests = item.eventBrideGuests ?? brideGuestCount;
+      const gGuests = item.overrideGuestCount && item.eventGroomGuests !== undefined
+        ? item.eventGroomGuests
+        : (eventConfig ? eventConfig.groom : groomGuestCount);
+
+      const bGuests = item.overrideGuestCount && item.eventBrideGuests !== undefined
+        ? item.eventBrideGuests
+        : (eventConfig ? eventConfig.bride : brideGuestCount);
+
+      const defaultRate = item.ratePerGuestOrPlate || (eventConfig?.perPlateRate ? eventConfig.perPlateRate : (isCatering ? 2000 : 0));
+      const isPerPlate = item.isPerPlateCalculation ?? (defaultRate > 0 || isCatering);
 
       let actual = item.actualCost;
       if (isPerPlate && defaultRate > 0) {
@@ -89,12 +98,12 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
         actualCost: actual || item.actualCost,
       });
     }
-  }, [item, groomGuestCount, brideGuestCount]);
+  }, [item, groomGuestCount, brideGuestCount, eventGuestCounts]);
 
   if (!isOpen || !formData) return null;
 
   // Calculate live preview of shares
-  const shares = computeExpenseShares(formData, groomGuestCount, brideGuestCount);
+  const shares = computeExpenseShares(formData, groomGuestCount, brideGuestCount, eventGuestCounts);
 
   // Recalculate cost automatically whenever guest count, plate rate, or per-plate toggle changes
   const updateCalculation = (
@@ -252,6 +261,17 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
             {/* Inputs: Rate per plate & Guests */}
             {formData.isPerPlateCalculation ? (
               <div className="space-y-3 pt-1">
+                {/* Notice that guest counts are derived from top occasion bar */}
+                <div className="flex items-center justify-between text-[11px] bg-purple-50 dark:bg-purple-950/40 px-3 py-1.5 rounded-xl border border-purple-200 dark:border-purple-800/40">
+                  <span className="text-purple-700 dark:text-purple-300 font-semibold flex items-center gap-1.5">
+                    <Users size={12} className="text-purple-500" />
+                    <span>Single source for <strong>{formData.event}</strong> guests ({currentTotalGuests} total)</span>
+                  </span>
+                  <span className="text-[10px] text-purple-600 dark:text-purple-400 font-bold">
+                    Synced from Occasion Bar
+                  </span>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   {/* Plate Rate */}
                   <div>
@@ -380,6 +400,60 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
               <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
                 Pending Balance: <span className="font-bold text-slate-800 dark:text-slate-200">{formatINR(Math.max(0, formData.actualCost - formData.paidAmount))}</span>
               </div>
+            </div>
+          </div>
+
+          {/* Sub-Category: Couple Personal vs Parents/Family */}
+          <div className="bg-purple-50/60 dark:bg-purple-950/30 p-3.5 rounded-2xl border border-purple-200 dark:border-purple-800/40 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-extrabold text-purple-900 dark:text-purple-300 text-xs flex items-center gap-1.5">
+                <Users size={13} className="text-purple-600 dark:text-purple-400" />
+                <span>Expense Responsibility (Couple vs Parents)</span>
+              </span>
+              <span className="text-[10px] text-purple-600 dark:text-purple-400 font-semibold">
+                Sub-classification
+              </span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, payerCategory: 'COUPLE' })}
+                className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                  (formData.payerCategory || 'COUPLE') === 'COUPLE'
+                    ? 'bg-purple-600 text-white font-black border-purple-600 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                }`}
+              >
+                <div className="font-bold text-xs">👫 Couple Expense</div>
+                <div className="text-[9px] opacity-80">Bhuvesh & Harsha</div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, payerCategory: 'PARENTS' })}
+                className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                  formData.payerCategory === 'PARENTS'
+                    ? 'bg-amber-600 text-white font-black border-amber-600 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                }`}
+              >
+                <div className="font-bold text-xs">👨‍👩‍👧 Parents Expense</div>
+                <div className="text-[9px] opacity-80">Family / Elders</div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, payerCategory: 'SHARED_FAMILY' })}
+                className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
+                  formData.payerCategory === 'SHARED_FAMILY'
+                    ? 'bg-indigo-600 text-white font-black border-indigo-600 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                }`}
+              >
+                <div className="font-bold text-xs">🤝 Joint Family</div>
+                <div className="text-[9px] opacity-80">Mutual Relatives</div>
+              </button>
             </div>
           </div>
 

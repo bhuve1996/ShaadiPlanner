@@ -5,6 +5,11 @@ export type SplitType =
   | 'BRIDE_ONLY' 
   | 'CUSTOM';
 
+export type ExpensePayerCategory = 
+  | 'COUPLE'          // Bhuvesh / Harsha personal expense
+  | 'PARENTS'         // Parents / Family expense
+  | 'SHARED_FAMILY';  // Mutual / Joint family expense
+
 export type ExpenseCategory = 
   | 'Venue & Accommodation'
   | 'Catering & Dining'
@@ -58,6 +63,7 @@ export interface ExpenseItem {
   paidAmount: number;
   splitType: SplitType;
   customGroomPercent?: number;
+  payerCategory?: ExpensePayerCategory; // Couple (Bhuvesh/Harsha) vs Parents/Family
   
   // Subtasks & Sub-costs breakdown (e.g. Gold split into mangalsutra, bangles; Gifts split into makeup, sandals, 7/11/21 suits)
   subtasks?: SubTaskItem[];

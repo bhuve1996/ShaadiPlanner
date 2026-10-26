@@ -37,12 +37,12 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 import { Gift, Users as UsersIcon, Building2 } from 'lucide-react';
 
-const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v12';
-const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v12';
-const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v12';
-const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v12';
-const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v12';
-const STORAGE_KEY_VENDORS = 'shaadi_planner_vendors_v12';
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v13';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v13';
+const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v13';
+const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v13';
+const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v13';
+const STORAGE_KEY_VENDORS = 'shaadi_planner_vendors_v13';
 
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);

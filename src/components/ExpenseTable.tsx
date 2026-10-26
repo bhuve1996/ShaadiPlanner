@@ -75,6 +75,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedEvent, setSelectedEvent] = useState<string>('ALL');
   const [selectedSplitType, setSelectedSplitType] = useState<string>('ALL');
+  const [selectedPayer, setSelectedPayer] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [isHeaderSticky, setIsHeaderSticky] = useState<boolean>(true);
   
@@ -108,6 +109,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
       const matchesCategory = selectedCategory === 'ALL' || item.category === selectedCategory;
       const matchesEvent = selectedEvent === 'ALL' || item.event === selectedEvent;
       const matchesSplit = selectedSplitType === 'ALL' || item.splitType === selectedSplitType;
+      const matchesPayer = selectedPayer === 'ALL' || (item.payerCategory || 'COUPLE') === selectedPayer;
       const matchesStatus = statusFilter === 'ALL' || item.status === statusFilter;
 
       let matchesSide = true;
@@ -117,7 +119,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         matchesSide = item.splitType !== 'GROOM_ONLY';
       }
 
-      return matchesSearch && matchesCategory && matchesEvent && matchesSplit && matchesStatus && matchesSide;
+      return matchesSearch && matchesCategory && matchesEvent && matchesSplit && matchesPayer && matchesStatus && matchesSide;
     });
 
     return result.sort((a, b) => {
@@ -286,7 +288,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </div>
 
           {/* Filter Inputs Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 pt-2">
             
             {/* 1. Search Box */}
             <div className="relative">
@@ -335,6 +337,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               <option value="GROOM_ONLY">🤵 Blue (100% Bhuvesh Groom)</option>
               <option value="GUEST_RATIO">👥 Purple (Guest Ratio Mix)</option>
               <option value="EQUAL_50_50">🤝 Amber (50:50 Shared Equal)</option>
+            </select>
+
+            {/* 5. Sub-Category: Couple vs Parents vs Joint */}
+            <select
+              value={selectedPayer}
+              onChange={(e) => setSelectedPayer(e.target.value)}
+              className="text-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-white/10 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-2xs"
+            >
+              <option value="ALL">👨‍👩‍👧 All (Couple & Parents)</option>
+              <option value="COUPLE">👫 Couple (Bhuvesh & Harsha)</option>
+              <option value="PARENTS">👨‍👩‍👧 Parents / Elders</option>
+              <option value="SHARED_FAMILY">🤝 Joint Family</option>
             </select>
 
           </div>
@@ -559,6 +573,22 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                                 {item.category}
                               </span>
+
+                              {/* Payer Category Badge: Couple vs Parents vs Joint Family */}
+                              <span className="text-slate-300 dark:text-slate-600">•</span>
+                              {item.payerCategory === 'PARENTS' ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/50">
+                                  <span>👨‍👩‍👧 Parents</span>
+                                </span>
+                              ) : item.payerCategory === 'SHARED_FAMILY' ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-md border border-indigo-200 dark:border-indigo-800/50">
+                                  <span>🤝 Joint Family</span>
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800/50">
+                                  <span>👫 Couple</span>
+                                </span>
+                              )}
 
                               {item.vendorName ? (
                                 <>
@@ -812,6 +842,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   {hoveredItem.item.event}
                 </span>
               </div>
+              <div className="col-span-2 pt-1 border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+                <span className="text-slate-400 text-[10px] font-semibold">Responsibility:</span>
+                <span className="font-bold text-purple-700 dark:text-purple-300">
+                  {hoveredItem.item.payerCategory === 'PARENTS' ? '👨‍👩‍👧 Parents / Elders Expense' : hoveredItem.item.payerCategory === 'SHARED_FAMILY' ? '🤝 Joint Family Expense' : '👫 Couple Personal Expense'}
+                </span>
+              </div>
             </div>
 
             {/* Split Breakdown */}
@@ -892,6 +928,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         onDelete={onDeleteExpense}
         groomGuestCount={groomGuestCount}
         brideGuestCount={brideGuestCount}
+        eventGuestCounts={eventGuestCounts}
       />
     </div>
   );
