@@ -20,7 +20,8 @@ import {
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
 import { INITIAL_SHAGUN_LIST, INITIAL_GUEST_GROUPS } from '@/lib/shagun-data';
-import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem } from '@/types/wedding';
+import { INITIAL_VENDOR_DIRECTORY } from '@/lib/vendor-data';
+import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem, VendorDirectoryItem } from '@/types/wedding';
 import { calculateSummary } from '@/lib/calculator';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
@@ -30,15 +31,17 @@ import { WeddingCalendar } from '@/components/WeddingCalendar';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
 import { ShagunAndGuestManager } from '@/components/ShagunAndGuestManager';
+import { VendorDirectory } from '@/components/VendorDirectory';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
-import { Gift, Users as UsersIcon } from 'lucide-react';
+import { Gift, Users as UsersIcon, Building2 } from 'lucide-react';
 
-const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v6';
-const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v6';
-const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v6';
-const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v6';
-const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v6';
+const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v7';
+const STORAGE_KEY_EXPENSES = 'shaadi_planner_expenses_v7';
+const STORAGE_KEY_SCHEDULE = 'shaadi_planner_schedule_v7';
+const STORAGE_KEY_SHAGUN = 'shaadi_planner_shagun_v7';
+const STORAGE_KEY_GROUPS = 'shaadi_planner_groups_v7';
+const STORAGE_KEY_VENDORS = 'shaadi_planner_vendors_v7';
 
 export default function Home() {
   const [settings, setSettings] = useState<WeddingSettings>(INITIAL_SETTINGS);
@@ -46,9 +49,10 @@ export default function Home() {
   const [schedule, setSchedule] = useState<CeremonyScheduleItem[]>(INITIAL_CEREMONY_SCHEDULE);
   const [shagunList, setShagunList] = useState<FamilyShagunItem[]>(INITIAL_SHAGUN_LIST);
   const [guestGroups, setGuestGroups] = useState<GuestGroupItem[]>(INITIAL_GUEST_GROUPS);
+  const [vendors, setVendors] = useState<VendorDirectoryItem[]>(INITIAL_VENDOR_DIRECTORY);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
-  const [currentTab, setCurrentTab] = useState<'budget' | 'shagun' | 'calendar' | 'charts'>('budget');
+  const [currentTab, setCurrentTab] = useState<'budget' | 'vendors' | 'shagun' | 'calendar' | 'charts'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -62,6 +66,7 @@ export default function Home() {
         const storedSchedule = localStorage.getItem(STORAGE_KEY_SCHEDULE);
         const storedShagun = localStorage.getItem(STORAGE_KEY_SHAGUN);
         const storedGroups = localStorage.getItem(STORAGE_KEY_GROUPS);
+        const storedVendors = localStorage.getItem(STORAGE_KEY_VENDORS);
 
         if (storedSettings) {
           const parsed = JSON.parse(storedSettings);
@@ -87,6 +92,11 @@ export default function Home() {
           const parsed = JSON.parse(storedGroups);
           if (Array.isArray(parsed) && parsed.length > 0) setGuestGroups(parsed);
         }
+
+        if (storedVendors) {
+          const parsed = JSON.parse(storedVendors);
+          if (Array.isArray(parsed) && parsed.length > 0) setVendors(parsed);
+        }
       }
     } catch (e) {
       console.warn('LocalStorage load error:', e);
@@ -104,10 +114,11 @@ export default function Home() {
       localStorage.setItem(STORAGE_KEY_SCHEDULE, JSON.stringify(schedule));
       localStorage.setItem(STORAGE_KEY_SHAGUN, JSON.stringify(shagunList));
       localStorage.setItem(STORAGE_KEY_GROUPS, JSON.stringify(guestGroups));
+      localStorage.setItem(STORAGE_KEY_VENDORS, JSON.stringify(vendors));
     } catch (err) {
       console.error('Failed to auto-save to localStorage:', err);
     }
-  }, [expenses, settings, schedule, shagunList, guestGroups, isLoaded]);
+  }, [expenses, settings, schedule, shagunList, guestGroups, vendors, isLoaded]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -333,6 +344,24 @@ export default function Home() {
           </button>
 
           <button
+            onClick={() => setCurrentTab('vendors')}
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+              currentTab === 'vendors' 
+                ? 'text-indigo-600 dark:text-indigo-400 font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
+            }`}
+          >
+            <Building2 size={17} />
+            <span>Vendors & Family Leads</span>
+            <span className="text-[10px] bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-extrabold px-1.5 py-0.2 rounded-full border border-indigo-300 dark:border-indigo-700">
+              {vendors.length} Vendors
+            </span>
+            {currentTab === 'vendors' && (
+              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+            )}
+          </button>
+
+          <button
             onClick={() => setCurrentTab('shagun')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'shagun' 
@@ -403,7 +432,26 @@ export default function Home() {
           />
         )}
 
-        {/* Tab 2: Family Shagun & Guest Groups Manager */}
+        {/* Tab 2: Vendors Directory & Family Responsibilities */}
+        {currentTab === 'vendors' && (
+          <VendorDirectory
+            vendors={vendors}
+            onAddVendor={(v) => {
+              setVendors(prev => [v, ...prev]);
+              showToast(`Added ${v.vendorBusinessName}`);
+            }}
+            onUpdateVendor={(v) => {
+              setVendors(prev => prev.map(item => item.id === v.id ? v : item));
+              showToast(`Updated ${v.vendorBusinessName}`);
+            }}
+            onDeleteVendor={(id) => {
+              setVendors(prev => prev.filter(item => item.id !== id));
+              showToast('Deleted vendor entry');
+            }}
+          />
+        )}
+
+        {/* Tab 3: Family Shagun & Guest Groups Manager */}
         {currentTab === 'shagun' && (
           <ShagunAndGuestManager
             shagunList={shagunList}

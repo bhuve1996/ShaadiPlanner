@@ -41,7 +41,16 @@ export interface ExpenseItem {
   name: string;
   category: ExpenseCategory;
   event: WeddingEvent;
+  
+  // Vendor details & contacts
   vendorName?: string;
+  vendorContactPerson?: string; // e.g. "Mr. Rajesh Sharma (Manager)"
+  vendorPhone?: string;         // e.g. "+91 98765 43210"
+  
+  // Internal Family Lead / Responsibility Handler
+  internalLeadPerson?: string;  // e.g. "Chacha Ji", "Bhuvesh", "Father", "Mamma Ji Jagadhri"
+  internalLeadPhone?: string;
+
   imageUrl?: string; // Rich relevant photo thumbnail for each expense!
   estimatedCost: number;
   actualCost: number;
@@ -63,6 +72,20 @@ export interface ExpenseItem {
   status: 'Estimated' | 'Booked' | 'Partially Paid' | 'Settled';
   notes?: string;
   dueDate?: string;
+}
+
+export interface VendorDirectoryItem {
+  id: string;
+  category: ExpenseCategory | string;
+  vendorBusinessName: string;
+  contactPerson: string;
+  phone: string;
+  alternatePhone?: string;
+  locationCity?: string;
+  internalResponsiblePerson: string; // Who from our family is handling this
+  serviceDescription: string;
+  status: 'Shortlisted' | 'Advance Paid' | 'Confirmed' | 'Completed';
+  totalAgreedAmount?: number;
 }
 
 export interface CeremonyScheduleItem {
