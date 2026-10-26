@@ -22,7 +22,7 @@ import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
 import { INITIAL_SHAGUN_LIST, INITIAL_GUEST_GROUPS } from '@/lib/shagun-data';
 import { INITIAL_VENDOR_DIRECTORY } from '@/lib/vendor-data';
 import { ExpenseItem, WeddingSettings, CeremonyScheduleItem, FamilyShagunItem, GuestGroupItem, VendorDirectoryItem, WeddingEvent } from '@/types/wedding';
-import { calculateSummary } from '@/lib/calculator';
+import { calculateSummary, computeExpenseShares } from '@/lib/calculator';
 import { DashboardStats } from '@/components/DashboardStats';
 import { BudgetCharts } from '@/components/BudgetCharts';
 import { ExpenseTable } from '@/components/ExpenseTable';
@@ -193,26 +193,88 @@ export default function Home() {
 
   const handleExportCSV = () => {
     const headers = [
-      'ID', 'Item Name', 'Category', 'Ceremony Event', 'Vendor Name', 
-      'Estimated Cost (INR)', 'Actual Cost (INR)', 'Paid Advance (INR)', 
-      'Split Formula', 'Advance Paid By', 'Booking Status', 'Due Date', 'Notes'
+      'Type',
+      'Item Name',
+      'Subtask / Detail',
+      'Category',
+      'Ceremony / Occasion',
+      'Responsibility (Payer)',
+      'Split Rule',
+      'Estimated Cost (₹)',
+      'Actual Cost (₹)',
+      'Paid Advance (₹)',
+      'Pending Due (₹)',
+      'Bhuvesh Share (₹)',
+      'Harsha Share (₹)',
+      'Vendor Name',
+      'Booking Status',
+      'Notes'
     ];
+
+    const escapeCsv = (str: any) => `"${String(str ?? '').replace(/"/g, '""')}"`;
     
-    const rows = expenses.map(item => [
-      `"${item.id}"`,
-      `"${item.name.replace(/"/g, '""')}"`,
-      `"${item.category}"`,
-      `"${item.event}"`,
-      `"${item.vendorName || ''}"`,
-      item.estimatedCost,
-      item.actualCost,
-      item.paidAmount,
-      `"${item.splitType}"`,
-      `"${item.paidBy}"`,
-      `"${item.status}"`,
-      `"${item.dueDate || ''}"`,
-      `"${(item.notes || '').replace(/"/g, '""')}"`
-    ].join(','));
+    const rows: string[] = [];
+
+    expenses.forEach(item => {
+      const shares = computeExpenseShares(
+        item,
+        settings.groomGuestCount,
+        settings.brideGuestCount,
+        settings.eventGuestCounts
+      );
+
+      const actualCost = item.actualCost || item.estimatedCost || 0;
+      const pendingDue = Math.max(0, actualCost - (item.paidAmount || 0));
+      const payerLabel = item.payerCategory === 'PARENTS'
+        ? 'Parents / Elders'
+        : item.payerCategory === 'SHARED_FAMILY'
+        ? 'Joint Family'
+        : 'Couple (Bhuvesh & Harsha)';
+
+      // 1. Main Expense Row
+      rows.push([
+        escapeCsv('Expense Item'),
+        escapeCsv(item.name),
+        escapeCsv('-'),
+        escapeCsv(item.category),
+        escapeCsv(item.event),
+        escapeCsv(payerLabel),
+        escapeCsv(item.splitType),
+        item.estimatedCost || 0,
+        actualCost,
+        item.paidAmount || 0,
+        pendingDue,
+        shares.groomDue,
+        shares.brideDue,
+        escapeCsv(item.vendorName || ''),
+        escapeCsv(item.status),
+        escapeCsv(item.notes || '')
+      ].join(','));
+
+      // 2. Subtasks rows if present
+      if (item.subtasks && item.subtasks.length > 0) {
+        item.subtasks.forEach(st => {
+          rows.push([
+            escapeCsv('  ↳ Subtask'),
+            escapeCsv(item.name),
+            escapeCsv(`${st.label ? `[${st.label}] ` : ''}${st.name || st.label || 'Subtask'}`),
+            escapeCsv(item.category),
+            escapeCsv(item.event),
+            escapeCsv(payerLabel),
+            escapeCsv(item.splitType),
+            st.cost || 0,
+            st.cost || 0,
+            st.paidAmount || 0,
+            Math.max(0, (st.cost || 0) - (st.paidAmount || 0)),
+            '-',
+            '-',
+            escapeCsv(item.vendorName || ''),
+            escapeCsv(st.status || 'Pending'),
+            escapeCsv(st.notes || '')
+          ].join(','));
+        });
+      }
+    });
 
     const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows].join('\n');
     const encodedUri = encodeURI(csvContent);
@@ -222,7 +284,27 @@ export default function Home() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    showToast('Exported CSV for Google Sheets');
+    showToast('Exported CSV with all subtasks and split details');
+  };
+
+  const handleExportJSON = () => {
+    const fullBackup = {
+      settings,
+      expenses,
+      schedule,
+      shagunList,
+      guestGroups,
+      vendors,
+      exportedAt: new Date().toISOString(),
+    };
+    const jsonStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(fullBackup, null, 2));
+    const link = document.createElement('a');
+    link.setAttribute('href', jsonStr);
+    link.setAttribute('download', `ShaadiPlanner_Backup_${new Date().toISOString().slice(0, 10)}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Exported complete JSON backup');
   };
 
   return (
@@ -293,10 +375,19 @@ export default function Home() {
             <button
               onClick={handleExportCSV}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer shadow-2xs"
-              title="Export directly to Google Sheets CSV"
+              title="Export complete ledger with subtasks to CSV for Excel / Google Sheets"
             >
               <FileSpreadsheet size={14} className="text-emerald-600" />
               <span className="hidden md:inline">Export CSV</span>
+            </button>
+
+            <button
+              onClick={handleExportJSON}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer shadow-2xs"
+              title="Export full data backup (Expenses, Schedule, Shagun, Vendors, Guests) as JSON"
+            >
+              <Download size={14} className="text-blue-600" />
+              <span className="hidden lg:inline">Export JSON</span>
             </button>
 
             {/* Reset Button */}

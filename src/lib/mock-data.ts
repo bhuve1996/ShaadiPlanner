@@ -8,7 +8,44 @@ export const INITIAL_SETTINGS: WeddingSettings = {
   "groomGuestCount": 150,
   "brideGuestCount": 400,
   "totalTargetBudget": 2253600,
-  "currency": "INR"
+  "currency": "INR",
+  "eventGuestCounts": {
+    "Roka / Engagement": {
+      "groom": 100,
+      "bride": 200,
+      "perPlateRate": 1200
+    },
+    "Mehendi": {
+      "groom": 60,
+      "bride": 120,
+      "perPlateRate": 800
+    },
+    "Haldi": {
+      "groom": 80,
+      "bride": 100,
+      "perPlateRate": 750
+    },
+    "Sangeet & Cocktail": {
+      "groom": 150,
+      "bride": 150,
+      "perPlateRate": 1400
+    },
+    "Baraat & Wedding Pheras": {
+      "groom": 250,
+      "bride": 250,
+      "perPlateRate": 2000
+    },
+    "Vida (Bidai / Doli)": {
+      "groom": 50,
+      "bride": 100,
+      "perPlateRate": 0
+    },
+    "Reception": {
+      "groom": 220,
+      "bride": 180,
+      "perPlateRate": 1800
+    }
+  }
 };
 
 export const INITIAL_EXPENSES: ExpenseItem[] = [
