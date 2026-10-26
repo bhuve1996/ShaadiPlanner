@@ -38,11 +38,12 @@ export interface ExpenseItem {
   splitType: SplitType;
   customGroomPercent?: number; // Used when splitType is CUSTOM
   
-  // Smart Event/Occasion specific guest fields
-  overrideGuestCount?: boolean; // If true, uses event-specific guest count rather than global
+  // Smart Event/Occasion specific guest & per-plate fields
+  isPerPlateCalculation?: boolean; // By default checked for catering/events!
+  ratePerGuestOrPlate?: number; // e.g. 2000 per plate
+  overrideGuestCount?: boolean;
   eventGroomGuests?: number;
   eventBrideGuests?: number;
-  ratePerGuestOrPlate?: number; // e.g. 1500 per plate
 
   paidBy: 'GROOM' | 'BRIDE' | 'SHARED' | 'UNPAID';
   status: 'Estimated' | 'Booked' | 'Partially Paid' | 'Settled';
