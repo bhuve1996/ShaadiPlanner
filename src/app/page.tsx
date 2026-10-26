@@ -10,11 +10,11 @@ import {
   Calendar, 
   LogIn, 
   Sparkles, 
-  CheckCircle,
-  FileSpreadsheet,
-  Crown,
-  RotateCcw,
-  Flower2
+  CheckCircle, 
+  FileSpreadsheet, 
+  Crown, 
+  RotateCcw, 
+  Flower2 
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { ExpenseItem, WeddingSettings } from '@/types/wedding';
@@ -26,6 +26,7 @@ import { SettingsModal } from '@/components/SettingsModal';
 import { ItineraryView } from '@/components/ItineraryView';
 import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 
 const STORAGE_KEY_SETTINGS = 'shaadi_planner_settings_v4';
@@ -163,7 +164,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen text-slate-800 pb-20 font-sans selection:bg-pink-300 selection:text-pink-900">
+    <div className="min-h-screen text-slate-800 dark:text-slate-100 pb-20 font-sans selection:bg-pink-300 selection:text-pink-900 transition-colors duration-300">
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -173,8 +174,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Colorful Floral Header */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b-2 border-pink-200 shadow-md">
+      {/* Colorful Floral Header with Day/Night Toggle */}
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0E1220]/90 backdrop-blur-xl border-b-2 border-pink-200 dark:border-white/10 shadow-md transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           
           {/* Logo & Wedding Title */}
@@ -188,36 +189,40 @@ export default function Home() {
             </button>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 flex items-center gap-1.5">
+                <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
                   <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
                     ShaadiPlanner
                   </span>
                   <Flower2 className="text-pink-500 w-5 h-5 animate-spin-slow" />
                 </h1>
-                <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700 border border-pink-300">
+                <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border border-pink-300 dark:border-pink-500/30">
                   Floral Blossom
                 </span>
                 
                 {/* Auto-sync indicator */}
                 <div 
-                  className="hidden md:inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded-full"
+                  className="hidden md:inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/30 px-2 py-0.5 rounded-full"
                   title="Auto-saved to your browser storage. Safe on page refresh."
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span>Auto-saved locally</span>
                 </div>
               </div>
-              <p className="text-xs text-slate-500 font-medium truncate max-w-xs sm:max-w-md">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
                 {settings.coupleTitle} • 🗓️ {settings.weddingDate}
               </p>
             </div>
           </div>
 
-          {/* Action buttons */}
+          {/* Action buttons: Theme Toggle + Settings + Export + Reset */}
           <div className="flex items-center gap-2 sm:gap-3">
+            
+            {/* Day / Night Theme Toggle */}
+            <ThemeToggle />
+
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl transition-all cursor-pointer shadow-2xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 dark:hover:bg-purple-900/50 border border-purple-200 dark:border-purple-500/30 rounded-xl transition-all cursor-pointer shadow-2xs"
             >
               <SettingsIcon size={14} />
               <span className="hidden sm:inline">Guest Ratios & Target</span>
@@ -225,7 +230,7 @@ export default function Home() {
 
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all cursor-pointer shadow-2xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer shadow-2xs"
               title="Export directly to Google Sheets CSV"
             >
               <FileSpreadsheet size={14} className="text-emerald-600" />
@@ -235,10 +240,10 @@ export default function Home() {
             {/* Reset Button */}
             <button
               onClick={handleResetToStartPhase}
-              className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
               title="Reset data back to clean start phase"
             >
-              <RotateCcw size={16} />
+              <RotateCcw size={15} />
             </button>
 
             {/* Google Sign-in */}
@@ -247,14 +252,14 @@ export default function Home() {
                 setUserLoggedIn(!userLoggedIn);
                 showToast(userLoggedIn ? 'Logged out' : 'Connected with Google Account');
               }}
-              className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-xl transition-all shadow-md cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-black rounded-xl transition-all shadow-md cursor-pointer ${
                 userLoggedIn 
-                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                  ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300'
                   : 'bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-pink-500/20'
               }`}
             >
               <LogIn size={14} />
-              <span>{userLoggedIn ? 'Google Connected' : 'Google Sign In'}</span>
+              <span>{userLoggedIn ? 'Connected' : 'Sign In'}</span>
             </button>
           </div>
         </div>
@@ -272,17 +277,17 @@ export default function Home() {
           onCelebration={triggerCelebration}
         />
 
-        {/* Shahi Barat Animal Celebration Troupe Section */}
+        {/* Shahi Barat Dhol & Animal Celebration Troupe Section */}
         <AnimalCelebrationSection />
 
         {/* Navigation Tabs with Pink & Blue Accent */}
-        <div className="flex border-2 border-pink-200 gap-6 text-sm font-bold bg-white/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md">
+        <div className="flex border-2 border-pink-200 dark:border-white/10 gap-6 text-sm font-bold bg-white/90 dark:bg-[#121626]/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md transition-colors">
           <button
             onClick={() => setCurrentTab('budget')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'budget' 
-                ? 'text-pink-600 font-black' 
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'text-pink-600 dark:text-pink-400 font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <ListFilter size={17} />
@@ -296,8 +301,8 @@ export default function Home() {
             onClick={() => setCurrentTab('charts')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'charts' 
-                ? 'text-purple-600 font-black' 
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'text-purple-600 dark:text-purple-400 font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <ChartIcon size={17} />
@@ -311,8 +316,8 @@ export default function Home() {
             onClick={() => setCurrentTab('itinerary')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer ${
               currentTab === 'itinerary' 
-                ? 'text-blue-600 font-black' 
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'text-blue-600 dark:text-blue-400 font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <Calendar size={17} />
