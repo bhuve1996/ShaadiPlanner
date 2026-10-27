@@ -1402,6 +1402,116 @@
       "contactPhone": "",
       "isAnonymousNumbers": false,
       "notes": "Sangeet performances & Ribbon katai squad"
+    },
+    {
+      "id": "grp-g01-akqa",
+      "name": "AKQA Office Colleagues",
+      "side": "GROOM",
+      "count": 10,
+      "contactPerson": "Office Lead / Self",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Delhi NCR / Office • Digital invites & evening cocktail attendees (No room needed)"
+    },
+    {
+      "id": "grp-g02-badminton",
+      "name": "Badminton Club Members",
+      "side": "GROOM",
+      "count": 10,
+      "contactPerson": "Badminton Captain",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Local Sports Club • Evening reception & cocktail dinner (No room needed)"
+    },
+    {
+      "id": "grp-g03-dabwali",
+      "name": "Dabwali Family Branch",
+      "side": "GROOM",
+      "count": 20,
+      "contactPerson": "Pawan Chacha Ji",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Dabwali • Arriving Day 1 morning; 4 rooms needed; family stay required"
+    },
+    {
+      "id": "grp-g04-sirsa",
+      "name": "Sirsa Family Branch",
+      "side": "GROOM",
+      "count": 18,
+      "contactPerson": "Vicky Chacha Ji",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Sirsa • Extended family; attending all wedding rituals; 3 rooms needed"
+    },
+    {
+      "id": "grp-g05-hanumangarh",
+      "name": "Hanumangarh Family Branch",
+      "side": "GROOM",
+      "count": 16,
+      "contactPerson": "Billu Chacha Ji",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Hanumangarh • Close relatives; stay needed for 2 nights; 3 rooms needed"
+    },
+    {
+      "id": "grp-g06-raman",
+      "name": "Raman Mandi Relatives",
+      "side": "GROOM",
+      "count": 14,
+      "contactPerson": "Elder Fuffa Ji",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Raman • Arriving by personal cars; ground floor rooms; 2 rooms needed"
+    },
+    {
+      "id": "grp-g07-samana",
+      "name": "Samana Family Relatives",
+      "side": "GROOM",
+      "count": 15,
+      "contactPerson": "Ludhiana Tata Ji",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Samana • Senior elder relatives; travel assistance required; 3 rooms needed"
+    },
+    {
+      "id": "grp-g08-budhlada",
+      "name": "Budhlada Family Branch",
+      "side": "GROOM",
+      "count": 12,
+      "contactPerson": "Maasi Ji & Parivar",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Budhlada • Attending Sangeet, Wedding Pheras & reception; 2 rooms needed"
+    },
+    {
+      "id": "grp-g09-sunam",
+      "name": "Sunam Family Relatives",
+      "side": "GROOM",
+      "count": 12,
+      "contactPerson": "Bhua Ji & Family",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Sunam • 2 nights stay required; 2 rooms needed"
+    },
+    {
+      "id": "grp-g10-zirakpur",
+      "name": "Zirakpur Relatives & Friends",
+      "side": "GROOM",
+      "count": 15,
+      "contactPerson": "Cousin Brother",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Zirakpur / Tricity • Traveling via Highway; cocktail & wedding; 3 rooms needed"
+    },
+    {
+      "id": "grp-g11-delhi",
+      "name": "Delhi NCR Local Relatives & Friends",
+      "side": "GROOM",
+      "count": 18,
+      "contactPerson": "Self / Best Man",
+      "contactPhone": "",
+      "isAnonymousNumbers": false,
+      "notes": "Delhi NCR • Local residents; self-commute to venue (No room needed)"
     }
   ],
   "vendors": [
