@@ -217,7 +217,7 @@ export const BudgetCharts: React.FC<BudgetChartsProps> = ({
                 Occasion Investment
               </h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                Ceremony allocation between Bhuvesh & Harsha
+                Ceremony allocation between Harsha & Bhuvi
               </p>
             </div>
           </div>
@@ -250,17 +250,17 @@ export const BudgetCharts: React.FC<BudgetChartsProps> = ({
                   }}
                   formatter={(value: any, name: any) => [
                     formatINR(Number(value) || 0), 
-                    name === 'groom' ? "Bhuvesh's Share" : "Harsha's Share"
+                    name === 'bride' ? "Harsha's Share" : "Bhuvesh's Share"
                   ]}
                 />
                 <Legend 
                   verticalAlign="top" 
                   align="right" 
                   wrapperStyle={{ paddingBottom: '10px', fontSize: '11px' }}
-                  formatter={(val) => val === 'groom' ? '🤵 Bhuvesh' : '👰 Harsha'}
+                  formatter={(val) => val === 'bride' ? '👰 Harsha' : '🤵 Bhuvesh'}
                 />
-                <Bar dataKey="groom" name="groom" fill="#3B82F6" stackId="a" radius={[0, 0, 3, 3]} />
-                <Bar dataKey="bride" name="bride" fill="#EC4899" stackId="a" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="bride" name="bride" fill="#EC4899" stackId="a" radius={[0, 0, 3, 3]} />
+                <Bar dataKey="groom" name="groom" fill="#3B82F6" stackId="a" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

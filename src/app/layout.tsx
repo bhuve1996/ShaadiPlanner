@@ -3,8 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
-  title: "Bhuvesh & Harsha's Wedding Planner | ShaadiPlanner",
-  description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Bhuvesh & Harsha's wedding.",
+  title: "Harsha & Bhuvi's Wedding Planner | ShaadiPlanner",
+  description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harsha & Bhuvi's wedding.",
   icons: {
     icon: [
       { url: "/favicon.png?v=2", type: "image/png" },

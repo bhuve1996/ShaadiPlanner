@@ -1,7 +1,7 @@
 import { ExpenseItem, WeddingSettings } from "@/types/wedding";
 
 export const INITIAL_SETTINGS: WeddingSettings = {
-  "coupleTitle": "Bhuvesh & Harsha's Wedding",
+  "coupleTitle": "Harsha & Bhuvi's Wedding",
   "groomName": "Bhuvesh (Groom)",
   "brideName": "Harsha (Bride)",
   "weddingDate": "2026-11-28",

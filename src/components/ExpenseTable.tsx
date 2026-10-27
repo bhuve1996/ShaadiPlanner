@@ -356,7 +356,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
               <option value="ALL">All (Self & Parents)</option>
-              <option value="COUPLE">Self (Bhuvi & Harsha)</option>
+              <option value="COUPLE">Self (Harsha & Bhuvi)</option>
               <option value="PARENTS">Parents / Elders</option>
               <option value="SHARED_FAMILY">Joint Family</option>
             </select>
@@ -468,18 +468,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                 {!isSimplifiedView && (
                   <>
-                    {/* 5. Groom Spend (130px) */}
-                    <th 
-                      onClick={() => handleSort('groomDue')}
-                      className="py-3.5 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
-                    >
-                      <div className="flex items-center justify-end">
-                        <span>Bhuvesh Spend</span>
-                        {renderSortIndicator('groomDue')}
-                      </div>
-                    </th>
-
-                    {/* 6. Bride Spend (130px) */}
+                    {/* 5. Bride Spend (130px) */}
                     <th 
                       onClick={() => handleSort('brideDue')}
                       className="py-3.5 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
@@ -487,6 +476,17 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       <div className="flex items-center justify-end">
                         <span>Harsha Spend</span>
                         {renderSortIndicator('brideDue')}
+                      </div>
+                    </th>
+
+                    {/* 6. Groom Spend (130px) */}
+                    <th 
+                      onClick={() => handleSort('groomDue')}
+                      className="py-3.5 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
+                    >
+                      <div className="flex items-center justify-end">
+                        <span>Bhuvesh Spend</span>
+                        {renderSortIndicator('groomDue')}
                       </div>
                     </th>
 
@@ -689,17 +689,17 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 });
                               }}
                               className={`text-[11px] font-black px-2.5 py-1 rounded-lg border appearance-none text-center cursor-pointer transition-all w-[124px] focus:outline-none focus:ring-1 focus:ring-pink-400 ${
-                                item.splitType === 'GROOM_ONLY'
-                                  ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/70 dark:border-blue-800 dark:text-blue-300'
-                                  : item.splitType === 'BRIDE_ONLY'
+                                item.splitType === 'BRIDE_ONLY'
                                   ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/70 dark:border-rose-800 dark:text-rose-300'
+                                  : item.splitType === 'GROOM_ONLY'
+                                  ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/70 dark:border-blue-800 dark:text-blue-300'
                                   : item.splitType === 'GUEST_RATIO'
                                   ? 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
                                   : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/70 dark:border-emerald-800 dark:text-emerald-300'
                               }`}
                             >
-                              <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
                               <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harsha (100%)</option>
+                              <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
                               <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
                               <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
                             </select>
@@ -744,23 +744,23 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {!isSimplifiedView && (
                         <>
-                          {/* 5. Groom Share */}
-                          <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                            <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
-                              {formatINR(shares.groomDue)}
-                            </div>
-                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                              {shares.groomPercent}% by Bhuvesh
-                            </div>
-                          </td>
-
-                          {/* 6. Bride Share */}
+                          {/* 5. Bride Share */}
                           <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
                             <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
                               {formatINR(shares.brideDue)}
                             </div>
                             <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                               {shares.bridePercent}% by Harsha
+                            </div>
+                          </td>
+
+                          {/* 6. Groom Share */}
+                          <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+                            <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                              {formatINR(shares.groomDue)}
+                            </div>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                              {shares.groomPercent}% by Bhuvesh
                             </div>
                           </td>
 
@@ -930,18 +930,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 </div>
                 <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
                   <span>
-                    {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):
-                  </span>
-                  <span className="font-bold text-slate-900 dark:text-white">
-                    {formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
-                  </span>
-                </div>
-                <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
-                  <span>
                     {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):
                   </span>
                   <span className="font-bold text-slate-900 dark:text-white">
                     {formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
+                  <span>
+                    {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):
+                  </span>
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    {formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
                   </span>
                 </div>
                 {!isSimplifiedView && (

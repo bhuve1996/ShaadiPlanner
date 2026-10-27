@@ -306,8 +306,8 @@ export default function Home() {
       'Actual Cost (₹)',
       'Paid Advance (₹)',
       'Pending Due (₹)',
-      'Bhuvesh Share (₹)',
       'Harsha Share (₹)',
+      'Bhuvesh Share (₹)',
       'Vendor Name',
       'Booking Status',
       'Notes'
@@ -331,7 +331,7 @@ export default function Home() {
         ? 'Parents / Elders'
         : item.payerCategory === 'SHARED_FAMILY'
         ? 'Joint Family'
-        : 'Couple (Bhuvesh & Harsha)';
+        : 'Couple (Harsha & Bhuvi)';
 
       // 1. Main Expense Row
       rows.push([
@@ -458,7 +458,7 @@ export default function Home() {
           {/* Action buttons: Theme Toggle + Cloud Status + Export + Compact Overflow Menu */}
           <div className="flex items-center gap-2">
             
-            {/* Perspective Filter Scope: Groom, Bride, Mutual */}
+            {/* Perspective Filter Scope: Bride, Groom, Mutual */}
             <div className="hidden sm:inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700 mr-1">
               <button
                 onClick={() => setActiveSide('ALL')}
@@ -472,17 +472,6 @@ export default function Home() {
                 Mutual
               </button>
               <button
-                onClick={() => setActiveSide('GROOM')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  activeSide === 'GROOM'
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-blue-600'
-                }`}
-                title="Bhuvesh (Groom Blue)"
-              >
-                🤵 Bhuvi
-              </button>
-              <button
                 onClick={() => setActiveSide('BRIDE')}
                 className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   activeSide === 'BRIDE'
@@ -492,6 +481,17 @@ export default function Home() {
                 title="Harsha (Bride Pink)"
               >
                 👰 Harsha
+              </button>
+              <button
+                onClick={() => setActiveSide('GROOM')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  activeSide === 'GROOM'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-blue-600'
+                }`}
+                title="Bhuvesh (Groom Blue)"
+              >
+                🤵 Bhuvi
               </button>
             </div>
 

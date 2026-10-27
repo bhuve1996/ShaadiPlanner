@@ -266,7 +266,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     }`}
                   >
                     <div className="font-bold text-xs">👫 Self (Couple)</div>
-                    <div className="text-[9px] opacity-75">Bhuvesh & Harsha</div>
+                    <div className="text-[9px] opacity-75">Harsha & Bhuvi</div>
                   </button>
 
                   <button
@@ -584,19 +584,6 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
 
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, splitType: 'GROOM_ONLY' })}
-                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
-                      formData.splitType === 'GROOM_ONLY'
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
-                    }`}
-                  >
-                    <div className="font-bold text-xs">🤵 Bhuvesh 100%</div>
-                    <div className="text-[9px] opacity-75">Boy Side Only</div>
-                  </button>
-
-                  <button
-                    type="button"
                     onClick={() => setFormData({ ...formData, splitType: 'BRIDE_ONLY' })}
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.splitType === 'BRIDE_ONLY'
@@ -607,17 +594,36 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     <div className="font-bold text-xs">👰 Harsha 100%</div>
                     <div className="text-[9px] opacity-75">Girl Side Only</div>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, splitType: 'GROOM_ONLY' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.splitType === 'GROOM_ONLY'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">🤵 Bhuvesh 100%</div>
+                    <div className="text-[9px] opacity-75">Boy Side Only</div>
+                  </button>
                 </div>
 
                 {/* Live Split Result */}
                 <div className="pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-mono">
                   <div>
                     <span className="text-[10px] text-slate-500 uppercase block font-sans">
+                      {formData.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'}
+                    </span>
+                    <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.brideDue)}</span>
+                  </div>
+                  <div className="text-slate-300 font-light">+</div>
+                  <div className="text-right">
+                    <span className="text-[10px] text-slate-500 uppercase block font-sans">
                       {formData.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'}
                     </span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.groomDue)}</span>
                   </div>
-                  <div className="text-slate-300 font-light">+</div>
                   <div>
                     <span className="text-[10px] text-slate-500 uppercase block font-sans">
                       {formData.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'}
