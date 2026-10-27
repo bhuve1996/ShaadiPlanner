@@ -246,7 +246,7 @@
       "splitType": "GUEST_RATIO",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "500 guests wedding buffet @ ₹2,000/plate • Main Wedding Hall separate from stay: ₹10,00,000 budget calculated as 500 guests × ₹2,000 per plate.",
+      "notes": "Wedding buffet catering @ ₹2,000/plate • Main Wedding Hall separate from stay; catering calculated dynamically by guest count (150 Bhuvi + 400 Harsha = 550 guests).",
       "subtasks": [
         {
           "id": "sub-whall-1",
@@ -254,15 +254,15 @@
           "cost": 0,
           "status": "Pending",
           "label": "Hall Rental",
-          "notes": "Main grand wedding lawn & banquet space"
+          "notes": "Main grand wedding lawn & banquet space (covered with wedding arrangement)"
         },
         {
           "id": "sub-whall-2",
-          "name": "Wedding Dinner Catering (500 Guests @ ₹2,000/plate)",
-          "cost": 0,
+          "name": "Wedding Dinner Catering (@ ₹2,000/plate)",
+          "cost": 1100000,
           "status": "Pending",
           "label": "Per-Plate Food",
-          "notes": "Grand wedding dinner buffet for 500 attendees"
+          "notes": "Grand wedding dinner buffet (550 guests: 150 Bhuvi + 400 Harsha @ ₹2,000)"
         }
       ],
       "eventGroomGuests": 150,

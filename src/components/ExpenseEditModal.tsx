@@ -109,17 +109,55 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
     bGuests: number
   ) => {
     if (isPerPlate && rate > 0) {
-      const totalCost = (gGuests + bGuests) * rate;
-      setFormData(prev => prev ? ({
-        ...prev,
-        isPerPlateCalculation: isPerPlate,
-        ratePerGuestOrPlate: rate,
-        eventGroomGuests: gGuests,
-        eventBrideGuests: bGuests,
-        overrideGuestCount: true,
-        actualCost: totalCost,
-        estimatedCost: prev.estimatedCost || totalCost,
-      }) : null);
+      const totalGuests = gGuests + bGuests;
+      const totalCost = totalGuests * rate;
+      setFormData(prev => {
+        if (!prev) return null;
+
+        // Auto-update any catering / buffet subtask or notes that mentions guest count or plate rate
+        let updatedSubtasks = prev.subtasks;
+        if (prev.subtasks && prev.subtasks.length > 0) {
+          updatedSubtasks = prev.subtasks.map(st => {
+            const isCateringSub = (st.label && st.label.toLowerCase().includes('food')) ||
+              (st.label && st.label.toLowerCase().includes('plate')) ||
+              st.name.toLowerCase().includes('catering') ||
+              st.name.toLowerCase().includes('buffet') ||
+              st.name.toLowerCase().includes('dinner') ||
+              st.name.toLowerCase().includes('lunch');
+
+            if (isCateringSub) {
+              return {
+                ...st,
+                name: `${st.name.split('(')[0].trim()} (${totalGuests} Guests @ ₹${rate.toLocaleString('en-IN')}/plate)`,
+                cost: totalCost,
+                notes: `Grand wedding dinner buffet for ${totalGuests} attendees (${gGuests} Bhuvi + ${bGuests} Harsha)`
+              };
+            }
+            return st;
+          });
+        }
+
+        // Dynamically update the notes / sub-detail string to match the current count & rate
+        let updatedNotes = prev.notes || '';
+        if (updatedNotes.includes('guests') || updatedNotes.includes('plate') || updatedNotes.includes('buffet')) {
+          const suffix = updatedNotes.includes('•') ? updatedNotes.split('•').slice(1).join('•').trim() : '';
+          const newPrefix = `${totalGuests} guests wedding buffet @ ₹${rate.toLocaleString('en-IN')}/plate`;
+          updatedNotes = suffix ? `${newPrefix} • ${suffix}` : newPrefix;
+        }
+
+        return {
+          ...prev,
+          notes: updatedNotes,
+          subtasks: updatedSubtasks,
+          isPerPlateCalculation: isPerPlate,
+          ratePerGuestOrPlate: rate,
+          eventGroomGuests: gGuests,
+          eventBrideGuests: bGuests,
+          overrideGuestCount: true,
+          actualCost: totalCost,
+          estimatedCost: prev.estimatedCost || totalCost,
+        };
+      });
     } else {
       setFormData(prev => prev ? ({
         ...prev,
