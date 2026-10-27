@@ -1,26 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F43F5E" />
-      <stop offset="50%" stop-color="#EC4899" />
-      <stop offset="100%" stop-color="#3B82F6" />
+    <!-- Premium dark slate / obsidian background gradient with subtle warm depth -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="50%" stop-color="#090D16" />
+      <stop offset="100%" stop-color="#020617" />
     </linearGradient>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#881337" flood-opacity="0.3"/>
+
+    <!-- Royal Rose-Gold & Champagne Luxury Gradient -->
+    <linearGradient id="goldGroom" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="45%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <linearGradient id="roseBride" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDA4AF" />
+      <stop offset="50%" stop-color="#F43F5E" />
+      <stop offset="100%" stop-color="#BE123C" />
+    </linearGradient>
+
+    <!-- Subtle glow filter -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
 
-  <!-- Background Pill with Glow -->
-  <rect width="64" height="64" rx="20" fill="url(#roseGrad)" filter="url(#shadow)"/>
-  
-  <!-- Auspicious Indian Wedding Motif: Floral Blossom / Kalash / Heart -->
-  <circle cx="32" cy="32" r="23" fill="none" stroke="#FDE68A" stroke-width="2" stroke-dasharray="3 2" opacity="0.8" />
-  
-  <g transform="translate(32,32) scale(0.9)">
-    <path d="M0 -6 C-7 -18 -20 -8 -13 5 C-7 14 0 20 0 20 C0 20 7 14 13 5 C20 -8 7 -18 0 -6 Z" fill="#FFFFFF" filter="url(#shadow)"/>
-    <circle cx="0" cy="-14" r="3" fill="#FBBF24" stroke="#FFF" stroke-width="1"/>
-    <circle cx="-11" cy="4" r="2.5" fill="#FDE047"/>
-    <circle cx="11" cy="4" r="2.5" fill="#FDE047"/>
+  <!-- Squircle Base / App Icon Frame -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)" />
+  <rect width="62" height="62" x="1" y="1" rx="15" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+
+  <!-- Interlocking Wedding Rings & Diamond Solitaire Crest -->
+  <g filter="url(#softGlow)" transform="translate(0, 1)">
+    <!-- Groom Band (Warm Gold Ring, slightly angled to left) -->
+    <circle cx="27" cy="34" r="13.5" fill="none" stroke="url(#goldGroom)" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Bride Band (Rose Gold Ring, interlocking to right) -->
+    <circle cx="37" cy="34" r="13.5" fill="none" stroke="url(#roseBride)" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Interlock illusion: re-draw top-left arc of bride ring above groom ring -->
+    <path d="M 27 20.5 A 13.5 13.5 0 0 1 37 20.5" fill="none" stroke="url(#roseBride)" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Brilliant Diamond Solitaire atop the union -->
+    <g transform="translate(32, 17)">
+      <!-- Diamond Starburst Facets -->
+      <path d="M 0 -7 L 4.5 0 L 0 7 L -4.5 0 Z" fill="#FFFFFF" />
+      <!-- Top Diamond Crown -->
+      <polygon points="-4.5,0 4.5,0 3.2,-4 -3.2,-4" fill="#F8FAFC" opacity="0.9" />
+      <polygon points="-3.2,-4 3.2,-4 0,-7" fill="#E2E8F0" />
+      <!-- Diamond Sparkle Glint -->
+      <circle cx="0" cy="0" r="1.5" fill="#38BDF8" />
+    </g>
+
+    <!-- Subtle micro-sparkles -->
+    <path d="M 45 15 L 46 18 L 49 19 L 46 20 L 45 23 L 44 20 L 41 19 L 44 18 Z" fill="#FDE047" opacity="0.85" transform="scale(0.65) translate(22, -1)" />
   </g>
 </svg>
-

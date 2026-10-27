@@ -43,6 +43,7 @@ import { WeddingHeroBanner } from '@/components/WeddingHeroBanner';
 import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection';
 import { ShagunAndGuestManager } from '@/components/ShagunAndGuestManager';
 import { VendorDirectory } from '@/components/VendorDirectory';
+import { WeddingLogo } from '@/components/WeddingLogo';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 import { Gift, Users as UsersIcon, Building2 } from 'lucide-react';
@@ -427,10 +428,10 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <button
               onClick={triggerCelebration}
-              className="w-9 h-9 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+              className="rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform cursor-pointer shadow-xs"
               title="Click for celebratory flower shower!"
             >
-              <Heart size={16} className="fill-current text-rose-500" />
+              <WeddingLogo size={36} className="w-9 h-9" />
             </button>
             <div>
               <div className="flex items-center gap-2">
