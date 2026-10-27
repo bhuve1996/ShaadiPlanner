@@ -248,6 +248,13 @@ export default function Home() {
   }, [expenses, settings, schedule, shagunList, guestGroups, vendors, isLoaded]);
 
   const showToast = (msg: string) => {
+    // Suppress notification if it refers to hidden confidential items
+    const lower = msg.toLowerCase();
+    const isGoldMsg = lower.includes('gold') || lower.includes('jewelry') || lower.includes('jewellery');
+    if (isGoldMsg && !showGold) return;
+    const isShagunMsg = lower.includes('shagun');
+    if (isShagunMsg && !showShagun) return;
+
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3000);
   };
@@ -493,6 +500,16 @@ export default function Home() {
     if (isGoldItem && !showGold) return false;
     const isShagunItem = item.category === 'Gifts, Shagun & Favors' || item.name.toLowerCase().includes('shagun');
     if (isShagunItem && !showShagun) return false;
+    return true;
+  });
+
+  // Filter activity logs respecting confidential visibility
+  const visibleActivityLogs = activityLogs.filter(log => {
+    const text = `${log.entityName || ''} ${log.description || ''} ${log.diff?.field || ''} ${log.diff?.newValue || ''}`.toLowerCase();
+    const isGold = text.includes('gold') || text.includes('jewelry') || text.includes('jewellery');
+    if (isGold && !showGold) return false;
+    const isShagun = text.includes('shagun');
+    if (isShagun && !showShagun) return false;
     return true;
   });
 
@@ -912,7 +929,7 @@ export default function Home() {
                     className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
                   >
                     <Bell size={14} className="text-slate-400" />
-                    <span>View Activity Log ({activityLogs.length})</span>
+                    <span>View Activity Log ({visibleActivityLogs.length})</span>
                   </button>
 
                   <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
@@ -1255,6 +1272,8 @@ export default function Home() {
           setIsActivityDrawerOpen(false);
           setIsProfileModalOpen(true);
         }}
+        showGold={showGold}
+        showShagun={showShagun}
       />
 
       {/* Security Code Modal for Gold & Shagun View Toggle */}

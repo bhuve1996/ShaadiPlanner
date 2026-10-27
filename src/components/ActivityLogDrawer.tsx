@@ -10,6 +10,8 @@ interface ActivityLogDrawerProps {
   logs: ActivityLogItem[];
   currentUserProfile: UserProfile | null;
   onOpenProfileModal?: () => void;
+  showGold?: boolean;
+  showShagun?: boolean;
 }
 
 export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
@@ -18,12 +20,22 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
   logs,
   currentUserProfile,
   onOpenProfileModal,
+  showGold = false,
+  showShagun = false,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<'ALL' | 'EDIT' | 'ADD' | 'PAYMENT' | 'DELETE' | 'SETTING_CHANGE'>('ALL');
 
   const filteredLogs = useMemo(() => {
     return logs.filter((log) => {
+      // Confidential items check
+      const text = `${log.entityName || ''} ${log.description || ''} ${log.diff?.field || ''} ${log.diff?.newValue || ''}`.toLowerCase();
+      const isGold = text.includes('gold') || text.includes('jewelry') || text.includes('jewellery');
+      if (isGold && !showGold) return false;
+
+      const isShagun = text.includes('shagun');
+      if (isShagun && !showShagun) return false;
+
       // Action type filter
       if (selectedFilter !== 'ALL' && log.actionType !== selectedFilter) {
         return false;
@@ -40,7 +52,7 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
 
       return matchName || matchDevice || matchEntity || matchDesc || matchField;
     });
-  }, [logs, selectedFilter, searchQuery]);
+  }, [logs, selectedFilter, searchQuery, showGold, showShagun]);
 
   if (!isOpen) return null;
 
