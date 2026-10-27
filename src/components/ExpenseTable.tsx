@@ -445,7 +445,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
           <table className={`w-full text-left text-xs border-collapse ${isSimplifiedView ? 'table-auto' : 'min-w-[1100px]'}`}>
             <thead className={isHeaderSticky ? 'sticky top-0 z-20 shadow-xs' : ''}>
-              <tr className="bg-slate-200 dark:bg-slate-900 text-slate-900 dark:text-slate-200 uppercase tracking-wider text-[11px] font-black border-b border-slate-300 dark:border-white/15">
+              <tr className="bg-slate-200 dark:bg-slate-900 text-slate-900 dark:text-slate-200 uppercase tracking-wider text-[11px] font-black border-b border-slate-300 dark:border-white/15 divide-x divide-slate-300 dark:divide-white/10">
                 
                 {/* 1. Item Name */}
                 <th 
@@ -565,7 +565,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   return (
                     <tr 
                       key={item.id} 
-                      className={`cursor-pointer ${rowClass} group transition-all duration-200 select-none`}
+                      className={`cursor-pointer ${rowClass} group transition-all duration-200 select-none divide-x divide-slate-200/70 dark:divide-white/5`}
                       onClick={() => {
                         setEditingItem(item);
                         setShowAddModal(false);
@@ -891,7 +891,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
             {/* Summing Up Totals Footer Row */}
             {processedExpenses.length > 0 && (
-              <tfoot className="border-t-2 border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-[#121624] font-black text-xs text-slate-900 dark:text-white sticky bottom-0 z-10 shadow-xs">
+              <tfoot className="border-t-2 border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-[#121624] font-black text-xs text-slate-900 dark:text-white sticky bottom-0 z-10 shadow-xs divide-x divide-slate-300 dark:divide-white/10">
                 <tr>
                   {/* 1. Item Name Total Label */}
                   <td className="py-3.5 px-4 font-bold text-slate-800 dark:text-slate-200">
