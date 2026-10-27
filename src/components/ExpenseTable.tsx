@@ -100,7 +100,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [isHeaderSticky, setIsHeaderSticky] = useState<boolean>(false);
   const [groupBySection, setGroupBySection] = useState<boolean>(true);
-  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+  // Default all groups to collapsed as requested
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({
+    'Shadi (Wedding Day)': true,
+    'Ring Ceremony (Engagement)': true,
+    'Haldi & Mehendi': true,
+    "Harshu's Outfits & Trousseau": true,
+    "Bhuvesh's Outfits & Sherwani": true,
+    'Photography & Cinema': true,
+    'General & Ceremony Essentials': true,
+    'Gold & Jewelry': true,
+    'Family Shagun (Rishtedaar Envelopes)': true,
+  });
 
   const toggleGroupCollapse = (groupName: string) => {
     setCollapsedGroups(prev => ({
@@ -401,46 +412,44 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         {/* Top Control Bar: Crisp neutral obsidian / slate backdrop */}
         <div className="p-5 sm:p-6 border-b border-slate-200 dark:border-white/10 flex flex-col gap-4 bg-slate-50/80 dark:bg-slate-900/70">
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2.5">
-                <Flower2 className="text-pink-500 w-5 h-5 animate-spin-slow" />
-                <h2 className="text-lg font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                  <span>Wedding Registry & Color-Coded Splits</span>
-                  {sideFilter === 'GROOM' && (
-                    <span className="text-xs bg-sky-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 font-bold px-2.5 py-0.5 rounded-full">
-                      🤵 Bhuvesh (Blue) + Shared
-                    </span>
-                  )}
-                  {sideFilter === 'BRIDE' && (
-                    <span className="text-xs bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-600 font-bold px-2.5 py-0.5 rounded-full">
-                      👰 Harshu (Pink) + Shared
-                    </span>
-                  )}
-                  {sideFilter === 'ALL' && (
-                    <span className="text-xs bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-300 border border-purple-300 dark:border-purple-600 font-bold px-2.5 py-0.5 rounded-full">
-                      🌸 Mixed Mutual (All)
-                    </span>
-                  )}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2">
+                <Flower2 className="text-pink-500 w-5 h-5 animate-spin-slow flex-shrink-0" />
+                <h2 className="text-lg font-black tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
+                  Wedding Registry & Color-Coded Splits
                 </h2>
-                <span className="text-xs bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-black px-2.5 py-0.5 rounded-full border border-slate-300 dark:border-slate-700">
+              </div>
+              
+              <div className="flex items-center gap-2">
+                {sideFilter === 'GROOM' && (
+                  <span className="text-xs bg-sky-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
+                    🤵 Bhuvesh (Blue) + Shared
+                  </span>
+                )}
+                {sideFilter === 'BRIDE' && (
+                  <span className="text-xs bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-600 font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
+                    👰 Harshu (Pink) + Shared
+                  </span>
+                )}
+                {sideFilter === 'ALL' && (
+                  <span className="text-xs bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-300 border border-purple-300 dark:border-purple-600 font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
+                    🌸 Mixed Mutual (All)
+                  </span>
+                )}
+                <span className="text-xs bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-black px-2.5 py-1 rounded-full border border-slate-300 dark:border-slate-700 whitespace-nowrap">
                   {processedExpenses.length} items
                 </span>
               </div>
-              {!isSimplifiedView && (
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
-                  Tip: <strong>All columns are fully visible with dedicated min-widths and horizontal scrolling</strong>. Hover over any row for full vendor dossier card.
-                </p>
-              )}
             </div>
 
-            {/* Top Action Buttons */}
-            <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
-              {/* Group Accordion Controls (Available in both Simple & Detailed Views) */}
+            {/* Top Action Buttons: cleanly aligned in a single row */}
+            <div className="flex items-center gap-2 self-start lg:self-auto flex-wrap">
+              {/* Group Accordion Toggle */}
               <button
                 type="button"
                 onClick={() => setGroupBySection(prev => !prev)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer border shadow-xs ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border shadow-xs whitespace-nowrap ${
                   groupBySection
                     ? 'bg-purple-100 text-purple-900 dark:bg-purple-950/80 dark:text-purple-200 border-purple-300 dark:border-purple-700'
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300'
@@ -452,18 +461,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               </button>
 
               {groupBySection && (
-                <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold">
+                <div className="flex items-center gap-1 text-[11px] font-bold">
                   <button
                     type="button"
                     onClick={expandAllGroups}
-                    className="px-2 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 cursor-pointer"
+                    className="px-2.5 py-2 rounded-xl bg-slate-200/80 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-white/10 cursor-pointer whitespace-nowrap transition-colors"
                   >
                     Expand
                   </button>
                   <button
                     type="button"
                     onClick={collapseAllGroups}
-                    className="px-2 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 cursor-pointer"
+                    className="px-2.5 py-2 rounded-xl bg-slate-200/80 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-white/10 cursor-pointer whitespace-nowrap transition-colors"
                   >
                     Collapse
                   </button>
@@ -473,9 +482,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               {/* Add Expense Button */}
               <button
                 onClick={handleOpenAddModal}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-blue-500 text-white text-xs font-black shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-blue-500 text-white text-xs font-black shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
               >
-                <Plus size={16} />
+                <Plus size={15} />
                 <span>Add Expense</span>
               </button>
             </div>
