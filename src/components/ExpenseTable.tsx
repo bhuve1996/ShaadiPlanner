@@ -331,9 +331,11 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   {processedExpenses.length} items
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
-                Tip: <strong>All columns are fully visible with dedicated min-widths and horizontal scrolling</strong>. Hover over any row for full vendor dossier card.
-              </p>
+              {!isSimplifiedView && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
+                  Tip: <strong>All columns are fully visible with dedicated min-widths and horizontal scrolling</strong>. Hover over any row for full vendor dossier card.
+                </p>
+              )}
             </div>
 
             {/* Add Expense Button */}
@@ -423,73 +425,31 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <span>Pending: <strong className="text-rose-700 dark:text-rose-300 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
           </div>
 
-          {/* Status Filter buttons, Confidential Toggles & Sticky Header */}
+          {/* Action buttons (Sticky Header & Non-simple filters) */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Confidential Eye Toggles for Gold and Shagun */}
-            <div className="flex items-center gap-1.5 bg-slate-200/80 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-300 dark:border-white/10">
-              {/* Gold Eye Filter */}
-              <button
-                type="button"
-                onClick={() => {
-                  if (showGold) {
-                    onLock ? onLock('GOLD') : null;
-                  } else {
-                    onRequestUnlock ? onRequestUnlock('GOLD') : null;
-                  }
-                }}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
-                  showGold
-                    ? 'bg-amber-500 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400'
-                }`}
-                title={showGold ? 'Gold visible (Click to re-hide)' : 'Gold hidden (Click to unlock with code 14334)'}
-              >
-                {showGold ? <Eye size={12} /> : <EyeOff size={12} />}
-                <span>Gold {showGold ? 'Visible' : 'Hidden'}</span>
-                {!showGold && <Lock size={10} className="text-amber-600 dark:text-amber-400" />}
-              </button>
+            {/* Status Filter buttons (Hidden in Simple View) */}
+            {!isSimplifiedView && (
+              <>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
+                  {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
+                    <button
+                      key={st}
+                      onClick={() => setStatusFilter(st)}
+                      className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                        statusFilter === st 
+                          ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs' 
+                          : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
+                      }`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
 
-              {/* Shagun Eye Filter */}
-              <button
-                type="button"
-                onClick={() => {
-                  if (showShagun) {
-                    onLock ? onLock('SHAGUN') : null;
-                  } else {
-                    onRequestUnlock ? onRequestUnlock('SHAGUN') : null;
-                  }
-                }}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
-                  showShagun
-                    ? 'bg-pink-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400'
-                }`}
-                title={showShagun ? 'Shagun visible (Click to re-hide)' : 'Shagun hidden (Click to unlock with code 14334)'}
-              >
-                {showShagun ? <Eye size={12} /> : <EyeOff size={12} />}
-                <span>Shagun {showShagun ? 'Visible' : 'Hidden'}</span>
-                {!showShagun && <Lock size={10} className="text-pink-500 dark:text-pink-400" />}
-              </button>
-            </div>
-
-            <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
-
-            <div className="flex items-center gap-1.5">
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
-              {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
-                <button
-                  key={st}
-                  onClick={() => setStatusFilter(st)}
-                  className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
-                    statusFilter === st 
-                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs' 
-                      : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
-                  }`}
-                >
-                  {st}
-                </button>
-              ))}
-            </div>
+                <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
+              </>
+            )}
 
             {/* Freeze / Sticky Headers Toggle Option */}
             <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />

@@ -228,7 +228,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
                 ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300 dark:border-amber-700'
                 : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-amber-400'
             }`}
-            title={showGold ? "Gold figures unlocked (Click to hide)" : "Gold figures hidden (Click to unlock with 14334)"}
+            title={showGold ? "Gold figures unlocked (Click to hide)" : "Gold figures hidden (Click to unlock)"}
           >
             {showGold ? <Eye size={12} className="text-amber-600" /> : <EyeOff size={12} className="text-slate-400" />}
             <span>Gold & Jewelry: <strong>{showGold ? 'Visible' : 'Hidden'}</strong></span>
@@ -250,7 +250,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
                 ? 'bg-pink-100 text-pink-900 dark:bg-pink-950/80 dark:text-pink-300 border border-pink-300 dark:border-pink-700'
                 : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-pink-400'
             }`}
-            title={showShagun ? "Family Shagun figures unlocked (Click to hide)" : "Family Shagun figures hidden (Click to unlock with 14334)"}
+            title={showShagun ? "Family Shagun figures unlocked (Click to hide)" : "Family Shagun figures hidden (Click to unlock)"}
           >
             {showShagun ? <Eye size={12} className="text-pink-600" /> : <EyeOff size={12} className="text-slate-400" />}
             <span>Family Shagun: <strong>{showShagun ? 'Visible' : 'Hidden'}</strong></span>

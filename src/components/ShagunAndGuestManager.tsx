@@ -444,7 +444,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                     ? 'bg-pink-100 dark:bg-pink-950/70 text-pink-800 dark:text-pink-300 border-pink-300 dark:border-pink-800'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-200'
                 }`}
-                title={showShagun ? 'Click to re-hide confidential shagun amounts' : 'Click to enter passcode 14334 and unlock figures'}
+                title={showShagun ? 'Click to re-hide confidential shagun amounts' : 'Click to enter passcode and unlock figures'}
               >
                 {showShagun ? <Eye size={14} className="text-pink-600" /> : <EyeOff size={14} className="text-slate-500" />}
                 <span>{showShagun ? 'Hide Amounts' : 'Unlock Amounts (Passcode)'}</span>

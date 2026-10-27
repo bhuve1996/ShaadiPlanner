@@ -67,7 +67,7 @@ export const SecurityCodeModal: React.FC<SecurityCodeModalProps> = ({
                 inputMode="numeric"
                 pattern="[0-9]*"
                 autoFocus
-                placeholder="Enter passcode (e.g. 14334)"
+                placeholder="Enter secret passcode"
                 value={code}
                 onChange={(e) => {
                   setCode(e.target.value);
