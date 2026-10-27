@@ -544,95 +544,89 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         setShowAddModal(false);
                       }}
                     >
-                      {/* 1. Item Name + Photographic Image + Crisp Typography */}
-                      <td className="py-3.5 px-5">
-                        <div className="flex items-center gap-3.5 relative">
+                      {/* 1. Item Name + Photographic Image + Card Look */}
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-3 bg-slate-50/70 dark:bg-white/[0.03] p-2.5 rounded-2xl border border-slate-200/80 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20 group-hover:bg-white dark:group-hover:bg-white/[0.05] group-hover:shadow-xs transition-all relative">
                           {/* Photographic Thumbnail or Icon */}
                           {!isSimplifiedView && (
-                            <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center group-hover:shadow-lg group-hover:border-pink-300 dark:group-hover:border-pink-500 transition-all">
+                            <div className="relative w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200/80 dark:border-white/10 shadow-xs bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
                               {item.imageUrl ? (
                                 <img 
                                   src={item.imageUrl} 
                                   alt={item.name} 
-                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                   onError={(e) => {
-                                    // Fallback to CategoryIcon if image fails
                                     (e.currentTarget as HTMLElement).style.display = 'none';
                                   }}
                                 />
                               ) : (
-                                <CategoryIcon category={item.category} size={22} />
+                                <CategoryIcon category={item.category} size={20} />
                               )}
                             </div>
                           )}
                           
                           <div className="flex-1 min-w-0">
-                            {/* Crisp Title & Sub-detail */}
-                            <div className="flex flex-col">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
-                                  {item.name}
-                                </span>
-                                
-                                {/* Info ℹ️ Button to show breakdown card on click */}
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    const rect = e.currentTarget.getBoundingClientRect();
-                                    if (infoItem?.item.id === item.id) {
-                                      setInfoItem(null);
-                                    } else {
-                                      setInfoItem({ 
-                                        item, 
-                                        x: Math.min(rect.left, typeof window !== 'undefined' ? window.innerWidth - 380 : 500), 
-                                        y: rect.bottom + 8 
-                                      });
-                                    }
-                                  }}
-                                  className={`p-1 rounded-md transition-colors cursor-pointer ${
-                                    infoItem?.item.id === item.id
-                                      ? 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950/60'
-                                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
-                                  }`}
-                                  title="Click to view detailed item breakdown & split notes"
-                                >
-                                  <Info size={13} />
-                                </button>
-                              </div>
-                              {/* Subtitle / Sub-detail */}
-                              {item.notes && (
-                                <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1 mt-0.5">
-                                  {item.notes.split('•')[0].trim()}
-                                </div>
-                              )}
+                            {/* Crisp Title */}
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors text-[13px] leading-tight tracking-tight">
+                                {item.name}
+                              </span>
+                              
+                              {/* Info ℹ️ Button to show breakdown card on click */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const rect = e.currentTarget.getBoundingClientRect();
+                                  if (infoItem?.item.id === item.id) {
+                                    setInfoItem(null);
+                                  } else {
+                                    setInfoItem({ 
+                                      item, 
+                                      x: Math.min(rect.left, typeof window !== 'undefined' ? window.innerWidth - 380 : 500), 
+                                      y: rect.bottom + 8 
+                                    });
+                                  }
+                                }}
+                                className={`p-1 rounded-md transition-colors cursor-pointer ${
+                                  infoItem?.item.id === item.id
+                                    ? 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950/60'
+                                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
+                                }`}
+                                title="Click to view detailed item breakdown & split notes"
+                              >
+                                <Info size={12} />
+                              </button>
                             </div>
 
-                            {/* Clean Subline: Category & Optional Vendor */}
-                            <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
-                              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
+                            {/* Subtitle / Sub-detail Note */}
+                            {item.notes && (
+                              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
+                                {item.notes.split('•')[0].trim()}
+                              </div>
+                            )}
+
+                            {/* Metadata Mini-Chips Strip */}
+                            <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs">
+                              {/* Category Mini-Chip */}
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
                                 {item.category}
                               </span>
 
-                              {/* Vendor Name (Hidden in Simple View to remove clutter) */}
+                              {/* Vendor Mini-Chip */}
                               {!isSimplifiedView && item.vendorName && (
-                                <>
-                                  <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 dark:text-slate-300">
-                                    <Building2 size={11} className="text-slate-400 flex-shrink-0" />
-                                    <span className="truncate max-w-[150px]">{item.vendorName}</span>
-                                  </span>
-                                </>
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
+                                  <Building2 size={10} className="text-slate-400 flex-shrink-0" />
+                                  <span className="truncate max-w-[130px]">{item.vendorName}</span>
+                                </span>
                               )}
 
+                              {/* Due Date Mini-Chip */}
                               {!isSimplifiedView && item.dueDate && (
-                                <>
-                                  <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                                    <Clock size={10} />
-                                    <span>{item.dueDate}</span>
-                                  </span>
-                                </>
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 shadow-2xs">
+                                  <Clock size={9} />
+                                  <span>{item.dueDate}</span>
+                                </span>
                               )}
                             </div>
                           </div>
