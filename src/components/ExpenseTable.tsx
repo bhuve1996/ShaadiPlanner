@@ -300,13 +300,13 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             
             {/* 1. Search Box */}
             <div className="relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search vendor, item, notes..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-white dark:bg-slate-900 border border-pink-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-400 font-medium shadow-2xs"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-slate-600 dark:focus:border-white font-medium shadow-xs"
               />
             </div>
 
@@ -314,7 +314,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <select
               value={selectedEvent}
               onChange={(e) => setSelectedEvent(e.target.value)}
-              className="text-xs bg-white dark:bg-slate-900 border border-pink-200 dark:border-white/10 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
+              className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
               <option value="ALL">🌸 All Occasions</option>
               {ALL_EVENTS.map(ev => (
@@ -326,7 +326,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="text-xs bg-white dark:bg-slate-900 border border-pink-200 dark:border-white/10 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
+              className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
               <option value="ALL">🌺 All Categories</option>
               {ALL_CATEGORIES.map(cat => (
@@ -338,25 +338,25 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <select
               value={selectedSplitType}
               onChange={(e) => setSelectedSplitType(e.target.value)}
-              className="text-xs bg-white dark:bg-slate-900 border border-pink-200 dark:border-white/10 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-2xs"
+              className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
               <option value="ALL">✨ All Split Rules</option>
-              <option value="BRIDE_ONLY">🌸 Pink (100% Harsha Bride)</option>
-              <option value="GROOM_ONLY">🤵 Blue (100% Bhuvesh Groom)</option>
-              <option value="GUEST_RATIO">👥 Purple (Guest Ratio Mix)</option>
-              <option value="EQUAL_50_50">🤝 Amber (50:50 Shared Equal)</option>
+              <option value="BRIDE_ONLY">Harsha (100% Bride)</option>
+              <option value="GROOM_ONLY">Bhuvi (100% Groom)</option>
+              <option value="GUEST_RATIO">Guest Ratio Split</option>
+              <option value="EQUAL_50_50">50:50 Shared Equal</option>
             </select>
 
             {/* 5. Sub-Category: Couple vs Parents vs Joint */}
             <select
               value={selectedPayer}
               onChange={(e) => setSelectedPayer(e.target.value)}
-              className="text-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-white/10 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-2xs"
+              className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
-              <option value="ALL">👨‍👩‍👧 All (Couple & Parents)</option>
-              <option value="COUPLE">👫 Couple (Bhuvesh & Harsha)</option>
-              <option value="PARENTS">👨‍👩‍👧 Parents / Elders</option>
-              <option value="SHARED_FAMILY">🤝 Joint Family</option>
+              <option value="ALL">All (Self & Parents)</option>
+              <option value="COUPLE">Self (Bhuvi & Harsha)</option>
+              <option value="PARENTS">Parents / Elders</option>
+              <option value="SHARED_FAMILY">Joint Family</option>
             </select>
 
           </div>
@@ -708,7 +708,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               splitType: e.target.value as SplitType,
                             });
                           }}
-                          className="text-xs font-semibold px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-700 dark:text-slate-200 focus:outline-none transition-all cursor-pointer shadow-2xs"
+                          className="text-xs font-bold px-3 py-1.5 rounded-lg border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-[#1A1F2E] text-slate-900 dark:text-white hover:border-slate-500 dark:hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-slate-400 transition-all cursor-pointer shadow-xs"
                         >
                           <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Harsha</option>
                           <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Bhuvi</option>

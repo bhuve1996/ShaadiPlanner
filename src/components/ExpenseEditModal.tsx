@@ -187,12 +187,12 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     placeholder="e.g. Wedding Hall & Dinner Banquet"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-slate-400 text-sm"
+                    className="w-full px-3.5 py-2.5 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white text-sm shadow-xs"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-600 dark:text-slate-400 mb-1 text-[11px]">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1 text-[11px]">
                     Sub-Detail / Sub-Heading Description
                   </label>
                   <input
@@ -200,7 +200,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     placeholder="e.g. 500 guests buffet • Boy side stay & high tea"
                     value={formData.notes || ''}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-200 font-medium text-xs focus:outline-none"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-medium text-xs focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs"
                   />
                 </div>
               </div>
@@ -222,7 +222,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         ratePerGuestOrPlate: formData.ratePerGuestOrPlate || (isCatCatering ? 2000 : 0)
                       });
                     }}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 font-semibold focus:outline-none text-xs"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-slate-600 dark:focus:border-white text-xs shadow-xs cursor-pointer"
                   >
                     {ALL_CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -237,7 +237,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                   <select
                     value={formData.event}
                     onChange={(e) => setFormData({ ...formData, event: e.target.value as WeddingEvent })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 font-semibold focus:outline-none text-xs"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-slate-600 dark:focus:border-white text-xs shadow-xs cursor-pointer"
                   >
                     {ALL_EVENTS.map(ev => (
                       <option key={ev} value={ev}>{ev}</option>
@@ -262,10 +262,10 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       (formData.payerCategory || 'COUPLE') === 'COUPLE'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
-                    <div className="font-bold text-xs">👫 Couple</div>
+                    <div className="font-bold text-xs">👫 Self (Couple)</div>
                     <div className="text-[9px] opacity-75">Bhuvesh & Harsha</div>
                   </button>
 
@@ -275,7 +275,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.payerCategory === 'PARENTS'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
                     <div className="font-bold text-xs">👨‍👩‍👧 Parents</div>
@@ -288,7 +288,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.payerCategory === 'SHARED_FAMILY'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
                     <div className="font-bold text-xs">🤝 Joint Family</div>
@@ -306,7 +306,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     placeholder="e.g. Royal Palace Resort, Bikaner Sweets"
                     value={formData.vendorName || ''}
                     onChange={(e) => setFormData({ ...formData, vendorName: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white text-xs focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs"
                   />
                 </div>
 
@@ -315,7 +315,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-200 font-medium text-xs"
+                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-medium text-xs focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
                   >
                     <option value="Estimated">Estimated</option>
                     <option value="Booked">Booked</option>
@@ -471,7 +471,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                       : 'Wedding Plate Calculator'}
                   </span>
 
-                  <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-2xs">
+                  <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-[#1A1F2E] px-2.5 py-1 rounded-lg border-2 border-slate-300 dark:border-white/20 shadow-xs">
                     <input
                       type="checkbox"
                       checked={Boolean(formData.isPerPlateCalculation)}
@@ -480,7 +480,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         const defaultRate = formData.ratePerGuestOrPlate || (isMithai ? 800 : isRoka ? 1200 : 2000);
                         updateCalculation(checked, defaultRate, currentGroomGuests, currentBrideGuests);
                       }}
-                      className="rounded border-slate-300 text-slate-900 focus:ring-slate-500 w-4 h-4 cursor-pointer"
+                      className="rounded border-slate-400 text-slate-900 focus:ring-slate-500 w-4 h-4 cursor-pointer"
                     />
                     <span>{isMithai ? 'Enable by Box' : 'Enable by Guest'}</span>
                   </label>
@@ -490,7 +490,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                   <div className="space-y-2.5 pt-1">
                     <div className="grid grid-cols-3 gap-2 text-xs">
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">
+                        <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-0.5">
                           {isMithai ? 'Rate/Box' : 'Rate/Plate'}
                         </label>
                         <input
@@ -501,11 +501,11 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                             const r = Number(e.target.value) || 0;
                             updateCalculation(true, r, currentGroomGuests, currentBrideGuests);
                           }}
-                          className="w-full px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg font-mono font-bold text-xs"
+                          className="w-full px-2 py-1 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-lg font-mono font-bold text-slate-900 dark:text-white text-xs shadow-xs"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Bhuvi Side</label>
+                        <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-0.5">Bhuvi Side</label>
                         <input
                           type="number"
                           value={currentGroomGuests}
@@ -513,11 +513,11 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                             const g = Number(e.target.value);
                             updateCalculation(true, currentRate, g, currentBrideGuests);
                           }}
-                          className="w-full px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg font-mono font-bold text-xs"
+                          className="w-full px-2 py-1 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-lg font-mono font-bold text-slate-900 dark:text-white text-xs shadow-xs"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Harsha Side</label>
+                        <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-0.5">Harsha Side</label>
                         <input
                           type="number"
                           value={currentBrideGuests}
@@ -525,11 +525,11 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                             const b = Number(e.target.value);
                             updateCalculation(true, currentRate, currentGroomGuests, b);
                           }}
-                          className="w-full px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg font-mono font-bold text-xs"
+                          className="w-full px-2 py-1 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-lg font-mono font-bold text-slate-900 dark:text-white text-xs shadow-xs"
                         />
                       </div>
                     </div>
-                    <div className="text-[11px] font-mono text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-white/5 flex justify-between">
+                    <div className="text-[11px] font-mono text-slate-600 dark:text-slate-300 bg-white dark:bg-[#1A1F2E] p-2 rounded-lg border-2 border-slate-200 dark:border-white/10 flex justify-between">
                       <span>{currentTotalGuests} {isMithai ? 'boxes' : 'guests'} × ₹{currentRate}</span>
                       <strong className="text-slate-900 dark:text-white font-mono">{formatINR(currentTotalGuests * currentRate)}</strong>
                     </div>
@@ -554,7 +554,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.splitType === 'GUEST_RATIO'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
                     <div className="font-bold text-xs">👥 Guest Ratio</div>
@@ -567,7 +567,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.splitType === 'EQUAL_50_50'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
                     <div className="font-bold text-xs">🤝 50 : 50</div>
@@ -580,7 +580,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.splitType === 'GROOM_ONLY'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
                     <div className="font-bold text-xs">🤵 Bhuvesh 100%</div>
@@ -593,7 +593,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
                       formData.splitType === 'BRIDE_ONLY'
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                        : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
                     <div className="font-bold text-xs">👰 Harsha 100%</div>
