@@ -723,12 +723,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "estimatedCost": 650000,
     "actualCost": 470000,
     "paidAmount": 0,
-    "splitType": "GUEST_RATIO",
-    "customGroomPercent": 50,
+    "splitType": "CUSTOM",
+    "customGroomPercent": 26,
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Wedding sweets distribution & ring ceremony mithai • 550 total boxes (Bhuvi: 150 boxes | Harsha: 150 Roka + 250 Wedding = 400 boxes). Split by box ratio 150:400.",
+    "notes": "Wedding sweets distribution & ring ceremony mithai • 550 total boxes (Bhuvi: 150 boxes @ ₹800 = ₹1,20,000 | Harsha: 400 boxes = ₹3,50,000). Exact custom split.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 800,
     "overrideGuestCount": true,
@@ -759,7 +759,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "notes": "150 traditional sweets & shagun bhaji boxes @ ₹800 (Boy Side)",
         "status": "Pending"
       }
-    ]
+    ],
+    "customGroomCost": 120000,
+    "customBrideCost": 350000
   },
   {
     "id": "groom-exp-1",

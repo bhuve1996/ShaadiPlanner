@@ -66,6 +66,8 @@ export interface ExpenseItem {
   paidAmount: number;
   splitType: SplitType;
   customGroomPercent?: number;
+  customGroomCost?: number;
+  customBrideCost?: number;
   payerCategory?: ExpensePayerCategory; // Couple (Bhuvesh/Harsha) vs Parents/Family
   
   // Subtasks & Sub-costs breakdown (e.g. Gold split into mangalsutra, bangles; Gifts split into makeup, sandals, 7/11/21 suits)

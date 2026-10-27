@@ -90,6 +90,22 @@ export function computeExpenseShares(
       bridePct = effectiveBrideGuests / totalGuests;
       break;
     case 'CUSTOM':
+      if (item.customGroomCost !== undefined) {
+        const groomDueExact = item.customGroomCost;
+        const brideDueExact = item.customBrideCost !== undefined ? item.customBrideCost : Math.max(0, effectiveTotalCost - groomDueExact);
+        const actualTotal = effectiveTotalCost || (groomDueExact + brideDueExact) || 1;
+        return {
+          groomDue: groomDueExact,
+          brideDue: brideDueExact,
+          groomPercent: Math.round((groomDueExact / actualTotal) * 100),
+          bridePercent: Math.round((brideDueExact / actualTotal) * 100),
+          effectiveGroomGuests,
+          effectiveBrideGuests,
+          isCustomOccasionGuests,
+          effectiveTotalCost: groomDueExact + brideDueExact,
+          effectivePlateRate,
+        };
+      }
       const customG = (item.customGroomPercent ?? 50) / 100;
       groomPct = customG;
       bridePct = 1.0 - customG;

@@ -45,34 +45,48 @@ export async function fetchRemoteWeddingData() {
 
     let expenses: ExpenseItem[] | null = null;
     if (expensesRes.data && expensesRes.data.length > 0) {
-      expenses = expensesRes.data.map(e => ({
-        id: e.id,
-        name: e.name,
-        category: e.category,
-        event: e.event,
-        vendorName: e.vendor_name,
-        vendorContactPerson: e.vendor_contact_person,
-        vendorPhone: e.vendor_phone,
-        internalLeadPerson: e.internal_lead_person,
-        internalLeadPhone: e.internal_lead_phone,
-        imageUrl: e.image_url,
-        estimatedCost: Number(e.estimated_cost),
-        actualCost: Number(e.actual_cost),
-        paidAmount: Number(e.paid_amount),
-        splitType: e.split_type,
-        customGroomPercent: e.custom_groom_percent,
-        payerCategory: e.payer_category,
-        paidBy: e.paid_by,
-        status: e.status,
-        notes: e.notes,
-        dueDate: e.due_date,
-        isPerPlateCalculation: e.is_per_plate_calculation,
-        ratePerGuestOrPlate: Number(e.rate_per_guest_or_plate || 0),
-        overrideGuestCount: e.override_guest_count,
-        eventGroomGuests: e.event_groom_guests,
-        eventBrideGuests: e.event_bride_guests,
-        subtasks: e.subtasks || []
-      }));
+      expenses = expensesRes.data.map(e => {
+        let cleanNotes = e.notes || '';
+        let meta: any = {};
+        if (cleanNotes.includes('<!--EXP_META:')) {
+          try {
+            const rawMeta = cleanNotes.split('<!--EXP_META:')[1].split('-->')[0];
+            meta = JSON.parse(rawMeta);
+            cleanNotes = cleanNotes.replace(/<!--EXP_META:.*?-->/g, '').trim();
+          } catch {}
+        }
+
+        return {
+          id: e.id,
+          name: e.name,
+          category: e.category,
+          event: e.event,
+          vendorName: e.vendor_name,
+          vendorContactPerson: e.vendor_contact_person,
+          vendorPhone: e.vendor_phone,
+          internalLeadPerson: e.internal_lead_person,
+          internalLeadPhone: e.internal_lead_phone,
+          imageUrl: e.image_url,
+          estimatedCost: Number(e.estimated_cost),
+          actualCost: Number(e.actual_cost),
+          paidAmount: Number(e.paid_amount),
+          splitType: e.split_type,
+          customGroomPercent: e.custom_groom_percent,
+          customGroomCost: meta.customGroomCost,
+          customBrideCost: meta.customBrideCost,
+          payerCategory: e.payer_category,
+          paidBy: e.paid_by,
+          status: e.status,
+          notes: cleanNotes,
+          dueDate: e.due_date,
+          isPerPlateCalculation: e.is_per_plate_calculation,
+          ratePerGuestOrPlate: Number(e.rate_per_guest_or_plate || 0),
+          overrideGuestCount: e.override_guest_count,
+          eventGroomGuests: e.event_groom_guests,
+          eventBrideGuests: e.event_bride_guests,
+          subtasks: e.subtasks || []
+        };
+      });
     }
 
     let schedule: CeremonyScheduleItem[] | null = null;
@@ -201,6 +215,16 @@ export async function syncSettingsToRemote(s: WeddingSettings) {
 export async function syncExpenseToRemote(item: ExpenseItem) {
   if (!isSupabaseConfigured() || !supabase) return;
   try {
+    // Pack custom exact costs or other metadata into clean notes comment
+    let notesToSync = item.notes || '';
+    if (item.customGroomCost !== undefined || item.customBrideCost !== undefined) {
+      const meta = {
+        customGroomCost: item.customGroomCost,
+        customBrideCost: item.customBrideCost
+      };
+      notesToSync = `${notesToSync.replace(/<!--EXP_META:.*?-->/g, '').trim()} <!--EXP_META:${JSON.stringify(meta)}-->`.trim();
+    }
+
     await supabase.from('expenses').upsert({
       id: item.id,
       wedding_id: WEDDING_ID,
@@ -221,7 +245,7 @@ export async function syncExpenseToRemote(item: ExpenseItem) {
       payer_category: item.payerCategory || 'COUPLE',
       paid_by: item.paidBy || 'UNPAID',
       status: item.status || 'Estimated',
-      notes: item.notes || '',
+      notes: notesToSync,
       due_date: item.dueDate || '',
       is_per_plate_calculation: item.isPerPlateCalculation ?? false,
       rate_per_guest_or_plate: item.ratePerGuestOrPlate || 0,
