@@ -5,7 +5,7 @@ export const INITIAL_SETTINGS: WeddingSettings = {
   "groomName": "Bhuvesh (Groom)",
   "brideName": "Harsha (Bride)",
   "weddingDate": "2027-02-14",
-  "groomGuestCount": 150,
+  "groomGuestCount": 380,
   "brideGuestCount": 400,
   "totalTargetBudget": 5554600,
   "currency": "INR",

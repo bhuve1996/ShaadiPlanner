@@ -4,7 +4,7 @@
     "groomName": "Bhuvesh (Groom)",
     "brideName": "Harsha (Bride)",
     "weddingDate": "2027-02-14",
-    "groomGuestCount": 150,
+    "groomGuestCount": 380,
     "brideGuestCount": 400,
     "totalTargetBudget": 5554600,
     "currency": "INR",
@@ -1323,66 +1323,6 @@
     }
   ],
   "guestGroups": [
-    {
-      "id": "grp-1",
-      "name": "Chache, Bhua & Immediate Paternal Family",
-      "side": "GROOM",
-      "count": 36,
-      "contactPerson": "Elder Chacha Ji",
-      "contactPhone": "",
-      "isAnonymousNumbers": false,
-      "notes": "Room required: Yes (or accommodate in hall with extra mattresses)"
-    },
-    {
-      "id": "grp-2",
-      "name": "Jagadhri Relatives (Mamma, Massi & Chache)",
-      "side": "GROOM",
-      "count": 28,
-      "contactPerson": "Mamma Ji Jagadhri",
-      "contactPhone": "",
-      "isAnonymousNumbers": false,
-      "notes": "Room required: Yes"
-    },
-    {
-      "id": "grp-3",
-      "name": "Bharti, Jiju & In-laws Family",
-      "side": "GROOM",
-      "count": 14,
-      "contactPerson": "Jiju",
-      "contactPhone": "",
-      "isAnonymousNumbers": false,
-      "notes": "Room required: Yes"
-    },
-    {
-      "id": "grp-4",
-      "name": "Bhuvesh College & Tech Friends",
-      "side": "GROOM",
-      "count": 45,
-      "contactPerson": "Aditya (Host)",
-      "contactPhone": "",
-      "isAnonymousNumbers": false,
-      "notes": "Room required: Yes (or hall stay with mattresses for bachelor friends)"
-    },
-    {
-      "id": "grp-5",
-      "name": "Office Colleagues & Management",
-      "side": "GROOM",
-      "count": 30,
-      "contactPerson": "HR / Lead",
-      "contactPhone": "",
-      "isAnonymousNumbers": true,
-      "notes": "Room required: No (local dinner attendees)"
-    },
-    {
-      "id": "grp-6",
-      "name": "City Neighbours & Family Friends",
-      "side": "GROOM",
-      "count": 67,
-      "contactPerson": "Father",
-      "contactPhone": "",
-      "isAnonymousNumbers": true,
-      "notes": "Room required: No (local city residents)"
-    },
     {
       "id": "grp-7",
       "name": "Harsha's Extended Family & Relatives",

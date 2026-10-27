@@ -137,60 +137,6 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
 
 export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [
   {
-    "id": "grp-1",
-    "name": "Chache, Bhua & Immediate Paternal Family",
-    "side": "GROOM",
-    "count": 36,
-    "contactPerson": "Elder Chacha Ji",
-    "isAnonymousNumbers": false,
-    "notes": "8 family units with children"
-  },
-  {
-    "id": "grp-2",
-    "name": "Jagadhri Relatives (Mamma, Massi & Chache)",
-    "side": "GROOM",
-    "count": 28,
-    "contactPerson": "Mamma Ji Jagadhri",
-    "isAnonymousNumbers": false,
-    "notes": "Requires deluxe rooms accommodation"
-  },
-  {
-    "id": "grp-3",
-    "name": "Bharti, Jiju & In-laws Family",
-    "side": "GROOM",
-    "count": 14,
-    "contactPerson": "Jiju",
-    "isAnonymousNumbers": false,
-    "notes": "VIP suite reserved"
-  },
-  {
-    "id": "grp-4",
-    "name": "Bhuvesh College & Tech Friends",
-    "side": "GROOM",
-    "count": 45,
-    "contactPerson": "Aditya (Host)",
-    "isAnonymousNumbers": false,
-    "notes": "Active for Sangeet & Baraat dance"
-  },
-  {
-    "id": "grp-5",
-    "name": "Office Colleagues & Management",
-    "side": "GROOM",
-    "count": 30,
-    "contactPerson": "HR / Lead",
-    "isAnonymousNumbers": true,
-    "notes": "Anonymous headcount for dinner reception RSVP"
-  },
-  {
-    "id": "grp-6",
-    "name": "City Neighbours & Family Friends",
-    "side": "GROOM",
-    "count": 67,
-    "contactPerson": "Father",
-    "isAnonymousNumbers": true,
-    "notes": "Anonymous group headcount for dinner catering"
-  },
-  {
     "id": "grp-7",
     "name": "Harsha's Extended Family & Relatives",
     "side": "BRIDE",
@@ -207,5 +153,115 @@ export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [
     "contactPerson": "Sneha (Bridesmaid)",
     "isAnonymousNumbers": false,
     "notes": "Sangeet performances & Ribbon katai squad"
+  },
+  {
+    "id": "grp-g01-akqa",
+    "name": "AKQA Office Colleagues",
+    "side": "GROOM",
+    "count": 10,
+    "contactPerson": "Office Lead / Self",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: No (commute from Delhi NCR)"
+  },
+  {
+    "id": "grp-g02-badminton",
+    "name": "Badminton Club Members",
+    "side": "GROOM",
+    "count": 10,
+    "contactPerson": "Badminton Captain",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: No (local evening reception)"
+  },
+  {
+    "id": "grp-g03-dabwali",
+    "name": "Dabwali Family Branch",
+    "side": "GROOM",
+    "count": 20,
+    "contactPerson": "Pawan Chacha Ji",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (4 rooms or hall stay with mattresses)"
+  },
+  {
+    "id": "grp-g04-sirsa",
+    "name": "Sirsa Family Branch",
+    "side": "GROOM",
+    "count": 18,
+    "contactPerson": "Vicky Chacha Ji",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (3 rooms)"
+  },
+  {
+    "id": "grp-g05-hanumangarh",
+    "name": "Hanumangarh Family Branch",
+    "side": "GROOM",
+    "count": 16,
+    "contactPerson": "Billu Chacha Ji",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (3 rooms)"
+  },
+  {
+    "id": "grp-g06-raman",
+    "name": "Raman Mandi Relatives",
+    "side": "GROOM",
+    "count": 14,
+    "contactPerson": "Elder Fuffa Ji",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (2 rooms, ground floor preferred)"
+  },
+  {
+    "id": "grp-g07-samana",
+    "name": "Samana Family Relatives",
+    "side": "GROOM",
+    "count": 15,
+    "contactPerson": "Ludhiana Tata Ji",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (3 rooms)"
+  },
+  {
+    "id": "grp-g08-budhlada",
+    "name": "Budhlada Family Branch",
+    "side": "GROOM",
+    "count": 12,
+    "contactPerson": "Maasi Ji & Parivar",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (2 rooms or hall with mattresses)"
+  },
+  {
+    "id": "grp-g09-sunam",
+    "name": "Sunam Family Relatives",
+    "side": "GROOM",
+    "count": 12,
+    "contactPerson": "Bhua Ji & Family",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (2 rooms)"
+  },
+  {
+    "id": "grp-g10-zirakpur",
+    "name": "Zirakpur Relatives & Friends",
+    "side": "GROOM",
+    "count": 15,
+    "contactPerson": "Cousin Brother",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: Yes (3 rooms)"
+  },
+  {
+    "id": "grp-g11-delhi",
+    "name": "Delhi NCR Local Relatives & Friends",
+    "side": "GROOM",
+    "count": 18,
+    "contactPerson": "Self / Best Man",
+    "contactPhone": "",
+    "isAnonymousNumbers": false,
+    "notes": "Room required: No (local residents; self-commute)"
   }
 ];
