@@ -569,14 +569,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           <div className="flex-1 min-w-0">
                             {/* Crisp Title & Sub-detail */}
                             <div className="flex flex-col">
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-[12.5px] font-bold tracking-tight border transition-all ${
-                                  item.splitType === 'BRIDE_ONLY'
-                                    ? 'bg-rose-50/80 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 border-rose-200/80 dark:border-rose-900/60 shadow-2xs'
-                                    : item.splitType === 'GROOM_ONLY'
-                                    ? 'bg-sky-50/80 dark:bg-blue-950/40 text-sky-950 dark:text-blue-200 border-sky-200/80 dark:border-blue-900/60 shadow-2xs'
-                                    : 'bg-slate-100/90 dark:bg-white/[0.07] text-slate-900 dark:text-white border-slate-200/90 dark:border-white/10 shadow-2xs group-hover:border-slate-300 dark:group-hover:border-white/20'
-                                }`}>
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
                                   {item.name}
                                 </span>
                                 
@@ -608,7 +602,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               </div>
                               {/* Subtitle / Sub-detail */}
                               {item.notes && (
-                                <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1 mt-0.5 pl-0.5">
+                                <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1 mt-0.5">
                                   {item.notes.split('•')[0].trim()}
                                 </div>
                               )}
