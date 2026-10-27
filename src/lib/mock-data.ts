@@ -303,10 +303,10 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GUEST_RATIO",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Wedding sweets distribution & ring ceremony mithai • Split by Guest Ratio (400 Harsha : 150 Bhuvi)",
+    "notes": "Wedding sweets distribution & ring ceremony mithai • Split by Guest Ratio (380 Bhuvi : 400 Harsha)",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 800,
-    "eventGroomGuests": 150,
+    "eventGroomGuests": 380,
     "eventBrideGuests": 400,
     "overrideGuestCount": false,
     "payerCategory": "COUPLE",
@@ -329,11 +329,11 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       },
       {
         "id": "sub-mit-3",
-        "name": "Bhuvesh Family Mithai Boxes (150 Boxes @ ₹800)",
+        "name": "Bhuvesh Family Mithai Boxes (380 Guests / Boxes)",
         "cost": 120000,
         "status": "Pending",
         "label": "Groom Mithai",
-        "notes": "150 traditional sweets & shagun bhaji boxes (Boy Side)"
+        "notes": "Traditional sweets & shagun bhaji boxes (Boy Side - 380 Guests)"
       }
     ]
   },
