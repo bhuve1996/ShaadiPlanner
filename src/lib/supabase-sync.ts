@@ -124,19 +124,22 @@ export async function fetchRemoteWeddingData() {
 
     let vendors: VendorDirectoryItem[] | null = null;
     if (vendorsRes.data && vendorsRes.data.length > 0) {
-      vendors = vendorsRes.data.map(v => ({
-        id: v.id,
-        category: v.category,
-        vendorBusinessName: v.vendor_business_name,
-        contactPerson: v.contact_person,
-        phone: v.phone,
-        alternatePhone: v.alternate_phone,
-        locationCity: v.location_city,
-        internalResponsiblePerson: v.internal_responsible_person,
-        serviceDescription: v.service_description,
-        status: v.status,
-        totalAgreedAmount: v.total_agreed_amount ? Number(v.total_agreed_amount) : undefined
-      }));
+      // Exclude internal system rows like 'system-sync-activity-logs' from public vendor directory
+      vendors = vendorsRes.data
+        .filter(v => v.id !== 'system-sync-activity-logs')
+        .map(v => ({
+          id: v.id,
+          category: v.category,
+          vendorBusinessName: v.vendor_business_name,
+          contactPerson: v.contact_person,
+          phone: v.phone,
+          alternatePhone: v.alternate_phone,
+          locationCity: v.location_city,
+          internalResponsiblePerson: v.internal_responsible_person,
+          serviceDescription: v.service_description,
+          status: v.status,
+          totalAgreedAmount: v.total_agreed_amount ? Number(v.total_agreed_amount) : undefined
+        }));
     }
 
     return { settings, expenses, schedule, shagunList, guestGroups, vendors };

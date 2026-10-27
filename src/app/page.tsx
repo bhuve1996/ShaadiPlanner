@@ -200,6 +200,15 @@ export default function Home() {
             if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
             if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
             if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+            
+            // Also refresh real-time activity audit logs from cloud
+            fetchActivityLogs().then(latestLogs => {
+              if (isMounted) {
+                setActivityLogs(latestLogs);
+                setHasUnreadLogs(true);
+              }
+            });
+
             showToast('⚡ Live update synced from cloud');
           }
         });
@@ -723,7 +732,7 @@ export default function Home() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-pink-300 text-xs font-black px-4 py-3 rounded-2xl shadow-2xl border border-pink-500/30 flex items-center gap-2.5 animate-in slide-in-from-bottom-5 duration-200">
-          <CheckCircle size={16} className="text-emerald-400" />
+          <Bell size={16} className="text-pink-400 animate-bounce" />
           <span>{toastMessage}</span>
         </div>
       )}

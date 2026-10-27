@@ -6,6 +6,7 @@ import { getCurrentUserProfile, getDeviceInfo } from './user-session';
 
 const WEDDING_ID = 'bhuvesh-harsha-wedding';
 const LOCAL_LOGS_KEY = 'shaadi_planner_activity_logs_v1';
+const SYSTEM_LOGS_SYNC_ID = 'system-sync-activity-logs';
 
 // Seed initial system activities so the log has context from start
 export const INITIAL_ACTIVITY_LOGS: ActivityLogItem[] = [
@@ -50,34 +51,36 @@ export const INITIAL_ACTIVITY_LOGS: ActivityLogItem[] = [
 export async function fetchActivityLogs(): Promise<ActivityLogItem[]> {
   let logs: ActivityLogItem[] = [];
 
-  // 1. Try remote Supabase first
+  // 1. Try remote Supabase cloud sync first
   if (isSupabaseConfigured() && supabase) {
     try {
+      // Primary: Check dedicated system row in vendor_directory
       const { data, error } = await supabase
-        .from('activity_logs')
-        .select('*')
-        .eq('wedding_id', WEDDING_ID)
-        .order('created_at', { ascending: false })
-        .limit(100);
+        .from('vendor_directory')
+        .select('service_description')
+        .eq('id', SYSTEM_LOGS_SYNC_ID)
+        .maybeSingle();
 
-      if (!error && data && data.length > 0) {
-        logs = data.map((d: any) => ({
-          id: d.id,
-          weddingId: d.wedding_id || WEDDING_ID,
-          userName: d.user_name,
-          userAvatar: d.user_avatar || '👤',
-          deviceInfo: d.device_info || 'Browser',
-          actionType: d.action_type,
-          entityType: d.entity_type,
-          entityName: d.entity_name,
-          description: d.description,
-          diff: d.diff || undefined,
-          createdAt: d.created_at
-        }));
-        return logs;
+      if (!error && data?.service_description) {
+        try {
+          const parsed = JSON.parse(data.service_description);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            // Also update local cache for smooth offline viewing
+            if (typeof window !== 'undefined') {
+              try {
+                localStorage.setItem(LOCAL_LOGS_KEY, JSON.stringify(parsed));
+              } catch {
+                // Ignore storage quota
+              }
+            }
+            return parsed;
+          }
+        } catch (jsonErr) {
+          console.warn('Error parsing cloud activity logs JSON:', jsonErr);
+        }
       }
-    } catch {
-      // Fall through to local fallback
+    } catch (e) {
+      console.warn('Could not load activity logs from Supabase cloud:', e);
     }
   }
 
@@ -126,35 +129,45 @@ export async function recordActivityLog(params: {
     createdAt: new Date().toISOString()
   };
 
+  // Get current logs
+  let currentLogs: ActivityLogItem[] = [];
+  try {
+    currentLogs = await fetchActivityLogs();
+  } catch {
+    currentLogs = INITIAL_ACTIVITY_LOGS;
+  }
+  const updatedLogs = [newLog, ...currentLogs.filter(l => l.id !== newLog.id)];
+
   // 1. Save to local storage (piles up permanently, no delete button for viewers)
   if (typeof window !== 'undefined') {
     try {
-      const current = await fetchActivityLogs();
-      const updated = [newLog, ...current];
-      localStorage.setItem(LOCAL_LOGS_KEY, JSON.stringify(updated));
+      localStorage.setItem(LOCAL_LOGS_KEY, JSON.stringify(updatedLogs));
     } catch (e) {
       console.error('Local log save error:', e);
     }
   }
 
-  // 2. Save to Supabase (if activity_logs table exists)
+  // 2. Save directly to Supabase cloud
   if (isSupabaseConfigured() && supabase) {
     try {
-      await supabase.from('activity_logs').insert({
-        id: newLog.id,
+      // Upsert the full audit log chain into Supabase cloud table (capped at latest 150 items)
+      const cappedLogs = updatedLogs.slice(0, 150);
+      await supabase.from('vendor_directory').upsert({
+        id: SYSTEM_LOGS_SYNC_ID,
         wedding_id: WEDDING_ID,
-        user_name: newLog.userName,
-        user_avatar: newLog.userAvatar,
-        device_info: newLog.deviceInfo,
-        action_type: newLog.actionType,
-        entity_type: newLog.entityType,
-        entity_name: newLog.entityName,
-        description: newLog.description,
-        diff: newLog.diff,
-        created_at: newLog.createdAt
+        category: 'System Activity',
+        vendor_business_name: 'Activity Audit Logs Cloud Sync',
+        contact_person: 'System Logger',
+        phone: '0000000000',
+        alternate_phone: '',
+        location_city: 'Cloud',
+        internal_responsible_person: 'Bhuvesh',
+        service_description: JSON.stringify(cappedLogs),
+        status: 'Confirmed',
+        total_agreed_amount: 0
       });
-    } catch {
-      // Ignored if table not created on server
+    } catch (err) {
+      console.error('Error syncing activity log to cloud:', err);
     }
   }
 
