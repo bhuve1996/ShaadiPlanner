@@ -611,27 +611,21 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
 
                 {/* Live Split Result */}
                 <div className="pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-mono">
-                  <div>
+                  <div className="text-left">
                     <span className="text-[10px] text-slate-500 uppercase block font-sans">
                       {formData.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'}
                     </span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.brideDue)}</span>
                   </div>
-                  <div className="text-slate-300 font-light">+</div>
-                  <div className="text-right">
+                  <div className="text-slate-400 font-bold px-1">+</div>
+                  <div className="text-center">
                     <span className="text-[10px] text-slate-500 uppercase block font-sans">
                       {formData.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'}
                     </span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.groomDue)}</span>
                   </div>
-                  <div>
-                    <span className="text-[10px] text-slate-500 uppercase block font-sans">
-                      {formData.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'}
-                    </span>
-                    <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.brideDue)}</span>
-                  </div>
-                  <div className="text-slate-300 font-light">=</div>
-                  <div>
+                  <div className="text-slate-400 font-bold px-1">=</div>
+                  <div className="text-right">
                     <span className="text-[10px] text-slate-500 uppercase block font-sans">Total</span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(formData.actualCost)}</span>
                   </div>
