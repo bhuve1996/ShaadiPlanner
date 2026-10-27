@@ -42,27 +42,27 @@ export const OccasionGuestSyncBar: React.FC<OccasionGuestSyncBarProps> = ({
   const eventConfigs = settings.eventGuestCounts || {};
 
   return (
-    <div className="theme-card bg-white/95 rounded-3xl border-2 border-purple-200/90 dark:border-white/10 shadow-lg overflow-hidden transition-all">
+    <div className="theme-card bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-white/10 shadow-xs overflow-hidden transition-all">
       {/* Header Bar */}
       <div 
         onClick={() => setIsExpanded(prev => !prev)}
-        className="p-4 sm:p-5 flex items-center justify-between cursor-pointer bg-gradient-to-r from-purple-50/60 via-pink-50/40 to-blue-50/60 dark:from-purple-950/30 dark:via-slate-900 dark:to-blue-950/30 hover:brightness-98 transition-all select-none"
+        className="p-3.5 sm:p-4 flex items-center justify-between cursor-pointer bg-slate-50/70 dark:bg-slate-800/40 hover:bg-slate-100/70 dark:hover:bg-slate-800/70 transition-all select-none"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-md">
-            <SlidersHorizontal size={18} />
+          <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center font-bold">
+            <SlidersHorizontal size={16} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white tracking-tight">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
                 Occasion Guest Headcount & Per-Plate Sync
               </h3>
-              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700">
-                Live Synced with Rows Below
+              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                Synced with Ledger
               </span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-              Change guest numbers for <strong>Roka, Mehendi, Sangeet, Baraat</strong> here — all ratios, per-plate totals, and split percentages below update instantly!
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">
+              Change guest numbers for <strong>Roka, Mehendi, Sangeet, Baraat</strong> — all ratios & per-plate costs update automatically.
             </p>
           </div>
         </div>
@@ -70,9 +70,9 @@ export const OccasionGuestSyncBar: React.FC<OccasionGuestSyncBarProps> = ({
         <div className="flex items-center gap-2">
           <button 
             type="button"
-            className="p-2 rounded-xl text-slate-500 hover:text-purple-600 hover:bg-purple-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
           >
-            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
         </div>
       </div>

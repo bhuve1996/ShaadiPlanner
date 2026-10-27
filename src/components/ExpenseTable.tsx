@@ -380,8 +380,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   onClick={() => setStatusFilter(st)}
                   className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
                     statusFilter === st 
-                      ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-xs font-black' 
-                      : 'bg-white dark:bg-slate-800 border border-pink-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-slate-700'
+                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs' 
+                      : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
                   }`}
                 >
                   {st}
@@ -396,15 +396,15 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               onClick={() => setIsHeaderSticky(prev => !prev)}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border shadow-xs ${
                 isHeaderSticky
-                  ? 'bg-purple-100 dark:bg-purple-950/70 border-purple-300 dark:border-purple-600 text-purple-800 dark:text-purple-200 font-extrabold'
+                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent'
                   : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700'
               }`}
               title={isHeaderSticky ? 'Header rows frozen at top (Sticky ON)' : 'Click to freeze header rows at top'}
             >
               {isHeaderSticky ? (
                 <>
-                  <Pin size={12} className="text-purple-600 dark:text-purple-400 fill-purple-600 dark:fill-purple-400 rotate-45" />
-                  <span>Freeze Header: <strong className="text-purple-700 dark:text-purple-300">ON</strong></span>
+                  <Pin size={12} className="rotate-45" />
+                  <span>Freeze Header: <strong>ON</strong></span>
                 </>
               ) : (
                 <>
@@ -420,12 +420,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
           <table className={`w-full text-left text-xs border-collapse ${isSimplifiedView ? 'min-w-[800px]' : 'min-w-[1100px]'}`}>
             <thead className={isHeaderSticky ? 'sticky top-0 z-20 shadow-xs' : ''}>
-              <tr className="bg-slate-100/95 dark:bg-slate-900/95 backdrop-blur-md text-slate-700 dark:text-slate-300 uppercase tracking-wider text-[11px] font-black border-b-2 border-pink-200 dark:border-white/10">
+              <tr className="bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 uppercase tracking-wider text-[11px] font-bold border-b border-slate-200 dark:border-white/10">
                 
                 {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className={`py-3.5 px-5 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none ${isSimplifiedView ? 'w-[340px]' : 'w-[320px]'}`}
+                  className={`py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[340px]' : 'w-[320px]'}`}
                 >
                   <div className="flex items-center">
                     <span>Expense Item</span>
@@ -436,7 +436,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 2. Occasion & Guests */}
                 <th 
                   onClick={() => handleSort('event')}
-                  className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[170px]"
+                  className="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[170px]"
                 >
                   <div className="flex items-center">
                     <span>Occasion</span>
@@ -447,7 +447,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 3. Actual Cost */}
                 <th 
                   onClick={() => handleSort('actualCost')}
-                  className="py-3.5 px-4 text-right cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors group select-none w-[130px]"
+                  className="py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
                 >
                   <div className="flex items-center justify-end">
                     <span>Total Cost</span>

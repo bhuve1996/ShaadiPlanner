@@ -417,38 +417,32 @@ export default function Home() {
         </div>
       )}
 
-      {/* Colorful Floral Header */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0E1220]/90 backdrop-blur-xl border-b-2 border-pink-200 dark:border-white/10 shadow-md transition-colors">
-        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 h-18 flex items-center justify-between">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1422]/95 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs transition-colors">
+        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 h-16 flex items-center justify-between">
           
           {/* Logo & Wedding Title */}
           <div className="flex items-center gap-3">
             <button
               onClick={triggerCelebration}
-              className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-rose-500 via-pink-400 to-sky-400 flex items-center justify-center text-white shadow-md hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+              className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
               title="Click for celebratory flower shower!"
             >
-              <Heart size={22} className="fill-white" />
+              <Heart size={18} className="fill-current text-rose-500" />
             </button>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                  <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-                    ShaadiPlanner
-                  </span>
-                  <Flower2 className="text-pink-500 w-5 h-5 animate-spin-slow" />
+                <h1 className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+                  ShaadiPlanner
                 </h1>
-                <span className="text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border border-pink-300 dark:border-pink-500/30">
-                  Floral Blossom
-                </span>
                 
                 {/* Auto-sync indicator */}
                 <div 
-                  className="hidden md:inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/30 px-2 py-0.5 rounded-full"
+                  className="hidden md:inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-0.5 rounded-full"
                   title="Auto-saved to your browser storage. Safe on page refresh."
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Auto-saved locally</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>Synced</span>
                 </div>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
@@ -458,24 +452,24 @@ export default function Home() {
           </div>
 
           {/* Action buttons: Theme Toggle + Cloud Status + Settings + Export + Reset */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2">
             
             {/* Global Cloud Sync Status Pill */}
             {isSupabaseConfigured() ? (
               <div 
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-600/50 rounded-xl shadow-2xs"
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl"
                 title="Connected to Supabase PostgreSQL: All changes auto-sync globally across devices"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 <span>Cloud Live</span>
               </div>
             ) : (
               <div 
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-600/50 rounded-xl shadow-2xs"
-                title="Running locally on browser storage. Add Supabase keys to Vercel to enable global multi-device sync"
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl"
+                title="Running locally on browser storage"
               >
                 <span className="w-2 h-2 rounded-full bg-amber-500" />
-                <span>Local Mode</span>
+                <span>Local</span>
               </div>
             )}
 
@@ -485,14 +479,14 @@ export default function Home() {
                 setIsSimplifiedView(prev => !prev);
                 showToast(!isSimplifiedView ? 'Switched to Simple View' : 'Switched to Full Detailed View');
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-xl border transition-all cursor-pointer shadow-2xs ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
                 isSimplifiedView
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-emerald-400 shadow-md'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:bg-slate-50'
+                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50'
               }`}
-              title={isSimplifiedView ? "Click to show full visuals, animations & detailed columns" : "Click to simplify: hide graphics, animations & show basic ledger only"}
+              title={isSimplifiedView ? "Click to show full visuals & media" : "Click to hide decorative elements & show minimal ledger only"}
             >
-              <span>{isSimplifiedView ? '⚡ Simple View ON' : '📋 Simple View'}</span>
+              <span>{isSimplifiedView ? '⚡ Simple View' : '📋 Simple View'}</span>
             </button>
 
             {/* Day / Night Theme Toggle */}
@@ -500,28 +494,28 @@ export default function Home() {
 
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 dark:hover:bg-purple-900/50 border border-purple-200 dark:border-purple-500/30 rounded-xl transition-all cursor-pointer shadow-2xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
             >
               <SettingsIcon size={14} />
-              <span className="hidden sm:inline">Guest Ratios & Target</span>
+              <span className="hidden sm:inline">Guest Ratios</span>
             </button>
 
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer shadow-2xs"
-              title="Export complete ledger with subtasks to CSV for Excel / Google Sheets"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
+              title="Export complete ledger to CSV"
             >
-              <FileSpreadsheet size={14} className="text-emerald-600" />
-              <span className="hidden md:inline">Export CSV</span>
+              <FileSpreadsheet size={14} className="text-slate-500" />
+              <span className="hidden md:inline">CSV</span>
             </button>
 
             <button
               onClick={handleExportJSON}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer shadow-2xs"
-              title="Export full data backup (Expenses, Schedule, Shagun, Vendors, Guests) as JSON"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
+              title="Export full data backup JSON"
             >
-              <Download size={14} className="text-blue-600" />
-              <span className="hidden lg:inline">Export JSON</span>
+              <Download size={14} className="text-slate-500" />
+              <span className="hidden lg:inline">Backup</span>
             </button>
 
             {/* Reset Button */}
@@ -577,14 +571,14 @@ export default function Home() {
             onClick={() => setCurrentTab('budget')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'budget' 
-                ? 'text-pink-600 dark:text-pink-400 font-black' 
+                ? 'text-slate-900 dark:text-white font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <ListFilter size={17} />
             <span>Budget & Split Ledger</span>
             {currentTab === 'budget' && (
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
             )}
           </button>
 
@@ -592,17 +586,17 @@ export default function Home() {
             onClick={() => setCurrentTab('vendors')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'vendors' 
-                ? 'text-indigo-600 dark:text-indigo-400 font-black' 
+                ? 'text-slate-900 dark:text-white font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <Building2 size={17} />
-            <span>Vendors & Family Leads</span>
-            <span className="text-[10px] bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-extrabold px-1.5 py-0.2 rounded-full border border-indigo-300 dark:border-indigo-700">
-              {vendors.length} Vendors
+            <span>Vendors & Directory</span>
+            <span className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold px-1.5 py-0.5 rounded-full border border-slate-200 dark:border-slate-700">
+              {vendors.length}
             </span>
             {currentTab === 'vendors' && (
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
             )}
           </button>
 
@@ -610,17 +604,14 @@ export default function Home() {
             onClick={() => setCurrentTab('shagun')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'shagun' 
-                ? 'text-rose-600 dark:text-rose-400 font-black' 
+                ? 'text-slate-900 dark:text-white font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <Gift size={17} />
-            <span>Family Shagun & Guest Groups</span>
-            <span className="text-[10px] bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 font-extrabold px-1.5 py-0.2 rounded-full border border-rose-300 dark:border-rose-700">
-              ₹5.13L
-            </span>
+            <span>Family Shagun & Guests</span>
             {currentTab === 'shagun' && (
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
             )}
           </button>
 
@@ -628,14 +619,14 @@ export default function Home() {
             onClick={() => setCurrentTab('calendar')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'calendar' 
-                ? 'text-purple-600 dark:text-purple-400 font-black' 
+                ? 'text-slate-900 dark:text-white font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <CalendarDays size={17} />
-            <span>Ceremony Calendar & Timings</span>
+            <span>Ceremony Calendar</span>
             {currentTab === 'calendar' && (
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
             )}
           </button>
 
@@ -643,14 +634,14 @@ export default function Home() {
             onClick={() => setCurrentTab('charts')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
               currentTab === 'charts' 
-                ? 'text-blue-600 dark:text-blue-400 font-black' 
+                ? 'text-slate-900 dark:text-white font-black' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
             }`}
           >
             <ChartIcon size={17} />
-            <span>Visual Analytics</span>
+            <span>Analytics</span>
             {currentTab === 'charts' && (
-              <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
             )}
           </button>
         </div>

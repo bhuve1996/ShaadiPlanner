@@ -3,12 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #FFF9FA;
-  --foreground: #1E293B;
+  --background: #FAFAFB;
+  --foreground: #0F172A;
 }
 
 .dark {
-  --background: #090C16;
+  --background: #090D16;
   --foreground: #F8FAFC;
 }
 
@@ -21,26 +21,21 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Day Mode: Light Floral Blossom */
+/* Day Mode: Clean, Calm & Minimalist Neutral Canvas */
 html:not(.dark) body {
-  background-color: #FFF9FA !important;
+  background-color: #F8FAFC !important;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.10) 0px, transparent 45%),
-    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.10) 0px, transparent 45%),
-    radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.06) 0px, transparent 50%) !important;
-  color: #1E293B !important;
+    radial-gradient(at 0% 0%, rgba(226, 232, 240, 0.4) 0px, transparent 60%),
+    radial-gradient(at 100% 100%, rgba(241, 245, 249, 0.4) 0px, transparent 60%) !important;
+  color: #0F172A !important;
 }
 
-/* Night Mode: Deep Midnight Velvet with Neon Glow */
+/* Night Mode: Deep Minimalist Slate Canvas */
 html.dark body {
-  background-color: #080B14 !important;
+  background-color: #0B0F19 !important;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.18) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.18) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.18) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(10, 14, 26, 0.95) 0px, transparent 100%) !important;
+    radial-gradient(at 0% 0%, rgba(30, 41, 59, 0.3) 0px, transparent 60%),
+    radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.3) 0px, transparent 60%) !important;
   color: #F8FAFC !important;
 }
 
@@ -48,114 +43,110 @@ body {
   background-attachment: fixed;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Day vs Night Cards & Components */
+/* Day vs Night Cards: Crisp subtle borders instead of multiple colored rings */
+html:not(.dark) .theme-card {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
 html.dark .theme-card {
-  background-color: rgba(18, 22, 38, 0.92) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  color: #F1F5F9 !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  background-color: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #F8FAFC !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+}
+
+html:not(.dark) .theme-subcard {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
 }
 
 html.dark .theme-subcard {
-  background-color: rgba(25, 30, 52, 0.85) !important;
-  border-color: rgba(255, 255, 255, 0.10) !important;
+  background-color: #1F2937 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
   color: #E2E8F0 !important;
 }
 
-html.dark .theme-header {
-  background-color: rgba(10, 14, 26, 0.92) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-}
-
 /* ==========================================================================
-   3 DISTINCT ROW COLORS & REFINED HOVER STATES:
-   1. PINK: 100% Bride (Harsha)
-   2. BLUE: 100% Groom (Bhuvesh)
-   3. GREEN: Shared / Both Splitting Expense (50:50 or Guest Ratio)
+   CLEAN & INTENTIONAL 3 ROW COLORS:
+   1. HARSHA (Bride Pink): Soft subtle rose tint
+   2. BHUVESH (Groom Blue): Soft subtle sky tint
+   3. SHARED (Mutual): Clean neutral white/slate with emerald indicator
    ========================================================================== */
 
-/* Day Mode Rows with Rich Pastel Gradients on Hover */
+/* Day Mode Rows */
 html:not(.dark) .row-bride {
   background-color: #FFF5F7 !important;
-  border-left: 5px solid #F43F5E !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 4px solid #F43F5E !important;
 }
 html:not(.dark) .row-bride:hover {
-  background: linear-gradient(90deg, #FFE4E8 0%, #FFF1F3 100%) !important;
-  box-shadow: inset 0 0 0 1px rgba(244, 63, 94, 0.25), 0 4px 12px -2px rgba(244, 63, 94, 0.12) !important;
+  background-color: #FFE4E8 !important;
 }
 
 html:not(.dark) .row-groom {
-  background-color: #F3F8FF !important;
-  border-left: 5px solid #3B82F6 !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #F0F7FF !important;
+  border-left: 4px solid #2563EB !important;
 }
 html:not(.dark) .row-groom:hover {
-  background: linear-gradient(90deg, #DBEAFE 0%, #EFF6FF 100%) !important;
-  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.25), 0 4px 12px -2px rgba(59, 130, 246, 0.12) !important;
+  background-color: #E0EFFF !important;
 }
 
 html:not(.dark) .row-split-green {
-  background-color: #F2FDF6 !important;
-  border-left: 5px solid #10B981 !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #FFFFFF !important;
+  border-left: 4px solid #059669 !important;
 }
 html:not(.dark) .row-split-green:hover {
-  background: linear-gradient(90deg, #D1FAE5 0%, #ECFDF5 100%) !important;
-  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.25), 0 4px 12px -2px rgba(16, 185, 129, 0.12) !important;
+  background-color: #F8FAFC !important;
 }
 
-/* Night Mode Rows with Glowing Neon Edge & Deep Velvet Fill on Hover */
+/* Night Mode Rows */
 html.dark .row-bride {
-  background-color: rgba(136, 19, 55, 0.22) !important;
-  border-left: 5px solid #FB7185 !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(244, 63, 94, 0.08) !important;
+  border-left: 4px solid #FB7185 !important;
 }
 html.dark .row-bride:hover {
-  background: linear-gradient(90deg, rgba(225, 29, 72, 0.38) 0%, rgba(159, 18, 57, 0.28) 100%) !important;
-  box-shadow: inset 0 0 0 1px rgba(251, 113, 133, 0.4), 0 4px 16px -2px rgba(244, 63, 94, 0.25) !important;
+  background-color: rgba(244, 63, 94, 0.15) !important;
 }
 
 html.dark .row-groom {
-  background-color: rgba(30, 58, 138, 0.22) !important;
-  border-left: 5px solid #60A5FA !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(37, 99, 235, 0.08) !important;
+  border-left: 4px solid #60A5FA !important;
 }
 html.dark .row-groom:hover {
-  background: linear-gradient(90deg, rgba(37, 99, 235, 0.38) 0%, rgba(30, 58, 138, 0.28) 100%) !important;
-  box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.4), 0 4px 16px -2px rgba(59, 130, 246, 0.25) !important;
+  background-color: rgba(37, 99, 235, 0.15) !important;
 }
 
 html.dark .row-split-green {
-  background-color: rgba(6, 78, 59, 0.22) !important;
-  border-left: 5px solid #34D399 !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  border-left: 4px solid #10B981 !important;
 }
 html.dark .row-split-green:hover {
-  background: linear-gradient(90deg, rgba(5, 150, 105, 0.38) 0%, rgba(6, 78, 59, 0.28) 100%) !important;
-  box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.4), 0 4px 16px -2px rgba(16, 185, 129, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Custom Scrollbar */
+/* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFF1F4;
-}
-html.dark ::-webkit-scrollbar-track {
-  background: #0B0F1E;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #F43F5E, #10B981, #3B82F6);
+  background: #CBD5E1;
   border-radius: 9999px;
 }
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #E11D48, #059669, #2563EB);
+  background: #94A3B8;
 }
 
 /* Walking Animal Keyframes */
