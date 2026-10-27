@@ -74,6 +74,10 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
     primaryName: string;
     plusCount: number;
     relationCategory: 'Family' | 'Relatives' | 'Friends' | 'Colleagues' | 'Neighbours' | 'VIP';
+    relation: string;
+    shagunAmount: number | undefined;
+    shagunCeremony: string;
+    shagunStatus: 'Planned' | 'Given' | 'Pending';
     phone: string;
     city: string;
     rsvpStatus: 'Attending' | 'Invited' | 'Tentative' | 'Declined';
@@ -85,6 +89,10 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
     primaryName: '',
     plusCount: 0,
     relationCategory: 'Family',
+    relation: '',
+    shagunAmount: undefined,
+    shagunCeremony: 'Baraat & Wedding Pheras',
+    shagunStatus: 'Planned',
     phone: '',
     city: '',
     rsvpStatus: 'Invited',
@@ -201,6 +209,10 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
       guestType: guestEntryMode,
       plusCount: guestEntryMode === 'FAMILY_PLUS' ? Number(newGuest.plusCount) : undefined,
       relationCategory: newGuest.relationCategory,
+      relation: newGuest.relation,
+      shagunAmount: newGuest.shagunAmount ? Number(newGuest.shagunAmount) : undefined,
+      shagunCeremony: newGuest.shagunCeremony,
+      shagunStatus: newGuest.shagunStatus,
       contactPerson: newGuest.primaryName || newGuest.name,
       contactPhone: newGuest.phone,
       city: newGuest.city,
@@ -224,6 +236,10 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
       primaryName: '',
       plusCount: 0,
       relationCategory: 'Family',
+      relation: '',
+      shagunAmount: undefined,
+      shagunCeremony: 'Baraat & Wedding Pheras',
+      shagunStatus: 'Planned',
       phone: '',
       city: '',
       rsvpStatus: 'Invited',
@@ -259,6 +275,10 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
       primaryName: pName,
       plusCount: plus,
       relationCategory: (grp.relationCategory as any) || 'Family',
+      relation: grp.relation || '',
+      shagunAmount: grp.shagunAmount,
+      shagunCeremony: grp.shagunCeremony || 'Baraat & Wedding Pheras',
+      shagunStatus: grp.shagunStatus || 'Planned',
       phone: grp.contactPhone || '',
       city: grp.city || '',
       rsvpStatus: grp.rsvpStatus || 'Invited',
@@ -531,9 +551,19 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                             <h4 className="font-black text-sm text-slate-900 dark:text-white leading-tight">
                               {grp.name}
                             </h4>
-                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mt-0.5">
-                              {grp.relationCategory || 'Guest Cluster'}
-                            </span>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                {grp.relationCategory || 'Guest Cluster'}
+                              </span>
+                              {grp.relation && (
+                                <>
+                                  <span className="text-slate-300 dark:text-slate-600">•</span>
+                                  <span className="text-[10.5px] font-bold text-pink-600 dark:text-pink-400">
+                                    {grp.relation}
+                                  </span>
+                                </>
+                              )}
+                            </div>
                           </div>
 
                           <span className={`text-[10px] font-black px-2 py-0.5 rounded-md flex-shrink-0 border ${
@@ -590,6 +620,24 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                             )}
                           </div>
                         )}
+
+                        {/* Shagun Info Strip if defined */}
+                        {grp.shagunAmount && grp.shagunAmount > 0 ? (
+                          <div className="mt-2.5 p-2 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <Gift size={12} className="text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                              <div className="truncate">
+                                <span className="font-black text-amber-900 dark:text-amber-200">{formatINR(grp.shagunAmount)}</span>
+                                <span className="text-[10px] text-amber-700 dark:text-amber-400 ml-1">
+                                  ({grp.shagunCeremony || 'Baraat / Wedding'})
+                                </span>
+                              </div>
+                            </div>
+                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-md bg-white dark:bg-slate-900 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-white/10 flex-shrink-0">
+                              {grp.shagunStatus || 'Planned'}
+                            </span>
+                          </div>
+                        ) : null}
 
                         {grp.notes && (
                           <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-800/40 p-2 rounded-lg border border-slate-200/50 dark:border-white/5 line-clamp-2">
@@ -857,7 +905,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                 )}
               </div>
 
-              {/* Category & Phone */}
+              {/* Category, Relation & Phone */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
@@ -879,16 +927,86 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
 
                 <div>
                   <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                    Contact Phone (WhatsApp)
+                    Specific Relation (Optional)
                   </label>
                   <input
-                    type="tel"
-                    placeholder="e.g. +91 98765 43210"
-                    value={newGuest.phone}
-                    onChange={(e) => setNewGuest({ ...newGuest, phone: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-xl dark:bg-slate-800 dark:border-slate-700 font-mono font-medium"
+                    type="text"
+                    placeholder="e.g. Mamma Ji, College Friend, Sister"
+                    value={newGuest.relation}
+                    onChange={(e) => setNewGuest({ ...newGuest, relation: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-xl dark:bg-slate-800 dark:border-slate-700 font-medium"
                   />
                 </div>
+              </div>
+
+              {/* Shagun Gift Linkage & When */}
+              <div className="p-3 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40 space-y-2.5">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-amber-200">
+                  <Gift size={14} className="text-amber-600 dark:text-amber-400" />
+                  <span>Optional Shagun Given / Due to this Guest</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      Shagun Amount (₹)
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 5100"
+                      value={newGuest.shagunAmount || ''}
+                      onChange={(e) => setNewGuest({ ...newGuest, shagunAmount: e.target.value ? Number(e.target.value) : undefined })}
+                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border rounded-xl font-bold font-mono text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      When / Ceremony
+                    </label>
+                    <select
+                      value={newGuest.shagunCeremony}
+                      onChange={(e) => setNewGuest({ ...newGuest, shagunCeremony: e.target.value })}
+                      className="w-full px-2 py-1.5 bg-white dark:bg-slate-900 border rounded-xl font-bold text-xs"
+                    >
+                      <option value="Roka / Engagement">Roka / Ring</option>
+                      <option value="Mehendi">Mehendi</option>
+                      <option value="Haldi">Haldi</option>
+                      <option value="Baraat & Wedding Pheras">Baraat / Pheras</option>
+                      <option value="Vida (Bidai / Doli)">Vida / Farewell</option>
+                      <option value="Reception">Reception</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      Shagun Status
+                    </label>
+                    <select
+                      value={newGuest.shagunStatus}
+                      onChange={(e) => setNewGuest({ ...newGuest, shagunStatus: e.target.value as any })}
+                      className="w-full px-2 py-1.5 bg-white dark:bg-slate-900 border rounded-xl font-bold text-xs"
+                    >
+                      <option value="Planned">Planned</option>
+                      <option value="Given">Given / Cleared</option>
+                      <option value="Pending">Pending</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Phone & City */}
+              <div>
+                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  Contact Phone Number
+                </label>
+                <input
+                  type="tel"
+                  placeholder="e.g. +91 98765 43210"
+                  value={newGuest.phone}
+                  onChange={(e) => setNewGuest({ ...newGuest, phone: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-xl dark:bg-slate-800 dark:border-slate-700 font-mono font-medium"
+                />
               </div>
 
               {/* City & RSVP */}

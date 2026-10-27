@@ -109,17 +109,39 @@ export async function fetchRemoteWeddingData() {
 
     let guestGroups: GuestGroupItem[] | null = null;
     if (groupsRes.data && groupsRes.data.length > 0) {
-      guestGroups = groupsRes.data.map(g => ({
-        id: g.id,
-        name: g.name,
-        side: g.side,
-        count: g.count,
-        estimatedPerPlate: g.estimated_per_plate ? Number(g.estimated_per_plate) : undefined,
-        contactPerson: g.contact_person,
-        contactPhone: g.contact_phone,
-        isAnonymousNumbers: g.is_anonymous_numbers,
-        notes: g.notes
-      }));
+      guestGroups = groupsRes.data.map(g => {
+        // Try parsing optional JSON metadata stored in notes
+        let meta: any = {};
+        let cleanNotes = g.notes || '';
+        if (cleanNotes.includes('<!--GUEST_META:')) {
+          try {
+            const rawMeta = cleanNotes.split('<!--GUEST_META:')[1].split('-->')[0];
+            meta = JSON.parse(rawMeta);
+            cleanNotes = cleanNotes.replace(/<!--GUEST_META:.*?-->/g, '').trim();
+          } catch {}
+        }
+
+        return {
+          id: g.id,
+          name: g.name,
+          side: g.side,
+          count: g.count,
+          estimatedPerPlate: g.estimated_per_plate ? Number(g.estimated_per_plate) : undefined,
+          contactPerson: g.contact_person,
+          contactPhone: g.contact_phone,
+          isAnonymousNumbers: g.is_anonymous_numbers,
+          relation: meta.relation,
+          shagunAmount: meta.shagunAmount ? Number(meta.shagunAmount) : undefined,
+          shagunCeremony: meta.shagunCeremony,
+          shagunStatus: meta.shagunStatus,
+          guestType: meta.guestType,
+          plusCount: meta.plusCount ? Number(meta.plusCount) : undefined,
+          relationCategory: meta.relationCategory,
+          rsvpStatus: meta.rsvpStatus,
+          city: meta.city,
+          notes: cleanNotes
+        };
+      });
     }
 
     let vendors: VendorDirectoryItem[] | null = null;
@@ -229,6 +251,23 @@ export async function deleteExpenseFromRemote(id: string) {
 export async function syncGuestGroupToRemote(item: GuestGroupItem) {
   if (!isSupabaseConfigured() || !supabase) return;
   try {
+    // Pack extra guest fields into safe metadata comment inside notes
+    const meta: any = {};
+    if (item.relation) meta.relation = item.relation;
+    if (item.shagunAmount) meta.shagunAmount = item.shagunAmount;
+    if (item.shagunCeremony) meta.shagunCeremony = item.shagunCeremony;
+    if (item.shagunStatus) meta.shagunStatus = item.shagunStatus;
+    if (item.guestType) meta.guestType = item.guestType;
+    if (item.plusCount) meta.plusCount = item.plusCount;
+    if (item.relationCategory) meta.relationCategory = item.relationCategory;
+    if (item.rsvpStatus) meta.rsvpStatus = item.rsvpStatus;
+    if (item.city) meta.city = item.city;
+
+    let cleanNotes = (item.notes || '').replace(/<!--GUEST_META:.*?-->/g, '').trim();
+    if (Object.keys(meta).length > 0) {
+      cleanNotes = `${cleanNotes} <!--GUEST_META:${JSON.stringify(meta)}-->`.trim();
+    }
+
     await supabase.from('guest_groups').upsert({
       id: item.id,
       wedding_id: WEDDING_ID,
@@ -239,7 +278,7 @@ export async function syncGuestGroupToRemote(item: GuestGroupItem) {
       contact_person: item.contactPerson || '',
       contact_phone: item.contactPhone || '',
       is_anonymous_numbers: Boolean(item.isAnonymousNumbers),
-      notes: item.notes || '',
+      notes: cleanNotes,
       updated_at: new Date().toISOString()
     });
   } catch (e) {

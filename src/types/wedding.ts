@@ -151,6 +151,10 @@ export interface GuestGroupItem {
   guestType?: 'INDIVIDUAL' | 'FAMILY_PLUS' | 'CLUSTER'; // Individual guest, Family with plus count, or group cluster
   plusCount?: number; // Additional family/plus count e.g. +1, +2, +3, +4
   relationCategory?: 'Family' | 'Relatives' | 'Friends' | 'Colleagues' | 'Neighbours' | 'VIP';
+  relation?: string; // Exact specific relation e.g. 'Mamma Ji', 'Chachi Ji', 'College Roommate', 'Bhua Ji'
+  shagunAmount?: number; // Expected or designated shagun gift amount e.g. 5100, 11000
+  shagunCeremony?: string; // When/which ceremony shagun is given e.g. 'Roka / Engagement', 'Baraat / Milni', 'Haldi', 'Reception'
+  shagunStatus?: 'Planned' | 'Given' | 'Pending'; // Status of shagun
   rsvpStatus?: 'Attending' | 'Invited' | 'Tentative' | 'Declined';
   city?: string;
   estimatedPerPlate?: number;
