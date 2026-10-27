@@ -203,8 +203,15 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
       totalPaid += (item.paidAmount || 0);
     }
 
-    return { totalCost, brideTotal, groomTotal, totalPaid };
-  }, [processedExpenses, groomGuestCount, brideGuestCount, eventGuestCounts]);
+    // Overall wedding grand total across all items regardless of perspective filter
+    let grandTotalCost = 0;
+    for (const item of expenses) {
+      const s = computeExpenseShares(item, groomGuestCount, brideGuestCount, eventGuestCounts);
+      grandTotalCost += s.effectiveTotalCost;
+    }
+
+    return { totalCost, brideTotal, groomTotal, totalPaid, grandTotalCost };
+  }, [processedExpenses, expenses, groomGuestCount, brideGuestCount, eventGuestCounts]);
 
   const filteredTotalCost = filteredTotals.totalCost;
   const filteredTotalPaid = filteredTotals.totalPaid;
@@ -921,7 +928,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     </div>
                     {isSimplifiedView && sideFilter !== 'ALL' && (
                       <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
-                        Gross: {formatINR(filteredTotals.totalCost)}
+                        Wedding Total: {formatINR(filteredTotals.grandTotalCost)}
                       </div>
                     )}
                   </td>
