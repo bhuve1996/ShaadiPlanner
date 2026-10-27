@@ -144,6 +144,25 @@ export const OccasionGuestSyncBar: React.FC<OccasionGuestSyncBarProps> = ({
                         />
                       </div>
                     </div>
+
+                    {/* Per Plate Rate Input */}
+                    <div className="mt-2.5 pt-2 border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between text-xs">
+                      <label className="text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                        <UtensilsCrossed size={12} className="text-slate-400" />
+                        <span>Plate Rate:</span>
+                      </label>
+                      <div className="flex items-center gap-1">
+                        <span className="text-[11px] font-bold text-slate-400">₹</span>
+                        <input
+                          type="number"
+                          min={0}
+                          step={50}
+                          value={currentRate}
+                          onChange={(e) => onUpdateEventGuests(event, currentGroom, currentBride, Number(e.target.value))}
+                          className="w-20 px-2 py-0.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg font-black text-xs text-slate-900 dark:text-white text-right focus:outline-none focus:ring-1 focus:ring-slate-400"
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   {/* Ratio bar */}

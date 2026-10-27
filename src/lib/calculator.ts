@@ -36,6 +36,7 @@ export function computeExpenseShares(
   effectiveBrideGuests: number;
   isCustomOccasionGuests: boolean;
   effectiveTotalCost: number;
+  effectivePlateRate: number;
 } {
   const totalCost = item.actualCost || item.estimatedCost || 0;
   
@@ -64,16 +65,14 @@ export function computeExpenseShares(
 
   const totalGuests = (effectiveGroomGuests + effectiveBrideGuests) || 1;
 
-  // 3. Dynamic Per-Plate auto-calculation: If per-plate is enabled and rate is set, compute dynamically
-  let effectiveTotalCost = totalCost;
-  if (item.isPerPlateCalculation) {
-    const rate = (eventConfig && !hasItemOverride && eventConfig.perPlateRate)
-      ? eventConfig.perPlateRate
-      : (item.ratePerGuestOrPlate || 0);
+  // 3. Dynamic Per-Plate auto-calculation: Item specific rate takes priority; fallback to occasion config rate
+  const effectivePlateRate = (item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0)
+    ? item.ratePerGuestOrPlate
+    : (eventConfig?.perPlateRate || 0);
 
-    if (rate > 0) {
-      effectiveTotalCost = totalGuests * rate;
-    }
+  let effectiveTotalCost = totalCost;
+  if (item.isPerPlateCalculation && effectivePlateRate > 0) {
+    effectiveTotalCost = totalGuests * effectivePlateRate;
   }
 
   let groomPct = 0.5;
@@ -116,6 +115,7 @@ export function computeExpenseShares(
     effectiveBrideGuests,
     isCustomOccasionGuests,
     effectiveTotalCost,
+    effectivePlateRate,
   };
 }
 

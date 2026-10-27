@@ -673,9 +673,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         <div className="font-black text-slate-900 dark:text-white text-base">
                           {formatINR(shares.effectiveTotalCost)}
                         </div>
-                        {(item.isPerPlateCalculation || (item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0)) && (
+                        {(item.isPerPlateCalculation || shares.effectivePlateRate > 0) && (
                           <div className="text-[10px] text-pink-600 dark:text-pink-400 font-bold">
-                            ₹{(eventGuestCounts?.[item.event]?.perPlateRate || item.ratePerGuestOrPlate || 2000)}/plate
+                            ₹{shares.effectivePlateRate > 0 ? shares.effectivePlateRate.toLocaleString('en-IN') : (item.ratePerGuestOrPlate || 2000).toLocaleString('en-IN')}/plate
                           </div>
                         )}
                       </td>
