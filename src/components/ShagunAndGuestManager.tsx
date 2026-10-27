@@ -63,8 +63,9 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
     side: 'GROOM',
   });
 
-  // Guest Entry Form State (Flexible: Individual, Family+Count, or Group Cluster)
+  // Guest Entry & Edit Form State
   const [showAddGuestModal, setShowAddGuestModal] = useState(false);
+  const [editingGuestItem, setEditingGuestItem] = useState<GuestGroupItem | null>(null);
   const [guestEntryMode, setGuestEntryMode] = useState<'INDIVIDUAL' | 'FAMILY_PLUS' | 'CLUSTER'>('INDIVIDUAL');
   const [newGuest, setNewGuest] = useState<{
     name: string;
@@ -193,7 +194,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
     }
 
     const item: GuestGroupItem = {
-      id: `guest-${Date.now()}`,
+      id: editingGuestItem ? editingGuestItem.id : `guest-${Date.now()}`,
       name: computedName,
       side: newGuest.side,
       count: totalHeadcount,
@@ -208,8 +209,14 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
       notes: newGuest.notes,
     };
 
-    onAddGuestGroup(item);
+    if (editingGuestItem) {
+      onUpdateGuestGroup(item);
+    } else {
+      onAddGuestGroup(item);
+    }
+
     setShowAddGuestModal(false);
+    setEditingGuestItem(null);
     setNewGuest({
       name: '',
       side: 'GROOM',
@@ -222,6 +229,42 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
       rsvpStatus: 'Invited',
       notes: '',
     });
+  };
+
+  const handleOpenEditGuest = (grp: GuestGroupItem) => {
+    setEditingGuestItem(grp);
+    
+    // Determine mode
+    let mode: 'INDIVIDUAL' | 'FAMILY_PLUS' | 'CLUSTER' = 'CLUSTER';
+    let plus = 0;
+    let pName = grp.contactPerson || grp.name;
+
+    if (grp.count === 1) {
+      mode = 'INDIVIDUAL';
+      pName = grp.contactPerson || grp.name;
+    } else if (grp.name.includes('+') || grp.plusCount) {
+      mode = 'FAMILY_PLUS';
+      plus = grp.plusCount || (grp.count > 1 ? grp.count - 1 : 1);
+      pName = grp.contactPerson || grp.name.replace(/\(\+.*?\)/, '').trim();
+    } else {
+      mode = 'CLUSTER';
+      plus = grp.count;
+    }
+
+    setGuestEntryMode(mode);
+    setNewGuest({
+      name: grp.name,
+      side: grp.side,
+      guestType: mode,
+      primaryName: pName,
+      plusCount: plus,
+      relationCategory: (grp.relationCategory as any) || 'Family',
+      phone: grp.contactPhone || '',
+      city: grp.city || '',
+      rsvpStatus: grp.rsvpStatus || 'Invited',
+      notes: grp.notes || '',
+    });
+    setShowAddGuestModal(true);
   };
 
   return (
@@ -560,17 +603,27 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                         <span className="text-[10px] font-bold text-slate-400">
                           {isSingle ? '👤 1 Guest' : isPlus ? '👨‍👩‍👧 Family Plus' : '🏢 Headcount Cluster'}
                         </span>
-                        <button
-                          onClick={() => {
-                            if (confirm(`Remove guest entry "${grp.name}"?`)) {
-                              onDeleteGuestGroup(grp.id);
-                            }
-                          }}
-                          className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                          title="Delete guest entry"
-                        >
-                          <Trash2 size={13} />
-                        </button>
+                        
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleOpenEditGuest(grp)}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                            title="Edit guest details, headcount & phone"
+                          >
+                            <span className="text-xs">✏️</span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`Remove guest entry "${grp.name}"?`)) {
+                                onDeleteGuestGroup(grp.id);
+                              }
+                            }}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                            title="Delete guest entry"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
                       </div>
 
                     </div>
@@ -667,10 +720,10 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
           <div className="bg-white dark:bg-[#11141D] p-5 sm:p-6 rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in zoom-in-95 max-h-[92vh] flex flex-col text-slate-800 dark:text-slate-100">
             <h3 className="font-black text-base text-slate-900 dark:text-white mb-1 flex items-center gap-2 flex-shrink-0">
               <Users className="text-blue-500" size={18} />
-              <span>Add Wedding Guest / Family (+Plus)</span>
+              <span>{editingGuestItem ? 'Edit Wedding Guest Entry' : 'Add Wedding Guest / Family (+Plus)'}</span>
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 flex-shrink-0">
-              Add individual guests, families with additional headcount (+1, +2, +3, +4), or group clusters.
+              {editingGuestItem ? 'Update headcount, contact phone, RSVP, or room requirements.' : 'Add individual guests, families with additional headcount (+1, +2, +3, +4), or group clusters.'}
             </p>
 
             {/* Mode Switcher Tabs */}
