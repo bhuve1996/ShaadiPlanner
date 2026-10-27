@@ -79,6 +79,21 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
                 Target Cap: {formatLakh(settings.totalTargetBudget)}
               </span>
             </div>
+            {(!showGold || !showShagun) && (
+              <div className="mt-2 pt-1.5 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[11px] font-semibold text-amber-700 dark:text-amber-400">
+                <span className="flex items-center gap-1">
+                  <Lock size={11} />
+                  {!showGold && !showShagun
+                    ? 'Gold & Shagun not displayed (confidential)'
+                    : !showGold
+                    ? 'Gold not displayed (confidential)'
+                    : 'Shagun not displayed (confidential)'}
+                </span>
+                <span className="text-[10px] underline font-bold cursor-pointer opacity-80 hover:opacity-100" onClick={() => !showGold ? onRequestUnlock?.('GOLD') : onRequestUnlock?.('SHAGUN')}>
+                  Unlock
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Card 2: Groom vs Bride Allocation Split */}
@@ -123,6 +138,16 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
                 Target: {formatLakh(settings.totalTargetBudget)}
               </span>
             </div>
+            {(!showGold || !showShagun) && (
+              <p className="mt-1 text-[10px] font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                <Lock size={9} />
+                {!showGold && !showShagun
+                  ? 'Gold & Shagun not displayed'
+                  : !showGold
+                  ? 'Gold not displayed'
+                  : 'Shagun not displayed'}
+              </p>
+            )}
           </div>
 
           {/* Card 2: Advance Paid */}
