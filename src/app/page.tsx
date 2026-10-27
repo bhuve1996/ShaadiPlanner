@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Heart, 
   Settings as SettingsIcon, 
@@ -67,6 +67,18 @@ export default function Home() {
   const [isSimplifiedView, setIsSimplifiedView] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Track whether an edit was recently made locally to ignore incoming echo events
+  const isLocalMutationRef = useRef(false);
+  const localMutationTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const markLocalMutation = () => {
+    isLocalMutationRef.current = true;
+    if (localMutationTimerRef.current) clearTimeout(localMutationTimerRef.current);
+    localMutationTimerRef.current = setTimeout(() => {
+      isLocalMutationRef.current = false;
+    }, 2500); // 2.5s window protects against echo reloads while typing/editing
+  };
 
   // 1. Initial Load: Supabase Cloud Database is Primary; LocalStorage is Offline Fallback
   useEffect(() => {
@@ -135,35 +147,43 @@ export default function Home() {
     loadData();
 
     // 2. Real-Time Remote Subscription: Instantly reflect updates made in other windows / mobile
+    // Debounce to prevent remote updates from firing in quick succession
+    let debounceTimer: NodeJS.Timeout | null = null;
     const unsubscribe = subscribeToRemoteChanges(() => {
-      console.log('⚡ Real-time update received from Supabase cloud! Re-fetching latest data...');
-      fetchRemoteWeddingData().then(remoteData => {
-        if (remoteData && isMounted) {
-          if (remoteData.settings) setSettings(remoteData.settings);
-          if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
-          if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
-          if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
-          if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
-          if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
-          showToast('⚡ Live update synced from cloud');
-        }
-      });
+      // If the current window is making local mutations, do NOT trigger a reload echo
+      if (isLocalMutationRef.current) {
+        console.log('Ignored remote echo from own local mutation');
+        return;
+      }
+
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        if (isLocalMutationRef.current) return;
+        console.log('⚡ Real-time update received from Supabase cloud! Re-fetching latest data...');
+        fetchRemoteWeddingData().then(remoteData => {
+          if (remoteData && isMounted && !isLocalMutationRef.current) {
+            if (remoteData.settings) setSettings(remoteData.settings);
+            if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
+            if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
+            if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
+            if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
+            if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+            showToast('⚡ Live update synced from cloud');
+          }
+        });
+      }, 1000);
     });
 
     return () => {
       isMounted = false;
+      if (debounceTimer) clearTimeout(debounceTimer);
       unsubscribe();
     };
   }, []);
 
-  // 2. Real-Time Supabase Cloud Sync + Local Offline Mirror
+  // 2. Offline Mirror only (Supabase updates are invoked on explicit actions or debounced saves)
   useEffect(() => {
     if (!isLoaded) return;
-
-    // Push settings update to Supabase Cloud
-    if (isSupabaseConfigured()) {
-      syncSettingsToRemote(settings);
-    }
 
     // Keep an offline mirror in localStorage
     try {
@@ -184,6 +204,7 @@ export default function Home() {
   };
 
   const handleUpdateExpense = (updated: ExpenseItem) => {
+    markLocalMutation();
     setExpenses(prev => prev.map(item => item.id === updated.id ? updated : item));
     showToast(`Updated "${updated.name}"`);
     if (isSupabaseConfigured()) {
@@ -192,6 +213,7 @@ export default function Home() {
   };
 
   const handleDeleteExpense = (id: string) => {
+    markLocalMutation();
     const itemToDelete = expenses.find(x => x.id === id);
     setExpenses(prev => prev.filter(item => item.id !== id));
     showToast(`Deleted ${itemToDelete?.name || 'expense'}`);
@@ -201,6 +223,7 @@ export default function Home() {
   };
 
   const handleAddNewExpense = (created: ExpenseItem) => {
+    markLocalMutation();
     setExpenses(prev => [created, ...prev]);
     showToast(`Added "${created.name}"`);
     triggerCelebration();
@@ -210,11 +233,13 @@ export default function Home() {
   };
 
   const handleUpdateScheduleItem = (updated: CeremonyScheduleItem) => {
+    markLocalMutation();
     setSchedule(prev => prev.map(s => s.id === updated.id ? updated : s));
     showToast(`Updated schedule for ${updated.title}`);
   };
 
   const handleUpdateEventGuests = (event: WeddingEvent, groom: number, bride: number, perPlate?: number) => {
+    markLocalMutation();
     const updatedSettings: WeddingSettings = {
       ...settings,
       eventGuestCounts: {
@@ -234,6 +259,7 @@ export default function Home() {
   };
 
   const handleSaveSettings = (newSettings: WeddingSettings) => {
+    markLocalMutation();
     setSettings(newSettings);
     showToast('Saved wedding configuration & guest split');
     if (isSupabaseConfigured()) {
