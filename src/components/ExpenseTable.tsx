@@ -14,7 +14,9 @@ import {
   Flower2, 
   Building2,
   Pin,
-  PinOff
+  PinOff,
+  Info,
+  X
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -91,8 +93,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [editingItem, setEditingItem] = useState<ExpenseItem | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Hover Popover Card State
-  const [hoveredItem, setHoveredItem] = useState<{ item: ExpenseItem; x: number; y: number } | null>(null);
+  // Info Dossier Popover Card State (Click triggered via ℹ️ icon)
+  const [infoItem, setInfoItem] = useState<{ item: ExpenseItem; x: number; y: number } | null>(null);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -542,16 +544,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         setShowAddModal(false);
                       }}
                     >
-                      {/* 1. Item Name + Photographic Image + Crisp Typography + Hover Dossier Card */}
+                      {/* 1. Item Name + Photographic Image + Crisp Typography */}
                       <td className="py-3.5 px-5">
-                        <div 
-                          className="flex items-center gap-3.5 relative"
-                          onMouseEnter={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setHoveredItem({ item, x: rect.left, y: rect.bottom + 8 });
-                          }}
-                          onMouseLeave={() => setHoveredItem(null)}
-                        >
+                        <div className="flex items-center gap-3.5 relative">
                           {/* Photographic Thumbnail or Icon */}
                           {!isSimplifiedView && (
                             <div className="relative w-12 h-12 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-white dark:border-slate-700 shadow-md bg-pink-100/60 dark:bg-slate-800 flex items-center justify-center group-hover:shadow-lg group-hover:border-pink-300 dark:group-hover:border-pink-500 transition-all">
@@ -572,10 +567,38 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           )}
                           
                           <div className="flex-1 min-w-0">
-                            {/* Crisp Title on Row Hover */}
+                            {/* Crisp Title & Sub-detail */}
                             <div className="flex flex-col">
-                              <div className="font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
-                                {item.name}
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
+                                  {item.name}
+                                </span>
+                                
+                                {/* Info ℹ️ Button to show breakdown card on click */}
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const rect = e.currentTarget.getBoundingClientRect();
+                                    if (infoItem?.item.id === item.id) {
+                                      setInfoItem(null);
+                                    } else {
+                                      setInfoItem({ 
+                                        item, 
+                                        x: Math.min(rect.left, typeof window !== 'undefined' ? window.innerWidth - 380 : 500), 
+                                        y: rect.bottom + 8 
+                                      });
+                                    }
+                                  }}
+                                  className={`p-1 rounded-md transition-colors cursor-pointer ${
+                                    infoItem?.item.id === item.id
+                                      ? 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950/60'
+                                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
+                                  }`}
+                                  title="Click to view detailed item breakdown & split notes"
+                                >
+                                  <Info size={13} />
+                                </button>
                               </div>
                               {/* Subtitle / Sub-detail */}
                               {item.notes && (
@@ -702,15 +725,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </div>
                       </td>
 
-                      {/* 4. Actual Cost with Hover Allocation Breakdown Card */}
-                      <td 
-                        className="py-4 px-4 text-right whitespace-nowrap"
-                        onMouseEnter={(e) => {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          setHoveredItem({ item, x: Math.max(10, rect.left - 100), y: rect.bottom + 8 });
-                        }}
-                        onMouseLeave={() => setHoveredItem(null)}
-                      >
+                      {/* 4. Actual Cost */}
+                      <td className="py-4 px-4 text-right whitespace-nowrap">
                         <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
                           {formatINR(shares.effectiveTotalCost)}
                         </div>
@@ -825,139 +841,158 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         </div>
       </div>
 
-      {/* Floating Hover Dossier Card */}
-      {hoveredItem && (
-        <div 
-          className="fixed z-50 pointer-events-none animate-in fade-in zoom-in-95 duration-150"
-          style={{
-            left: Math.min(hoveredItem.x, typeof window !== 'undefined' ? window.innerWidth - 380 : 500),
-            top: Math.min(hoveredItem.y, typeof window !== 'undefined' ? window.innerHeight - 300 : 500),
-            width: '360px'
-          }}
-        >
-          <div className="bg-white/95 dark:bg-[#151A2E]/95 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border-2 border-pink-300 dark:border-white/20 text-xs space-y-2.5">
-            {/* Header with Image Thumbnail & Status */}
-            <div className="flex items-start justify-between gap-3 border-b border-pink-100 dark:border-white/10 pb-2.5">
-              <div className="flex items-center gap-2.5">
-                {hoveredItem.item.imageUrl && (
-                  <img 
-                    src={hoveredItem.item.imageUrl} 
-                    alt={hoveredItem.item.name} 
-                    className="w-10 h-10 rounded-xl object-cover border border-pink-200 dark:border-white/10 shadow-xs flex-shrink-0" 
-                  />
-                )}
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-pink-600 dark:text-pink-400">
-                    {hoveredItem.item.category}
+      {/* Click-Triggered Info Dossier Card */}
+      {infoItem && (
+        <>
+          {/* Backdrop click interceptor to dismiss popover cleanly */}
+          <div 
+            className="fixed inset-0 z-40" 
+            onClick={() => setInfoItem(null)} 
+          />
+
+          <div 
+            className="fixed z-50 animate-in fade-in zoom-in-95 duration-150"
+            style={{
+              left: Math.min(infoItem.x, typeof window !== 'undefined' ? window.innerWidth - 380 : 500),
+              top: Math.min(infoItem.y, typeof window !== 'undefined' ? window.innerHeight - 340 : 500),
+              width: '360px'
+            }}
+          >
+            <div className="bg-white/95 dark:bg-[#151A2E]/95 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border-2 border-slate-300 dark:border-white/20 text-xs space-y-2.5">
+              {/* Header with Image Thumbnail, Status & Close Button */}
+              <div className="flex items-start justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-2.5">
+                <div className="flex items-center gap-2.5">
+                  {infoItem.item.imageUrl && (
+                    <img 
+                      src={infoItem.item.imageUrl} 
+                      alt={infoItem.item.name} 
+                      className="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-white/10 shadow-xs flex-shrink-0" 
+                    />
+                  )}
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                      {infoItem.item.category}
+                    </span>
+                    <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">
+                      {infoItem.item.name}
+                    </h4>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                    infoItem.item.status === 'Settled' 
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' 
+                      : infoItem.item.status === 'Partially Paid'
+                      ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
+                      : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                  }`}>
+                    {infoItem.item.status}
                   </span>
-                  <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">
-                    {hoveredItem.item.name}
-                  </h4>
+                  
+                  <button
+                    onClick={() => setInfoItem(null)}
+                    className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                    title="Close info"
+                  >
+                    <X size={14} />
+                  </button>
                 </div>
               </div>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md flex-shrink-0 ${
-                hoveredItem.item.status === 'Settled' 
-                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' 
-                  : hoveredItem.item.status === 'Partially Paid'
-                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                  : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
-              }`}>
-                {hoveredItem.item.status}
-              </span>
-            </div>
 
-            {/* Quick Vendor & Event Meta */}
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div>
-                <span className="text-slate-400 text-[10px] block font-semibold">Vendor:</span>
-                <span className="font-bold text-slate-800 dark:text-slate-200">
-                  {hoveredItem.item.vendorName || 'Not Booked Yet'}
-                </span>
+              {/* Quick Vendor & Event Meta */}
+              <div className="grid grid-cols-2 gap-2 text-[11px]">
+                <div>
+                  <span className="text-slate-400 text-[10px] block font-semibold">Vendor:</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200">
+                    {infoItem.item.vendorName || 'Not Booked Yet'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-400 text-[10px] block font-semibold">Ceremony:</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200">
+                    {infoItem.item.event}
+                  </span>
+                </div>
+                <div className="col-span-2 pt-1 border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+                  <span className="text-slate-400 text-[10px] font-semibold">Responsibility:</span>
+                  <span className="font-bold text-slate-700 dark:text-slate-200">
+                    {infoItem.item.payerCategory === 'PARENTS' ? '👨‍👩‍👧 Parents / Elders Expense' : infoItem.item.payerCategory === 'SHARED_FAMILY' ? '🤝 Joint Family Expense' : '👫 Couple Personal Expense'}
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="text-slate-400 text-[10px] block font-semibold">Ceremony:</span>
-                <span className="font-bold text-slate-800 dark:text-slate-200">
-                  {hoveredItem.item.event}
-                </span>
-              </div>
-              <div className="col-span-2 pt-1 border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between">
-                <span className="text-slate-400 text-[10px] font-semibold">Responsibility:</span>
-                <span className="font-bold text-purple-700 dark:text-purple-300">
-                  {hoveredItem.item.payerCategory === 'PARENTS' ? '👨‍👩‍👧 Parents / Elders Expense' : hoveredItem.item.payerCategory === 'SHARED_FAMILY' ? '🤝 Joint Family Expense' : '👫 Couple Personal Expense'}
-                </span>
-              </div>
-            </div>
 
-            {/* Split Breakdown */}
-            <div className="bg-slate-50 dark:bg-white/[0.04] p-2.5 rounded-xl border border-slate-200/80 dark:border-white/10 space-y-1.5 font-mono">
-              <div className="flex justify-between font-bold text-slate-900 dark:text-white text-xs">
-                <span>Total Amount:</span>
-                <span>{formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).effectiveTotalCost)}</span>
+              {/* Split Breakdown */}
+              <div className="bg-slate-50 dark:bg-white/[0.04] p-2.5 rounded-xl border border-slate-200/80 dark:border-white/10 space-y-1.5 font-mono">
+                <div className="flex justify-between font-bold text-slate-900 dark:text-white text-xs">
+                  <span>Total Amount:</span>
+                  <span>{formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).effectiveTotalCost)}</span>
+                </div>
+                <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
+                  <span>
+                    {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):
+                  </span>
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    {formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
+                  <span>
+                    {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):
+                  </span>
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    {formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}
+                  </span>
+                </div>
+                {!isSimplifiedView && (
+                  <div className="flex justify-between text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-200/60 dark:border-white/10">
+                    <span>Advance Cleared:</span>
+                    <span className="font-bold">{formatINR(infoItem.item.paidAmount)}</span>
+                  </div>
+                )}
               </div>
-              <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
-                <span>
-                  {hoveredItem.item.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'} ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):
-                </span>
-                <span className="font-bold text-slate-900 dark:text-white">
-                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
-                </span>
-              </div>
-              <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
-                <span>
-                  {hoveredItem.item.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'} ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):
-                </span>
-                <span className="font-bold text-slate-900 dark:text-white">
-                  {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}
-                </span>
-              </div>
-              {!isSimplifiedView && (
-                <div className="flex justify-between text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-200/60 dark:border-white/10">
-                  <span>Advance Cleared:</span>
-                  <span className="font-bold">{formatINR(hoveredItem.item.paidAmount)}</span>
+
+              {/* Subtasks breakdown in Dossier if present */}
+              {infoItem.item.subtasks && infoItem.item.subtasks.length > 0 && (
+                <div className="bg-slate-100/70 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1.5">
+                  <span className="font-bold text-slate-700 dark:text-slate-300 block text-[10px] uppercase tracking-wider">
+                    Sub-costs & Item Breakdown ({infoItem.item.subtasks.length}):
+                  </span>
+                  <div className="space-y-1 max-h-44 overflow-y-auto pr-1">
+                    {infoItem.item.subtasks.map((st) => (
+                      <div key={st.id} className="text-[11px] text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-white/5 space-y-0.5">
+                        <div className="flex items-center justify-between gap-1.5">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            {st.label && (
+                              <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex-shrink-0">
+                                {st.label}
+                              </span>
+                            )}
+                            <span className="truncate font-bold text-slate-900 dark:text-white">{st.name}</span>
+                          </div>
+                          <span className="font-bold font-mono text-slate-800 dark:text-slate-200 flex-shrink-0">{formatINR(st.cost)}</span>
+                        </div>
+                        {st.notes && (
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400 italic line-clamp-1 pl-1">
+                            ↳ {st.notes}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Notes / Special Terms */}
+              {infoItem.item.notes && (
+                <div className="text-[11px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
+                  <span className="font-bold text-slate-800 dark:text-slate-200 block text-[10px]">Notes & Inclusions:</span>
+                  <p className="line-clamp-2 mt-0.5">{infoItem.item.notes}</p>
                 </div>
               )}
             </div>
-
-            {/* Subtasks breakdown in Hover Dossier if present */}
-            {hoveredItem.item.subtasks && hoveredItem.item.subtasks.length > 0 && (
-              <div className="bg-purple-50/70 dark:bg-purple-950/30 p-2.5 rounded-xl border border-purple-200 dark:border-purple-800/40 space-y-1.5">
-                <span className="font-bold text-purple-700 dark:text-purple-300 block text-[10px] uppercase tracking-wider">
-                  Sub-costs & Item Breakdown ({hoveredItem.item.subtasks.length}):
-                </span>
-                <div className="space-y-1 max-h-44 overflow-y-auto pr-1">
-                  {hoveredItem.item.subtasks.map((st) => (
-                    <div key={st.id} className="text-[11px] text-slate-700 dark:text-slate-300 bg-white/80 dark:bg-slate-900/70 p-2 rounded-lg border border-purple-100 dark:border-white/5 space-y-0.5">
-                      <div className="flex items-center justify-between gap-1.5">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          {st.label && (
-                            <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded-md bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800 flex-shrink-0">
-                              {st.label}
-                            </span>
-                          )}
-                          <span className="truncate font-bold text-slate-900 dark:text-white">{st.name}</span>
-                        </div>
-                        <span className="font-bold font-mono text-purple-800 dark:text-purple-200 flex-shrink-0">{formatINR(st.cost)}</span>
-                      </div>
-                      {st.notes && (
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400 italic line-clamp-1 pl-1">
-                          ↳ {st.notes}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Notes / Special Terms */}
-            {hoveredItem.item.notes && (
-              <div className="text-[11px] text-slate-600 dark:text-slate-400 bg-pink-50/50 dark:bg-pink-950/20 p-2 rounded-lg border border-pink-100 dark:border-pink-900/30">
-                <span className="font-bold text-pink-700 dark:text-pink-300 block text-[10px]">Notes & Inclusions:</span>
-                <p className="line-clamp-2 mt-0.5">{hoveredItem.item.notes}</p>
-              </div>
-            )}
           </div>
-        </div>
+        </>
       )}
 
       {/* Edit & Add Expense Modal */}
