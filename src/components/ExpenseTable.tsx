@@ -809,16 +809,28 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               : shares.effectiveTotalCost
                           )}
                         </div>
-                        {/* In simplified view under ALL, show Harshu and Bhuvi shares clearly alongside total */}
+                        {/* In simplified view under ALL: visual fork / branching lines (reverse NOR / branching tree) splitting total into Harshu & Bhuvi */}
                         {isSimplifiedView && sideFilter === 'ALL' ? (
-                          <div className="flex items-center justify-end gap-2 text-[10px] font-medium mt-0.5">
-                            <span className="text-rose-600 dark:text-rose-400">
-                              👰 Harshu: {formatINR(shares.brideDue)}
-                            </span>
-                            <span className="text-slate-300 dark:text-slate-600">•</span>
-                            <span className="text-sky-600 dark:text-sky-400">
-                              🤵 Bhuvi: {formatINR(shares.groomDue)}
-                            </span>
+                          <div className="flex flex-col items-end mt-1">
+                            {/* Branching fork SVG connector */}
+                            <svg className="w-28 h-2.5 text-slate-300 dark:text-slate-600 mb-0.5" viewBox="0 0 112 10" fill="none">
+                              {/* Top stem from total */}
+                              <path d="M56 0v2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                              {/* Left branch towards Harshu */}
+                              <path d="M56 2.5C56 6.5 28 4.5 28 9" stroke="#f43f5e" strokeWidth="1.25" strokeLinecap="round" />
+                              {/* Right branch towards Bhuvi */}
+                              <path d="M56 2.5C56 6.5 84 4.5 84 9" stroke="#0ea5e9" strokeWidth="1.25" strokeLinecap="round" />
+                            </svg>
+                            <div className="flex items-center justify-end gap-2 text-[10.5px] font-semibold tracking-tight">
+                              <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40">
+                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                                👰 Harshu: {formatINR(shares.brideDue)}
+                              </span>
+                              <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40">
+                                <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                                🤵 Bhuvi: {formatINR(shares.groomDue)}
+                              </span>
+                            </div>
                           </div>
                         ) : isSimplifiedView && sideFilter !== 'ALL' ? (
                           <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
@@ -969,14 +981,23 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       )}
                     </div>
                     {isSimplifiedView && sideFilter === 'ALL' ? (
-                      <div className="flex items-center justify-end gap-2 text-[10px] font-sans font-bold mt-0.5">
-                        <span className="text-rose-600 dark:text-rose-400">
-                          👰 Harshu: {formatINR(filteredTotals.brideTotal)}
-                        </span>
-                        <span className="text-slate-300 dark:text-slate-600">•</span>
-                        <span className="text-sky-600 dark:text-sky-400">
-                          🤵 Bhuvi: {formatINR(filteredTotals.groomTotal)}
-                        </span>
+                      <div className="flex flex-col items-end mt-1">
+                        {/* Branching fork SVG connector for totals row */}
+                        <svg className="w-28 h-2.5 text-slate-300 dark:text-slate-600 mb-0.5" viewBox="0 0 112 10" fill="none">
+                          <path d="M56 0v2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <path d="M56 2.5C56 6.5 28 4.5 28 9" stroke="#f43f5e" strokeWidth="1.25" strokeLinecap="round" />
+                          <path d="M56 2.5C56 6.5 84 4.5 84 9" stroke="#0ea5e9" strokeWidth="1.25" strokeLinecap="round" />
+                        </svg>
+                        <div className="flex items-center justify-end gap-2 text-[10.5px] font-sans font-bold">
+                          <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                            👰 Harshu: {formatINR(filteredTotals.brideTotal)}
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40">
+                            <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                            🤵 Bhuvi: {formatINR(filteredTotals.groomTotal)}
+                          </span>
+                        </div>
                       </div>
                     ) : isSimplifiedView && sideFilter !== 'ALL' ? (
                       <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
