@@ -1331,7 +1331,7 @@
       "contactPerson": "Elder Chacha Ji",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "8 family units with children"
+      "notes": "Room required: Yes (or accommodate in hall with extra mattresses)"
     },
     {
       "id": "grp-2",
@@ -1341,7 +1341,7 @@
       "contactPerson": "Mamma Ji Jagadhri",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Requires deluxe rooms accommodation"
+      "notes": "Room required: Yes"
     },
     {
       "id": "grp-3",
@@ -1351,7 +1351,7 @@
       "contactPerson": "Jiju",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "VIP suite reserved"
+      "notes": "Room required: Yes"
     },
     {
       "id": "grp-4",
@@ -1361,7 +1361,7 @@
       "contactPerson": "Aditya (Host)",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Active for Sangeet & Baraat dance"
+      "notes": "Room required: Yes (or hall stay with mattresses for bachelor friends)"
     },
     {
       "id": "grp-5",
@@ -1371,7 +1371,7 @@
       "contactPerson": "HR / Lead",
       "contactPhone": "",
       "isAnonymousNumbers": true,
-      "notes": "Anonymous headcount for dinner reception RSVP"
+      "notes": "Room required: No (local dinner attendees)"
     },
     {
       "id": "grp-6",
@@ -1381,7 +1381,7 @@
       "contactPerson": "Father",
       "contactPhone": "",
       "isAnonymousNumbers": true,
-      "notes": "Anonymous group headcount for dinner catering"
+      "notes": "Room required: No (local city residents)"
     },
     {
       "id": "grp-7",
@@ -1391,7 +1391,7 @@
       "contactPerson": "Harsha's Father",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Main bridal party guests"
+      "notes": "Room required: Yes (girl side family stay)"
     },
     {
       "id": "grp-8",
@@ -1401,7 +1401,7 @@
       "contactPerson": "Sneha (Bridesmaid)",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Sangeet performances & Ribbon katai squad"
+      "notes": "Room required: No / As needed"
     },
     {
       "id": "grp-g01-akqa",
@@ -1411,7 +1411,7 @@
       "contactPerson": "Office Lead / Self",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Delhi NCR / Office • Digital invites & evening cocktail attendees (No room needed)"
+      "notes": "Room required: No (commute from Delhi NCR)"
     },
     {
       "id": "grp-g02-badminton",
@@ -1421,7 +1421,7 @@
       "contactPerson": "Badminton Captain",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Local Sports Club • Evening reception & cocktail dinner (No room needed)"
+      "notes": "Room required: No (local evening reception)"
     },
     {
       "id": "grp-g03-dabwali",
@@ -1431,7 +1431,7 @@
       "contactPerson": "Pawan Chacha Ji",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Dabwali • Arriving Day 1 morning; 4 rooms needed; family stay required"
+      "notes": "Room required: Yes (4 rooms or hall stay with mattresses)"
     },
     {
       "id": "grp-g04-sirsa",
@@ -1441,7 +1441,7 @@
       "contactPerson": "Vicky Chacha Ji",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Sirsa • Extended family; attending all wedding rituals; 3 rooms needed"
+      "notes": "Room required: Yes (3 rooms)"
     },
     {
       "id": "grp-g05-hanumangarh",
@@ -1451,7 +1451,7 @@
       "contactPerson": "Billu Chacha Ji",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Hanumangarh • Close relatives; stay needed for 2 nights; 3 rooms needed"
+      "notes": "Room required: Yes (3 rooms)"
     },
     {
       "id": "grp-g06-raman",
@@ -1461,7 +1461,7 @@
       "contactPerson": "Elder Fuffa Ji",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Raman • Arriving by personal cars; ground floor rooms; 2 rooms needed"
+      "notes": "Room required: Yes (2 rooms, ground floor preferred)"
     },
     {
       "id": "grp-g07-samana",
@@ -1471,7 +1471,7 @@
       "contactPerson": "Ludhiana Tata Ji",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Samana • Senior elder relatives; travel assistance required; 3 rooms needed"
+      "notes": "Room required: Yes (3 rooms)"
     },
     {
       "id": "grp-g08-budhlada",
@@ -1481,7 +1481,7 @@
       "contactPerson": "Maasi Ji & Parivar",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Budhlada • Attending Sangeet, Wedding Pheras & reception; 2 rooms needed"
+      "notes": "Room required: Yes (2 rooms or hall with mattresses)"
     },
     {
       "id": "grp-g09-sunam",
@@ -1491,7 +1491,7 @@
       "contactPerson": "Bhua Ji & Family",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Sunam • 2 nights stay required; 2 rooms needed"
+      "notes": "Room required: Yes (2 rooms)"
     },
     {
       "id": "grp-g10-zirakpur",
@@ -1501,7 +1501,7 @@
       "contactPerson": "Cousin Brother",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Zirakpur / Tricity • Traveling via Highway; cocktail & wedding; 3 rooms needed"
+      "notes": "Room required: Yes (3 rooms)"
     },
     {
       "id": "grp-g11-delhi",
@@ -1511,7 +1511,7 @@
       "contactPerson": "Self / Best Man",
       "contactPhone": "",
       "isAnonymousNumbers": false,
-      "notes": "Delhi NCR • Local residents; self-commute to venue (No room needed)"
+      "notes": "Room required: No (local residents; self-commute)"
     }
   ],
   "vendors": [

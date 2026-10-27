@@ -870,14 +870,48 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                 </div>
               </div>
 
+              {/* Accommodation Requirement (Simplified: Yes, No, Hall stay with mattresses) */}
+              <div>
+                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  Accommodation / Room Requirement
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: 'Room required: Yes', label: '🛏️ Yes (Room)' },
+                    { id: 'Room required: No', label: '❌ No Room' },
+                    { id: 'Will accommodate in hall with extra mattresses', label: '🛋️ Hall / Mattresses' },
+                  ].map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => {
+                        const existing = newGuest.notes || '';
+                        const clean = existing.replace(/Room required: [^•]*/g, '').replace(/Will accommodate[^•]*/g, '').trim();
+                        setNewGuest({
+                          ...newGuest,
+                          notes: clean ? `${opt.id} • ${clean}` : opt.id
+                        });
+                      }}
+                      className={`py-1.5 px-2 rounded-xl text-[11px] font-bold border transition-colors cursor-pointer text-center ${
+                        newGuest.notes?.includes(opt.id)
+                          ? 'bg-blue-500 text-white border-blue-500 shadow-2xs'
+                          : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-slate-300'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Notes */}
               <div>
                 <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                  Notes / Room Requirement
+                  Notes & Details
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="Need 1 double room, arriving on 12th morning..."
+                  placeholder="e.g. Room required: Yes (or hall stay with mattresses)"
                   value={newGuest.notes}
                   onChange={(e) => setNewGuest({ ...newGuest, notes: e.target.value })}
                   className="w-full px-3 py-2 border rounded-xl dark:bg-slate-800 dark:border-slate-700 font-medium"
