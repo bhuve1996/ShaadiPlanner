@@ -61,6 +61,7 @@ export async function fetchRemoteWeddingData() {
           name: e.name,
           category: e.category,
           event: e.event,
+          groupName: meta.groupName || undefined,
           vendorName: e.vendor_name,
           vendorContactPerson: e.vendor_contact_person,
           vendorPhone: e.vendor_phone,
@@ -215,12 +216,13 @@ export async function syncSettingsToRemote(s: WeddingSettings) {
 export async function syncExpenseToRemote(item: ExpenseItem) {
   if (!isSupabaseConfigured() || !supabase) return;
   try {
-    // Pack custom exact costs or other metadata into clean notes comment
+    // Pack custom exact costs, groupName or other metadata into clean notes comment
     let notesToSync = item.notes || '';
-    if (item.customGroomCost !== undefined || item.customBrideCost !== undefined) {
+    if (item.customGroomCost !== undefined || item.customBrideCost !== undefined || item.groupName !== undefined) {
       const meta = {
         customGroomCost: item.customGroomCost,
-        customBrideCost: item.customBrideCost
+        customBrideCost: item.customBrideCost,
+        groupName: item.groupName
       };
       notesToSync = `${notesToSync.replace(/<!--EXP_META:.*?-->/g, '').trim()} <!--EXP_META:${JSON.stringify(meta)}-->`.trim();
     }

@@ -50,6 +50,7 @@ export interface ExpenseItem {
   subname?: string; // Concise secondary description or sub-label
   category: ExpenseCategory;
   event: WeddingEvent;
+  groupName?: string; // Grouping category (e.g. "Shadi", "Ring Ceremony", "Haldi & Mehendi", "Gold & Jewelry", etc.) for collapsible accordion groups
   
   // Vendor details & contacts
   vendorName?: string;

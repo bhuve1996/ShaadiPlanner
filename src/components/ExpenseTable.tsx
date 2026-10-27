@@ -19,7 +19,11 @@ import {
   X,
   Eye,
   EyeOff,
-  Lock
+  Lock,
+  ChevronDown,
+  ChevronRight,
+  FolderOpen,
+  Folder
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -95,6 +99,27 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [selectedPayer, setSelectedPayer] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [isHeaderSticky, setIsHeaderSticky] = useState<boolean>(false);
+  const [groupBySection, setGroupBySection] = useState<boolean>(true);
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+
+  const toggleGroupCollapse = (groupName: string) => {
+    setCollapsedGroups(prev => ({
+      ...prev,
+      [groupName]: !prev[groupName]
+    }));
+  };
+
+  const collapseAllGroups = () => {
+    const allCollapsed: Record<string, boolean> = {};
+    groupedExpenses.forEach(g => {
+      allCollapsed[g.groupName] = true;
+    });
+    setCollapsedGroups(allCollapsed);
+  };
+
+  const expandAllGroups = () => {
+    setCollapsedGroups({});
+  };
   
   // Sorting State
   const [sortField, setSortField] = useState<SortField>('actualCost');
@@ -209,6 +234,77 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     showShagun
   ]);
 
+  // Grouped tasks structure for collapsible accordion sections
+  const groupedExpenses = useMemo(() => {
+    const map = new Map<string, ExpenseItem[]>();
+    
+    // Maintain natural group order from sheet
+    const groupOrder = [
+      'Shadi (Wedding Day)',
+      'Ring Ceremony (Engagement)',
+      'Haldi & Mehendi',
+      "Harshu's Outfits & Trousseau",
+      "Bhuvesh's Outfits & Sherwani",
+      'Photography & Cinema',
+      'General & Ceremony Essentials',
+      'Gold & Jewelry',
+      'Family Shagun (Rishtedaar Envelopes)'
+    ];
+
+    processedExpenses.forEach(item => {
+      const g = item.groupName || 'General & Ceremony Essentials';
+      if (!map.has(g)) map.set(g, []);
+      map.get(g)!.push(item);
+    });
+
+    const groups: {
+      groupName: string;
+      items: ExpenseItem[];
+      totalCost: number;
+      brideTotal: number;
+      groomTotal: number;
+      totalPaid: number;
+    }[] = [];
+
+    // First push in defined order
+    groupOrder.forEach(gName => {
+      if (map.has(gName)) {
+        const items = map.get(gName)!;
+        let totalCost = 0;
+        let brideTotal = 0;
+        let groomTotal = 0;
+        let totalPaid = 0;
+        items.forEach(it => {
+          const s = computeExpenseShares(it, groomGuestCount, brideGuestCount, eventGuestCounts);
+          totalCost += s.effectiveTotalCost;
+          brideTotal += s.brideDue;
+          groomTotal += s.groomDue;
+          totalPaid += (it.paidAmount || 0);
+        });
+        groups.push({ groupName: gName, items, totalCost, brideTotal, groomTotal, totalPaid });
+        map.delete(gName);
+      }
+    });
+
+    // Push any remaining groups
+    map.forEach((items, gName) => {
+      let totalCost = 0;
+      let brideTotal = 0;
+      let groomTotal = 0;
+      let totalPaid = 0;
+      items.forEach(it => {
+        const s = computeExpenseShares(it, groomGuestCount, brideGuestCount, eventGuestCounts);
+        totalCost += s.effectiveTotalCost;
+        brideTotal += s.brideDue;
+        groomTotal += s.groomDue;
+        totalPaid += (it.paidAmount || 0);
+      });
+      groups.push({ groupName: gName, items, totalCost, brideTotal, groomTotal, totalPaid });
+    });
+
+    return groups;
+  }, [processedExpenses, groomGuestCount, brideGuestCount, eventGuestCounts]);
+
   const filteredTotals = useMemo(() => {
     let totalCost = 0;
     let brideTotal = 0;
@@ -297,6 +393,367 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     }
   };
 
+  const renderExpenseRow = (item: ExpenseItem) => {
+    const shares = computeExpenseShares(
+      item,
+      groomGuestCount,
+      brideGuestCount,
+      eventGuestCounts
+    );
+
+    const isFullyPaid = item.paidAmount >= item.actualCost && item.actualCost > 0;
+    const percentPaid = Math.min(100, Math.round((item.paidAmount / (item.actualCost || 1)) * 100));
+    const rowClass = getRowClassName(item.splitType);
+
+    return (
+      <tr 
+        key={item.id} 
+        className={`cursor-pointer ${rowClass} group transition-all duration-200 select-none divide-x divide-slate-200/70 dark:divide-white/5`}
+        onClick={() => {
+          setEditingItem(item);
+          setShowAddModal(false);
+        }}
+      >
+        {/* 1. Item Name + Photographic Image + Card Look with Split Accent Indicator */}
+        <td className="py-3 px-4">
+          <div className="relative flex items-center gap-3 bg-slate-50/80 dark:bg-white/[0.03] pl-3.5 pr-3 py-2.5 rounded-2xl border border-slate-200/80 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20 group-hover:bg-white dark:group-hover:bg-white/[0.05] group-hover:shadow-xs transition-all overflow-hidden">
+            {/* Option 2 Left Vertical Accent Indicator Bar */}
+            <div 
+              className={`absolute left-0 top-2 bottom-2 w-1.5 rounded-r-full ${
+                item.splitType === 'BRIDE_ONLY'
+                  ? 'bg-gradient-to-b from-rose-400 to-pink-500 shadow-sm'
+                  : item.splitType === 'GROOM_ONLY'
+                  ? 'bg-gradient-to-b from-blue-400 to-indigo-500 shadow-sm'
+                  : 'bg-gradient-to-b from-emerald-400 to-teal-500 shadow-sm'
+              }`}
+              title={
+                item.splitType === 'BRIDE_ONLY'
+                  ? 'Harshu 100%'
+                  : item.splitType === 'GROOM_ONLY'
+                  ? 'Bhuvi 100%'
+                  : 'Shared / Mutual'
+              }
+            />
+
+            {/* Photographic Thumbnail or Icon */}
+            {!isSimplifiedView && (
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200/80 dark:border-white/10 shadow-xs bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                {item.imageUrl ? (
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <CategoryIcon category={item.category} size={20} />
+                )}
+              </div>
+            )}
+            
+            <div className="flex-1 min-w-0">
+              {/* Crisp Title */}
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors text-[13px] leading-tight tracking-tight">
+                  {item.name}
+                </span>
+                
+                {/* Info ℹ️ Button to show breakdown card on click */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    if (infoItem?.item.id === item.id) {
+                      setInfoItem(null);
+                    } else {
+                      setInfoItem({ 
+                        item, 
+                        x: Math.min(rect.left, typeof window !== 'undefined' ? window.innerWidth - 380 : 500), 
+                        y: rect.bottom + 8 
+                      });
+                    }
+                  }}
+                  className={`p-1 rounded-md transition-colors cursor-pointer ${
+                    infoItem?.item.id === item.id
+                      ? 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950/60'
+                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
+                  }`}
+                  title="Click to view detailed item breakdown & split notes"
+                >
+                  <Info size={12} />
+                </button>
+              </div>
+
+              {/* Subtitle / Sub-detail Note */}
+              {item.notes && (
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
+                  {item.notes.split('•')[0].trim()}
+                </div>
+              )}
+
+              {/* Metadata Mini-Chips Strip */}
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs">
+                {/* Category Mini-Chip */}
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
+                  {item.category}
+                </span>
+
+                {/* Vendor Mini-Chip */}
+                {!isSimplifiedView && item.vendorName && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
+                    <Building2 size={10} className="text-slate-400 flex-shrink-0" />
+                    <span className="truncate max-w-[130px]">{item.vendorName}</span>
+                  </span>
+                )}
+
+                {/* Due Date Mini-Chip */}
+                {!isSimplifiedView && item.dueDate && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 shadow-2xs">
+                    <Clock size={9} />
+                    <span>{item.dueDate}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </td>
+
+        {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill (Hidden in Simple View) */}
+        {!isSimplifiedView && (
+          <td className="py-3 px-4 whitespace-nowrap">
+            <div className="space-y-1.5">
+              {/* Visual Ceremony Capsule */}
+              <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
+                <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border border-pink-200 dark:border-white/10">
+                  <img 
+                    src={EVENT_IMAGES[item.event]?.image || EVENT_IMAGES['All Events'].image} 
+                    alt={item.event} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <span className="text-xs font-black text-slate-800 dark:text-slate-200">
+                  {item.event}
+                </span>
+              </div>
+              
+              {/* SMART GUEST BADGE */}
+              {shares.isCustomOccasionGuests ? (
+                <div className="flex items-center gap-1 text-[10px] text-purple-700 dark:text-purple-300 font-bold bg-purple-100/80 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
+                  <Users size={11} className="text-purple-600 dark:text-purple-400" />
+                  <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
+                </div>
+              ) : (
+                <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium pl-1">
+                  Global: {groomGuestCount + brideGuestCount} Guests
+                </div>
+              )}
+            </div>
+          </td>
+        )}
+
+        {/* 3. Combined Side & Responsibility Column */}
+        <td 
+          className="py-3 px-3 text-center whitespace-nowrap"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="inline-flex flex-col items-center gap-1.5 p-1 rounded-xl bg-slate-100/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+            {/* Top: Side Split Badge Selector */}
+            <div className="relative w-full">
+              <select
+                value={item.splitType}
+                onChange={(e) => {
+                  onUpdateExpense({
+                    ...item,
+                    splitType: e.target.value as SplitType,
+                  });
+                }}
+                className={`text-[11px] font-black px-2 py-1 rounded-lg border text-center cursor-pointer transition-all w-[130px] focus:outline-none focus:ring-1 focus:ring-pink-400 ${
+                  item.splitType === 'BRIDE_ONLY'
+                    ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/70 dark:border-rose-800 dark:text-rose-300'
+                    : item.splitType === 'GROOM_ONLY'
+                    ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/70 dark:border-blue-800 dark:text-blue-300'
+                    : item.splitType === 'GUEST_RATIO'
+                    ? 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
+                    : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/70 dark:border-emerald-800 dark:text-emerald-300'
+                }`}
+                style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
+              >
+                <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harshu (100%)</option>
+                <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
+                <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
+                <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
+              </select>
+            </div>
+
+            {/* Bottom: Responsibility Tier (Parent vs Self vs Family) */}
+            <div className="relative w-full">
+              <select
+                value={item.payerCategory || 'COUPLE'}
+                onChange={(e) => {
+                  onUpdateExpense({
+                    ...item,
+                    payerCategory: e.target.value as any,
+                  });
+                }}
+                className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-400 text-center cursor-pointer transition-all w-[130px] focus:outline-none"
+                style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
+              >
+                <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👦 Parents</option>
+                <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">💍 Self</option>
+                <option value="SHARED_FAMILY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🏡 Family</option>
+              </select>
+            </div>
+          </div>
+        </td>
+
+        {/* 4. Cost / Share Display */}
+        <td className={`py-4 px-4 ${isSimplifiedView && sideFilter === 'ALL' ? 'text-center' : 'text-right'} whitespace-nowrap`}>
+          <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
+            {formatINR(
+              isSimplifiedView && sideFilter === 'BRIDE'
+                ? shares.brideDue
+                : isSimplifiedView && sideFilter === 'GROOM'
+                ? shares.groomDue
+                : shares.effectiveTotalCost
+            )}
+          </div>
+          {/* In simplified view under ALL: visual fork / branching lines (reverse NOR / branching tree) centered symmetrically */}
+          {isSimplifiedView && sideFilter === 'ALL' ? (
+            <div className="flex flex-col items-center mt-1 w-full">
+              <div className="flex items-center justify-center gap-2 text-[10.5px] font-semibold tracking-tight w-full">
+                <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40 min-w-[95px] justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                  👰 Harshu: {formatINR(shares.brideDue)}
+                </span>
+
+                {/* Symmetrical tree split icon / branching bridge */}
+                <svg className="w-6 h-4 text-slate-400 dark:text-slate-500 shrink-0" viewBox="0 0 24 16" fill="none">
+                  {/* Top stem from total */}
+                  <path d="M12 0v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  {/* Left branch to Harshu */}
+                  <path d="M12 5C12 11 2 9 2 15" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
+                  {/* Right branch to Bhuvi */}
+                  <path d="M12 5C12 11 22 9 22 15" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+
+                <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40 min-w-[95px] justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                  🤵 Bhuvi: {formatINR(shares.groomDue)}
+                </span>
+              </div>
+            </div>
+          ) : isSimplifiedView && sideFilter !== 'ALL' ? (
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              Total: {formatINR(shares.effectiveTotalCost)} ({sideFilter === 'BRIDE' ? shares.bridePercent : shares.groomPercent}%)
+            </div>
+          ) : item.isPerPlateCalculation && shares.effectivePlateRate > 0 ? (
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              ₹{shares.effectivePlateRate.toLocaleString('en-IN')}/plate
+            </div>
+          ) : (item.name.toLowerCase().includes('mitha') || item.name.toLowerCase().includes('sweets') || item.name.toLowerCase().includes('bhaji')) && (item.ratePerGuestOrPlate || 0) > 0 ? (
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              ₹{(item.ratePerGuestOrPlate || 800).toLocaleString('en-IN')}/box
+            </div>
+          ) : null}
+        </td>
+
+        {!isSimplifiedView && (
+          <>
+            {/* 5. Bride Share */}
+            <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+              <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                {formatINR(shares.brideDue)}
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                {shares.bridePercent}% by Harshu
+              </div>
+            </td>
+
+            {/* 6. Groom Share */}
+            <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+              <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                {formatINR(shares.groomDue)}
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                {shares.groomPercent}% by Bhuvesh
+              </div>
+            </td>
+
+            {/* 7. Payment Progress & Status */}
+            <td 
+              className="py-4 px-4 whitespace-nowrap"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col gap-1.5 w-36">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-bold text-slate-700 dark:text-slate-300">
+                    {formatINR(item.paidAmount)}
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                    {percentPaid}%
+                  </span>
+                </div>
+                <div className="w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full transition-all duration-300 ${
+                      isFullyPaid ? 'bg-emerald-500' : 'bg-slate-700 dark:bg-slate-300'
+                    }`} 
+                    style={{ width: `${percentPaid}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                  <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harshu' : 'Unpaid'}</strong></span>
+                  <span className={`font-bold ${
+                    item.status === 'Settled' 
+                      ? 'text-emerald-700 dark:text-emerald-400' 
+                      : item.status === 'Partially Paid' 
+                      ? 'text-amber-700 dark:text-amber-400' 
+                      : 'text-slate-500 dark:text-slate-400'
+                  }`}>
+                    {item.status}
+                  </span>
+                </div>
+              </div>
+            </td>
+          </>
+        )}
+
+        {/* 8. Actions */}
+        <td 
+          className="py-4 px-4 text-center whitespace-nowrap"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-center gap-1">
+            <button
+              onClick={() => {
+                setEditingItem(item);
+                setShowAddModal(false);
+              }}
+              className="p-1.5 rounded-lg text-slate-500 hover:text-pink-600 dark:hover:text-pink-400 hover:bg-pink-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Edit full expense"
+            >
+              <Edit3 size={15} />
+            </button>
+            <button
+              onClick={() => {
+                if (confirm(`Delete "${item.name}"?`)) {
+                  onDeleteExpense(item.id);
+                }
+              }}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Delete expense"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  };
+
   return (
     <div className="space-y-4 relative">
       {/* Table Container with proper horizontal overflow scroll */}
@@ -338,14 +795,51 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               )}
             </div>
 
-            {/* Add Expense Button */}
-            <button
-              onClick={handleOpenAddModal}
-              className="self-start md:self-auto flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-blue-500 text-white text-xs font-black shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
-            >
-              <Plus size={16} />
-              <span>Add Expense</span>
-            </button>
+            {/* Top Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
+              {/* Group Accordion Controls (Available in both Simple & Detailed Views) */}
+              <button
+                type="button"
+                onClick={() => setGroupBySection(prev => !prev)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer border shadow-xs ${
+                  groupBySection
+                    ? 'bg-purple-100 text-purple-900 dark:bg-purple-950/80 dark:text-purple-200 border-purple-300 dark:border-purple-700'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300'
+                }`}
+                title="Toggle group accordions"
+              >
+                <FolderOpen size={13} className="text-purple-600 dark:text-purple-400" />
+                <span>Groups: <strong>{groupBySection ? 'ON' : 'OFF'}</strong></span>
+              </button>
+
+              {groupBySection && (
+                <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold">
+                  <button
+                    type="button"
+                    onClick={expandAllGroups}
+                    className="px-2 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 cursor-pointer"
+                  >
+                    Expand
+                  </button>
+                  <button
+                    type="button"
+                    onClick={collapseAllGroups}
+                    className="px-2 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 cursor-pointer"
+                  >
+                    Collapse
+                  </button>
+                </div>
+              )}
+
+              {/* Add Expense Button */}
+              <button
+                onClick={handleOpenAddModal}
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-blue-500 text-white text-xs font-black shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+              >
+                <Plus size={16} />
+                <span>Add Expense</span>
+              </button>
+            </div>
           </div>
 
           {/* Filter Inputs Grid */}
@@ -570,7 +1064,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <tbody className="divide-y divide-pink-100/60 dark:divide-white/5">
               {processedExpenses.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-16 text-center text-slate-400">
+                  <td colSpan={isSimplifiedView ? 4 : 8} className="py-16 text-center text-slate-400">
                     <p className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">No matching expenses found</p>
                     <p className="text-xs text-slate-400 mb-3">Try clearing search terms or changing your filters.</p>
                     <button
@@ -581,367 +1075,418 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     </button>
                   </td>
                 </tr>
+              ) : groupBySection ? (
+                // ACCORDION GROUPED RENDERING
+                groupedExpenses.map((group) => {
+                  const isCollapsed = Boolean(collapsedGroups[group.groupName]);
+                  const renderExpenseRow = (item: ExpenseItem) => {
+    const shares = computeExpenseShares(
+      item,
+      groomGuestCount,
+      brideGuestCount,
+      eventGuestCounts
+    );
+
+    const isFullyPaid = item.paidAmount >= item.actualCost && item.actualCost > 0;
+    const percentPaid = Math.min(100, Math.round((item.paidAmount / (item.actualCost || 1)) * 100));
+    const rowClass = getRowClassName(item.splitType);
+
+    return (
+      <tr 
+        key={item.id} 
+        className={`cursor-pointer ${rowClass} group transition-all duration-200 select-none divide-x divide-slate-200/70 dark:divide-white/5`}
+        onClick={() => {
+          setEditingItem(item);
+          setShowAddModal(false);
+        }}
+      >
+        {/* 1. Item Name + Photographic Image + Card Look with Split Accent Indicator */}
+        <td className="py-3 px-4">
+          <div className="relative flex items-center gap-3 bg-slate-50/80 dark:bg-white/[0.03] pl-3.5 pr-3 py-2.5 rounded-2xl border border-slate-200/80 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20 group-hover:bg-white dark:group-hover:bg-white/[0.05] group-hover:shadow-xs transition-all overflow-hidden">
+            {/* Option 2 Left Vertical Accent Indicator Bar */}
+            <div 
+              className={`absolute left-0 top-2 bottom-2 w-1.5 rounded-r-full ${
+                item.splitType === 'BRIDE_ONLY'
+                  ? 'bg-gradient-to-b from-rose-400 to-pink-500 shadow-sm'
+                  : item.splitType === 'GROOM_ONLY'
+                  ? 'bg-gradient-to-b from-blue-400 to-indigo-500 shadow-sm'
+                  : 'bg-gradient-to-b from-emerald-400 to-teal-500 shadow-sm'
+              }`}
+              title={
+                item.splitType === 'BRIDE_ONLY'
+                  ? 'Harshu 100%'
+                  : item.splitType === 'GROOM_ONLY'
+                  ? 'Bhuvi 100%'
+                  : 'Shared / Mutual'
+              }
+            />
+
+            {/* Photographic Thumbnail or Icon */}
+            {!isSimplifiedView && (
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200/80 dark:border-white/10 shadow-xs bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                {item.imageUrl ? (
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <CategoryIcon category={item.category} size={20} />
+                )}
+              </div>
+            )}
+            
+            <div className="flex-1 min-w-0">
+              {/* Crisp Title */}
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors text-[13px] leading-tight tracking-tight">
+                  {item.name}
+                </span>
+                
+                {/* Info ℹ️ Button to show breakdown card on click */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    if (infoItem?.item.id === item.id) {
+                      setInfoItem(null);
+                    } else {
+                      setInfoItem({ 
+                        item, 
+                        x: Math.min(rect.left, typeof window !== 'undefined' ? window.innerWidth - 380 : 500), 
+                        y: rect.bottom + 8 
+                      });
+                    }
+                  }}
+                  className={`p-1 rounded-md transition-colors cursor-pointer ${
+                    infoItem?.item.id === item.id
+                      ? 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950/60'
+                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
+                  }`}
+                  title="Click to view detailed item breakdown & split notes"
+                >
+                  <Info size={12} />
+                </button>
+              </div>
+
+              {/* Subtitle / Sub-detail Note */}
+              {item.notes && (
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
+                  {item.notes.split('•')[0].trim()}
+                </div>
+              )}
+
+              {/* Metadata Mini-Chips Strip */}
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs">
+                {/* Category Mini-Chip */}
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
+                  {item.category}
+                </span>
+
+                {/* Vendor Mini-Chip */}
+                {!isSimplifiedView && item.vendorName && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
+                    <Building2 size={10} className="text-slate-400 flex-shrink-0" />
+                    <span className="truncate max-w-[130px]">{item.vendorName}</span>
+                  </span>
+                )}
+
+                {/* Due Date Mini-Chip */}
+                {!isSimplifiedView && item.dueDate && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 shadow-2xs">
+                    <Clock size={9} />
+                    <span>{item.dueDate}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </td>
+
+        {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill (Hidden in Simple View) */}
+        {!isSimplifiedView && (
+          <td className="py-3 px-4 whitespace-nowrap">
+            <div className="space-y-1.5">
+              {/* Visual Ceremony Capsule */}
+              <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
+                <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border border-pink-200 dark:border-white/10">
+                  <img 
+                    src={EVENT_IMAGES[item.event]?.image || EVENT_IMAGES['All Events'].image} 
+                    alt={item.event} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <span className="text-xs font-black text-slate-800 dark:text-slate-200">
+                  {item.event}
+                </span>
+              </div>
+              
+              {/* SMART GUEST BADGE */}
+              {shares.isCustomOccasionGuests ? (
+                <div className="flex items-center gap-1 text-[10px] text-purple-700 dark:text-purple-300 font-bold bg-purple-100/80 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
+                  <Users size={11} className="text-purple-600 dark:text-purple-400" />
+                  <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
+                </div>
               ) : (
-                processedExpenses.map((item) => {
-                  const shares = computeExpenseShares(
-                    item,
-                    groomGuestCount,
-                    brideGuestCount,
-                    eventGuestCounts
-                  );
+                <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium pl-1">
+                  Global: {groomGuestCount + brideGuestCount} Guests
+                </div>
+              )}
+            </div>
+          </td>
+        )}
 
-                  const isFullyPaid = item.paidAmount >= item.actualCost && item.actualCost > 0;
-                  const percentPaid = Math.min(100, Math.round((item.paidAmount / (item.actualCost || 1)) * 100));
-                  const rowClass = getRowClassName(item.splitType);
+        {/* 3. Combined Side & Responsibility Column */}
+        <td 
+          className="py-3 px-3 text-center whitespace-nowrap"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="inline-flex flex-col items-center gap-1.5 p-1 rounded-xl bg-slate-100/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+            {/* Top: Side Split Badge Selector */}
+            <div className="relative w-full">
+              <select
+                value={item.splitType}
+                onChange={(e) => {
+                  onUpdateExpense({
+                    ...item,
+                    splitType: e.target.value as SplitType,
+                  });
+                }}
+                className={`text-[11px] font-black px-2 py-1 rounded-lg border text-center cursor-pointer transition-all w-[130px] focus:outline-none focus:ring-1 focus:ring-pink-400 ${
+                  item.splitType === 'BRIDE_ONLY'
+                    ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/70 dark:border-rose-800 dark:text-rose-300'
+                    : item.splitType === 'GROOM_ONLY'
+                    ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/70 dark:border-blue-800 dark:text-blue-300'
+                    : item.splitType === 'GUEST_RATIO'
+                    ? 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
+                    : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/70 dark:border-emerald-800 dark:text-emerald-300'
+                }`}
+                style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
+              >
+                <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harshu (100%)</option>
+                <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
+                <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
+                <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
+              </select>
+            </div>
 
-                  return (
-                    <tr 
-                      key={item.id} 
-                      className={`cursor-pointer ${rowClass} group transition-all duration-200 select-none divide-x divide-slate-200/70 dark:divide-white/5`}
-                      onClick={() => {
-                        setEditingItem(item);
-                        setShowAddModal(false);
-                      }}
-                    >
-                      {/* 1. Item Name + Photographic Image + Card Look with Split Accent Indicator */}
-                      <td className="py-3 px-4">
-                        <div className="relative flex items-center gap-3 bg-slate-50/80 dark:bg-white/[0.03] pl-3.5 pr-3 py-2.5 rounded-2xl border border-slate-200/80 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20 group-hover:bg-white dark:group-hover:bg-white/[0.05] group-hover:shadow-xs transition-all overflow-hidden">
-                          {/* Option 2 Left Vertical Accent Indicator Bar */}
-                          <div 
-                            className={`absolute left-0 top-2 bottom-2 w-1.5 rounded-r-full ${
-                              item.splitType === 'BRIDE_ONLY'
-                                ? 'bg-gradient-to-b from-rose-400 to-pink-500 shadow-sm'
-                                : item.splitType === 'GROOM_ONLY'
-                                ? 'bg-gradient-to-b from-blue-400 to-indigo-500 shadow-sm'
-                                : 'bg-gradient-to-b from-emerald-400 to-teal-500 shadow-sm'
-                            }`}
-                            title={
-                              item.splitType === 'BRIDE_ONLY'
-                                ? 'Harshu 100%'
-                                : item.splitType === 'GROOM_ONLY'
-                                ? 'Bhuvi 100%'
-                                : 'Shared / Mutual'
-                            }
-                          />
+            {/* Bottom: Responsibility Tier (Parent vs Self vs Family) */}
+            <div className="relative w-full">
+              <select
+                value={item.payerCategory || 'COUPLE'}
+                onChange={(e) => {
+                  onUpdateExpense({
+                    ...item,
+                    payerCategory: e.target.value as any,
+                  });
+                }}
+                className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-400 text-center cursor-pointer transition-all w-[130px] focus:outline-none"
+                style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
+              >
+                <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👦 Parents</option>
+                <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">💍 Self</option>
+                <option value="SHARED_FAMILY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🏡 Family</option>
+              </select>
+            </div>
+          </div>
+        </td>
 
-                          {/* Photographic Thumbnail or Icon */}
-                          {!isSimplifiedView && (
-                            <div className="relative w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200/80 dark:border-white/10 shadow-xs bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                              {item.imageUrl ? (
-                                <img 
-                                  src={item.imageUrl} 
-                                  alt={item.name} 
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                  onError={(e) => {
-                                    (e.currentTarget as HTMLElement).style.display = 'none';
-                                  }}
-                                />
+        {/* 4. Cost / Share Display */}
+        <td className={`py-4 px-4 ${isSimplifiedView && sideFilter === 'ALL' ? 'text-center' : 'text-right'} whitespace-nowrap`}>
+          <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
+            {formatINR(
+              isSimplifiedView && sideFilter === 'BRIDE'
+                ? shares.brideDue
+                : isSimplifiedView && sideFilter === 'GROOM'
+                ? shares.groomDue
+                : shares.effectiveTotalCost
+            )}
+          </div>
+          {/* In simplified view under ALL: visual fork / branching lines (reverse NOR / branching tree) centered symmetrically */}
+          {isSimplifiedView && sideFilter === 'ALL' ? (
+            <div className="flex flex-col items-center mt-1 w-full">
+              <div className="flex items-center justify-center gap-2 text-[10.5px] font-semibold tracking-tight w-full">
+                <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40 min-w-[95px] justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                  👰 Harshu: {formatINR(shares.brideDue)}
+                </span>
+
+                {/* Symmetrical tree split icon / branching bridge */}
+                <svg className="w-6 h-4 text-slate-400 dark:text-slate-500 shrink-0" viewBox="0 0 24 16" fill="none">
+                  {/* Top stem from total */}
+                  <path d="M12 0v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  {/* Left branch to Harshu */}
+                  <path d="M12 5C12 11 2 9 2 15" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
+                  {/* Right branch to Bhuvi */}
+                  <path d="M12 5C12 11 22 9 22 15" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+
+                <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40 min-w-[95px] justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                  🤵 Bhuvi: {formatINR(shares.groomDue)}
+                </span>
+              </div>
+            </div>
+          ) : isSimplifiedView && sideFilter !== 'ALL' ? (
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              Total: {formatINR(shares.effectiveTotalCost)} ({sideFilter === 'BRIDE' ? shares.bridePercent : shares.groomPercent}%)
+            </div>
+          ) : item.isPerPlateCalculation && shares.effectivePlateRate > 0 ? (
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              ₹{shares.effectivePlateRate.toLocaleString('en-IN')}/plate
+            </div>
+          ) : (item.name.toLowerCase().includes('mitha') || item.name.toLowerCase().includes('sweets') || item.name.toLowerCase().includes('bhaji')) && (item.ratePerGuestOrPlate || 0) > 0 ? (
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              ₹{(item.ratePerGuestOrPlate || 800).toLocaleString('en-IN')}/box
+            </div>
+          ) : null}
+        </td>
+
+        {!isSimplifiedView && (
+          <>
+            {/* 5. Bride Share */}
+            <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+              <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                {formatINR(shares.brideDue)}
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                {shares.bridePercent}% by Harshu
+              </div>
+            </td>
+
+            {/* 6. Groom Share */}
+            <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
+              <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                {formatINR(shares.groomDue)}
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                {shares.groomPercent}% by Bhuvesh
+              </div>
+            </td>
+
+            {/* 7. Payment Progress & Status */}
+            <td 
+              className="py-4 px-4 whitespace-nowrap"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col gap-1.5 w-36">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-bold text-slate-700 dark:text-slate-300">
+                    {formatINR(item.paidAmount)}
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                    {percentPaid}%
+                  </span>
+                </div>
+                <div className="w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full transition-all duration-300 ${
+                      isFullyPaid ? 'bg-emerald-500' : 'bg-slate-700 dark:bg-slate-300'
+                    }`} 
+                    style={{ width: `${percentPaid}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                  <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harshu' : 'Unpaid'}</strong></span>
+                  <span className={`font-bold ${
+                    item.status === 'Settled' 
+                      ? 'text-emerald-700 dark:text-emerald-400' 
+                      : item.status === 'Partially Paid' 
+                      ? 'text-amber-700 dark:text-amber-400' 
+                      : 'text-slate-500 dark:text-slate-400'
+                  }`}>
+                    {item.status}
+                  </span>
+                </div>
+              </div>
+            </td>
+          </>
+        )}
+
+        {/* 8. Actions */}
+        <td 
+          className="py-4 px-4 text-center whitespace-nowrap"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-center gap-1">
+            <button
+              onClick={() => {
+                setEditingItem(item);
+                setShowAddModal(false);
+              }}
+              className="p-1.5 rounded-lg text-slate-500 hover:text-pink-600 dark:hover:text-pink-400 hover:bg-pink-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Edit full expense"
+            >
+              <Edit3 size={15} />
+            </button>
+            <button
+              onClick={() => {
+                if (confirm(`Delete "${item.name}"?`)) {
+                  onDeleteExpense(item.id);
+                }
+              }}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Delete expense"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+                    <React.Fragment key={group.groupName}>
+                      {/* Accordion Group Header Row */}
+                      <tr 
+                        onClick={() => toggleGroupCollapse(group.groupName)}
+                        className="bg-slate-100/90 dark:bg-slate-800/80 hover:bg-slate-200/90 dark:hover:bg-slate-700/80 cursor-pointer transition-colors border-y border-slate-300 dark:border-white/10 select-none"
+                      >
+                        <td colSpan={isSimplifiedView ? 4 : 8} className="py-2.5 px-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              {isCollapsed ? (
+                                <ChevronRight size={16} className="text-slate-500" />
                               ) : (
-                                <CategoryIcon category={item.category} size={20} />
+                                <ChevronDown size={16} className="text-slate-500" />
                               )}
-                            </div>
-                          )}
-                          
-                          <div className="flex-1 min-w-0">
-                            {/* Crisp Title */}
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors text-[13px] leading-tight tracking-tight">
-                                {item.name}
+                              <span className="font-black text-slate-900 dark:text-white text-xs sm:text-sm">
+                                {group.groupName}
                               </span>
-                              
-                              {/* Info ℹ️ Button to show breakdown card on click */}
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  const rect = e.currentTarget.getBoundingClientRect();
-                                  if (infoItem?.item.id === item.id) {
-                                    setInfoItem(null);
-                                  } else {
-                                    setInfoItem({ 
-                                      item, 
-                                      x: Math.min(rect.left, typeof window !== 'undefined' ? window.innerWidth - 380 : 500), 
-                                      y: rect.bottom + 8 
-                                    });
-                                  }
-                                }}
-                                className={`p-1 rounded-md transition-colors cursor-pointer ${
-                                  infoItem?.item.id === item.id
-                                    ? 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950/60'
-                                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
-                                }`}
-                                title="Click to view detailed item breakdown & split notes"
-                              >
-                                <Info size={12} />
-                              </button>
+                              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-white/10">
+                                {group.items.length} {group.items.length === 1 ? 'task' : 'tasks'}
+                              </span>
                             </div>
 
-                            {/* Subtitle / Sub-detail Note */}
-                            {item.notes && (
-                              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
-                                {item.notes.split('•')[0].trim()}
-                              </div>
-                            )}
-
-                            {/* Metadata Mini-Chips Strip */}
-                            <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs">
-                              {/* Category Mini-Chip */}
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
-                                {item.category}
+                            <div className="flex items-center gap-3 text-xs font-mono font-black">
+                              <span className="text-slate-900 dark:text-white">
+                                {formatINR(group.totalCost)}
                               </span>
-
-                              {/* Vendor Mini-Chip */}
-                              {!isSimplifiedView && item.vendorName && (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 shadow-2xs">
-                                  <Building2 size={10} className="text-slate-400 flex-shrink-0" />
-                                  <span className="truncate max-w-[130px]">{item.vendorName}</span>
-                                </span>
-                              )}
-
-                              {/* Due Date Mini-Chip */}
-                              {!isSimplifiedView && item.dueDate && (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[10px] font-medium text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 shadow-2xs">
-                                  <Clock size={9} />
-                                  <span>{item.dueDate}</span>
+                              {isSimplifiedView && sideFilter === 'ALL' && (
+                                <span className="hidden sm:inline-flex items-center gap-1.5 text-[10.5px]">
+                                  <span className="text-rose-600 dark:text-rose-400">H: {formatINR(group.brideTotal)}</span>
+                                  <span className="text-slate-300 dark:text-slate-600">•</span>
+                                  <span className="text-sky-600 dark:text-sky-400">B: {formatINR(group.groomTotal)}</span>
                                 </span>
                               )}
                             </div>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill (Hidden in Simple View) */}
-                      {!isSimplifiedView && (
-                        <td className="py-3 px-4 whitespace-nowrap">
-                          <div className="space-y-1.5">
-                            {/* Visual Ceremony Capsule */}
-                            <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
-                              <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 border border-pink-200 dark:border-white/10">
-                                <img 
-                                  src={EVENT_IMAGES[item.event]?.image || EVENT_IMAGES['All Events'].image} 
-                                  alt={item.event} 
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <span className="text-xs font-black text-slate-800 dark:text-slate-200">
-                                {item.event}
-                              </span>
-                            </div>
-                            
-                            {/* SMART GUEST BADGE */}
-                            {shares.isCustomOccasionGuests ? (
-                              <div className="flex items-center gap-1 text-[10px] text-purple-700 dark:text-purple-300 font-bold bg-purple-100/80 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
-                                <Users size={11} className="text-purple-600 dark:text-purple-400" />
-                                <span>{shares.effectiveGroomGuests + shares.effectiveBrideGuests} Guests ({shares.effectiveGroomGuests}B : {shares.effectiveBrideGuests}H)</span>
-                              </div>
-                            ) : (
-                              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium pl-1">
-                                Global: {groomGuestCount + brideGuestCount} Guests
-                              </div>
-                            )}
                           </div>
                         </td>
-                      )}
+                      </tr>
 
-                      {/* 3. Combined Side & Responsibility Column */}
-                      <td 
-                        className="py-3 px-3 text-center whitespace-nowrap"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="inline-flex flex-col items-center gap-1.5 p-1 rounded-xl bg-slate-100/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 shadow-2xs">
-                          {/* Top: Side Split Badge Selector */}
-                          <div className="relative w-full">
-                            <select
-                              value={item.splitType}
-                              onChange={(e) => {
-                                onUpdateExpense({
-                                  ...item,
-                                  splitType: e.target.value as SplitType,
-                                });
-                              }}
-                              className={`text-[11px] font-black px-2 py-1 rounded-lg border text-center cursor-pointer transition-all w-[130px] focus:outline-none focus:ring-1 focus:ring-pink-400 ${
-                                item.splitType === 'BRIDE_ONLY'
-                                  ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/70 dark:border-rose-800 dark:text-rose-300'
-                                  : item.splitType === 'GROOM_ONLY'
-                                  ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/70 dark:border-blue-800 dark:text-blue-300'
-                                  : item.splitType === 'GUEST_RATIO'
-                                  ? 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
-                                  : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/70 dark:border-emerald-800 dark:text-emerald-300'
-                              }`}
-                              style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
-                            >
-                              <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harshu (100%)</option>
-                              <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
-                              <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
-                              <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
-                            </select>
-                          </div>
-
-                          {/* Bottom: Responsibility Tier (Parent vs Self vs Family) */}
-                          <div className="relative w-full">
-                            <select
-                              value={item.payerCategory || 'COUPLE'}
-                              onChange={(e) => {
-                                onUpdateExpense({
-                                  ...item,
-                                  payerCategory: e.target.value as any,
-                                });
-                              }}
-                              className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-400 text-center cursor-pointer transition-all w-[130px] focus:outline-none"
-                              style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
-                            >
-                              <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👦 Parents</option>
-                              <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">💍 Self</option>
-                              <option value="SHARED_FAMILY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🏡 Family</option>
-                            </select>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* 4. Cost / Share Display */}
-                      <td className={`py-4 px-4 ${isSimplifiedView && sideFilter === 'ALL' ? 'text-center' : 'text-right'} whitespace-nowrap`}>
-                        <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
-                          {formatINR(
-                            isSimplifiedView && sideFilter === 'BRIDE'
-                              ? shares.brideDue
-                              : isSimplifiedView && sideFilter === 'GROOM'
-                              ? shares.groomDue
-                              : shares.effectiveTotalCost
-                          )}
-                        </div>
-                        {/* In simplified view under ALL: visual fork / branching lines (reverse NOR / branching tree) centered symmetrically */}
-                        {isSimplifiedView && sideFilter === 'ALL' ? (
-                          <div className="flex flex-col items-center mt-1 w-full">
-                            <div className="flex items-center justify-center gap-2 text-[10.5px] font-semibold tracking-tight w-full">
-                              <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40 min-w-[95px] justify-center">
-                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-                                👰 Harshu: {formatINR(shares.brideDue)}
-                              </span>
-
-                              {/* Symmetrical tree split icon / branching bridge */}
-                              <svg className="w-6 h-4 text-slate-400 dark:text-slate-500 shrink-0" viewBox="0 0 24 16" fill="none">
-                                {/* Top stem from total */}
-                                <path d="M12 0v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                {/* Left branch to Harshu */}
-                                <path d="M12 5C12 11 2 9 2 15" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
-                                {/* Right branch to Bhuvi */}
-                                <path d="M12 5C12 11 22 9 22 15" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
-                              </svg>
-
-                              <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40 min-w-[95px] justify-center">
-                                <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-                                🤵 Bhuvi: {formatINR(shares.groomDue)}
-                              </span>
-                            </div>
-                          </div>
-                        ) : isSimplifiedView && sideFilter !== 'ALL' ? (
-                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                            Total: {formatINR(shares.effectiveTotalCost)} ({sideFilter === 'BRIDE' ? shares.bridePercent : shares.groomPercent}%)
-                          </div>
-                        ) : item.isPerPlateCalculation && shares.effectivePlateRate > 0 ? (
-                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                            ₹{shares.effectivePlateRate.toLocaleString('en-IN')}/plate
-                          </div>
-                        ) : (item.name.toLowerCase().includes('mitha') || item.name.toLowerCase().includes('sweets') || item.name.toLowerCase().includes('bhaji')) && (item.ratePerGuestOrPlate || 0) > 0 ? (
-                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                            ₹{(item.ratePerGuestOrPlate || 800).toLocaleString('en-IN')}/box
-                          </div>
-                        ) : null}
-                      </td>
-
-                      {!isSimplifiedView && (
-                        <>
-                          {/* 5. Bride Share */}
-                          <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                            <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
-                              {formatINR(shares.brideDue)}
-                            </div>
-                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                              {shares.bridePercent}% by Harshu
-                            </div>
-                          </td>
-
-                          {/* 6. Groom Share */}
-                          <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                            <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
-                              {formatINR(shares.groomDue)}
-                            </div>
-                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                              {shares.groomPercent}% by Bhuvesh
-                            </div>
-                          </td>
-
-                          {/* 7. Payment Progress & Status */}
-                          <td 
-                            className="py-4 px-4 whitespace-nowrap"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div className="flex flex-col gap-1.5 w-36">
-                              <div className="flex items-center justify-between text-[11px]">
-                                <span className="font-bold text-slate-700 dark:text-slate-300">
-                                  {formatINR(item.paidAmount)}
-                                </span>
-                                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
-                                  {percentPaid}%
-                                </span>
-                              </div>
-                              <div className="w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                <div 
-                                  className={`h-full transition-all duration-300 ${
-                                    isFullyPaid ? 'bg-emerald-500' : 'bg-slate-700 dark:bg-slate-300'
-                                  }`} 
-                                  style={{ width: `${percentPaid}%` }}
-                                />
-                              </div>
-                              <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                                <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harshu' : 'Unpaid'}</strong></span>
-                                <span className={`font-bold ${
-                                  item.status === 'Settled' 
-                                    ? 'text-emerald-700 dark:text-emerald-400' 
-                                    : item.status === 'Partially Paid' 
-                                    ? 'text-amber-700 dark:text-amber-400' 
-                                    : 'text-slate-500 dark:text-slate-400'
-                                }`}>
-                                  {item.status}
-                                </span>
-                              </div>
-                            </div>
-                          </td>
-                        </>
-                      )}
-
-                      {/* 8. Actions */}
-                      <td 
-                        className="py-4 px-4 text-center whitespace-nowrap"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex items-center justify-center gap-1">
-                          <button
-                            onClick={() => {
-                              setEditingItem(item);
-                              setShowAddModal(false);
-                            }}
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-pink-600 dark:hover:text-pink-400 hover:bg-pink-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                            title="Edit full expense"
-                          >
-                            <Edit3 size={15} />
-                          </button>
-                          <button
-                            onClick={() => {
-                              if (confirm(`Delete "${item.name}"?`)) {
-                                onDeleteExpense(item.id);
-                              }
-                            }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                            title="Delete expense"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                      {/* Items under this group (rendered if not collapsed) */}
+                      {!isCollapsed && group.items.map((item) => renderExpenseRow(item))}
+                    </React.Fragment>
                   );
                 })
+              ) : (
+                // FLAT RENDERING
+                processedExpenses.map((item) => renderExpenseRow(item))
               )}
             </tbody>
 
