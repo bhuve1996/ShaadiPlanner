@@ -416,67 +416,62 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
         </div>
 
-        {/* Quick Filter Pill Summary & Status Pills */}
-        <div className="px-5 sm:px-6 py-2.5 bg-slate-100/70 dark:bg-slate-900/90 border-b border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-700 dark:text-slate-300 gap-3">
-          <div className="flex flex-wrap items-center gap-3">
-            <span>Filtered: <strong className="text-slate-900 dark:text-white">{processedExpenses.length}</strong></span>
-            <span>Total: <strong className="text-purple-700 dark:text-purple-300 font-bold">{formatINR(filteredTotalCost)}</strong></span>
-            <span>Paid: <strong className="text-emerald-700 dark:text-emerald-300 font-bold">{formatINR(filteredTotalPaid)}</strong></span>
-            <span>Pending: <strong className="text-rose-700 dark:text-rose-300 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
+        {/* Quick Filter Pill Summary & Status Pills (Hidden in Simple View) */}
+        {!isSimplifiedView && (
+          <div className="px-5 sm:px-6 py-2.5 bg-slate-100/70 dark:bg-slate-900/90 border-b border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-700 dark:text-slate-300 gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <span>Filtered: <strong className="text-slate-900 dark:text-white">{processedExpenses.length}</strong></span>
+              <span>Total: <strong className="text-purple-700 dark:text-purple-300 font-bold">{formatINR(filteredTotalCost)}</strong></span>
+              <span>Paid: <strong className="text-emerald-700 dark:text-emerald-300 font-bold">{formatINR(filteredTotalPaid)}</strong></span>
+              <span>Pending: <strong className="text-rose-700 dark:text-rose-300 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
+            </div>
+
+            {/* Action buttons (Sticky Header & Non-simple filters) */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
+                {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setStatusFilter(st)}
+                    className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                      statusFilter === st 
+                        ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs' 
+                        : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    {st}
+                  </button>
+                ))}
+              </div>
+
+              <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
+
+              {/* Freeze / Sticky Headers Toggle Option */}
+              <button
+                onClick={() => setIsHeaderSticky(prev => !prev)}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border shadow-xs ${
+                  isHeaderSticky
+                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700'
+                }`}
+                title={isHeaderSticky ? 'Header rows frozen at top (Sticky ON)' : 'Click to freeze header rows at top'}
+              >
+                {isHeaderSticky ? (
+                  <>
+                    <Pin size={12} className="rotate-45" />
+                    <span>Freeze Header: <strong>ON</strong></span>
+                  </>
+                ) : (
+                  <>
+                    <PinOff size={12} className="text-slate-400" />
+                    <span>Freeze Header: <strong>OFF</strong></span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
-
-          {/* Action buttons (Sticky Header & Non-simple filters) */}
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Status Filter buttons (Hidden in Simple View) */}
-            {!isSimplifiedView && (
-              <>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
-                  {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (
-                    <button
-                      key={st}
-                      onClick={() => setStatusFilter(st)}
-                      className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
-                        statusFilter === st 
-                          ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs' 
-                          : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
-                      }`}
-                    >
-                      {st}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
-              </>
-            )}
-
-            {/* Freeze / Sticky Headers Toggle Option */}
-            <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
-
-            <button
-              onClick={() => setIsHeaderSticky(prev => !prev)}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border shadow-xs ${
-                isHeaderSticky
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent'
-                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700'
-              }`}
-              title={isHeaderSticky ? 'Header rows frozen at top (Sticky ON)' : 'Click to freeze header rows at top'}
-            >
-              {isHeaderSticky ? (
-                <>
-                  <Pin size={12} className="rotate-45" />
-                  <span>Freeze Header: <strong>ON</strong></span>
-                </>
-              ) : (
-                <>
-                  <PinOff size={12} className="text-slate-400" />
-                  <span>Freeze Header: <strong>OFF</strong></span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
+        )}
 
         {/* Interactive Sortable Table */}
         <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
