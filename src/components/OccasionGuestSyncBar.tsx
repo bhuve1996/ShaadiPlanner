@@ -23,11 +23,11 @@ interface OccasionGuestSyncBarProps {
 }
 
 const EVENTS_LIST: { event: WeddingEvent; defaultGroom: number; defaultBride: number; defaultPerPlate: number }[] = [
-  { event: 'Roka / Engagement', defaultGroom: 100, defaultBride: 200, defaultPerPlate: 1200 },
-  { event: 'Mehendi', defaultGroom: 60, defaultBride: 120, defaultPerPlate: 800 },
-  { event: 'Haldi', defaultGroom: 80, defaultBride: 100, defaultPerPlate: 750 },
+  { event: 'Roka / Engagement', defaultGroom: 100, defaultBride: 100, defaultPerPlate: 1200 },
+  { event: 'Mehendi', defaultGroom: 50, defaultBride: 100, defaultPerPlate: 800 },
+  { event: 'Haldi', defaultGroom: 50, defaultBride: 100, defaultPerPlate: 750 },
   { event: 'Sangeet & Cocktail', defaultGroom: 150, defaultBride: 150, defaultPerPlate: 1400 },
-  { event: 'Baraat & Wedding Pheras', defaultGroom: 250, defaultBride: 250, defaultPerPlate: 2000 },
+  { event: 'Baraat & Wedding Pheras', defaultGroom: 150, defaultBride: 350, defaultPerPlate: 2000 },
   { event: 'Vida (Bidai / Doli)', defaultGroom: 50, defaultBride: 100, defaultPerPlate: 0 },
   { event: 'Reception', defaultGroom: 220, defaultBride: 180, defaultPerPlate: 1800 },
 ];

@@ -41,8 +41,8 @@ export const INITIAL_SETTINGS: WeddingSettings = {
       "perPlateRate": 0
     },
     "Baraat & Wedding Pheras": {
-      "bride": 250,
-      "groom": 250,
+      "bride": 350,
+      "groom": 150,
       "perPlateRate": 2000
     }
   }
