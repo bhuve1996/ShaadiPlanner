@@ -189,11 +189,25 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     eventGuestCounts
   ]);
 
-  const filteredTotalCost = processedExpenses.reduce((sum, x) => {
-    const s = computeExpenseShares(x, groomGuestCount, brideGuestCount, eventGuestCounts);
-    return sum + s.effectiveTotalCost;
-  }, 0);
-  const filteredTotalPaid = processedExpenses.reduce((sum, x) => sum + (x.paidAmount || 0), 0);
+  const filteredTotals = useMemo(() => {
+    let totalCost = 0;
+    let brideTotal = 0;
+    let groomTotal = 0;
+    let totalPaid = 0;
+
+    for (const item of processedExpenses) {
+      const s = computeExpenseShares(item, groomGuestCount, brideGuestCount, eventGuestCounts);
+      totalCost += s.effectiveTotalCost;
+      brideTotal += s.brideDue;
+      groomTotal += s.groomDue;
+      totalPaid += (item.paidAmount || 0);
+    }
+
+    return { totalCost, brideTotal, groomTotal, totalPaid };
+  }, [processedExpenses, groomGuestCount, brideGuestCount, eventGuestCounts]);
+
+  const filteredTotalCost = filteredTotals.totalCost;
+  const filteredTotalPaid = filteredTotals.totalPaid;
 
   const handleOpenAddModal = () => {
     const template: ExpenseItem = {
@@ -455,14 +469,20 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   <span>Payer & Share</span>
                 </th>
 
-                {/* 4. Actual Cost */}
+                {/* 4. Cost / Share Column */}
                 <th 
-                  onClick={() => handleSort('actualCost')}
-                  className={`py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[130px]' : 'w-[130px]'}`}
+                  onClick={() => handleSort(isSimplifiedView && sideFilter === 'BRIDE' ? 'brideDue' : isSimplifiedView && sideFilter === 'GROOM' ? 'groomDue' : 'actualCost')}
+                  className={`py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[140px]' : 'w-[130px]'}`}
                 >
                   <div className="flex items-center justify-end">
-                    <span>Total Cost</span>
-                    {renderSortIndicator('actualCost')}
+                    <span>
+                      {isSimplifiedView && sideFilter === 'BRIDE' 
+                        ? 'Harsha Share' 
+                        : isSimplifiedView && sideFilter === 'GROOM' 
+                        ? 'Bhuvi Share' 
+                        : 'Total Cost'}
+                    </span>
+                    {renderSortIndicator(isSimplifiedView && sideFilter === 'BRIDE' ? 'brideDue' : isSimplifiedView && sideFilter === 'GROOM' ? 'groomDue' : 'actualCost')}
                   </div>
                 </th>
 
@@ -739,13 +759,23 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </div>
                       </td>
 
-                      {/* 4. Actual Cost */}
+                      {/* 4. Cost / Share Display */}
                       <td className="py-4 px-4 text-right whitespace-nowrap">
                         <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
-                          {formatINR(shares.effectiveTotalCost)}
+                          {formatINR(
+                            isSimplifiedView && sideFilter === 'BRIDE'
+                              ? shares.brideDue
+                              : isSimplifiedView && sideFilter === 'GROOM'
+                              ? shares.groomDue
+                              : shares.effectiveTotalCost
+                          )}
                         </div>
-                        {/* Unit Rate Subtitle: Only show for wedding per-plate or mithai per-box */}
-                        {item.isPerPlateCalculation && shares.effectivePlateRate > 0 ? (
+                        {/* If in simplified side view, show full cost as helper subtitle */}
+                        {isSimplifiedView && sideFilter !== 'ALL' ? (
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                            Total: {formatINR(shares.effectiveTotalCost)} ({sideFilter === 'BRIDE' ? shares.bridePercent : shares.groomPercent}%)
+                          </div>
+                        ) : item.isPerPlateCalculation && shares.effectivePlateRate > 0 ? (
                           <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                             ₹{shares.effectivePlateRate.toLocaleString('en-IN')}/plate
                           </div>
@@ -851,6 +881,86 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 })
               )}
             </tbody>
+
+            {/* Summing Up Totals Footer Row */}
+            {processedExpenses.length > 0 && (
+              <tfoot className="border-t-2 border-slate-300 dark:border-white/20 bg-slate-100/90 dark:bg-[#121624] font-black text-xs text-slate-900 dark:text-white sticky bottom-0 z-10 shadow-xs">
+                <tr>
+                  {/* 1. Item Name Total Label */}
+                  <td className="py-3.5 px-4 font-bold text-slate-800 dark:text-slate-200">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">Σ</span>
+                      <span>
+                        Total ({processedExpenses.length} {processedExpenses.length === 1 ? 'item' : 'items'})
+                      </span>
+                    </div>
+                  </td>
+
+                  {/* 2. Occasion (Hidden in simple view) */}
+                  {!isSimplifiedView && (
+                    <td className="py-3.5 px-4 text-slate-500 dark:text-slate-400 font-medium text-[11px]">
+                      Filtered Total
+                    </td>
+                  )}
+
+                  {/* 3. Responsibility & Split */}
+                  <td className="py-3.5 px-3 text-center text-slate-500 dark:text-slate-400 font-medium text-[11px]">
+                    {sideFilter === 'BRIDE' ? '👰 Harsha View' : sideFilter === 'GROOM' ? '🤵 Bhuvi View' : 'Combined Split'}
+                  </td>
+
+                  {/* 4. Actual Cost / Share Total */}
+                  <td className="py-3.5 px-4 text-right whitespace-nowrap font-mono text-sm sm:text-base font-black text-slate-900 dark:text-white">
+                    <div>
+                      {formatINR(
+                        isSimplifiedView && sideFilter === 'BRIDE'
+                          ? filteredTotals.brideTotal
+                          : isSimplifiedView && sideFilter === 'GROOM'
+                          ? filteredTotals.groomTotal
+                          : filteredTotals.totalCost
+                      )}
+                    </div>
+                    {isSimplifiedView && sideFilter !== 'ALL' && (
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
+                        Gross: {formatINR(filteredTotals.totalCost)}
+                      </div>
+                    )}
+                  </td>
+
+                  {/* Columns in Detailed View */}
+                  {!isSimplifiedView && (
+                    <>
+                      {/* 5. Harsha Total */}
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap font-mono text-sm font-bold text-rose-600 dark:text-rose-400">
+                        {formatINR(filteredTotals.brideTotal)}
+                      </td>
+
+                      {/* 6. Bhuvi Total */}
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap font-mono text-sm font-bold text-blue-600 dark:text-blue-400">
+                        {formatINR(filteredTotals.groomTotal)}
+                      </td>
+
+                      {/* 7. Paid Amount Total */}
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <div className="flex flex-col gap-1 w-36">
+                          <div className="flex justify-between text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                            <span>Paid: {formatINR(filteredTotals.totalPaid)}</span>
+                            <span>{Math.min(100, Math.round((filteredTotals.totalPaid / (filteredTotals.totalCost || 1)) * 100))}%</span>
+                          </div>
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
+                            Pending: {formatINR(Math.max(0, filteredTotals.totalCost - filteredTotals.totalPaid))}
+                          </div>
+                        </div>
+                      </td>
+                    </>
+                  )}
+
+                  {/* 8. Actions column spacer */}
+                  <td className="py-3.5 px-4 text-center">
+                    <span className="text-[10px] text-slate-400">✓</span>
+                  </td>
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
       </div>
