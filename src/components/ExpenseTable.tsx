@@ -418,16 +418,16 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
           </div>
         </div>
 
-        {/* Interactive Sortable Table: Guaranteed Wide Visibility (min-w-[1100px] or min-w-full in simplified) */}
+        {/* Interactive Sortable Table */}
         <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
-          <table className={`w-full text-left text-xs border-collapse ${isSimplifiedView ? 'min-w-[800px]' : 'min-w-[1100px]'}`}>
+          <table className={`w-full text-left text-xs border-collapse ${isSimplifiedView ? 'table-auto' : 'min-w-[1100px]'}`}>
             <thead className={isHeaderSticky ? 'sticky top-0 z-20 shadow-xs' : ''}>
               <tr className="bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 uppercase tracking-wider text-[11px] font-bold border-b border-slate-200 dark:border-white/10">
                 
                 {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className={`py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[400px]' : 'w-[320px]'}`}
+                  className={`py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-auto' : 'w-[320px]'}`}
                 >
                   <div className="flex items-center">
                     <span>Expense Item</span>
@@ -449,14 +449,14 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 )}
 
                 {/* 3. Responsibility & Split (Combined editable column for Side + Tier) */}
-                <th className="py-3 px-3 text-center w-[165px]">
+                <th className={`py-3 px-3 text-center ${isSimplifiedView ? 'w-[150px]' : 'w-[165px]'}`}>
                   <span>Payer & Share</span>
                 </th>
 
                 {/* 4. Actual Cost */}
                 <th 
                   onClick={() => handleSort('actualCost')}
-                  className="py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
+                  className={`py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[130px]' : 'w-[130px]'}`}
                 >
                   <div className="flex items-center justify-end">
                     <span>Total Cost</span>

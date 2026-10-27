@@ -422,7 +422,9 @@ export default function Home() {
 
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1422]/95 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs transition-colors">
-        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 h-16 flex items-center justify-between">
+        <div className={`mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between transition-all duration-300 ${
+          isSimplifiedView ? 'max-w-5xl' : 'max-w-[1720px]'
+        }`}>
           
           {/* Logo & Wedding Title */}
           <div className="flex items-center gap-3">
@@ -569,8 +571,10 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content Area: Expanded to full modern widescreen */}
-      <main className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-10 pt-6 space-y-6">
+      {/* Main Content Area: Compact centered container for Simple View, Expanded widescreen for Detailed View */}
+      <main className={`mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6 transition-all duration-300 ${
+        isSimplifiedView ? 'max-w-5xl' : 'max-w-[1720px]'
+      }`}>
         
         {/* Hero Visual Graphics Banner (Hidden in Simple View) */}
         {!isSimplifiedView && (
