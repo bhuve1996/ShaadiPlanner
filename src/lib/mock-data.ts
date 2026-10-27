@@ -7,7 +7,7 @@ export const INITIAL_SETTINGS: WeddingSettings = {
   "weddingDate": "2027-02-14",
   "groomGuestCount": 150,
   "brideGuestCount": 400,
-  "totalTargetBudget": 5530600,
+  "totalTargetBudget": 5554600,
   "currency": "INR",
   "eventGuestCounts": {
     "Roka / Engagement": {
@@ -928,6 +928,44 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Relative saris & suit lengths • Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths: ₹1,00,000.",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0,
+    "eventGroomGuests": 150,
+    "eventBrideGuests": 400,
+    "payerCategory": "COUPLE"
+  },
+  {
+    "id": "exp-wedding-cards-envelopes",
+    "name": "Wedding Invitation Cards & Envelopes",
+    "category": "Invitations & Miscellaneous",
+    "event": "All Events",
+    "vendorName": "Shree Ganesh Wedding Cards & Laser Crafts",
+    "imageUrl": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=300&q=80",
+    "estimatedCost": 24000,
+    "actualCost": 24000,
+    "paidAmount": 0,
+    "splitType": "EQUAL_50_50",
+    "paidBy": "UNPAID",
+    "status": "Estimated",
+    "notes": "Wedding cards & shagun envelopes print • ₹12,000 Harsha side + ₹12,000 Bhuvesh side (Equal 50:50 split)",
+    "subtasks": [
+      {
+        "id": "sub-card-harsha",
+        "name": "Harsha Family Cards & Custom Envelopes",
+        "cost": 12000,
+        "status": "Pending",
+        "label": "Girl Side Cards",
+        "notes": "Wedding invitation cards, inserts & envelopes for Harsha side"
+      },
+      {
+        "id": "sub-card-bhuvi",
+        "name": "Bhuvesh Family Cards & Custom Envelopes",
+        "cost": 12000,
+        "status": "Pending",
+        "label": "Boy Side Cards",
+        "notes": "Wedding invitation cards, inserts & envelopes for Bhuvi side"
+      }
+    ],
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
