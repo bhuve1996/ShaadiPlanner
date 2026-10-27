@@ -81,7 +81,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [selectedSplitType, setSelectedSplitType] = useState<string>('ALL');
   const [selectedPayer, setSelectedPayer] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
-  const [isHeaderSticky, setIsHeaderSticky] = useState<boolean>(true);
+  const [isHeaderSticky, setIsHeaderSticky] = useState<boolean>(false);
   
   // Sorting State
   const [sortField, setSortField] = useState<SortField>('actualCost');
