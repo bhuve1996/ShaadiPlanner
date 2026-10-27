@@ -436,14 +436,14 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
 
       {/* MODAL 1: ADD SHAGUN */}
       {showAddShagunModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl max-w-md w-full shadow-2xl border-2 border-pink-300 dark:border-white/20 animate-in zoom-in-95">
-            <h3 className="font-extrabold text-base text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs p-3 sm:p-6 flex justify-center items-start sm:items-center">
+          <div className="bg-white dark:bg-[#11141D] p-5 sm:p-6 rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in zoom-in-95 max-h-[92vh] flex flex-col text-slate-800 dark:text-slate-100">
+            <h3 className="font-extrabold text-base text-slate-900 dark:text-white mb-3 flex items-center gap-2 flex-shrink-0">
               <Gift className="text-pink-500" size={18} />
               <span>Add Family Shagun / Ritual Envelope</span>
             </h3>
 
-            <form onSubmit={handleCreateShagun} className="space-y-3 text-xs">
+            <form onSubmit={handleCreateShagun} className="space-y-3 text-xs overflow-y-auto pr-1 flex-1">
               <div>
                 <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
                   Recipient Name / Ceremony
@@ -552,14 +552,14 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
 
       {/* MODAL 2: ADD GUEST GROUP */}
       {showAddGroupModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl max-w-md w-full shadow-2xl border-2 border-blue-300 dark:border-white/20 animate-in zoom-in-95">
-            <h3 className="font-extrabold text-base text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs p-3 sm:p-6 flex justify-center items-start sm:items-center">
+          <div className="bg-white dark:bg-[#11141D] p-5 sm:p-6 rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in zoom-in-95 max-h-[92vh] flex flex-col text-slate-800 dark:text-slate-100">
+            <h3 className="font-extrabold text-base text-slate-900 dark:text-white mb-3 flex items-center gap-2 flex-shrink-0">
               <Users className="text-blue-500" size={18} />
               <span>Add Guest Group / Headcount</span>
             </h3>
 
-            <form onSubmit={handleCreateGroup} className="space-y-3 text-xs">
+            <form onSubmit={handleCreateGroup} className="space-y-3 text-xs overflow-y-auto pr-1 flex-1">
               <div>
                 <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
                   Group / Cluster Name

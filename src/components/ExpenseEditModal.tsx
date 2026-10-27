@@ -84,7 +84,8 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
         : (eventConfig ? eventConfig.bride : brideGuestCount);
 
       const defaultRate = item.ratePerGuestOrPlate || (eventConfig?.perPlateRate ? eventConfig.perPlateRate : (isCatering ? 2000 : 0));
-      const isPerPlate = item.isPerPlateCalculation ?? (defaultRate > 0 || isCatering);
+      // By default keep auto-calculate by guests OFF unless explicitly saved as true
+      const isPerPlate = item.isPerPlateCalculation ?? false;
 
       let actual = item.actualCost;
       if (isPerPlate && defaultRate > 0) {
@@ -149,17 +150,17 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   const currentRate = formData.ratePerGuestOrPlate || 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/65 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-[#121628] rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl border-2 border-pink-300 dark:border-white/20 my-8 animate-in fade-in zoom-in-95 duration-200 text-slate-800 dark:text-slate-100">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/70 backdrop-blur-sm p-3 sm:p-6 flex justify-center items-start sm:items-center">
+      <div className="bg-white dark:bg-[#11141D] rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in fade-in zoom-in-95 duration-200 text-slate-800 dark:text-slate-100 max-h-[92vh] flex flex-col">
         
-        {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-pink-100 dark:border-white/10">
+        {/* Sticky Header */}
+        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-white/10 flex-shrink-0">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-950/70 text-pink-700 dark:text-pink-300 text-xs font-black mb-1 border border-pink-300 dark:border-pink-800">
-              <Utensils size={12} className="text-pink-600 dark:text-pink-400" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200 text-[11px] font-bold mb-1">
+              <Utensils size={12} className="text-pink-500" />
               <span>Smart Per-Plate & Occasion Calculator</span>
             </div>
-            <h3 className="text-lg font-black text-slate-900 dark:text-white truncate max-w-md">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate max-w-lg">
               {formData.name || 'Expense Details'}
             </h3>
           </div>
@@ -171,8 +172,8 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
           </button>
         </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4 text-xs">
+        {/* Scrollable Form Body */}
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-xs overflow-y-auto pr-1 flex-1">
           
           {/* Item Name */}
           <div>

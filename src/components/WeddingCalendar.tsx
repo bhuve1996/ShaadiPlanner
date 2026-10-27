@@ -204,16 +204,16 @@ export const WeddingCalendar: React.FC<WeddingCalendarProps> = ({
 
       {/* Edit Time / Venue Modal */}
       {showModal && editingItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/60 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-[#121628] rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-pink-300 dark:border-white/20 text-slate-800 dark:text-slate-100 animate-in fade-in zoom-in-95 duration-150">
-            <h3 className="text-base font-black mb-1">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/70 backdrop-blur-sm p-3 sm:p-6 flex justify-center items-start sm:items-center">
+          <div className="bg-white dark:bg-[#11141D] rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 text-slate-800 dark:text-slate-100 animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] flex flex-col">
+            <h3 className="text-base font-bold mb-1 flex-shrink-0 text-slate-900 dark:text-white">
               Edit Ceremony Schedule: {editingItem.title}
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 flex-shrink-0">
               Update date, timing, and venue location.
             </p>
 
-            <form onSubmit={handleSaveModal} className="space-y-3 text-xs">
+            <form onSubmit={handleSaveModal} className="space-y-3 text-xs overflow-y-auto pr-1 flex-1">
               <div>
                 <label className="block font-bold mb-1">Ceremony Date</label>
                 <input

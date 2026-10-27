@@ -32,22 +32,22 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const brideRatio = 100 - groomRatio;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between pb-3 border-b border-stone-100">
-          <div className="flex items-center gap-2 text-stone-900 font-bold text-base">
-            <HeartHandshake className="text-amber-600 w-5 h-5" />
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs p-3 sm:p-6 flex justify-center items-start sm:items-center">
+      <div className="bg-white dark:bg-[#11141D] rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] flex flex-col text-slate-800 dark:text-slate-100">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-white/10 flex-shrink-0">
+          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-base">
+            <HeartHandshake className="text-pink-600 dark:text-pink-400 w-5 h-5" />
             <span>Wedding & Guest Split Configuration</span>
           </div>
           <button 
             onClick={onClose}
-            className="p-1 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-xs">
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-xs overflow-y-auto pr-1 flex-1">
           <div>
             <label className="block font-semibold text-stone-700 mb-1">Wedding Header / Title</label>
             <input

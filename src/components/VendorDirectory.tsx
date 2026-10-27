@@ -276,14 +276,14 @@ export const VendorDirectory: React.FC<VendorDirectoryProps> = ({
 
       {/* MODAL: ADD / EDIT VENDOR */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl max-w-lg w-full shadow-2xl border-2 border-blue-300 dark:border-white/20 animate-in zoom-in-95 max-h-[90vh] overflow-y-auto">
-            <h3 className="font-extrabold text-base text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs p-3 sm:p-6 flex justify-center items-start sm:items-center">
+          <div className="bg-white dark:bg-[#11141D] p-5 sm:p-6 rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in zoom-in-95 max-h-[92vh] flex flex-col text-slate-800 dark:text-slate-100">
+            <h3 className="font-extrabold text-base text-slate-900 dark:text-white mb-3 flex items-center gap-2 flex-shrink-0">
               <Building2 className="text-blue-500" size={18} />
               <span>{editingVendor ? 'Edit Vendor Details' : 'Add New Vendor & Family Lead'}</span>
             </h3>
 
-            <form onSubmit={handleSave} className="space-y-3 text-xs">
+            <form onSubmit={handleSave} className="space-y-3 text-xs overflow-y-auto pr-1 flex-1">
               <div>
                 <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
                   Vendor / Business Name
