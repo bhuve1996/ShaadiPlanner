@@ -70,27 +70,27 @@ export default function Home() {
 
   // 1. Initial Load: Supabase Cloud Database is Primary; LocalStorage is Offline Fallback
   useEffect(() => {
+    let isMounted = true;
+
     async function loadData() {
-      if (isSupabaseConfigured()) {
-        try {
-          const remoteData = await fetchRemoteWeddingData();
-          if (remoteData) {
-            if (remoteData.settings) setSettings(remoteData.settings);
-            if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
-            if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
-            if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
-            if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
-            if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
-            console.log('✓ Successfully connected and loaded from Supabase Cloud');
-            setIsLoaded(true);
-            return;
-          }
-        } catch (err) {
-          console.warn('Supabase fetch failed, falling back to local storage cache:', err);
+      try {
+        const remoteData = await fetchRemoteWeddingData();
+        if (remoteData && isMounted) {
+          if (remoteData.settings) setSettings(remoteData.settings);
+          if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
+          if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
+          if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
+          if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
+          if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+          console.log('✓ Successfully connected and loaded from Supabase Cloud');
+          setIsLoaded(true);
+          return;
         }
+      } catch (err) {
+        console.warn('Supabase fetch failed, falling back to local storage cache:', err);
       }
 
-      // Offline / Local fallback: Read from localStorage cached copy
+      // Offline / Local fallback: Read from localStorage cached copy only if cloud is unreachable
       try {
         if (typeof window !== 'undefined') {
           const storedSettings = localStorage.getItem(STORAGE_KEY_SETTINGS);
@@ -128,32 +128,30 @@ export default function Home() {
       } catch (e) {
         console.warn('LocalStorage fallback load error:', e);
       } finally {
-        setIsLoaded(true);
+        if (isMounted) setIsLoaded(true);
       }
     }
 
     loadData();
 
     // 2. Real-Time Remote Subscription: Instantly reflect updates made in other windows / mobile
-    let unsubscribe = () => {};
-    if (isSupabaseConfigured()) {
-      unsubscribe = subscribeToRemoteChanges(() => {
-        console.log('⚡ Real-time update received from Supabase cloud! Re-fetching latest data...');
-        fetchRemoteWeddingData().then(remoteData => {
-          if (remoteData) {
-            if (remoteData.settings) setSettings(remoteData.settings);
-            if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
-            if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
-            if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
-            if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
-            if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
-            showToast('⚡ Live update synced from cloud');
-          }
-        });
+    const unsubscribe = subscribeToRemoteChanges(() => {
+      console.log('⚡ Real-time update received from Supabase cloud! Re-fetching latest data...');
+      fetchRemoteWeddingData().then(remoteData => {
+        if (remoteData && isMounted) {
+          if (remoteData.settings) setSettings(remoteData.settings);
+          if (remoteData.expenses && remoteData.expenses.length > 0) setExpenses(remoteData.expenses);
+          if (remoteData.schedule && remoteData.schedule.length > 0) setSchedule(remoteData.schedule);
+          if (remoteData.shagunList && remoteData.shagunList.length > 0) setShagunList(remoteData.shagunList);
+          if (remoteData.guestGroups && remoteData.guestGroups.length > 0) setGuestGroups(remoteData.guestGroups);
+          if (remoteData.vendors && remoteData.vendors.length > 0) setVendors(remoteData.vendors);
+          showToast('⚡ Live update synced from cloud');
+        }
       });
-    }
+    });
 
     return () => {
+      isMounted = false;
       unsubscribe();
     };
   }, []);
