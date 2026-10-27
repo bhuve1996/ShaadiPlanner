@@ -513,7 +513,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "name": "Wedding Logistics & Travel",
     "category": "Logistics & Shuttles",
     "event": "All Events",
-    "vendorName": "City Cabs & Fuel",
+    "vendorName": "",
     "imageUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80",
     "estimatedCost": 15000,
     "actualCost": 15000,

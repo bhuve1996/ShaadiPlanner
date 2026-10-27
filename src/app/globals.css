@@ -79,14 +79,13 @@ html:not(.dark) .row-bride,
 html:not(.dark) .row-groom,
 html:not(.dark) .row-split-green {
   background-color: #FFFFFF !important;
-  border-left: 2px solid #E2E8F0 !important;
+  border-left: none !important;
 }
 
 html:not(.dark) .row-bride:hover,
 html:not(.dark) .row-groom:hover,
 html:not(.dark) .row-split-green:hover {
   background-color: #F8FAFC !important;
-  border-left-color: #94A3B8 !important;
 }
 
 /* Night Mode Rows: Sleek dark surface with subtle hover */
@@ -94,14 +93,13 @@ html.dark .row-bride,
 html.dark .row-groom,
 html.dark .row-split-green {
   background-color: transparent !important;
-  border-left: 2px solid rgba(255, 255, 255, 0.08) !important;
+  border-left: none !important;
 }
 
 html.dark .row-bride:hover,
 html.dark .row-groom:hover,
 html.dark .row-split-green:hover {
   background-color: rgba(255, 255, 255, 0.03) !important;
-  border-left-color: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* Custom Minimalist Scrollbar */

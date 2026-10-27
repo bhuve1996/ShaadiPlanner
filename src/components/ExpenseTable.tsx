@@ -591,41 +591,43 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 {item.category}
                               </span>
 
-                              {/* Payer Category Badge: Couple vs Parents vs Joint Family */}
+                              {/* Responsibility / Side Badge */}
                               <span className="text-slate-300 dark:text-slate-600">•</span>
-                              {item.payerCategory === 'PARENTS' ? (
-                                <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/50">
-                                  <span>👨‍👩‍👧 Parents</span>
+                              {item.splitType === 'GROOM_ONLY' ? (
+                                <span className="inline-flex items-center text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-md">
+                                  Bhuvi
                                 </span>
-                              ) : item.payerCategory === 'SHARED_FAMILY' ? (
-                                <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-md border border-indigo-200 dark:border-indigo-800/50">
-                                  <span>🤝 Joint Family</span>
+                              ) : item.splitType === 'BRIDE_ONLY' ? (
+                                <span className="inline-flex items-center text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-md">
+                                  Harsha
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800/50">
-                                  <span>👫 Couple</span>
+                                <span className="inline-flex items-center text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-md">
+                                  Mutual
                                 </span>
                               )}
 
-                              {item.vendorName ? (
+                              {/* Parent vs Self */}
+                              <span className="text-slate-300 dark:text-slate-600">•</span>
+                              <span className="inline-flex items-center text-[10px] font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-slate-200/60 dark:border-white/5">
+                                {item.payerCategory === 'PARENTS' ? 'Parents' : item.payerCategory === 'SHARED_FAMILY' ? 'Family' : 'Self'}
+                              </span>
+
+                              {/* Vendor Name (Hidden in Simple View to remove clutter) */}
+                              {!isSimplifiedView && item.vendorName && (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-black text-slate-800 dark:text-slate-200 bg-white/90 dark:bg-slate-800 group-hover:bg-white dark:group-hover:bg-slate-700/80 px-2 py-0.5 rounded-lg border border-slate-200/80 dark:border-white/10 shadow-2xs transition-all">
-                                    <Building2 size={11} className="text-pink-500 flex-shrink-0" />
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 dark:text-slate-300">
+                                    <Building2 size={11} className="text-slate-400 flex-shrink-0" />
                                     <span className="truncate max-w-[150px]">{item.vendorName}</span>
                                   </span>
                                 </>
-                              ) : (
-                                <>
-                                  <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="text-[10px] text-slate-400 italic">No vendor assigned</span>
-                                </>
                               )}
 
-                              {item.dueDate && (
+                              {!isSimplifiedView && item.dueDate && (
                                 <>
                                   <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400">
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
                                     <Clock size={10} />
                                     <span>{item.dueDate}</span>
                                   </span>
