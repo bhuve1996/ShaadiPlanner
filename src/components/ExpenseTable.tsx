@@ -249,16 +249,16 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   return (
     <div className="space-y-4 relative">
       {/* Table Container with proper horizontal overflow scroll */}
-      <div className="theme-card bg-white/95 rounded-3xl border-2 border-pink-200 shadow-xl overflow-hidden transition-all">
+      <div className="theme-card bg-white dark:bg-[#11141D] rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden transition-all">
         
-        {/* Top Control Bar */}
-        <div className="p-5 sm:p-6 border-b border-pink-100 dark:border-white/10 flex flex-col gap-4 bg-gradient-to-r from-rose-50/50 via-purple-50/30 to-sky-50/50 dark:from-rose-950/20 dark:via-purple-950/15 dark:to-sky-950/20">
+        {/* Top Control Bar: Crisp neutral obsidian / slate backdrop */}
+        <div className="p-5 sm:p-6 border-b border-slate-200 dark:border-white/10 flex flex-col gap-4 bg-slate-50/80 dark:bg-slate-900/70">
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2.5">
-                <Flower2 className="text-pink-500 w-6 h-6 animate-spin-slow" />
-                <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                <Flower2 className="text-pink-500 w-5 h-5 animate-spin-slow" />
+                <h2 className="text-lg font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
                   <span>Wedding Registry & Color-Coded Splits</span>
                   {sideFilter === 'GROOM' && (
                     <span className="text-xs bg-sky-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-600 font-bold px-2.5 py-0.5 rounded-full">
@@ -276,11 +276,11 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     </span>
                   )}
                 </h2>
-                <span className="text-xs bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 font-black px-2.5 py-0.5 rounded-full border border-pink-200 dark:border-pink-800">
+                <span className="text-xs bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-black px-2.5 py-0.5 rounded-full border border-slate-300 dark:border-slate-700">
                   {processedExpenses.length} items
                 </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
                 Tip: <strong>All columns are fully visible with dedicated min-widths and horizontal scrolling</strong>. Hover over any row for full vendor dossier card.
               </p>
             </div>
@@ -364,7 +364,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         </div>
 
         {/* Quick Filter Pill Summary & Status Pills */}
-        <div className="px-5 sm:px-6 py-2.5 bg-gradient-to-r from-pink-50/50 via-white to-blue-50/50 dark:from-slate-900/60 dark:via-slate-900/80 dark:to-slate-900/60 border-b border-pink-100 dark:border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-700 dark:text-slate-300 gap-3">
+        <div className="px-5 sm:px-6 py-2.5 bg-slate-100/70 dark:bg-slate-900/90 border-b border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-700 dark:text-slate-300 gap-3">
           <div className="flex flex-wrap items-center gap-3">
             <span>Filtered: <strong className="text-slate-900 dark:text-white">{processedExpenses.length}</strong></span>
             <span>Total: <strong className="text-purple-700 dark:text-purple-300 font-bold">{formatINR(filteredTotalCost)}</strong></span>
@@ -422,12 +422,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
         <div className={`overflow-x-auto w-full ${isHeaderSticky ? 'max-h-[70vh] overflow-y-auto' : ''}`}>
           <table className={`w-full text-left text-xs border-collapse ${isSimplifiedView ? 'table-auto' : 'min-w-[1100px]'}`}>
             <thead className={isHeaderSticky ? 'sticky top-0 z-20 shadow-xs' : ''}>
-              <tr className="bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 uppercase tracking-wider text-[11px] font-bold border-b border-slate-200 dark:border-white/10">
+              <tr className="bg-slate-200 dark:bg-slate-900 text-slate-900 dark:text-slate-200 uppercase tracking-wider text-[11px] font-black border-b border-slate-300 dark:border-white/15">
                 
                 {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className={`py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-auto' : 'w-[320px]'}`}
+                  className={`py-3.5 px-4 cursor-pointer hover:text-slate-950 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-auto' : 'w-[320px]'}`}
                 >
                   <div className="flex items-center">
                     <span>Expense Item</span>
