@@ -511,9 +511,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 4. Cost / Share Column */}
                 <th 
                   onClick={() => handleSort(isSimplifiedView && sideFilter === 'BRIDE' ? 'brideDue' : isSimplifiedView && sideFilter === 'GROOM' ? 'groomDue' : 'actualCost')}
-                  className={`py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[140px]' : 'w-[130px]'}`}
+                  className={`py-3 px-4 ${isSimplifiedView && sideFilter === 'ALL' ? 'text-center' : 'text-right'} cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? (sideFilter === 'ALL' ? 'w-[260px]' : 'w-[140px]') : 'w-[130px]'}`}
                 >
-                  <div className="flex items-center justify-end">
+                  <div className={`flex items-center ${isSimplifiedView && sideFilter === 'ALL' ? 'justify-center' : 'justify-end'}`}>
                     <span>
                       {isSimplifiedView && sideFilter === 'BRIDE' 
                         ? 'Harshu Share' 
@@ -799,7 +799,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       </td>
 
                       {/* 4. Cost / Share Display */}
-                      <td className="py-4 px-4 text-right whitespace-nowrap">
+                      <td className={`py-4 px-4 ${isSimplifiedView && sideFilter === 'ALL' ? 'text-center' : 'text-right'} whitespace-nowrap`}>
                         <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
                           {formatINR(
                             isSimplifiedView && sideFilter === 'BRIDE'
@@ -809,24 +809,26 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               : shares.effectiveTotalCost
                           )}
                         </div>
-                        {/* In simplified view under ALL: visual fork / branching lines (reverse NOR / branching tree) splitting total into Harshu & Bhuvi */}
+                        {/* In simplified view under ALL: visual fork / branching lines (reverse NOR / branching tree) centered symmetrically */}
                         {isSimplifiedView && sideFilter === 'ALL' ? (
-                          <div className="flex flex-col items-end mt-1">
-                            {/* Branching fork SVG connector */}
-                            <svg className="w-28 h-2.5 text-slate-300 dark:text-slate-600 mb-0.5" viewBox="0 0 112 10" fill="none">
-                              {/* Top stem from total */}
-                              <path d="M56 0v2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                              {/* Left branch towards Harshu */}
-                              <path d="M56 2.5C56 6.5 28 4.5 28 9" stroke="#f43f5e" strokeWidth="1.25" strokeLinecap="round" />
-                              {/* Right branch towards Bhuvi */}
-                              <path d="M56 2.5C56 6.5 84 4.5 84 9" stroke="#0ea5e9" strokeWidth="1.25" strokeLinecap="round" />
-                            </svg>
-                            <div className="flex items-center justify-end gap-2 text-[10.5px] font-semibold tracking-tight">
-                              <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40">
+                          <div className="flex flex-col items-center mt-1 w-full">
+                            <div className="flex items-center justify-center gap-2 text-[10.5px] font-semibold tracking-tight w-full">
+                              <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40 min-w-[95px] justify-center">
                                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                                 👰 Harshu: {formatINR(shares.brideDue)}
                               </span>
-                              <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40">
+
+                              {/* Symmetrical tree split icon / branching bridge */}
+                              <svg className="w-6 h-4 text-slate-400 dark:text-slate-500 shrink-0" viewBox="0 0 24 16" fill="none">
+                                {/* Top stem from total */}
+                                <path d="M12 0v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                {/* Left branch to Harshu */}
+                                <path d="M12 5C12 11 2 9 2 15" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
+                                {/* Right branch to Bhuvi */}
+                                <path d="M12 5C12 11 22 9 22 15" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+                              </svg>
+
+                              <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40 min-w-[95px] justify-center">
                                 <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
                                 🤵 Bhuvi: {formatINR(shares.groomDue)}
                               </span>
@@ -970,7 +972,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </td>
 
                   {/* 4. Actual Cost / Share Total */}
-                  <td className="py-3.5 px-4 text-right whitespace-nowrap font-mono text-sm sm:text-base font-black text-slate-900 dark:text-white">
+                  <td className={`py-3.5 px-4 ${isSimplifiedView && sideFilter === 'ALL' ? 'text-center' : 'text-right'} whitespace-nowrap font-mono text-sm sm:text-base font-black text-slate-900 dark:text-white`}>
                     <div>
                       {formatINR(
                         isSimplifiedView && sideFilter === 'BRIDE'
@@ -981,19 +983,21 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       )}
                     </div>
                     {isSimplifiedView && sideFilter === 'ALL' ? (
-                      <div className="flex flex-col items-end mt-1">
-                        {/* Branching fork SVG connector for totals row */}
-                        <svg className="w-28 h-2.5 text-slate-300 dark:text-slate-600 mb-0.5" viewBox="0 0 112 10" fill="none">
-                          <path d="M56 0v2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                          <path d="M56 2.5C56 6.5 28 4.5 28 9" stroke="#f43f5e" strokeWidth="1.25" strokeLinecap="round" />
-                          <path d="M56 2.5C56 6.5 84 4.5 84 9" stroke="#0ea5e9" strokeWidth="1.25" strokeLinecap="round" />
-                        </svg>
-                        <div className="flex items-center justify-end gap-2 text-[10.5px] font-sans font-bold">
-                          <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40">
+                      <div className="flex flex-col items-center mt-1 w-full">
+                        <div className="flex items-center justify-center gap-2 text-[10.5px] font-sans font-bold w-full">
+                          <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-900/40 min-w-[95px] justify-center">
                             <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                             👰 Harshu: {formatINR(filteredTotals.brideTotal)}
                           </span>
-                          <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40">
+
+                          {/* Symmetrical tree split icon / branching bridge */}
+                          <svg className="w-6 h-4 text-slate-400 dark:text-slate-500 shrink-0" viewBox="0 0 24 16" fill="none">
+                            <path d="M12 0v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            <path d="M12 5C12 11 2 9 2 15" stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
+                            <path d="M12 5C12 11 22 9 22 15" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+                          </svg>
+
+                          <span className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 bg-sky-50/80 dark:bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-200/60 dark:border-sky-900/40 min-w-[95px] justify-center">
                             <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
                             🤵 Bhuvi: {formatINR(filteredTotals.groomTotal)}
                           </span>
