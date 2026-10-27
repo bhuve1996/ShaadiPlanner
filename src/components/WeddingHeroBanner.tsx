@@ -61,41 +61,42 @@ export const WeddingHeroBanner: React.FC<WeddingHeroBannerProps> = ({
       <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         
         {/* Left Column: Flowery Pink & Blue Couple Title */}
-        <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 border border-white/40 text-white text-xs font-black backdrop-blur-md shadow-xs">
-            <Flower2 size={14} className="text-yellow-300 animate-spin-slow" />
-            <span>🌸 Bhuvesh & Harsha Vivaah • Flowery Wedding Edition 🌺</span>
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 border border-white/40 text-white text-[11px] font-bold backdrop-blur-md">
+            <Flower2 size={12} className="text-yellow-300" />
+            <span>Vivaah Celebration</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white flex flex-wrap items-center gap-2.5 drop-shadow-md">
-            <span>{settings.coupleTitle}</span>
-            <span 
-              onClick={onCelebration}
-              className="inline-block cursor-pointer hover:scale-125 transition-transform" 
-              title="Click for flower shower!"
-            >
-              💐
-            </span>
-          </h2>
-
-          <p className="text-white/90 text-xs sm:text-sm font-medium leading-relaxed drop-shadow-xs">
-            A vibrant, color-coded wedding celebration. <strong className="text-pink-200">Pink for Harsha's side</strong>, <strong className="text-sky-200">Blue for Bhuvesh's side</strong>, and <strong className="text-purple-200">Purple for Mutual ceremonies</strong> with dynamic guest count ratios.
-          </p>
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+              <span>{settings.coupleTitle}</span>
+              <span 
+                onClick={onCelebration}
+                className="cursor-pointer hover:scale-125 transition-transform text-lg" 
+                title="Click for flower shower!"
+              >
+                💐
+              </span>
+            </h2>
+            <p className="text-white/80 text-xs mt-1 font-medium leading-relaxed">
+              Wedding planner & financial ledger • <span className="text-pink-200">Harsha (Bride)</span>, <span className="text-sky-200">Bhuvesh (Groom)</span> & Shared ceremonies.
+            </p>
+          </div>
 
           {/* Quick Info Badges */}
-          <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
-            <div className="flex items-center gap-1.5 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-white/20 text-white font-bold">
-              <Calendar size={14} className="text-yellow-300" />
+          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20 text-white font-semibold text-xs">
+              <Calendar size={13} className="text-yellow-300" />
               <span>{settings.weddingDate}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-white/20 text-white font-bold">
-              <Heart size={14} className="text-pink-300 fill-pink-300" />
-              <span>{daysLeft > 0 ? `${daysLeft} Days to Grand Celebration` : 'Wedding Day Celebration!'}</span>
+            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20 text-white font-semibold text-xs">
+              <Heart size={13} className="text-pink-300 fill-pink-300" />
+              <span>{daysLeft > 0 ? `${daysLeft} Days to Wedding` : 'Wedding Day!'}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-white/20 text-white font-bold">
-              <Users size={14} className="text-sky-300" />
+            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20 text-white font-semibold text-xs">
+              <Users size={13} className="text-sky-300" />
               <span>{settings.groomGuestCount + settings.brideGuestCount} Total Guests</span>
             </div>
           </div>

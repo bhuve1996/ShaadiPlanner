@@ -425,7 +425,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 {/* 1. Item Name */}
                 <th 
                   onClick={() => handleSort('name')}
-                  className={`py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[340px]' : 'w-[320px]'}`}
+                  className={`py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none ${isSimplifiedView ? 'w-[400px]' : 'w-[320px]'}`}
                 >
                   <div className="flex items-center">
                     <span>Expense Item</span>
@@ -433,16 +433,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </div>
                 </th>
 
-                {/* 2. Occasion & Guests */}
-                <th 
-                  onClick={() => handleSort('event')}
-                  className="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[170px]"
-                >
-                  <div className="flex items-center">
-                    <span>Occasion</span>
-                    {renderSortIndicator('event')}
-                  </div>
-                </th>
+                {/* 2. Occasion & Guests (Hidden in Simple View) */}
+                {!isSimplifiedView && (
+                  <th 
+                    onClick={() => handleSort('event')}
+                    className="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[170px]"
+                  >
+                    <div className="flex items-center">
+                      <span>Occasion</span>
+                      {renderSortIndicator('event')}
+                    </div>
+                  </th>
+                )}
 
                 {/* 3. Actual Cost */}
                 <th 
@@ -456,7 +458,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 </th>
 
                 {/* 4. Split Rule */}
-                <th className="py-3.5 px-4 text-center w-[170px]">
+                <th className="py-3 px-4 text-center w-[130px]">
                   <span>Paid By / Split</span>
                 </th>
 
@@ -570,14 +572,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           <div className="flex-1 min-w-0">
                             {/* Larger Crisp Title with Dynamic Gradient Text on Row Hover */}
                             <div className="flex items-center gap-2">
-                              <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[15px] leading-snug tracking-tight">
+                              <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[14px] leading-snug tracking-tight">
                                 {item.name}
                               </div>
-                              {item.subtasks && item.subtasks.length > 0 && (
-                                <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-600 shadow-2xs">
-                                  <span>{item.subtasks.length} Subtasks</span>
-                                </span>
-                              )}
                             </div>
 
                             {/* Clean Subline with Badges */}
@@ -631,13 +628,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </div>
                       </td>
 
-                      {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill */}
-                      <td className="py-3 px-4 whitespace-nowrap">
-                        {isSimplifiedView ? (
-                          <span className="font-bold text-slate-800 dark:text-slate-200 text-xs">
-                            {item.event}
-                          </span>
-                        ) : (
+                      {/* 2. Occasion with Rich AI/Photographic Event Badge & Guest Pill (Hidden in Simple View) */}
+                      {!isSimplifiedView && (
+                        <td className="py-3 px-4 whitespace-nowrap">
                           <div className="space-y-1.5">
                             {/* Visual Ceremony Capsule */}
                             <div className="flex items-center gap-2 p-1 pr-2.5 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-white/10 shadow-2xs w-fit">
@@ -665,8 +658,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               </div>
                             )}
                           </div>
-                        )}
-                      </td>
+                        </td>
+                      )}
 
                       {/* 3. Actual Cost */}
                       <td className="py-4 px-4 text-right whitespace-nowrap">
@@ -693,20 +686,20 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               splitType: e.target.value as SplitType,
                             });
                           }}
-                          className={`text-xs font-black px-2.5 py-1.5 rounded-xl border shadow-xs focus:outline-none transition-all cursor-pointer ${
+                          className={`text-xs font-bold px-2.5 py-1 rounded-xl border shadow-xs focus:outline-none transition-all cursor-pointer ${
                             item.splitType === 'BRIDE_ONLY'
                               ? 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border-rose-300 dark:border-rose-700'
                               : item.splitType === 'GROOM_ONLY'
                               ? 'bg-blue-100 dark:bg-blue-950/70 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700'
                               : item.splitType === 'GUEST_RATIO'
                               ? 'bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-700'
-                              : 'bg-amber-100 dark:bg-amber-950/70 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700'
+                              : 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-900 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700'
                           }`}
                         >
-                          <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🌸 100% Harsha (Bride Pink)</option>
-                          <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 100% Bhuvesh (Groom Blue)</option>
-                          <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio Mix ({shares.groomPercent}% : {shares.bridePercent}%)</option>
-                          <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 50 : 50 Shared Equal</option>
+                          <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🌸 Harsha</option>
+                          <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi</option>
+                          <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio ({shares.groomPercent}:{shares.bridePercent})</option>
+                          <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
                         </select>
                       </td>
 

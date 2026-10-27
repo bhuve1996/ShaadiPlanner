@@ -15,7 +15,8 @@ import {
   Crown, 
   RotateCcw, 
   Flower2,
-  CalendarDays
+  CalendarDays,
+  MoreVertical
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
@@ -67,6 +68,7 @@ export default function Home() {
   const [isSimplifiedView, setIsSimplifiedView] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Track whether an edit was recently made locally to ignore incoming echo events
   const isLocalMutationRef = useRef(false);
@@ -451,27 +453,45 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Action buttons: Theme Toggle + Cloud Status + Settings + Export + Reset */}
+          {/* Action buttons: Theme Toggle + Cloud Status + Export + Compact Overflow Menu */}
           <div className="flex items-center gap-2">
             
-            {/* Global Cloud Sync Status Pill */}
-            {isSupabaseConfigured() ? (
-              <div 
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl"
-                title="Connected to Supabase PostgreSQL: All changes auto-sync globally across devices"
+            {/* Perspective Filter Scope: Groom, Bride, Mutual */}
+            <div className="hidden sm:inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700 mr-1">
+              <button
+                onClick={() => setActiveSide('ALL')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  activeSide === 'ALL'
+                    ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                }`}
+                title="Combined Mutual Ledger"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Cloud Live</span>
-              </div>
-            ) : (
-              <div 
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl"
-                title="Running locally on browser storage"
+                Mutual
+              </button>
+              <button
+                onClick={() => setActiveSide('GROOM')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  activeSide === 'GROOM'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-blue-600'
+                }`}
+                title="Bhuvesh (Groom Blue)"
               >
-                <span className="w-2 h-2 rounded-full bg-amber-500" />
-                <span>Local</span>
-              </div>
-            )}
+                🤵 Bhuvi
+              </button>
+              <button
+                onClick={() => setActiveSide('BRIDE')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  activeSide === 'BRIDE'
+                    ? 'bg-rose-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-rose-600'
+                }`}
+                title="Harsha (Bride Pink)"
+              >
+                👰 Harsha
+              </button>
+            </div>
 
             {/* Simplified View Switcher Button */}
             <button
@@ -479,69 +499,72 @@ export default function Home() {
                 setIsSimplifiedView(prev => !prev);
                 showToast(!isSimplifiedView ? 'Switched to Simple View' : 'Switched to Full Detailed View');
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
                 isSimplifiedView
                   ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent shadow-xs'
                   : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50'
               }`}
               title={isSimplifiedView ? "Click to show full visuals & media" : "Click to hide decorative elements & show minimal ledger only"}
             >
-              <span>{isSimplifiedView ? '⚡ Simple View' : '📋 Simple View'}</span>
+              <span>{isSimplifiedView ? '⚡ Simple' : '📋 Simple'}</span>
             </button>
 
             {/* Day / Night Theme Toggle */}
             <ThemeToggle />
 
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
-            >
-              <SettingsIcon size={14} />
-              <span className="hidden sm:inline">Guest Ratios</span>
-            </button>
-
+            {/* Quick Export Button */}
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
               title="Export complete ledger to CSV"
             >
-              <FileSpreadsheet size={14} className="text-slate-500" />
-              <span className="hidden md:inline">CSV</span>
+              <FileSpreadsheet size={13} className="text-slate-500" />
+              <span>CSV</span>
             </button>
 
-            <button
-              onClick={handleExportJSON}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
-              title="Export full data backup JSON"
-            >
-              <Download size={14} className="text-slate-500" />
-              <span className="hidden lg:inline">Backup</span>
-            </button>
+            {/* More Actions Overflow Menu */}
+            <div className="relative">
+              <button
+                onClick={() => setIsMenuOpen(prev => !prev)}
+                className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
+                title="More options & settings"
+              >
+                <MoreVertical size={15} />
+              </button>
 
-            {/* Reset Button */}
-            <button
-              onClick={handleResetToStartPhase}
-              className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
-              title="Reset data back to clean start phase"
-            >
-              <RotateCcw size={15} />
-            </button>
+              {isMenuOpen && (
+                <div 
+                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <button
+                    onClick={() => setIsSettingsOpen(true)}
+                    className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <SettingsIcon size={14} className="text-slate-400" />
+                    <span>Guest Ratios & Target</span>
+                  </button>
 
-            {/* Google Sign-in */}
-            <button
-              onClick={() => {
-                setUserLoggedIn(!userLoggedIn);
-                showToast(userLoggedIn ? 'Logged out' : 'Connected with Google Account');
-              }}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-black rounded-xl transition-all shadow-md cursor-pointer ${
-                userLoggedIn 
-                  ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300'
-                  : 'bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-pink-500/20'
-              }`}
-            >
-              <LogIn size={14} />
-              <span>{userLoggedIn ? 'Connected' : 'Sign In'}</span>
-            </button>
+                  <button
+                    onClick={handleExportJSON}
+                    className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <Download size={14} className="text-slate-400" />
+                    <span>Export Full JSON Backup</span>
+                  </button>
+
+                  <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
+
+                  <button
+                    onClick={handleResetToStartPhase}
+                    className="w-full text-left px-3.5 py-2 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <RotateCcw size={14} />
+                    <span>Reset to Start Phase</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
