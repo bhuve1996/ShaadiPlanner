@@ -184,8 +184,8 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   const isRoka = formData.event === 'Roka / Engagement';
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/70 backdrop-blur-sm p-3 sm:p-6 flex justify-center items-start sm:items-center">
-      <div className="bg-white dark:bg-[#11141D] rounded-2xl max-w-5xl w-full p-5 sm:p-7 shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in fade-in zoom-in-95 duration-200 text-slate-800 dark:text-slate-100 max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/70 backdrop-blur-sm p-2 sm:p-6 flex justify-center items-end sm:items-center">
+      <div className="bg-white dark:bg-[#11141D] rounded-2xl sm:rounded-2xl rounded-b-none sm:rounded-b-2xl max-w-5xl w-full p-4 sm:p-7 shadow-2xl border border-slate-200 dark:border-white/10 my-0 sm:my-8 animate-in fade-in zoom-in-95 duration-200 text-slate-800 dark:text-slate-100 max-h-[94vh] sm:max-h-[92vh] flex flex-col">
         
         {/* Sticky Header */}
         <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-white/10 flex-shrink-0">

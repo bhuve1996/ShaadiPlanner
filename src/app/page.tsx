@@ -553,76 +553,78 @@ export default function Home() {
 
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs transition-colors">
-        <div className={`mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between transition-all duration-300 ${
+        <div className={`mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4 transition-all duration-300 ${
           isSimplifiedView ? 'max-w-5xl' : 'max-w-[1720px]'
         }`}>
           
           {/* Logo & Wedding Title */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               onClick={triggerCelebration}
-              className="rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform cursor-pointer shadow-xs"
+              className="rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform cursor-pointer shadow-xs flex-shrink-0"
               title="Click for celebratory flower shower!"
             >
-              <WeddingLogo size={36} className="w-9 h-9" />
+              <WeddingLogo size={32} className="w-8 h-8 sm:w-9 sm:h-9" />
             </button>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h1 className="text-xs sm:text-base font-black tracking-tight text-slate-900 dark:text-white truncate">
                   ShaadiPlanner
                 </h1>
                 
                 {/* Minimalist Cloud / Local Status Indicator Light */}
                 <span 
-                  className={`inline-block w-2 h-2 rounded-full ${
+                  className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
                     isSupabaseConfigured() ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
                   }`}
                   title={isSupabaseConfigured() ? 'Live Cloud Synced (Supabase PostgreSQL)' : 'Local Storage Mode'}
                 />
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
-                {settings.coupleTitle} • 🗓️ {settings.weddingDate}
+              <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-[130px] sm:max-w-md">
+                {settings.coupleTitle}
               </p>
             </div>
           </div>
 
           {/* Action buttons: Theme Toggle + Cloud Status + Export + Compact Overflow Menu */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
             
-            {/* Perspective Filter Scope: Bride, Groom, Mutual */}
-            <div className="hidden sm:inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700 mr-1">
+            {/* Perspective Filter Scope: Bride, Groom, Mutual (Responsive on all screen sizes) */}
+            <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700">
               <button
                 onClick={() => setActiveSide('ALL')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-1.5 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer ${
                   activeSide === 'ALL'
                     ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
                 title="Combined Mutual Ledger"
               >
-                Mutual
+                All
               </button>
               <button
                 onClick={() => setActiveSide('BRIDE')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-1.5 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer ${
                   activeSide === 'BRIDE'
                     ? 'bg-rose-600 text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-rose-600'
                 }`}
                 title="Harsha (Bride Pink)"
               >
-                👰 Harsha
+                <span className="sm:hidden">👰</span>
+                <span className="hidden sm:inline">👰 Harsha</span>
               </button>
               <button
                 onClick={() => setActiveSide('GROOM')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-1.5 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold transition-all cursor-pointer ${
                   activeSide === 'GROOM'
                     ? 'bg-blue-600 text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-blue-600'
                 }`}
                 title="Bhuvesh (Groom Blue)"
               >
-                🤵 Bhuvi
+                <span className="sm:hidden">🤵</span>
+                <span className="hidden sm:inline">🤵 Bhuvi</span>
               </button>
             </div>
 
@@ -632,14 +634,15 @@ export default function Home() {
                 setIsSimplifiedView(prev => !prev);
                 showToast(!isSimplifiedView ? 'Switched to Simple View' : 'Switched to Full Detailed View');
               }}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-2 sm:px-2.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl border transition-all cursor-pointer ${
                 isSimplifiedView
                   ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent shadow-xs'
                   : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50'
               }`}
               title={isSimplifiedView ? "Click to show full visuals & media" : "Click to hide decorative elements & show minimal ledger only"}
             >
-              <span>{isSimplifiedView ? '⚡ Simple' : '📋 Simple'}</span>
+              <span>{isSimplifiedView ? '⚡' : '📋'}</span>
+              <span className="hidden sm:inline">{isSimplifiedView ? 'Simple' : 'Simple'}</span>
             </button>
 
             {/* Day / Night Theme Toggle */}

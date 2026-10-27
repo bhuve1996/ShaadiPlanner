@@ -864,12 +864,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             onClick={() => setInfoItem(null)} 
           />
 
+          {/* Responsive positioning: Centered bottom drawer on mobile, floating anchor on desktop */}
           <div 
-            className="fixed z-50 animate-in fade-in zoom-in-95 duration-150"
+            className="fixed z-50 animate-in fade-in zoom-in-95 duration-150 sm:max-w-[360px] w-[calc(100vw-24px)] max-w-sm"
             style={{
-              left: Math.min(infoItem.x, typeof window !== 'undefined' ? window.innerWidth - 380 : 500),
-              top: Math.min(infoItem.y, typeof window !== 'undefined' ? window.innerHeight - 340 : 500),
-              width: '360px'
+              left: typeof window !== 'undefined' && window.innerWidth >= 640 
+                ? Math.min(infoItem.x, window.innerWidth - 380) 
+                : '50%',
+              top: typeof window !== 'undefined' && window.innerWidth >= 640 
+                ? Math.min(infoItem.y, window.innerHeight - 340) 
+                : 'auto',
+              bottom: typeof window !== 'undefined' && window.innerWidth < 640 ? '16px' : 'auto',
+              transform: typeof window !== 'undefined' && window.innerWidth < 640 ? 'translateX(-50%)' : 'none'
             }}
           >
             <div className="bg-white/95 dark:bg-[#151A2E]/95 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border-2 border-slate-300 dark:border-white/20 text-xs space-y-2.5">
