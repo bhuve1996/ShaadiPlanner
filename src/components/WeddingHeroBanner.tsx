@@ -34,37 +34,13 @@ export const WeddingHeroBanner: React.FC<WeddingHeroBannerProps> = ({
   }, [settings.weddingDate]);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-rose-500 via-purple-600 to-sky-500 border-2 border-white/40 shadow-2xl text-white">
-      {/* Background Graphic Floral Pattern Overlay */}
-      <div 
-        className="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none bg-cover bg-center"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80')`
-        }}
-      />
-
-      {/* Decorative Floral Mandala in Corner */}
-      <div className="absolute -right-16 -top-16 w-80 h-80 opacity-15 pointer-events-none animate-spin-slow">
-        <svg viewBox="0 0 200 200" className="w-full h-full fill-white">
-          <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
-          <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="2" />
-          {Array.from({ length: 16 }).map((_, i) => (
-            <path
-              key={i}
-              d="M100 100 Q110 30 100 10 Q90 30 100 100"
-              transform={`rotate(${i * 22.5} 100 100)`}
-            />
-          ))}
-        </svg>
-      </div>
-
-      <div className="relative z-10 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+    <div className="relative overflow-hidden rounded-2xl bg-slate-900 dark:bg-[#11141D] border border-slate-800 dark:border-white/10 shadow-sm text-white">
+      <div className="relative z-10 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
         
-        {/* Left Column: Flowery Pink & Blue Couple Title */}
+        {/* Left Column: Couple Title */}
         <div className="space-y-2 max-w-2xl">
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 border border-white/40 text-white text-[11px] font-bold backdrop-blur-md">
-            <Flower2 size={12} className="text-yellow-300" />
-            <span>Vivaah Celebration</span>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-200 text-[11px] font-semibold">
+            <span>Wedding Planner</span>
           </div>
 
           <div>
@@ -72,79 +48,79 @@ export const WeddingHeroBanner: React.FC<WeddingHeroBannerProps> = ({
               <span>{settings.coupleTitle}</span>
               <span 
                 onClick={onCelebration}
-                className="cursor-pointer hover:scale-125 transition-transform text-lg" 
-                title="Click for flower shower!"
+                className="cursor-pointer hover:scale-110 transition-transform text-base" 
+                title="Click for celebration!"
               >
-                💐
+                ✨
               </span>
             </h2>
-            <p className="text-white/80 text-xs mt-1 font-medium leading-relaxed">
-              Wedding planner & financial ledger • <span className="text-pink-200">Harsha (Bride)</span>, <span className="text-sky-200">Bhuvesh (Groom)</span> & Shared ceremonies.
+            <p className="text-slate-400 text-xs mt-1 font-medium leading-relaxed">
+              Shared finances & split ledger • <span className="text-rose-400">Harsha</span> & <span className="text-blue-400">Bhuvesh</span>.
             </p>
           </div>
 
           {/* Quick Info Badges */}
           <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20 text-white font-semibold text-xs">
-              <Calendar size={13} className="text-yellow-300" />
+            <div className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/10 text-slate-300 font-medium text-xs">
+              <Calendar size={13} className="text-slate-400" />
               <span>{settings.weddingDate}</span>
             </div>
 
-            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20 text-white font-semibold text-xs">
-              <Heart size={13} className="text-pink-300 fill-pink-300" />
+            <div className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/10 text-slate-300 font-medium text-xs">
+              <Heart size={13} className="text-rose-400" />
               <span>{daysLeft > 0 ? `${daysLeft} Days to Wedding` : 'Wedding Day!'}</span>
             </div>
 
-            <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20 text-white font-semibold text-xs">
-              <Users size={13} className="text-sky-300" />
+            <div className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/10 text-slate-300 font-medium text-xs">
+              <Users size={13} className="text-blue-400" />
               <span>{settings.groomGuestCount + settings.brideGuestCount} Total Guests</span>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Visual Budget Card */}
-        <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-5 border-2 border-white/40 flex flex-col gap-3 min-w-[280px] shadow-2xl">
-          <div className="flex items-center justify-between pb-2 border-b border-white/20">
-            <span className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-              <Coins size={14} className="text-yellow-300" />
-              Wedding Budget Target
+        {/* Right Column: Visual Budget Summary Card */}
+        <div className="bg-white/5 rounded-xl p-4 border border-white/10 flex flex-col gap-2.5 min-w-[260px]">
+          <div className="flex items-center justify-between pb-1.5 border-b border-white/10">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <Coins size={13} className="text-amber-400" />
+              Budget Target
             </span>
             <button
               onClick={onOpenSettings}
-              className="text-[11px] font-bold text-yellow-200 hover:text-white underline decoration-yellow-300 cursor-pointer"
+              className="text-[11px] font-semibold text-slate-300 hover:text-white underline cursor-pointer"
             >
-              Adjust Settings
+              Adjust
             </button>
           </div>
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-white/80">Total Planned / Actual:</span>
-              <span className="font-black text-white">{formatLakh(totalActual)}</span>
+              <span className="text-slate-400">Total Actual:</span>
+              <span className="font-bold text-white">{formatLakh(totalActual)}</span>
             </div>
             <div className="flex justify-between text-xs">
-              <span className="text-white/80">Target Budget:</span>
-              <span className="font-black text-yellow-300">{formatLakh(settings.totalTargetBudget)}</span>
+              <span className="text-slate-400">Target Budget:</span>
+              <span className="font-bold text-amber-300">{formatLakh(settings.totalTargetBudget)}</span>
             </div>
             <div className="flex justify-between text-xs">
-              <span className="text-white/80">Cleared Advances:</span>
-              <span className="font-black text-emerald-300">{formatINR(totalPaid)}</span>
+              <span className="text-slate-400">Cleared Advances:</span>
+              <span className="font-bold text-emerald-400">{formatINR(totalPaid)}</span>
             </div>
           </div>
 
-          <div className="w-full bg-black/30 rounded-full h-2.5 overflow-hidden mt-1 border border-white/20">
+          <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden mt-0.5">
             <div 
-              className="h-full bg-gradient-to-r from-yellow-300 via-pink-300 to-sky-300 rounded-full transition-all duration-700"
+              className="h-full bg-emerald-500 rounded-full transition-all duration-500"
               style={{ width: `${Math.min(100, Math.round((totalActual / (settings.totalTargetBudget || 1)) * 100))}%` }}
             />
           </div>
 
           <button
             onClick={onCelebration}
-            className="mt-1 w-full py-2.5 px-3 rounded-2xl bg-white text-pink-700 hover:bg-pink-50 font-black text-xs shadow-lg hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            className="mt-1 w-full py-2 px-3 rounded-lg bg-white text-slate-900 hover:bg-slate-100 font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <span>🌸</span>
-            <span>Shower Flowers & Confetti</span>
+            <Sparkles size={13} />
+            <span>Celebrate 🌸</span>
           </button>
         </div>
 

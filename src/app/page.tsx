@@ -588,7 +588,7 @@ export default function Home() {
         )}
 
         {/* Navigation Tabs with Interactive Calendar, Shagun & Groups */}
-        <div className="flex border-2 border-pink-200 dark:border-white/10 gap-4 sm:gap-6 text-sm font-bold bg-white/90 dark:bg-[#121626]/90 backdrop-blur-md px-5 py-2 rounded-2xl shadow-md transition-colors overflow-x-auto">
+        <div className="flex border border-slate-200 dark:border-white/10 gap-3 sm:gap-5 text-xs font-semibold bg-white dark:bg-[#11141D] px-4 py-1.5 rounded-xl shadow-xs transition-colors overflow-x-auto">
           <button
             onClick={() => setCurrentTab('budget')}
             className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
