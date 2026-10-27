@@ -427,27 +427,26 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <button
               onClick={triggerCelebration}
-              className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+              className="w-9 h-9 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
               title="Click for celebratory flower shower!"
             >
-              <Heart size={18} className="fill-current text-rose-500" />
+              <Heart size={16} className="fill-current text-rose-500" />
             </button>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+                <h1 className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white">
                   ShaadiPlanner
                 </h1>
                 
-                {/* Auto-sync indicator */}
-                <div 
-                  className="hidden md:inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-0.5 rounded-full"
-                  title="Auto-saved to your browser storage. Safe on page refresh."
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  <span>Synced</span>
-                </div>
+                {/* Minimalist Cloud / Local Status Indicator Light */}
+                <span 
+                  className={`inline-block w-2 h-2 rounded-full ${
+                    isSupabaseConfigured() ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
+                  }`}
+                  title={isSupabaseConfigured() ? 'Live Cloud Synced (Supabase PostgreSQL)' : 'Local Storage Mode'}
+                />
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
                 {settings.coupleTitle} • 🗓️ {settings.weddingDate}
               </p>
             </div>

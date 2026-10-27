@@ -10,23 +10,14 @@ export const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className={`relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl border text-xs font-black transition-all cursor-pointer shadow-sm active:scale-95 ${
-        mode === 'night'
-          ? 'bg-[#181E32] text-amber-300 border-amber-400/40 hover:bg-[#202742]'
-          : 'bg-white text-slate-800 border-pink-200 hover:bg-pink-50'
-      }`}
-      title={mode === 'night' ? 'Switch to Day (Floral Blossom)' : 'Switch to Night (Starlight Velvet)'}
+      className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+      title={mode === 'night' ? 'Switch to Day Mode' : 'Switch to Night Mode'}
+      aria-label="Toggle theme"
     >
       {mode === 'night' ? (
-        <>
-          <Moon size={14} className="text-amber-400 fill-amber-400" />
-          <span>Starlight Night 🌙</span>
-        </>
+        <Sun size={15} className="text-amber-400" />
       ) : (
-        <>
-          <Sun size={14} className="text-amber-500 fill-amber-400" />
-          <span>Floral Day ☀️</span>
-        </>
+        <Moon size={15} className="text-slate-600" />
       )}
     </button>
   );
