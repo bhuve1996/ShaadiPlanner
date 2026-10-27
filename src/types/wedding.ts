@@ -155,26 +155,31 @@ export interface GuestGroupItem {
   notes?: string;
 }
 
-export interface FamilyShagunItem {
-  id: string;
-  recipientName: string;
-  relation: string; // e.g. 'Chache-Bhua', 'Chache, Mamma, Massi', 'Sister & Jiju', 'Niece'
-  group: 'Chache-Bhua' | 'Mamma-Massi' | 'Sisters & In-laws' | 'Cousins & Youth' | 'Custom Rituals / Shagun' | 'General Family';
-  amount: number;
-  calculationFormula?: string; // e.g. '8 × ₹5,100', '₹75,000 + ₹2,50,000 + 3 × ₹5,100 + ₹10,000'
-  status: 'Planned' | 'Given' | 'Pending Confirmation';
-  notes?: string;
-  side: 'GROOM' | 'BRIDE';
+export interface UserProfile {
+  id: string; // unique device or user id
+  name: string; // e.g. "Bhuvesh", "Harsha", "Papa", "Chacha Ji"
+  avatar: string; // emoji or avatar icon e.g. "🤵", "👰", "👑", "🌸"
+  role?: string; // e.g. "Groom", "Bride", "Family Elder", "Organizer"
+  deviceInfo: string; // e.g. "iPhone Safari", "Mac Chrome"
+  createdAt: string;
 }
 
-export interface GuestGroupItem {
+export type ActivityActionType = 'ADD' | 'EDIT' | 'DELETE' | 'PAYMENT' | 'SETTING_CHANGE';
+
+export interface ActivityLogItem {
   id: string;
-  name: string; // e.g. 'Jagadhri Relatives', 'College Friends', 'Office Colleagues', 'Bhua & Chacha Parivaar'
-  side: 'GROOM' | 'BRIDE' | 'BOTH';
-  count: number;
-  estimatedPerPlate?: number;
-  contactPerson?: string;
-  contactPhone?: string;
-  isAnonymousNumbers?: boolean; // toggle if only anonymous number count is entered
-  notes?: string;
+  weddingId: string;
+  userName: string;
+  userAvatar: string;
+  deviceInfo: string;
+  actionType: ActivityActionType;
+  entityType: 'expense' | 'schedule' | 'shagun' | 'vendor' | 'settings';
+  entityName: string;
+  description: string;
+  diff?: {
+    field?: string;
+    oldValue?: any;
+    newValue?: any;
+  };
+  createdAt: string;
 }

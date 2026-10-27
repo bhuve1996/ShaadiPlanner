@@ -17,8 +17,14 @@ import {
   Flower2,
   CalendarDays,
   MoreVertical,
-  Printer
+  Printer,
+  Bell
 } from 'lucide-react';
+import { UserProfile, ActivityLogItem } from '@/types/wedding';
+import { getCurrentUserProfile, saveCurrentUserProfile } from '@/lib/user-session';
+import { fetchActivityLogs, recordActivityLog } from '@/lib/activity-logger';
+import { UserIdentityModal } from '@/components/UserIdentityModal';
+import { ActivityLogDrawer } from '@/components/ActivityLogDrawer';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
 import { INITIAL_SHAGUN_LIST, INITIAL_GUEST_GROUPS } from '@/lib/shagun-data';
@@ -72,6 +78,13 @@ export default function Home() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // User Profile & Activity Notifications State
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isActivityDrawerOpen, setIsActivityDrawerOpen] = useState(false);
+  const [activityLogs, setActivityLogs] = useState<ActivityLogItem[]>([]);
+  const [hasUnreadLogs, setHasUnreadLogs] = useState(false);
 
   // Track whether an edit was recently made locally to ignore incoming echo events
   const isLocalMutationRef = useRef(false);
@@ -151,6 +164,20 @@ export default function Home() {
 
     loadData();
 
+    // Check user profile session
+    const currentProfile = getCurrentUserProfile();
+    if (currentProfile) {
+      setUserProfile(currentProfile);
+    } else {
+      // First time session in this browser: prompt user to pick their identity
+      setIsProfileModalOpen(true);
+    }
+
+    // Load initial activity logs
+    fetchActivityLogs().then(logs => {
+      if (isMounted) setActivityLogs(logs);
+    });
+
     // 2. Real-Time Remote Subscription: Instantly reflect updates made in other windows / mobile
     // Debounce to prevent remote updates from firing in quick succession
     let debounceTimer: NodeJS.Timeout | null = null;
@@ -210,8 +237,49 @@ export default function Home() {
 
   const handleUpdateExpense = (updated: ExpenseItem) => {
     markLocalMutation();
+    const oldItem = expenses.find(x => x.id === updated.id);
     setExpenses(prev => prev.map(item => item.id === updated.id ? updated : item));
     showToast(`Updated "${updated.name}"`);
+
+    // Audit Log record
+    const isCostChange = oldItem && oldItem.actualCost !== updated.actualCost;
+    const isPaymentChange = oldItem && oldItem.paidAmount !== updated.paidAmount;
+    const isSplitChange = oldItem && oldItem.splitType !== updated.splitType;
+
+    let desc = `Updated details for "${updated.name}"`;
+    let field = 'Details';
+    let oldValue: any = undefined;
+    let newValue: any = undefined;
+
+    if (isCostChange) {
+      desc = `Changed cost of "${updated.name}" from ₹${oldItem.actualCost.toLocaleString('en-IN')} to ₹${updated.actualCost.toLocaleString('en-IN')}`;
+      field = 'Total Cost';
+      oldValue = `₹${oldItem.actualCost.toLocaleString('en-IN')}`;
+      newValue = `₹${updated.actualCost.toLocaleString('en-IN')}`;
+    } else if (isPaymentChange) {
+      desc = `Updated payment on "${updated.name}" from ₹${oldItem.paidAmount.toLocaleString('en-IN')} to ₹${updated.paidAmount.toLocaleString('en-IN')}`;
+      field = 'Paid Amount';
+      oldValue = `₹${oldItem.paidAmount.toLocaleString('en-IN')}`;
+      newValue = `₹${updated.paidAmount.toLocaleString('en-IN')}`;
+    } else if (isSplitChange) {
+      desc = `Changed split rule on "${updated.name}" from ${oldItem.splitType} to ${updated.splitType}`;
+      field = 'Split Rule';
+      oldValue = oldItem.splitType;
+      newValue = updated.splitType;
+    }
+
+    recordActivityLog({
+      actionType: isPaymentChange ? 'PAYMENT' : 'EDIT',
+      entityType: 'expense',
+      entityName: updated.name,
+      description: desc,
+      diff: { field, oldValue, newValue },
+      userProfile,
+    }).then(newLog => {
+      setActivityLogs(prev => [newLog, ...prev]);
+      setHasUnreadLogs(true);
+    });
+
     if (isSupabaseConfigured()) {
       syncExpenseToRemote(updated);
     }
@@ -222,6 +290,20 @@ export default function Home() {
     const itemToDelete = expenses.find(x => x.id === id);
     setExpenses(prev => prev.filter(item => item.id !== id));
     showToast(`Deleted ${itemToDelete?.name || 'expense'}`);
+
+    if (itemToDelete) {
+      recordActivityLog({
+        actionType: 'DELETE',
+        entityType: 'expense',
+        entityName: itemToDelete.name,
+        description: `Deleted expense item "${itemToDelete.name}" (Cost: ₹${itemToDelete.actualCost.toLocaleString('en-IN')})`,
+        userProfile,
+      }).then(newLog => {
+        setActivityLogs(prev => [newLog, ...prev]);
+        setHasUnreadLogs(true);
+      });
+    }
+
     if (isSupabaseConfigured()) {
       deleteExpenseFromRemote(id);
     }
@@ -232,6 +314,19 @@ export default function Home() {
     setExpenses(prev => [created, ...prev]);
     showToast(`Added "${created.name}"`);
     triggerCelebration();
+
+    recordActivityLog({
+      actionType: 'ADD',
+      entityType: 'expense',
+      entityName: created.name,
+      description: `Added new expense "${created.name}" (Cost: ₹${created.actualCost.toLocaleString('en-IN')}, Category: ${created.category})`,
+      diff: { field: 'Cost', newValue: `₹${created.actualCost.toLocaleString('en-IN')}` },
+      userProfile,
+    }).then(newLog => {
+      setActivityLogs(prev => [newLog, ...prev]);
+      setHasUnreadLogs(true);
+    });
+
     if (isSupabaseConfigured()) {
       syncExpenseToRemote(created);
     }
@@ -645,8 +740,38 @@ export default function Home() {
               <span className="hidden sm:inline">{isSimplifiedView ? 'Simple' : 'Simple'}</span>
             </button>
 
+            {/* Activity Notification Log Button (Bell) */}
+            <button
+              onClick={() => {
+                setIsActivityDrawerOpen(true);
+                setHasUnreadLogs(false);
+              }}
+              className="relative p-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer shadow-2xs"
+              title="View live change notification log"
+            >
+              <Bell size={15} />
+              {hasUnreadLogs && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-pink-500 animate-ping" />
+              )}
+              {hasUnreadLogs && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-pink-500" />
+              )}
+            </button>
+
             {/* Day / Night Theme Toggle */}
             <ThemeToggle />
+
+            {/* User Profile Mini-Badge */}
+            {userProfile && (
+              <button
+                onClick={() => setIsProfileModalOpen(true)}
+                className="hidden md:inline-flex items-center gap-1.5 px-2 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
+                title={`Active identity: ${userProfile.name} (${userProfile.deviceInfo}). Click to switch.`}
+              >
+                <span>{userProfile.avatar}</span>
+                <span className="truncate max-w-[85px]">{userProfile.name}</span>
+              </button>
+            )}
 
             {/* More Actions Overflow Menu (3-Dots) */}
             <div className="relative">
@@ -663,6 +788,27 @@ export default function Home() {
                   className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
                   onClick={() => setIsMenuOpen(false)}
                 >
+                  <button
+                    onClick={() => setIsProfileModalOpen(true)}
+                    className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <span className="text-sm">{userProfile?.avatar || '👤'}</span>
+                    <span>Switch Identity ({userProfile?.name || 'Guest'})</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setIsActivityDrawerOpen(true);
+                      setHasUnreadLogs(false);
+                    }}
+                    className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <Bell size={14} className="text-slate-400" />
+                    <span>View Activity Log ({activityLogs.length})</span>
+                  </button>
+
+                  <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
+
                   <button
                     onClick={() => setIsSettingsOpen(true)}
                     className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
@@ -952,6 +1098,28 @@ export default function Home() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         onSave={handleSaveSettings}
+      />
+
+      {/* First-Time User Identity Onboarding Modal */}
+      <UserIdentityModal
+        isOpen={isProfileModalOpen}
+        onSaveProfile={(profile) => {
+          setUserProfile(profile);
+          setIsProfileModalOpen(false);
+          showToast(`Welcome, ${profile.name}!`);
+        }}
+      />
+
+      {/* Tamper-Proof Audit & Notification Drawer */}
+      <ActivityLogDrawer
+        isOpen={isActivityDrawerOpen}
+        onClose={() => setIsActivityDrawerOpen(false)}
+        logs={activityLogs}
+        currentUserProfile={userProfile}
+        onOpenProfileModal={() => {
+          setIsActivityDrawerOpen(false);
+          setIsProfileModalOpen(true);
+        }}
       />
     </div>
   );
