@@ -44,7 +44,7 @@ export function WeddingLogo({ className = "w-9 h-9", size = 36 }: WeddingLogoPro
       <g filter="url(#logoGlow)" transform="translate(0, 1)">
         {/* Left ring - Bhuvi Gold */}
         <circle cx="27" cy="34" r="13" stroke="url(#logoGold)" strokeWidth="3.2" strokeLinecap="round" />
-        {/* Right ring - Harsha Rose */}
+        {/* Right ring - Harshu Rose */}
         <circle cx="37" cy="34" r="13" stroke="url(#logoRose)" strokeWidth="3.2" strokeLinecap="round" />
         {/* Intertwined overlap */}
         <path d="M 27 21 A 13 13 0 0 1 37 21" stroke="url(#logoRose)" strokeWidth="3.2" strokeLinecap="round" />

@@ -318,7 +318,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   )}
                   {sideFilter === 'BRIDE' && (
                     <span className="text-xs bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-600 font-bold px-2.5 py-0.5 rounded-full">
-                      👰 Harsha (Pink) + Shared
+                      👰 Harshu (Pink) + Shared
                     </span>
                   )}
                   {sideFilter === 'ALL' && (
@@ -394,7 +394,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
               <option value="ALL">✨ All Split Rules</option>
-              <option value="BRIDE_ONLY">Harsha (100% Bride)</option>
+              <option value="BRIDE_ONLY">Harshu (100% Bride)</option>
               <option value="GROOM_ONLY">Bhuvi (100% Groom)</option>
               <option value="GUEST_RATIO">Guest Ratio Split</option>
               <option value="EQUAL_50_50">50:50 Shared Equal</option>
@@ -407,7 +407,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
               className="text-xs bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-bold focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs cursor-pointer"
             >
               <option value="ALL">All (Self & Parents)</option>
-              <option value="COUPLE">Self (Harsha & Bhuvi)</option>
+              <option value="COUPLE">Self (Harshu & Bhuvi)</option>
               <option value="PARENTS">Parents / Elders</option>
               <option value="SHARED_FAMILY">Joint Family</option>
             </select>
@@ -516,7 +516,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   <div className="flex items-center justify-end">
                     <span>
                       {isSimplifiedView && sideFilter === 'BRIDE' 
-                        ? 'Harsha Share' 
+                        ? 'Harshu Share' 
                         : isSimplifiedView && sideFilter === 'GROOM' 
                         ? 'Bhuvi Share' 
                         : 'Total Cost'}
@@ -533,7 +533,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                       className="py-3.5 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
                     >
                       <div className="flex items-center justify-end">
-                        <span>Harsha Spend</span>
+                        <span>Harshu Spend</span>
                         {renderSortIndicator('brideDue')}
                       </div>
                     </th>
@@ -617,7 +617,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             }`}
                             title={
                               item.splitType === 'BRIDE_ONLY'
-                                ? 'Harsha 100%'
+                                ? 'Harshu 100%'
                                 : item.splitType === 'GROOM_ONLY'
                                 ? 'Bhuvi 100%'
                                 : 'Shared / Mutual'
@@ -770,7 +770,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               }`}
                               style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
                             >
-                              <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harsha (100%)</option>
+                              <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harshu (100%)</option>
                               <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
                               <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
                               <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
@@ -833,7 +833,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               {formatINR(shares.brideDue)}
                             </div>
                             <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                              {shares.bridePercent}% by Harsha
+                              {shares.bridePercent}% by Harshu
                             </div>
                           </td>
 
@@ -870,7 +870,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 />
                               </div>
                               <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                                <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harsha' : 'Unpaid'}</strong></span>
+                                <span>By: <strong className="text-slate-800 dark:text-slate-200">{item.paidBy === 'SHARED' ? 'Both' : item.paidBy === 'GROOM' ? 'Bhuvesh' : item.paidBy === 'BRIDE' ? 'Harshu' : 'Unpaid'}</strong></span>
                                 <span className={`font-bold ${
                                   item.status === 'Settled' 
                                     ? 'text-emerald-700 dark:text-emerald-400' 
@@ -944,7 +944,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                   {/* 3. Responsibility & Split */}
                   <td className="py-3.5 px-3 text-center text-slate-500 dark:text-slate-400 font-medium text-[11px]">
-                    {sideFilter === 'BRIDE' ? '👰 Harsha View' : sideFilter === 'GROOM' ? '🤵 Bhuvi View' : 'Combined Split'}
+                    {sideFilter === 'BRIDE' ? '👰 Harshu View' : sideFilter === 'GROOM' ? '🤵 Bhuvi View' : 'Combined Split'}
                   </td>
 
                   {/* 4. Actual Cost / Share Total */}
@@ -968,7 +968,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   {/* Columns in Detailed View */}
                   {!isSimplifiedView && (
                     <>
-                      {/* 5. Harsha Total */}
+                      {/* 5. Harshu Total */}
                       <td className="py-3.5 px-4 text-right whitespace-nowrap font-mono text-sm font-bold text-rose-600 dark:text-rose-400">
                         {formatINR(filteredTotals.brideTotal)}
                       </td>
@@ -1099,7 +1099,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 </div>
                 <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
                   <span>
-                    {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):
+                    {infoItem.item.payerCategory === 'PARENTS' ? 'Parents (Harshu)' : 'Harshu Share'} ({computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):
                   </span>
                   <span className="font-bold text-slate-900 dark:text-white">
                     {formatINR(computeExpenseShares(infoItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}

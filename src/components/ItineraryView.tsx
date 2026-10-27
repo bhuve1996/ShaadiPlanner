@@ -37,7 +37,7 @@ const SCHEDULE: EventSchedule[] = [
     venue: 'Heritage Poolside Courtyard',
     emoji: '🌿',
     image: 'https://images.unsplash.com/photo-1598887142487-3c854d51d2c7?auto=format&fit=crop&w=800&q=80',
-    description: 'Intricate henna application for Harsha, family & friends, live dholak singers, and refreshing sugarcane juice bar.',
+    description: 'Intricate henna application for Harshu, family & friends, live dholak singers, and refreshing sugarcane juice bar.',
     tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
   },
   {
@@ -47,7 +47,7 @@ const SCHEDULE: EventSchedule[] = [
     venue: 'Grand Crystal Ballroom',
     emoji: '🪩',
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
-    description: 'Choreographed dances by Harsha vs Bhuvesh families, awards ceremony, celebrity DJ beats, and signature craft cocktails.',
+    description: 'Choreographed dances by Harshu vs Bhuvesh families, awards ceremony, celebrity DJ beats, and signature craft cocktails.',
     tagColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   },
   {

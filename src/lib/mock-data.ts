@@ -1,9 +1,9 @@
 import { ExpenseItem, WeddingSettings } from "@/types/wedding";
 
 export const INITIAL_SETTINGS: WeddingSettings = {
-  "coupleTitle": "Harsha & Bhuvi's Wedding",
+  "coupleTitle": "Harshu & Bhuvi's Wedding",
   "groomName": "Bhuvesh (Groom)",
-  "brideName": "Harsha (Bride)",
+  "brideName": "Harshu (Bride)",
   "weddingDate": "2027-02-14",
   "groomGuestCount": 150,
   "brideGuestCount": 400,
@@ -282,7 +282,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Wedding buffet catering @ ₹2,000/plate • Main Wedding Hall separate from stay; catering calculated dynamically by guest count (150 Bhuvi + 400 Harsha = 550 guests).",
+    "notes": "Wedding buffet catering @ ₹2,000/plate • Main Wedding Hall separate from stay; catering calculated dynamically by guest count (150 Bhuvi + 400 Harshu = 550 guests).",
     "dueDate": "",
     "isPerPlateCalculation": true,
     "ratePerGuestOrPlate": 2000,
@@ -303,7 +303,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 1100000,
         "name": "Wedding Dinner Catering (@ ₹2,000/plate)",
         "label": "Per-Plate Food",
-        "notes": "Grand wedding dinner buffet (550 guests: 150 Bhuvi + 400 Harsha @ ₹2,000)",
+        "notes": "Grand wedding dinner buffet (550 guests: 150 Bhuvi + 400 Harshu @ ₹2,000)",
         "status": "Pending"
       }
     ]
@@ -448,7 +448,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Bridal gold & groom gold gifts (Chain, Watch, Kadaa) • Gifted from girl family to Harsha and Bhuvesh",
+    "notes": "Bridal gold & groom gold gifts (Chain, Watch, Kadaa) • Gifted from girl family to Harshu and Bhuvesh",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
     "overrideGuestCount": false,
@@ -458,9 +458,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       {
         "id": "sub-girl-gold-1",
         "cost": 200000,
-        "name": "Bridal Gold (Harsha Jewelry Gift)",
+        "name": "Bridal Gold (Harshu Jewelry Gift)",
         "label": "Bridal Gold",
-        "notes": "From girl family to Harsha",
+        "notes": "From girl family to Harshu",
         "status": "Pending"
       },
       {
@@ -508,7 +508,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Roka day event catering & setup • Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of ₹75,000 (₹50k-₹1L) added for extra high-tea & snacks.",
+    "notes": "Roka day event catering & setup • Resort includes 13 rooms & 100 people food. For accommodating Harshu 200 guests (100 extra people), working buffer of ₹75,000 (₹50k-₹1L) added for extra high-tea & snacks.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 1200,
     "overrideGuestCount": false,
@@ -728,7 +728,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Wedding sweets distribution & ring ceremony mithai • 550 total boxes (Bhuvi: 150 boxes @ ₹800 = ₹1,20,000 | Harsha: 400 boxes = ₹3,50,000). Exact custom split.",
+    "notes": "Wedding sweets distribution & ring ceremony mithai • 550 total boxes (Bhuvi: 150 boxes @ ₹800 = ₹1,20,000 | Harshu: 400 boxes = ₹3,50,000). Exact custom split.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 800,
     "overrideGuestCount": true,
@@ -738,7 +738,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       {
         "id": "sub-mit-1",
         "cost": 200000,
-        "name": "Harsha Family Shadi Mithai Boxes (250 Boxes)",
+        "name": "Harshu Family Shadi Mithai Boxes (250 Boxes)",
         "label": "Wedding Mithai",
         "notes": "250 traditional wedding sweets distribution boxes (Girl Side)",
         "status": "Pending"
@@ -746,7 +746,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       {
         "id": "sub-mit-2",
         "cost": 150000,
-        "name": "Harsha Family Ring Ceremony Mithai (150 Boxes)",
+        "name": "Harshu Family Ring Ceremony Mithai (150 Boxes)",
         "label": "Roka Mithai",
         "notes": "150 engagement day sweet platters & boxes (Girl Side)",
         "status": "Pending"
@@ -782,7 +782,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Mangalsutra, bangles, necklace & earrings • ₹6,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.",
+    "notes": "Mangalsutra, bangles, necklace & earrings • ₹6,35,000 Gold budget gifted to Harshu from Bhuvesh side. Split into individual jewelry subtasks below.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
     "overrideGuestCount": false,
@@ -850,7 +850,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Gold & diamond couple rings • Boy to Girl engagement ring: Gold with Diamond ring specified for Harsha.",
+    "notes": "Gold & diamond couple rings • Boy to Girl engagement ring: Gold with Diamond ring specified for Harshu.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
     "overrideGuestCount": false,
@@ -887,7 +887,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       {
         "id": "sub-suit-1",
         "cost": 90000,
-        "name": "Harsha's Main Bridal Wedding Lehenga",
+        "name": "Harshu's Main Bridal Wedding Lehenga",
         "label": "Bridal Lehenga",
         "notes": "Main heavy bridal wedding lehenga  - including haldi mehndi outfits ",
         "status": "Pending"
@@ -895,7 +895,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       {
         "id": "sub-suit-ring",
         "cost": 30000,
-        "name": "Harsha's Ring Ceremony Gown / Designer Dress",
+        "name": "Harshu's Ring Ceremony Gown / Designer Dress",
         "label": "Ring Dress",
         "notes": "Ring Ceremony evening gown / outfit gifted to bride",
         "status": "Pending"
@@ -1071,7 +1071,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "COUPLE",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Wedding cards & shagun envelopes print • ₹12,000 Harsha side + ₹12,000 Bhuvesh side (Equal 50:50 split)",
+    "notes": "Wedding cards & shagun envelopes print • ₹12,000 Harshu side + ₹12,000 Bhuvesh side (Equal 50:50 split)",
     "dueDate": "",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,

@@ -55,7 +55,7 @@ export const WeddingHeroBanner: React.FC<WeddingHeroBannerProps> = ({
               </span>
             </h2>
             <p className="text-slate-400 text-xs mt-1 font-medium leading-relaxed">
-              Shared finances & split ledger • <span className="text-rose-400">Harsha</span> & <span className="text-blue-400">Bhuvesh</span>.
+              Shared finances & split ledger • <span className="text-rose-400">Harshu</span> & <span className="text-blue-400">Bhuvesh</span>.
             </p>
           </div>
 

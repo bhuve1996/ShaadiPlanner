@@ -6,7 +6,7 @@ export type SplitType =
   | 'CUSTOM';
 
 export type ExpensePayerCategory = 
-  | 'COUPLE'          // Bhuvesh / Harsha personal expense
+  | 'COUPLE'          // Bhuvesh / Harshu personal expense
   | 'PARENTS'         // Parents / Family expense
   | 'SHARED_FAMILY';  // Mutual / Joint family expense
 
@@ -68,7 +68,7 @@ export interface ExpenseItem {
   customGroomPercent?: number;
   customGroomCost?: number;
   customBrideCost?: number;
-  payerCategory?: ExpensePayerCategory; // Couple (Bhuvesh/Harsha) vs Parents/Family
+  payerCategory?: ExpensePayerCategory; // Couple (Bhuvesh/Harshu) vs Parents/Family
   
   // Subtasks & Sub-costs breakdown (e.g. Gold split into mangalsutra, bangles; Gifts split into makeup, sandals, 7/11/21 suits)
   subtasks?: SubTaskItem[];
@@ -168,7 +168,7 @@ export interface GuestGroupItem {
 
 export interface UserProfile {
   id: string; // unique device or user id
-  name: string; // e.g. "Bhuvesh", "Harsha", "Papa", "Chacha Ji"
+  name: string; // e.g. "Bhuvesh", "Harshu", "Papa", "Chacha Ji"
   avatar: string; // emoji or avatar icon e.g. "🤵", "👰", "👑", "🌸"
   role?: string; // e.g. "Groom", "Bride", "Family Elder", "Organizer"
   deviceInfo: string; // e.g. "iPhone Safari", "Mac Chrome"

@@ -138,17 +138,17 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
 export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [
   {
     "id": "grp-7",
-    "name": "Harsha's Extended Family & Relatives",
+    "name": "Harshu's Extended Family & Relatives",
     "side": "BRIDE",
     "count": 120,
-    "contactPerson": "Harsha's Father",
+    "contactPerson": "Harshu's Father",
     "contactPhone": "",
     "isAnonymousNumbers": false,
     "notes": "Room required: Yes (girl side family stay)"
   },
   {
     "id": "grp-8",
-    "name": "Harsha's School & University Friends",
+    "name": "Harshu's School & University Friends",
     "side": "BRIDE",
     "count": 60,
     "contactPerson": "Sneha (Bridesmaid)",

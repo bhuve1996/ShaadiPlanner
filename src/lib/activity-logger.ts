@@ -25,7 +25,7 @@ export const INITIAL_ACTIVITY_LOGS: ActivityLogItem[] = [
   {
     id: 'log-seed-1b',
     weddingId: WEDDING_ID,
-    userName: 'Bhuvesh & Harsha',
+    userName: 'Bhuvesh & Harshu',
     userAvatar: '👑',
     deviceInfo: 'Planner Ledger',
     actionType: 'EDIT',
@@ -42,19 +42,19 @@ export const INITIAL_ACTIVITY_LOGS: ActivityLogItem[] = [
   {
     id: 'log-seed-2',
     weddingId: WEDDING_ID,
-    userName: 'Bhuvesh & Harsha',
+    userName: 'Bhuvesh & Harshu',
     userAvatar: '💍',
     deviceInfo: 'Planner Ledger',
     actionType: 'ADD',
     entityType: 'expense',
     entityName: 'Wedding Invitation Cards & Envelopes',
-    description: 'Added wedding cards & envelopes expense of ₹24,000 split equally 50:50 (₹12,000 Harsha + ₹12,000 Bhuvi).',
+    description: 'Added wedding cards & envelopes expense of ₹24,000 split equally 50:50 (₹12,000 Harshu + ₹12,000 Bhuvi).',
     createdAt: '2026-10-27T13:49:00.000Z'
   },
   {
     id: 'log-seed-3',
     weddingId: WEDDING_ID,
-    userName: 'Bhuvesh & Harsha',
+    userName: 'Bhuvesh & Harshu',
     userAvatar: '👑',
     deviceInfo: 'Planner Ledger',
     actionType: 'EDIT',

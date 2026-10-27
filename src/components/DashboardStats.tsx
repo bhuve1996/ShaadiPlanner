@@ -68,7 +68,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
           {/* Card 1: Total Wedding Liability */}
           <div className="theme-card bg-white dark:bg-[#11141D] rounded-2xl p-4 border border-slate-200 dark:border-white/10 shadow-xs flex flex-col justify-between">
             <div className="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
-              <span>{activeSide === 'ALL' ? 'Total Wedding Budget' : activeSide === 'BRIDE' ? "Harsha's Total Allocation" : "Bhuvi's Total Allocation"}</span>
+              <span>{activeSide === 'ALL' ? 'Total Wedding Budget' : activeSide === 'BRIDE' ? "Harshu's Total Allocation" : "Bhuvi's Total Allocation"}</span>
               <IndianRupee size={15} className="text-slate-400" />
             </div>
             <div className="mt-2 flex items-baseline justify-between">
@@ -110,7 +110,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
             </div>
             <div className="mt-2 flex items-center justify-between text-base sm:text-lg font-bold font-mono">
               <div className="flex flex-col">
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase">👰 Harsha</span>
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase">👰 Harshu</span>
                 <span className="text-slate-900 dark:text-white font-extrabold">{formatINR(summary.brideShareDue)}</span>
               </div>
               <span className="text-slate-300 dark:text-slate-700 text-xl font-light">|</span>
@@ -127,7 +127,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
           {/* Card 1: Total Liability */}
           <div className="theme-card bg-white dark:bg-[#11141D] rounded-xl p-3 border border-slate-200 dark:border-white/10 shadow-xs flex flex-col justify-between">
             <div className="flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
-              <span>{activeSide === 'ALL' ? 'Total Budget' : activeSide === 'BRIDE' ? "Harsha's Total" : "Bhuvi's Total"}</span>
+              <span>{activeSide === 'ALL' ? 'Total Budget' : activeSide === 'BRIDE' ? "Harshu's Total" : "Bhuvi's Total"}</span>
               <IndianRupee size={13} className="text-slate-400" />
             </div>
             <div className="mt-1 flex items-baseline justify-between">
@@ -153,7 +153,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
           {/* Card 2: Advance Paid */}
           <div className="theme-card bg-white dark:bg-[#11141D] rounded-xl p-3 border border-slate-200 dark:border-white/10 shadow-xs flex flex-col justify-between">
             <div className="flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
-              <span>{activeSide === 'ALL' ? 'Paid Advances' : activeSide === 'BRIDE' ? "Harsha Paid" : "Bhuvi Paid"}</span>
+              <span>{activeSide === 'ALL' ? 'Paid Advances' : activeSide === 'BRIDE' ? "Harshu Paid" : "Bhuvi Paid"}</span>
               <CheckCircle2 size={13} className="text-emerald-500" />
             </div>
             <div className="mt-1 flex items-baseline justify-between">
@@ -169,7 +169,7 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({
           {/* Card 3: Pending Balance */}
           <div className="theme-card bg-white dark:bg-[#11141D] rounded-xl p-3 border border-slate-200 dark:border-white/10 shadow-xs flex flex-col justify-between">
             <div className="flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
-              <span>{activeSide === 'ALL' ? 'Remaining Due' : activeSide === 'BRIDE' ? "Harsha Due" : "Bhuvi Due"}</span>
+              <span>{activeSide === 'ALL' ? 'Remaining Due' : activeSide === 'BRIDE' ? "Harshu Due" : "Bhuvi Due"}</span>
               <Clock size={13} className="text-rose-500" />
             </div>
             <div className="mt-1 flex items-baseline justify-between">

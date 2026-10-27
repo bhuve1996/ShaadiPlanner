@@ -7,10 +7,10 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     "date": "2027-02-12",
     "startTime": "05:00 PM",
     "endTime": "07:00 PM",
-    "venue": "Palace Royal Courtyard / Accommodates 200 Guests from Harsha Side",
+    "venue": "Palace Royal Courtyard / Accommodates 200 Guests from Harshu Side",
     "emoji": "💍",
     "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80",
-    "description": "Exchange of Rings (Gold with Diamond for Harsha, Gold Band for Bhuvesh). Hall accommodated within the resort stay without extra venue charges; accommodating Harsha's 200 guests.",
+    "description": "Exchange of Rings (Gold with Diamond for Harshu, Gold Band for Bhuvesh). Hall accommodated within the resort stay without extra venue charges; accommodating Harshu's 200 guests.",
     "tagColor": "bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border-indigo-400/40",
     "guestCount": 200
   },
@@ -36,7 +36,7 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     "venue": "Grand Crystal Ballroom",
     "emoji": "🪩",
     "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
-    "description": "Choreographed dances by Bhuvesh vs Harsha families, DJ beats, and signature cocktails.",
+    "description": "Choreographed dances by Bhuvesh vs Harshu families, DJ beats, and signature cocktails.",
     "tagColor": "bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-400/40",
     "guestCount": 300
   },

@@ -6,9 +6,9 @@
 -- 1. Create weddings table for global settings
 CREATE TABLE IF NOT EXISTS weddings (
   id TEXT PRIMARY KEY DEFAULT 'bhuvesh-harsha-wedding',
-  couple_title TEXT NOT NULL DEFAULT 'Bhuvesh & Harsha''s Wedding',
+  couple_title TEXT NOT NULL DEFAULT 'Bhuvesh & Harshu''s Wedding',
   groom_name TEXT NOT NULL DEFAULT 'Bhuvesh (Groom)',
-  bride_name TEXT NOT NULL DEFAULT 'Harsha (Bride)',
+  bride_name TEXT NOT NULL DEFAULT 'Harshu (Bride)',
   wedding_date TEXT NOT NULL DEFAULT '2026-11-28',
   groom_guest_count INTEGER NOT NULL DEFAULT 150,
   bride_guest_count INTEGER NOT NULL DEFAULT 400,

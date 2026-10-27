@@ -426,7 +426,7 @@ export default function Home() {
       actionType: 'SETTING_CHANGE',
       entityType: 'settings',
       entityName: `${event} Guests`,
-      description: `Updated guest ratio for ${event}: ${groom} Bhuvi + ${bride} Harsha (${groom + bride} total)${perPlate ? ` @ ₹${perPlate}/plate` : ''}`,
+      description: `Updated guest ratio for ${event}: ${groom} Bhuvi + ${bride} Harshu (${groom + bride} total)${perPlate ? ` @ ₹${perPlate}/plate` : ''}`,
       diff: {
         field: `${event} Guests`,
         oldValue: `${oldGroom}B : ${oldBride}H`,
@@ -456,7 +456,7 @@ export default function Home() {
       entityName: 'Target Budget & Configuration',
       description: isBudgetChanged
         ? `Changed overall Target Wedding Budget from ₹${oldBudget.toLocaleString('en-IN')} to ₹${newSettings.totalTargetBudget.toLocaleString('en-IN')}`
-        : `Updated wedding settings & base guest counts (${newSettings.groomGuestCount} Bhuvi + ${newSettings.brideGuestCount} Harsha)`,
+        : `Updated wedding settings & base guest counts (${newSettings.groomGuestCount} Bhuvi + ${newSettings.brideGuestCount} Harshu)`,
       diff: isBudgetChanged ? {
         field: 'Target Budget',
         oldValue: `₹${oldBudget.toLocaleString('en-IN')}`,
@@ -528,7 +528,7 @@ export default function Home() {
       'Actual Cost (₹)',
       'Paid Advance (₹)',
       'Pending Due (₹)',
-      'Harsha Share (₹)',
+      'Harshu Share (₹)',
       'Bhuvesh Share (₹)',
       'Vendor Name',
       'Booking Status',
@@ -553,7 +553,7 @@ export default function Home() {
         ? 'Parents / Elders'
         : item.payerCategory === 'SHARED_FAMILY'
         ? 'Joint Family'
-        : 'Couple (Harsha & Bhuvi)';
+        : 'Couple (Harshu & Bhuvi)';
 
       // 1. Main Expense Row
       rows.push([
@@ -643,12 +643,12 @@ export default function Home() {
     const totalActual = expenses.reduce((s, x) => s + (x.actualCost || 0), 0);
     const totalPaid = expenses.reduce((s, x) => s + (x.paidAmount || 0), 0);
 
-    let harshaTotal = 0;
+    let harshuTotal = 0;
     let bhuviTotal = 0;
 
     const rowsHtml = expenses.map((item, idx) => {
       const shares = computeExpenseShares(item, settings.groomGuestCount, settings.brideGuestCount, settings.eventGuestCounts);
-      harshaTotal += shares.brideDue;
+      harshuTotal += shares.brideDue;
       bhuviTotal += shares.groomDue;
 
       const subtasksHtml = (item.subtasks && item.subtasks.length > 0)
@@ -697,7 +697,7 @@ export default function Home() {
           <div style="border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 16px;">
             <h1 style="margin: 0; font-size: 22px; font-weight: 900; letter-spacing: -0.5px;">${settings.coupleTitle}</h1>
             <div style="font-size: 12px; color: #64748b; margin-top: 4px;">
-              Date: <strong>${settings.weddingDate} (Tentative)</strong> • Target Budget: <strong>${fmt(settings.totalTargetBudget)}</strong> • Guests: <strong>${settings.groomGuestCount + settings.brideGuestCount} (${settings.brideGuestCount} Harsha + ${settings.groomGuestCount} Bhuvi)</strong>
+              Date: <strong>${settings.weddingDate} (Tentative)</strong> • Target Budget: <strong>${fmt(settings.totalTargetBudget)}</strong> • Guests: <strong>${settings.groomGuestCount + settings.brideGuestCount} (${settings.brideGuestCount} Harshu + ${settings.groomGuestCount} Bhuvi)</strong>
             </div>
           </div>
 
@@ -707,8 +707,8 @@ export default function Home() {
               <div style="font-size: 18px; font-weight: 900; color: #0f172a; font-family: monospace;">${fmt(totalActual)}</div>
             </div>
             <div style="background: #fff1f2; padding: 10px; border-radius: 8px; border: 1px solid #fecdd3;">
-              <div style="font-size: 10px; text-transform: uppercase; color: #be123c; font-weight: bold;">Harsha Total Share</div>
-              <div style="font-size: 18px; font-weight: 900; color: #be123c; font-family: monospace;">${fmt(harshaTotal)}</div>
+              <div style="font-size: 10px; text-transform: uppercase; color: #be123c; font-weight: bold;">Harshu Total Share</div>
+              <div style="font-size: 18px; font-weight: 900; color: #be123c; font-family: monospace;">${fmt(harshuTotal)}</div>
             </div>
             <div style="background: #eff6ff; padding: 10px; border-radius: 8px; border: 1px solid #bfdbfe;">
               <div style="font-size: 10px; text-transform: uppercase; color: #1d4ed8; font-weight: bold;">Bhuvi Total Share</div>
@@ -728,7 +728,7 @@ export default function Home() {
                 <th style="padding: 8px 6px;">Category</th>
                 <th style="padding: 8px 6px;">Occasion</th>
                 <th style="padding: 8px 6px; text-align: right;">Total Cost</th>
-                <th style="padding: 8px 6px; text-align: right; color: #be123c;">Harsha Share</th>
+                <th style="padding: 8px 6px; text-align: right; color: #be123c;">Harshu Share</th>
                 <th style="padding: 8px 6px; text-align: right; color: #1d4ed8;">Bhuvi Share</th>
                 <th style="padding: 8px 6px;">Vendor</th>
               </tr>
@@ -740,7 +740,7 @@ export default function Home() {
               <tr style="border-top: 2px solid #0f172a; background: #f8fafc; font-size: 12px; font-weight: bold;">
                 <td colspan="4" style="padding: 10px 6px;">TOTALS (${expenses.length} ITEMS)</td>
                 <td style="padding: 10px 6px; text-align: right; font-family: monospace;">${fmt(totalActual)}</td>
-                <td style="padding: 10px 6px; text-align: right; font-family: monospace; color: #be123c;">${fmt(harshaTotal)}</td>
+                <td style="padding: 10px 6px; text-align: right; font-family: monospace; color: #be123c;">${fmt(harshuTotal)}</td>
                 <td style="padding: 10px 6px; text-align: right; font-family: monospace; color: #1d4ed8;">${fmt(bhuviTotal)}</td>
                 <td></td>
               </tr>
@@ -748,7 +748,7 @@ export default function Home() {
           </table>
 
           <div style="margin-top: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 10px; color: #94a3b8; display: flex; justify-content: space-between;">
-            <span>Generated from ShaadiPlanner • Harsha & Bhuvi Wedding</span>
+            <span>Generated from ShaadiPlanner • Harshu & Bhuvi Wedding</span>
             <span>${new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
           </div>
         </body>
@@ -829,10 +829,10 @@ export default function Home() {
                     ? 'bg-rose-600 text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-rose-600'
                 }`}
-                title="Harsha (Bride Pink)"
+                title="Harshu (Bride Pink)"
               >
                 <span className="sm:hidden">👰</span>
-                <span className="hidden sm:inline">👰 Harsha</span>
+                <span className="hidden sm:inline">👰 Harshu</span>
               </button>
               <button
                 onClick={() => setActiveSide('GROOM')}

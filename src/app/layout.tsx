@@ -4,11 +4,11 @@ import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shaadi-planner-harsha-bhuvi.vercel.app"),
-  title: "Harsha & Bhuvi's Wedding Planner | ShaadiPlanner",
-  description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harsha & Bhuvi's wedding.",
+  title: "Harshu & Bhuvi's Wedding Planner | ShaadiPlanner",
+  description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harshu & Bhuvi's wedding.",
   openGraph: {
-    title: "Harsha & Bhuvi's Wedding Planner | ShaadiPlanner",
-    description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harsha & Bhuvi's wedding.",
+    title: "Harshu & Bhuvi's Wedding Planner | ShaadiPlanner",
+    description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harshu & Bhuvi's wedding.",
     type: "website",
     siteName: "ShaadiPlanner",
     images: [
@@ -16,14 +16,14 @@ export const metadata: Metadata = {
         url: "/favicon.png",
         width: 512,
         height: 512,
-        alt: "Harsha & Bhuvi's Wedding Planner",
+        alt: "Harshu & Bhuvi's Wedding Planner",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Harsha & Bhuvi's Wedding Planner | ShaadiPlanner",
-    description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harsha & Bhuvi's wedding.",
+    title: "Harshu & Bhuvi's Wedding Planner | ShaadiPlanner",
+    description: "Auspicious wedding planning, day & night mode, and smart cost-split ledger for Harshu & Bhuvi's wedding.",
     images: ["/favicon.png"],
   },
   icons: {

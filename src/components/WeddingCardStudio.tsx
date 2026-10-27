@@ -104,7 +104,7 @@ export function WeddingCardStudio({ settings, onToast }: WeddingCardStudioProps)
   const [hasCopied, setHasCopied] = useState(false);
   
   // Customizable invitation card wording
-  const [brideText, setBrideText] = useState(settings.brideName.replace(/\s*\(.*\)/, '') || 'Harsha');
+  const [brideText, setBrideText] = useState(settings.brideName.replace(/\s*\(.*\)/, '') || 'Harshu');
   const [groomText, setGroomText] = useState(settings.groomName.replace(/\s*\(.*\)/, '') || 'Bhuvesh');
   const [weddingDateText, setWeddingDateText] = useState('Sunday, 14th February 2027 (Tentative)');
   const [venueNameText, setVenueNameText] = useState('The Heritage Grand Palace & Resort');
@@ -400,7 +400,7 @@ export function WeddingCardStudio({ settings, onToast }: WeddingCardStudioProps)
                   <h2 className={`text-xl font-black bg-gradient-to-r ${currentTemplate.goldAccent} bg-clip-text text-transparent`}>
                     Ceremony Itinerary
                   </h2>
-                  <p className="text-[10px] text-amber-400 font-serif">Harsha & Bhuvi Festivities</p>
+                  <p className="text-[10px] text-amber-400 font-serif">Harshu & Bhuvi Festivities</p>
                 </div>
 
                 {/* 3-Day Schedule Capsules */}

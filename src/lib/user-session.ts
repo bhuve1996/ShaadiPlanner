@@ -58,7 +58,7 @@ export const SUGGESTED_AVATARS = [
 
 export const SUGGESTED_NAMES = [
   'Bhuvesh',
-  'Harsha',
+  'Harshu',
   'Papa Ji',
   'Mummy Ji',
   'Chacha Ji',

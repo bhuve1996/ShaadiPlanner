@@ -130,10 +130,10 @@ export const OccasionGuestSyncBar: React.FC<OccasionGuestSyncBarProps> = ({
                         />
                       </div>
 
-                      {/* Harsha Guests */}
+                      {/* Harshu Guests */}
                       <div className="space-y-1">
                         <label className="text-[10px] font-extrabold uppercase text-rose-700 dark:text-rose-300 block">
-                          👰 Harsha ({bridePct}%)
+                          👰 Harshu ({bridePct}%)
                         </label>
                         <input
                           type="number"

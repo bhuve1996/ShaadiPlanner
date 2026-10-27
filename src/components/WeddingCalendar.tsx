@@ -47,15 +47,15 @@ const CEREMONY_GUIDE: Record<string, {
 }> = {
   'Roka / Engagement': {
     tagline: 'Ring Exchange, Sweets & Official Family Union',
-    ritualOverview: 'The official announcement and commitment ceremony. Bhuvesh & Harsha exchange engagement rings (Gold with Diamond accent for Harsha, Gold Band for Bhuvi), followed by family tilak, feeding of sweets (shagun mithai), and formal blessings from elders.',
-    keyHighlights: ['Engagement Ring Exchange', 'Ardas / Tilak Blessing', 'Gift & Shagun Envelopes Exchange', 'Harsha 200 Guests High-Tea & Lunch'],
+    ritualOverview: 'The official announcement and commitment ceremony. Bhuvesh & Harshu exchange engagement rings (Gold with Diamond accent for Harshu, Gold Band for Bhuvi), followed by family tilak, feeding of sweets (shagun mithai), and formal blessings from elders.',
+    keyHighlights: ['Engagement Ring Exchange', 'Ardas / Tilak Blessing', 'Gift & Shagun Envelopes Exchange', 'Harshu 200 Guests High-Tea & Lunch'],
     dressCodeSuggestion: 'Pastel Cocktail Gown / Kurta Pajama with Nehru Jacket',
     hostSide: 'Mutual',
     colorTheme: 'from-pink-500/10 to-indigo-500/10 border-pink-300 dark:border-pink-800'
   },
   'Mehendi': {
     tagline: 'Fragrant Henna, Folk Geets & Vibrant Sundowner',
-    ritualOverview: 'A lively afternoon ceremony where intricate bridal henna is applied to Harsha’s hands and feet by specialist artists, with Bhuvesh’s initials hidden in the artwork. Female relatives enjoy mehendi, folk dholak geets, and afternoon high-tea in the resort hall.',
+    ritualOverview: 'A lively afternoon ceremony where intricate bridal henna is applied to Harshu’s hands and feet by specialist artists, with Bhuvesh’s initials hidden in the artwork. Female relatives enjoy mehendi, folk dholak geets, and afternoon high-tea in the resort hall.',
     keyHighlights: ['Bridal Mehndi Artwork (Hidden Initial)', 'Family & Bridesmaids Henna', 'Folk Dholak & Antakshari', 'No-rent in-house banquet arrangement'],
     dressCodeSuggestion: 'Bright Greens, Yellows, Floral Prints & Light Lehengas',
     hostSide: 'Mutual',
@@ -63,8 +63,8 @@ const CEREMONY_GUIDE: Record<string, {
   },
   'Sangeet & Cocktail': {
     tagline: 'High-Energy Family Dance Faceoff & DJ Beats',
-    ritualOverview: 'A glamorous musical night featuring choreographed family dance performances where Harsha’s side and Bhuvi’s side showcase dance medleys, followed by couple performance, signature mocktails/cocktails, and high-energy Bollywood DJ party until late night.',
-    keyHighlights: ['Bhuvi vs Harsha Family Dance Faceoff', 'Couple Dance Performance', 'Live DJ & Dancefloor Euphoria', 'Gourmet Cocktail Dinner Buffet'],
+    ritualOverview: 'A glamorous musical night featuring choreographed family dance performances where Harshu’s side and Bhuvi’s side showcase dance medleys, followed by couple performance, signature mocktails/cocktails, and high-energy Bollywood DJ party until late night.',
+    keyHighlights: ['Bhuvi vs Harshu Family Dance Faceoff', 'Couple Dance Performance', 'Live DJ & Dancefloor Euphoria', 'Gourmet Cocktail Dinner Buffet'],
     dressCodeSuggestion: 'Sparkling Lehengas, Tuxedos, Indo-Western Bandhgalas',
     hostSide: 'Mutual',
     colorTheme: 'from-blue-500/10 to-violet-500/10 border-blue-300 dark:border-blue-800'
@@ -79,7 +79,7 @@ const CEREMONY_GUIDE: Record<string, {
   },
   'Baraat & Wedding Pheras': {
     tagline: 'Royal Procession, Milni, Varmala & 7 Sacred Pheras',
-    ritualOverview: 'The main Vedic wedding ceremony. Bhuvesh arrives in a royal baraat procession with vintage car and brass band. Harsha’s family welcomes the baraat with Milni warm blankets & garlands. Followed by majestic Varmala on stage, ribbon katai & shoe hiding negotiations, and 7 sacred pheras around the agni havan kund.',
+    ritualOverview: 'The main Vedic wedding ceremony. Bhuvesh arrives in a royal baraat procession with vintage car and brass band. Harshu’s family welcomes the baraat with Milni warm blankets & garlands. Followed by majestic Varmala on stage, ribbon katai & shoe hiding negotiations, and 7 sacred pheras around the agni havan kund.',
     keyHighlights: ['Royal Vintage Car Baraat & Brass Band', 'Milni Garlands & Warm Blankets Welcome', 'Grand Varmala Stage Reveal', '7 Sacred Vedic Pheras & Sindoor Daan', 'Ribbon Katai & Juta Lukai Negotiations'],
     dressCodeSuggestion: 'Traditional Heavy Red/Maroon Lehenga & Royal Sherwani with Turban',
     hostSide: 'Mutual',
@@ -87,7 +87,7 @@ const CEREMONY_GUIDE: Record<string, {
   },
   'Vida (Bidai / Doli)': {
     tagline: 'Emotional Farewell, Rice Tossing & Doli Departure',
-    ritualOverview: 'The deeply emotional early morning ceremony where Harsha bids farewell to her maternal home, gently tossing puffed rice over her head to thank her parents for a lifetime of love and prosperity. Harsha’s family presents parting gifts (saris & suit lengths) to traveling relatives.',
+    ritualOverview: 'The deeply emotional early morning ceremony where Harshu bids farewell to her maternal home, gently tossing puffed rice over her head to thank her parents for a lifetime of love and prosperity. Harshu’s family presents parting gifts (saris & suit lengths) to traveling relatives.',
     keyHighlights: ['Rice Tossing (Puffed Rice / Laja Homa)', 'Parental Farewell & Tearful Hugs', 'Gifting Farewell Saris & Suits to Relatives', 'Departure to Groom’s Home'],
     dressCodeSuggestion: 'Traditional Indian Ethnic / Morning Shawls',
     hostSide: 'Bride',
@@ -95,7 +95,7 @@ const CEREMONY_GUIDE: Record<string, {
   },
   'Reception': {
     tagline: 'Formal Couple Showcase, Toast & Royal Gala Dinner',
-    ritualOverview: 'The concluding formal celebration where the newly wedded couple is introduced to society, friends, colleagues, and extended relatives. Guests greet Bhuvesh & Harsha on stage, offer blessings & shagun, and celebrate with a grand banquet feast.',
+    ritualOverview: 'The concluding formal celebration where the newly wedded couple is introduced to society, friends, colleagues, and extended relatives. Guests greet Bhuvesh & Harshu on stage, offer blessings & shagun, and celebrate with a grand banquet feast.',
     keyHighlights: ['Stage Welcome & Couple Introductions', 'Family Toast & Photo Sessions', 'Extensive Multi-Cuisine Banquet Feast', 'Live Melodic Background Ensembles'],
     dressCodeSuggestion: 'Formal Evening Gowns, Designer Sarees & Dark Suits',
     hostSide: 'Mutual',

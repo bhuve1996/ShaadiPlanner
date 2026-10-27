@@ -130,7 +130,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                 ...st,
                 name: `${st.name.split('(')[0].trim()} (${totalGuests} Guests @ ₹${rate.toLocaleString('en-IN')}/plate)`,
                 cost: totalCost,
-                notes: `Grand wedding dinner buffet for ${totalGuests} attendees (${gGuests} Bhuvi + ${bGuests} Harsha)`
+                notes: `Grand wedding dinner buffet for ${totalGuests} attendees (${gGuests} Bhuvi + ${bGuests} Harshu)`
               };
             }
             return st;
@@ -304,7 +304,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                     }`}
                   >
                     <div className="font-bold text-xs">👫 Self (Couple)</div>
-                    <div className="text-[9px] opacity-75">Harsha & Bhuvi</div>
+                    <div className="text-[9px] opacity-75">Harshu & Bhuvi</div>
                   </button>
 
                   <button
@@ -563,7 +563,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-0.5">Harsha Side</label>
+                        <label className="block text-[10px] font-bold text-slate-600 dark:text-slate-400 mb-0.5">Harshu Side</label>
                         <input
                           type="number"
                           value={currentBrideGuests}
@@ -629,7 +629,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         : 'bg-white dark:bg-[#1A1F2E] text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-2 border-slate-300 dark:border-white/20'
                     }`}
                   >
-                    <div className="font-bold text-xs">👰 Harsha 100%</div>
+                    <div className="font-bold text-xs">👰 Harshu 100%</div>
                     <div className="text-[9px] opacity-75">Girl Side Only</div>
                   </button>
 
@@ -651,7 +651,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                 <div className="pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-mono">
                   <div className="text-left">
                     <span className="text-[10px] text-slate-500 uppercase block font-sans">
-                      {formData.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'}
+                      {formData.payerCategory === 'PARENTS' ? 'Parents (Harshu)' : 'Harshu Share'}
                     </span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.brideDue)}</span>
                   </div>

@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Dedicated single project configuration for Bhuvesh & Harsha wedding
+// Dedicated single project configuration for Bhuvesh & Harshu wedding
 const DEFAULT_SUPABASE_URL = 'https://lybzsaufcagpaihmxfpf.supabase.co';
 const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_NXm-5Lwvt90b_QVVw1UP6w_aaNkqltV';
 

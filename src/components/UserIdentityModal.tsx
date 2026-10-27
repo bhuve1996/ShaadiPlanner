@@ -27,7 +27,7 @@ export const UserIdentityModal: React.FC<UserIdentityModalProps> = ({
       id: `user-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
       name: finalName,
       avatar: selectedAvatar,
-      role: finalName.toLowerCase().includes('harsha')
+      role: finalName.toLowerCase().includes('harshu') || finalName.toLowerCase().includes('harsha')
         ? 'Bride'
         : finalName.toLowerCase().includes('bhuvi') || finalName.toLowerCase().includes('bhuvesh')
         ? 'Groom'
@@ -48,7 +48,7 @@ export const UserIdentityModal: React.FC<UserIdentityModalProps> = ({
         <div className="text-center space-y-2 mb-6">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 border border-pink-200/60 dark:border-pink-800/40 text-[11px] font-bold">
             <Sparkles size={12} className="text-pink-500 animate-pulse" />
-            <span>Harsha & Bhuvi&apos;s Wedding Planner</span>
+            <span>Harshu & Bhuvi&apos;s Wedding Planner</span>
           </div>
 
           <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -97,7 +97,7 @@ export const UserIdentityModal: React.FC<UserIdentityModalProps> = ({
               type="text"
               required
               autoFocus
-              placeholder="e.g. Bhuvesh, Harsha, Papa Ji, Bharti Di"
+              placeholder="e.g. Bhuvesh, Harshu, Papa Ji, Bharti Di"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2.5 bg-slate-50 dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-bold text-sm focus:outline-none focus:border-slate-800 dark:focus:border-white transition-all shadow-2xs"

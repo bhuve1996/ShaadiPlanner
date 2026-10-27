@@ -344,11 +344,11 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
           </p>
         </div>
 
-        {/* Card 3: Harsha (Bride) Guests */}
+        {/* Card 3: Harshu (Bride) Guests */}
         <div className="bg-gradient-to-br from-pink-50 via-white to-rose-50 dark:from-pink-950/30 dark:via-slate-900 dark:to-rose-950/20 p-5 rounded-3xl border-2 border-pink-200 dark:border-pink-900/40 shadow-lg relative overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
-              👰 Harsha Guests
+              👰 Harshu Guests
             </span>
             <span className="text-xs font-black text-rose-700 dark:text-rose-300 bg-rose-100 dark:bg-rose-900/50 px-2 py-0.5 rounded-lg">
               Girl Side
@@ -528,7 +528,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                       : 'text-slate-500 hover:text-rose-600'
                   }`}
                 >
-                  👰 Harsha ({totalBrideGuests})
+                  👰 Harshu ({totalBrideGuests})
                 </button>
               </div>
 
@@ -611,7 +611,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                               ? 'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950/70 dark:border-rose-800 dark:text-rose-300'
                               : 'bg-purple-50 text-purple-800 border-purple-200 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
                           }`}>
-                            {grp.side === 'GROOM' ? '🤵 Bhuvi' : grp.side === 'BRIDE' ? '👰 Harsha' : 'Mutual'}
+                            {grp.side === 'GROOM' ? '🤵 Bhuvi' : grp.side === 'BRIDE' ? '👰 Harshu' : 'Mutual'}
                           </span>
                         </div>
 
@@ -751,7 +751,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                           ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300'
                           : 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300'
                       }`}>
-                        {item.side === 'GROOM' ? 'Bhuvesh' : 'Harsha'}
+                        {item.side === 'GROOM' ? 'Bhuvesh' : 'Harshu'}
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-slate-700 dark:text-slate-300 font-medium">
@@ -902,7 +902,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                     className="w-full px-3 py-2 border rounded-xl dark:bg-slate-800 dark:border-slate-700 font-bold"
                   >
                     <option value="GROOM">🤵 Bhuvesh (Groom)</option>
-                    <option value="BRIDE">👰 Harsha (Bride)</option>
+                    <option value="BRIDE">👰 Harshu (Bride)</option>
                     <option value="BOTH">Mutual / Both</option>
                   </select>
                 </div>
@@ -1236,7 +1236,7 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                     className="w-full px-3 py-2 border rounded-xl dark:bg-slate-800 dark:border-slate-700 font-bold"
                   >
                     <option value="GROOM">Bhuvesh (Groom)</option>
-                    <option value="BRIDE">Harsha (Bride)</option>
+                    <option value="BRIDE">Harshu (Bride)</option>
                   </select>
                 </div>
               </div>
