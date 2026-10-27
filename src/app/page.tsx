@@ -645,39 +645,19 @@ export default function Home() {
             {/* Day / Night Theme Toggle */}
             <ThemeToggle />
 
-            {/* Print / PDF Summary Button */}
-            <button
-              onClick={handlePrintOrPdf}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
-              title="Print or Save PDF Summary Report"
-            >
-              <Printer size={13} className="text-slate-500" />
-              <span>PDF</span>
-            </button>
-
-            {/* Quick Export Button */}
-            <button
-              onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
-              title="Export complete ledger to CSV"
-            >
-              <FileSpreadsheet size={13} className="text-slate-500" />
-              <span>CSV</span>
-            </button>
-
-            {/* More Actions Overflow Menu */}
+            {/* More Actions Overflow Menu (3-Dots) */}
             <div className="relative">
               <button
                 onClick={() => setIsMenuOpen(prev => !prev)}
                 className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
-                title="More options & settings"
+                title="More options, exports & settings"
               >
                 <MoreVertical size={15} />
               </button>
 
               {isMenuOpen && (
                 <div 
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <button
@@ -686,6 +666,24 @@ export default function Home() {
                   >
                     <SettingsIcon size={14} className="text-slate-400" />
                     <span>Guest Ratios & Target</span>
+                  </button>
+
+                  <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
+
+                  <button
+                    onClick={handlePrintOrPdf}
+                    className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <Printer size={14} className="text-slate-400" />
+                    <span>Print / PDF Summary</span>
+                  </button>
+
+                  <button
+                    onClick={handleExportCSV}
+                    className="w-full text-left px-3.5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium flex items-center gap-2 cursor-pointer"
+                  >
+                    <FileSpreadsheet size={14} className="text-slate-400" />
+                    <span>Export Ledger to CSV</span>
                   </button>
 
                   <button
