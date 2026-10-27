@@ -33,7 +33,7 @@ export const WeddingCalendar: React.FC<WeddingCalendarProps> = ({
   onAddScheduleItem,
   onDeleteScheduleItem,
 }) => {
-  const [selectedDate, setSelectedDate] = useState<string>('2026-11-27');
+  const [selectedDate, setSelectedDate] = useState<string>('2027-02-13');
   const [editingItem, setEditingItem] = useState<CeremonyScheduleItem | null>(null);
   const [showModal, setShowModal] = useState(false);
 

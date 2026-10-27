@@ -106,7 +106,7 @@ export function WeddingCardStudio({ settings, onToast }: WeddingCardStudioProps)
   // Customizable invitation card wording
   const [brideText, setBrideText] = useState(settings.brideName.replace(/\s*\(.*\)/, '') || 'Harsha');
   const [groomText, setGroomText] = useState(settings.groomName.replace(/\s*\(.*\)/, '') || 'Bhuvesh');
-  const [weddingDateText, setWeddingDateText] = useState('Saturday, 28th November 2026');
+  const [weddingDateText, setWeddingDateText] = useState('Sunday, 14th February 2027 (Tentative)');
   const [venueNameText, setVenueNameText] = useState('The Heritage Grand Palace & Resort');
   const [venueLocationText, setVenueLocationText] = useState('Main Ballroom, Resort Lawns');
   const [familyNote, setFamilyNote] = useState('Together with their families, cordially invite you to celebrate the sacred union.');

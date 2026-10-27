@@ -3,7 +3,7 @@
     "coupleTitle": "Harsha & Bhuvi's Wedding",
     "groomName": "Bhuvesh (Groom)",
     "brideName": "Harsha (Bride)",
-    "weddingDate": "2026-11-28",
+    "weddingDate": "2027-02-14",
     "groomGuestCount": 150,
     "brideGuestCount": 400,
     "totalTargetBudget": 2253600,
@@ -937,7 +937,7 @@
     {
       "id": "sched-roka",
       "title": "Roka / Engagement",
-      "date": "2026-11-26",
+      "date": "2027-02-12",
       "startTime": "05:00 PM",
       "endTime": "07:00 PM",
       "venue": "Palace Royal Courtyard / Accommodates 200 Guests from Harsha Side",
@@ -950,7 +950,7 @@
     {
       "id": "sched-1",
       "title": "Mehendi",
-      "date": "2026-11-26",
+      "date": "2027-02-12",
       "startTime": "11:00 AM",
       "endTime": "03:30 PM",
       "venue": "In-House Resort Banquet Hall (No extra venue rent)",
@@ -963,7 +963,7 @@
     {
       "id": "sched-2",
       "title": "Sangeet & Cocktail",
-      "date": "2026-11-26",
+      "date": "2027-02-12",
       "startTime": "07:30 PM",
       "endTime": "01:00 AM",
       "venue": "Grand Crystal Ballroom",
@@ -976,7 +976,7 @@
     {
       "id": "sched-3",
       "title": "Haldi",
-      "date": "2026-11-27",
+      "date": "2027-02-13",
       "startTime": "10:00 AM",
       "endTime": "01:00 PM",
       "venue": "Yellow Blooms Garden Lawn",
@@ -989,7 +989,7 @@
     {
       "id": "sched-4",
       "title": "Baraat & Wedding Pheras",
-      "date": "2026-11-27",
+      "date": "2027-02-13",
       "startTime": "06:00 PM",
       "endTime": "01:00 AM",
       "venue": "Royal Palace Mandap Lawn",
@@ -1002,7 +1002,7 @@
     {
       "id": "sched-5",
       "title": "Vida (Bidai / Doli)",
-      "date": "2026-11-28",
+      "date": "2027-02-14",
       "startTime": "04:00 AM",
       "endTime": "06:00 AM",
       "venue": "Palace Main Gate / Doli Portico",
@@ -1015,7 +1015,7 @@
     {
       "id": "sched-6",
       "title": "Reception",
-      "date": "2026-11-28",
+      "date": "2027-02-14",
       "startTime": "08:00 PM",
       "endTime": "12:00 AM",
       "venue": "Royal Starlight Terrace",
