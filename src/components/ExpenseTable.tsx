@@ -886,13 +886,17 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 <span>{formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).effectiveTotalCost)}</span>
               </div>
               <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
-                <span>🤵 Bhuvesh Spends ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):</span>
+                <span>
+                  {hoveredItem.item.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'} ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):
+                </span>
                 <span className="font-bold text-slate-900 dark:text-white">
                   {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
                 </span>
               </div>
               <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
-                <span>👰 Harsha Spends ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):</span>
+                <span>
+                  {hoveredItem.item.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'} ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):
+                </span>
                 <span className="font-bold text-slate-900 dark:text-white">
                   {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}
                 </span>

@@ -405,73 +405,82 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
             {/* RIGHT COLUMN (5 COLS): Calculations, Costs & Splits */}
             <div className="lg:col-span-5 space-y-4">
               
-              {/* Total & Paid Amounts */}
+              {/* Total & Paid Amounts in ONE ROW */}
               <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
                 <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                   Cost Summary
                 </div>
 
-                <div>
-                  <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1 text-xs">
-                    Total Item Cost (₹) *
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                    <input
-                      type="number"
-                      required
-                      min="0"
-                      value={formData.actualCost}
-                      onChange={(e) => {
-                        const val = Number(e.target.value);
-                        setFormData({
-                          ...formData,
-                          isPerPlateCalculation: false,
-                          actualCost: val,
-                          estimatedCost: formData.estimatedCost || val
-                        });
-                      }}
-                      className="w-full pl-7 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-base focus:outline-none focus:ring-2 focus:ring-slate-400"
-                    />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1 text-xs">
+                      Total Cost (₹) *
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
+                      <input
+                        type="number"
+                        required
+                        min="0"
+                        value={formData.actualCost}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          setFormData({
+                            ...formData,
+                            isPerPlateCalculation: false,
+                            actualCost: val,
+                            estimatedCost: formData.estimatedCost || val
+                          });
+                        }}
+                        className="w-full pl-7 pr-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-base focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1 text-xs">
+                      Advance Paid (₹)
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max={formData.actualCost}
+                        value={formData.paidAmount}
+                        onChange={(e) => setFormData({ ...formData, paidAmount: Number(e.target.value) })}
+                        className="w-full pl-7 pr-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-base focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1 text-xs">
-                    Advance Paid (₹)
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                    <input
-                      type="number"
-                      min="0"
-                      max={formData.actualCost}
-                      value={formData.paidAmount}
-                      onChange={(e) => setFormData({ ...formData, paidAmount: Number(e.target.value) })}
-                      className="w-full pl-7 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-sm focus:outline-none"
-                    />
-                  </div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex justify-between">
-                    <span>Remaining Balance:</span>
-                    <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">
-                      {formatINR(Math.max(0, formData.actualCost - formData.paidAmount))}
-                    </span>
-                  </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200/60 dark:border-white/5 flex justify-between">
+                  <span>Remaining Balance:</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">
+                    {formatINR(Math.max(0, formData.actualCost - formData.paidAmount))}
+                  </span>
                 </div>
               </div>
 
               {/* Multiplier / Calculator Card */}
               <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-900 dark:text-white text-xs">
-                    {isMithai
-                      ? 'Mithai Box Multiplier'
-                      : isRoka
-                      ? 'Roka Food Calculator'
-                      : 'Wedding Plate Calculator'}
-                  </span>
+                  <div>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs block">
+                      {isMithai
+                        ? 'Mithai Box Multiplier'
+                        : isRoka
+                        ? 'Roka Food Calculator'
+                        : 'Wedding Plate Calculator'}
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Multiply units by guest or box count
+                    </span>
+                  </div>
 
-                  <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-[#1A1F2E] px-2.5 py-1 rounded-lg border-2 border-slate-300 dark:border-white/20 shadow-xs">
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-[#1A1F2E] px-3 py-1.5 rounded-xl border-2 border-slate-300 dark:border-white/20 shadow-xs hover:border-slate-500">
+                    <span>Calculate</span>
                     <input
                       type="checkbox"
                       checked={Boolean(formData.isPerPlateCalculation)}
@@ -482,7 +491,6 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                       }}
                       className="rounded border-slate-400 text-slate-900 focus:ring-slate-500 w-4 h-4 cursor-pointer"
                     />
-                    <span>{isMithai ? 'Enable by Box' : 'Enable by Guest'}</span>
                   </label>
                 </div>
 
@@ -604,12 +612,16 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                 {/* Live Split Result */}
                 <div className="pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-mono">
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase block font-sans">Bhuvi Due</span>
+                    <span className="text-[10px] text-slate-500 uppercase block font-sans">
+                      {formData.payerCategory === 'PARENTS' ? 'Parents (Bhuvi)' : 'Bhuvi Share'}
+                    </span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.groomDue)}</span>
                   </div>
                   <div className="text-slate-300 font-light">+</div>
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase block font-sans">Harsha Due</span>
+                    <span className="text-[10px] text-slate-500 uppercase block font-sans">
+                      {formData.payerCategory === 'PARENTS' ? 'Parents (Harsha)' : 'Harsha Share'}
+                    </span>
                     <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.brideDue)}</span>
                   </div>
                   <div className="text-slate-300 font-light">=</div>
