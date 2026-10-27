@@ -109,7 +109,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 220,
     "eventBrideGuests": 180,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "exp-1793019849199",
@@ -163,7 +163,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "notes": "Heavy gold kadaa for Bhuvesh"
       }
     ],
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "groom-exp-ring-boy-to-girl",
@@ -229,7 +229,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 220,
     "eventBrideGuests": 180,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "bride-exp-palace-1",
@@ -268,7 +268,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       }
     ],
     "eventGroomGuests": 150,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "exp-ring-extra-hightea",
@@ -288,7 +288,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 1200,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "exp-unified-mithai-boxes",
@@ -309,7 +309,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "overrideGuestCount": false,
-    "payerCategory": "PARENTS",
+    "payerCategory": "COUPLE",
     "subtasks": [
       {
         "id": "sub-mit-1",
@@ -417,7 +417,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "exp-unified-bride-wardrobe",
@@ -437,7 +437,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
-    "payerCategory": "PARENTS",
+    "payerCategory": "COUPLE",
     "subtasks": [
       {
         "id": "sub-g-wardrobe-1",
@@ -483,7 +483,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
-    "payerCategory": "PARENTS",
+    "payerCategory": "COUPLE",
     "subtasks": [
       {
         "id": "sub-mu-bridal",
@@ -533,7 +533,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Professional henna artist & ceremonial mehendi cones",
-    "payerCategory": "PARENTS",
+    "payerCategory": "COUPLE",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
     "subtasks": [
@@ -573,7 +573,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
-    "payerCategory": "PARENTS",
+    "payerCategory": "COUPLE",
     "subtasks": [
       {
         "id": "sub-puj-1",
@@ -777,7 +777,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "groom-exp-relatives-consolidated",
@@ -912,7 +912,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "eventGroomGuests": 0,
     "eventBrideGuests": 0,
     "overrideGuestCount": true,
-    "payerCategory": "PARENTS"
+    "payerCategory": "COUPLE"
   },
   {
     "id": "bride-exp-vida-1",
