@@ -48,135 +48,9 @@
   },
   "expenses": [
     {
-      "id": "exp-1793020416635",
-      "name": "GOLD (FROM GIRLS FAMILY TO GIRL)",
-      "category": "Venue & Accommodation",
-      "event": "Baraat & Wedding Pheras",
-      "vendorName": "",
-      "estimatedCost": 100000,
-      "actualCost": 200000,
-      "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "",
-      "dueDate": "",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "exp-1793020098639",
-      "name": "BOYS FAMILY OUTFITS & SHOES",
-      "category": "Venue & Accommodation",
-      "event": "Baraat & Wedding Pheras",
-      "vendorName": "",
-      "estimatedCost": 100000,
-      "actualCost": 60000,
-      "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "",
-      "dueDate": "",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "exp-1793020036233",
-      "name": "GIRLS FAMILY OUTFITS & SHOES",
-      "category": "Venue & Accommodation",
-      "event": "Baraat & Wedding Pheras",
-      "vendorName": "",
-      "estimatedCost": 100000,
-      "actualCost": 100000,
-      "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "",
-      "dueDate": "",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "exp-1793019849199",
-      "name": "GOLD FOR GROOM (Chain & Watch)",
-      "category": "Venue & Accommodation",
-      "event": "Baraat & Wedding Pheras",
-      "vendorName": "",
-      "estimatedCost": 100000,
-      "actualCost": 480000,
-      "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "",
-      "dueDate": "",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "subtasks": [
-        {
-          "id": "sub-1793019886856",
-          "name": "",
-          "cost": 300000,
-          "status": "Pending",
-          "notes": "",
-          "label": "Chain"
-        },
-        {
-          "id": "sub-1793019908222",
-          "name": "",
-          "cost": 30000,
-          "status": "Pending",
-          "notes": "",
-          "label": "watch"
-        },
-        {
-          "id": "sub-1793020529214",
-          "name": "",
-          "cost": 150000,
-          "status": "Pending",
-          "notes": "",
-          "label": "KADAA"
-        }
-      ],
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "exp-1793019704914",
-      "name": "FAMILY MAKEUP",
-      "category": "Venue & Accommodation",
-      "event": "Baraat & Wedding Pheras",
-      "vendorName": "",
-      "estimatedCost": 100000,
-      "actualCost": 30000,
-      "paidAmount": 0,
-      "splitType": "EQUAL_50_50",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "",
-      "dueDate": "",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "payerCategory": "PARENTS"
-    },
-    {
       "id": "groom-exp-1",
-      "name": "Gold & Jewelry (Boy to Girl Gifts - Mangalsutra, Bangles, Necklace, Earrings)",
-      "category": "Attire, Jewelry & MUA",
+      "name": "Bridal Gold & Jewelry (Boy Side)",
+      "category": "Gold & Fine Jewelry",
       "event": "All Events",
       "vendorName": "Tanishq / Kalyan Jewellers",
       "imageUrl": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=300&q=80",
@@ -186,7 +60,7 @@
       "splitType": "GROOM_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "\u20b96,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.",
+      "notes": "Mangalsutra, bangles, necklace & earrings • ₹6,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.",
       "subtasks": [
         {
           "id": "sub-gold-1",
@@ -226,7 +100,7 @@
           "cost": 0,
           "status": "Pending",
           "label": "Gold Tops",
-          "notes": "Clarification item: \u20b935,000 tops"
+          "notes": "Clarification item: ₹35,000 tops"
         }
       ],
       "isPerPlateCalculation": false,
@@ -236,8 +110,82 @@
       "payerCategory": "PARENTS"
     },
     {
+      "id": "exp-1793019849199",
+      "name": "Gold & Jewelry (Girl Side)",
+      "category": "Gold & Fine Jewelry",
+      "event": "Baraat & Wedding Pheras",
+      "vendorName": "",
+      "estimatedCost": 200000,
+      "actualCost": 680000,
+      "paidAmount": 0,
+      "splitType": "BRIDE_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Bridal gold & groom gold gifts (Chain, Watch, Kadaa) • Gifted from girl family to Harsha and Bhuvesh",
+      "dueDate": "",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "eventGroomGuests": 150,
+      "eventBrideGuests": 400,
+      "subtasks": [
+        {
+          "id": "sub-girl-gold-1",
+          "name": "Bridal Gold (Harsha Jewelry Gift)",
+          "cost": 200000,
+          "status": "Pending",
+          "label": "Bridal Gold",
+          "notes": "From girl family to Harsha"
+        },
+        {
+          "id": "sub-girl-gold-2",
+          "name": "Groom Gold Chain",
+          "cost": 300000,
+          "status": "Pending",
+          "label": "Chain",
+          "notes": "Gold chain for Bhuvesh"
+        },
+        {
+          "id": "sub-girl-gold-3",
+          "name": "Groom Premium Watch",
+          "cost": 30000,
+          "status": "Pending",
+          "label": "Watch",
+          "notes": "Ceremony watch for Bhuvesh"
+        },
+        {
+          "id": "sub-girl-gold-4",
+          "name": "Groom Pure Gold Kadaa",
+          "cost": 150000,
+          "status": "Pending",
+          "label": "Kadaa",
+          "notes": "Heavy gold kadaa for Bhuvesh"
+        }
+      ],
+      "payerCategory": "PARENTS"
+    },
+    {
+      "id": "groom-exp-ring-boy-to-girl",
+      "name": "Engagement Rings",
+      "category": "Gold & Fine Jewelry",
+      "event": "Roka / Engagement",
+      "vendorName": "Tanishq / CaratLane Diamond",
+      "imageUrl": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 75000,
+      "actualCost": 200000,
+      "paidAmount": 0,
+      "splitType": "EQUAL_50_50",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Gold & diamond couple rings • Boy to Girl engagement ring: Gold with Diamond ring specified for Harsha.",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "eventGroomGuests": 150,
+      "eventBrideGuests": 400,
+      "payerCategory": "COUPLE"
+    },
+    {
       "id": "groom-exp-2",
-      "name": "Palace Resort: Rooms, Stay & 3-Day Food (All Wedding Events for Boy Side)",
+      "name": "Palace Resort & 3-Day Stay",
       "category": "Venue & Accommodation",
       "event": "All Events",
       "vendorName": "Royal Palace Heritage Stay & Banquet",
@@ -248,7 +196,7 @@
       "splitType": "EQUAL_50_50",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Clarification: This \u20b95,00,000 covers boy-side guest rooms + stay + 3 days of all meals & food for all wedding events. - Might increase if guests increase by 100 at all functions",
+      "notes": "Deluxe guest rooms & meals for boy side • Clarification: This ₹5,00,000 covers boy-side guest rooms + stay + 3 days of all meals & food for all wedding events. - Might increase if guests increase by 100 at all functions",
       "subtasks": [
         {
           "id": "sub-stay-1",
@@ -267,16 +215,75 @@
           "notes": "Breakfast, lunches & high tea for 3 days at the resort "
         }
       ],
-      "isPerPlateCalculation": true,
+      "isPerPlateCalculation": false,
       "ratePerGuestOrPlate": 0,
       "eventGroomGuests": 220,
       "eventBrideGuests": 180,
       "payerCategory": "PARENTS"
     },
     {
+      "id": "bride-exp-palace-1",
+      "name": "Wedding Hall & Dinner Banquet",
+      "category": "Venue & Accommodation",
+      "event": "Baraat & Wedding Pheras",
+      "vendorName": "Main Wedding Palace & Hall",
+      "imageUrl": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=300&q=80",
+      "isPerPlateCalculation": true,
+      "ratePerGuestOrPlate": 2000,
+      "overrideGuestCount": true,
+      "eventBrideGuests": 400,
+      "estimatedCost": 1000000,
+      "actualCost": 1100000,
+      "paidAmount": 0,
+      "splitType": "GUEST_RATIO",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "500 guests wedding buffet @ ₹2,000/plate • Main Wedding Hall separate from stay: ₹10,00,000 budget calculated as 500 guests × ₹2,000 per plate.",
+      "subtasks": [
+        {
+          "id": "sub-whall-1",
+          "name": "Main Wedding Hall & Lawn Space",
+          "cost": 0,
+          "status": "Pending",
+          "label": "Hall Rental",
+          "notes": "Main grand wedding lawn & banquet space"
+        },
+        {
+          "id": "sub-whall-2",
+          "name": "Wedding Dinner Catering (500 Guests @ ₹2,000/plate)",
+          "cost": 0,
+          "status": "Pending",
+          "label": "Per-Plate Food",
+          "notes": "Grand wedding dinner buffet for 500 attendees"
+        }
+      ],
+      "eventGroomGuests": 150,
+      "payerCategory": "PARENTS"
+    },
+    {
+      "id": "exp-ring-extra-hightea",
+      "name": "Engagement Venue & Lunch",
+      "category": "Catering, Food & Sweets",
+      "event": "Roka / Engagement",
+      "vendorName": "Resort In-House Caterer",
+      "imageUrl": "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 75000,
+      "actualCost": 250000,
+      "paidAmount": 0,
+      "splitType": "EQUAL_50_50",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Roka day event catering & setup • Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of ₹75,000 (₹50k-₹1L) added for extra high-tea & snacks.",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 1200,
+      "eventGroomGuests": 150,
+      "eventBrideGuests": 400,
+      "payerCategory": "PARENTS"
+    },
+    {
       "id": "groom-exp-3",
-      "name": "Mitha (Sweets & Traditional Mithai)",
-      "category": "Catering & Dining",
+      "name": "Mitha & Mithai Boxes (Boy Side)",
+      "category": "Catering, Food & Sweets",
       "event": "All Events",
       "vendorName": "Haldiram / Bikaner Sweets",
       "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
@@ -286,8 +293,8 @@
       "splitType": "GROOM_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Wedding traditional sweets, shagun bhaji & sweet gift boxes.",
-      "isPerPlateCalculation": true,
+      "notes": "Traditional wedding sweets & shagun bhaji • Wedding traditional sweets, shagun bhaji & sweet gift boxes.",
+      "isPerPlateCalculation": false,
       "ratePerGuestOrPlate": 800,
       "eventGroomGuests": 150,
       "eventBrideGuests": 0,
@@ -295,25 +302,48 @@
       "payerCategory": "PARENTS"
     },
     {
-      "id": "groom-exp-4",
-      "name": "Wedding Photography & Cinema",
-      "category": "Photography & Cinema",
+      "id": "bride-exp-shadi-mithai-boxes",
+      "name": "Mithai & Shagun Boxes (Girl Side)",
+      "category": "Catering, Food & Sweets",
       "event": "All Events",
-      "vendorName": "ShutterGlory Studios",
-      "imageUrl": "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 100000,
-      "actualCost": 100000,
+      "vendorName": "Haldiram / Sweet Emporium",
+      "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 500000,
+      "actualCost": 350000,
       "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
+      "splitType": "BRIDE_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Photography & album documentation for wedding festivities.",
-      "payerCategory": "COUPLE"
+      "notes": "Wedding sweets distribution & ring ceremony mithai boxes",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 800,
+      "eventGroomGuests": 0,
+      "eventBrideGuests": 250,
+      "overrideGuestCount": true,
+      "payerCategory": "PARENTS",
+      "subtasks": [
+        {
+          "id": "sub-g-mithai-1",
+          "name": "Shadi Mithai Distribution Boxes",
+          "cost": 200000,
+          "status": "Pending",
+          "label": "Wedding Mithai",
+          "notes": "Traditional wedding distribution boxes"
+        },
+        {
+          "id": "sub-g-mithai-2",
+          "name": "Ring Ceremony Mithai & Sweets",
+          "cost": 150000,
+          "status": "Pending",
+          "label": "Roka Mithai",
+          "notes": "Engagement day sweet platters & boxes"
+        }
+      ]
     },
     {
       "id": "groom-exp-5",
-      "name": "Harsha's Clothes, Lehenga, Ring Ceremony Gown & Suits (Boy to Girl Gifts)",
-      "category": "Attire, Jewelry & MUA",
+      "name": "Bridal Trousseau & Suits",
+      "category": "Attire & Wardrobe",
       "event": "All Events",
       "vendorName": "Bridal Heritage Couture",
       "imageUrl": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=300&q=80",
@@ -323,7 +353,7 @@
       "splitType": "GROOM_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Boy to Girl Attire Gifts: \u20b92,00,000 budget covering main wedding lehenga, Ring Ceremony gown/dress, plus 7 / 11 / 21 unstitched suits.",
+      "notes": "Wedding lehenga, ring gown & 7/11/21 suits • Boy to Girl Attire Gifts: ₹2,00,000 budget covering main wedding lehenga, Ring Ceremony gown/dress, plus 7 / 11 / 21 unstitched suits.",
       "subtasks": [
         {
           "id": "sub-suit-1",
@@ -373,48 +403,174 @@
       "payerCategory": "COUPLE"
     },
     {
-      "id": "groom-exp-ring-boy-to-girl",
-      "name": "Ring Ceremony: Gold Ring with Diamond (Boy & Girl Ring)",
-      "category": "Attire, Jewelry & MUA",
-      "event": "Roka / Engagement",
-      "vendorName": "Tanishq / CaratLane Diamond",
-      "imageUrl": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 75000,
-      "actualCost": 200000,
-      "paidAmount": 0,
-      "splitType": "EQUAL_50_50",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Boy to Girl engagement ring: Gold with Diamond ring specified for Harsha.",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "payerCategory": "COUPLE"
-    },
-    {
-      "id": "groom-exp-6",
-      "name": "Our Clothes (Bhuvesh Sherwani & Family Attire)",
-      "category": "Attire, Jewelry & MUA",
-      "event": "All Events",
-      "vendorName": "Regalia / Manyavar",
-      "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 60000,
+      "id": "exp-1793020098639",
+      "name": "Groom Family Wardrobe",
+      "category": "Attire & Wardrobe",
+      "event": "Baraat & Wedding Pheras",
+      "vendorName": "",
+      "estimatedCost": 100000,
       "actualCost": 60000,
       "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
+      "splitType": "GROOM_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Groom sherwani, suits and immediate family member attires.",
+      "notes": "Boy family outfits & shoes",
+      "dueDate": "",
       "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
+      "ratePerGuestOrPlate": 0,
       "eventGroomGuests": 150,
       "eventBrideGuests": 400,
       "payerCategory": "PARENTS"
     },
     {
+      "id": "exp-1793020036233",
+      "name": "Bride Family Wardrobe & Sherwani",
+      "category": "Attire & Wardrobe",
+      "event": "Baraat & Wedding Pheras",
+      "vendorName": "",
+      "estimatedCost": 160000,
+      "actualCost": 160000,
+      "paidAmount": 0,
+      "splitType": "BRIDE_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Bride family outfits & groom wedding sherwani gifted by girl side",
+      "dueDate": "",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "eventGroomGuests": 150,
+      "eventBrideGuests": 400,
+      "payerCategory": "PARENTS",
+      "subtasks": [
+        {
+          "id": "sub-g-wardrobe-1",
+          "name": "Bride Family Outfits & Sarees",
+          "cost": 100000,
+          "status": "Pending",
+          "label": "Family Outfits",
+          "notes": "Girl family ceremony outfits"
+        },
+        {
+          "id": "sub-g-wardrobe-2",
+          "name": "Bhuvesh Wedding Sherwani & Safa",
+          "cost": 60000,
+          "status": "Pending",
+          "label": "Groom Sherwani",
+          "notes": "Groom sherwani & safa gift"
+        }
+      ]
+    },
+    {
+      "id": "bride-exp-boy-clothes",
+      "name": "Groom Clothes (Girl Side)",
+      "category": "Attire & Wardrobe",
+      "event": "All Events",
+      "vendorName": "Regalia / Suiting",
+      "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 40000,
+      "actualCost": 40000,
+      "paidAmount": 0,
+      "splitType": "BRIDE_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Attire gifted to Bhuvesh • Clarification note: Boy clothing gifted by girl's side: ₹40,000 working estimate. Whether boy cloth is given by girl to be confirmed.",
+      "payerCategory": "COUPLE",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0
+    },
+    {
+      "id": "exp-1793019704914",
+      "name": "Ceremony Makeup & Styling",
+      "category": "Makeup & Bridal Care",
+      "event": "Baraat & Wedding Pheras",
+      "vendorName": "",
+      "estimatedCost": 100000,
+      "actualCost": 30000,
+      "paidAmount": 0,
+      "splitType": "EQUAL_50_50",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Bridal makeup & family styling across Haldi, Mehndi & Wedding",
+      "dueDate": "",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "eventGroomGuests": 150,
+      "eventBrideGuests": 400,
+      "payerCategory": "PARENTS",
+      "subtasks": [
+        {
+          "id": "sub-mu-bridal",
+          "name": "Bridal Makeup (Main Wedding)",
+          "cost": 0,
+          "status": "Pending",
+          "label": "Bridal Makeup",
+          "notes": "Main bridal transformation & hair styling"
+        },
+        {
+          "id": "sub-mu-haldi",
+          "name": "Groom & Bride Family Makeup (Haldi)",
+          "cost": 5000,
+          "status": "Pending",
+          "label": "Haldi Makeup",
+          "notes": "Haldi function styling for family"
+        },
+        {
+          "id": "sub-mu-mehndi",
+          "name": "Groom & Bride Family Makeup (Mehndi)",
+          "cost": 5000,
+          "status": "Pending",
+          "label": "Mehndi Makeup",
+          "notes": "Mehndi function styling for family"
+        },
+        {
+          "id": "sub-mu-wedding",
+          "name": "Groom & Bride Family Makeup (Wedding)",
+          "cost": 20000,
+          "status": "Pending",
+          "label": "Wedding Makeup",
+          "notes": "Wedding day family makeup packages"
+        }
+      ]
+    },
+    {
+      "id": "exp-mehendi-artist",
+      "name": "Mehendi Artist & Henna Setup",
+      "category": "Makeup & Bridal Care",
+      "event": "Mehendi",
+      "vendorName": "Mehendi Artist Collective",
+      "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 20000,
+      "actualCost": 20000,
+      "paidAmount": 0,
+      "splitType": "GROOM_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Professional henna artist & ceremonial mehendi cones",
+      "payerCategory": "PARENTS",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "subtasks": [
+        {
+          "id": "sub-meh-1",
+          "name": "Mehendi Artist (Bridal & Family)",
+          "cost": 20000,
+          "status": "Pending",
+          "label": "Henna Artist",
+          "notes": "Bridal hands/feet + close family members"
+        },
+        {
+          "id": "sub-meh-2",
+          "name": "Mehndi Saman & Cones",
+          "cost": 0,
+          "status": "Pending",
+          "label": "Mehndi Saman",
+          "notes": "Organic henna cones & glitter"
+        }
+      ]
+    },
+    {
       "id": "groom-exp-8",
-      "name": "Pandit Ji Dakshina & Vedic Havan",
+      "name": "Pandit Ji, Vedic Havan & Puja Saman",
       "category": "Ritual & Puja Items",
       "event": "Baraat & Wedding Pheras",
       "vendorName": "Acharya Shastri Ji",
@@ -425,16 +581,150 @@
       "splitType": "EQUAL_50_50",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Pheras, puja samagri, rituals and pandit honorarium.",
+      "notes": "Pandit ji dakshina, havan samagri, haldi & ritual items",
       "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
+      "ratePerGuestOrPlate": 0,
       "eventGroomGuests": 150,
       "eventBrideGuests": 400,
-      "payerCategory": "PARENTS"
+      "payerCategory": "PARENTS",
+      "subtasks": [
+        {
+          "id": "sub-puj-1",
+          "name": "Pandit Ji Dakshina & Vedic Rituals",
+          "cost": 32000,
+          "status": "Pending",
+          "label": "Pandit Ji",
+          "notes": "Vedic ceremony officiant dakshina"
+        },
+        {
+          "id": "sub-puj-2",
+          "name": "Havan & Puja Samagri",
+          "cost": 10000,
+          "status": "Pending",
+          "label": "Puja Saman",
+          "notes": "Samagri, ghee, coconuts, flowers"
+        },
+        {
+          "id": "sub-puj-3",
+          "name": "Haldi Saman & Organic Turmeric",
+          "cost": 0,
+          "status": "Pending",
+          "label": "Haldi Saman",
+          "notes": "Organic haldi paste & ceremony essentials"
+        }
+      ]
+    },
+    {
+      "id": "groom-exp-4",
+      "name": "Wedding Photography & Cinema",
+      "category": "Photography & Cinema",
+      "event": "All Events",
+      "vendorName": "ShutterGlory Studios",
+      "imageUrl": "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 100000,
+      "actualCost": 100000,
+      "paidAmount": 0,
+      "splitType": "GROOM_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Lead team photo/video & secondary cinema buffer",
+      "payerCategory": "COUPLE",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "subtasks": [
+        {
+          "id": "sub-photo-1",
+          "name": "Lead Wedding Photo & Cinematic Video",
+          "cost": 100000,
+          "status": "Pending",
+          "label": "Lead Cinema",
+          "notes": "Photography & album documentation"
+        },
+        {
+          "id": "sub-photo-2",
+          "name": "Secondary Cinema Buffer / Pre-wedding",
+          "cost": 0,
+          "status": "Pending",
+          "label": "Cinema Buffer",
+          "notes": "Buffer for extra team / pre-wedding"
+        }
+      ]
+    },
+    {
+      "id": "exp-inhouse-dj-sound",
+      "name": "Banquet Sound, DJ & Entertainment",
+      "category": "Music & Entertainment",
+      "event": "All Events",
+      "vendorName": "Resort In-House Sound Operator",
+      "imageUrl": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 20000,
+      "actualCost": 20000,
+      "paidAmount": 0,
+      "splitType": "GROOM_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Banquet sound & DJ (₹5,000/night × 3) + Sangeet choreography",
+      "payerCategory": "COUPLE",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "subtasks": [
+        {
+          "id": "sub-dj-1",
+          "name": "In-house DJ & Sound (₹5,000 per night × 3)",
+          "cost": 15000,
+          "status": "Pending",
+          "label": "DJ 3 Nights",
+          "notes": "In-house hall sound operator for 3 nights"
+        },
+        {
+          "id": "sub-dj-2",
+          "name": "Sangeet Family Choreography",
+          "cost": 5000,
+          "status": "Pending",
+          "label": "Choreography",
+          "notes": "Sangeet dance rehearsals & choreography"
+        }
+      ]
+    },
+    {
+      "id": "groom-exp-11",
+      "name": "Wedding Logistics, Travel & Water Buffer",
+      "category": "Logistics & Shuttles",
+      "event": "All Events",
+      "vendorName": "",
+      "imageUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80",
+      "estimatedCost": 25000,
+      "actualCost": 25000,
+      "paidAmount": 0,
+      "splitType": "GROOM_ONLY",
+      "paidBy": "UNPAID",
+      "status": "Estimated",
+      "notes": "Guest shuttles, local coordination cabs, fuel & packaged water buffer",
+      "payerCategory": "COUPLE",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "subtasks": [
+        {
+          "id": "sub-log-1",
+          "name": "Local Travel, Shuttles & Fuel",
+          "cost": 15000,
+          "status": "Pending",
+          "label": "Travel & Fuel",
+          "notes": "Coordination cabs & fuel"
+        },
+        {
+          "id": "sub-log-2",
+          "name": "Packaged Mineral Water Crates Buffer",
+          "cost": 10000,
+          "status": "Pending",
+          "label": "Water Buffer",
+          "notes": "Packaged water crates for 3 days"
+        }
+      ]
     },
     {
       "id": "groom-exp-9",
-      "name": "Ghodi Function, Royal Rath & Punjabi Dhol Wala Troupe (Baraat)",
+      "name": "Baraat Band, Ghodi & Dhol",
       "category": "Logistics & Shuttles",
       "event": "Baraat & Wedding Pheras",
       "vendorName": "Shahi Baraat Horse, Chariot & King Dholis",
@@ -445,7 +735,7 @@
       "splitType": "GROOM_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Complete Baraat Procession: Covers Ghodi \u091a\u0922\u093c\u093e\u0908 ceremony, Royal Rath carriage, and Dhol-Tasha masters troupe.",
+      "notes": "Royal rath & Punjabi dhol troupe • Complete Baraat Procession: Covers Ghodi चढ़ाई ceremony, Royal Rath carriage, and Dhol-Tasha masters troupe.",
       "subtasks": [
         {
           "id": "sub-ghodi-1",
@@ -488,7 +778,7 @@
     },
     {
       "id": "groom-exp-10",
-      "name": "Kambal (Blankets for Family Shagun)",
+      "name": "Kambal Shagun",
       "category": "Gifts, Shagun & Favors",
       "event": "Baraat & Wedding Pheras",
       "vendorName": "Textile Wholesale Market",
@@ -499,28 +789,32 @@
       "splitType": "GROOM_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Listed note: \u20b950,000. Clarification to check: 30 blankets \u00d7 \u20b9500 = \u20b915,000 vs \u20b950,000.",
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "groom-exp-11",
-      "name": "Travel & Local Transportation",
-      "category": "Logistics & Shuttles",
-      "event": "All Events",
-      "vendorName": "City Cabs & Fuel",
-      "imageUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 15000,
-      "actualCost": 15000,
-      "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Local travel, coordination vehicles and fuel expenses.",
-      "payerCategory": "COUPLE"
+      "notes": "Traditional blankets & gifts for milni ceremony",
+      "payerCategory": "PARENTS",
+      "isPerPlateCalculation": false,
+      "ratePerGuestOrPlate": 0,
+      "subtasks": [
+        {
+          "id": "sub-kambal-1",
+          "name": "Milni Kambal Shagun (30 Blankets)",
+          "cost": 15000,
+          "status": "Pending",
+          "label": "Milni Blankets",
+          "notes": "30 blankets × ₹500"
+        },
+        {
+          "id": "sub-kambal-2",
+          "name": "Additional Blanket & Shawl Buffer",
+          "cost": 35000,
+          "status": "Pending",
+          "label": "Shagun Buffer",
+          "notes": "Extended family milni envelopes & buffer"
+        }
+      ]
     },
     {
       "id": "groom-exp-relatives-consolidated",
-      "name": "Shagun to Bhuvesh Relatives & Ceremonies (Chache, Mamma, Sisters & Rituals)",
+      "name": "Family Shagun Envelopes",
       "category": "Gifts, Shagun & Favors",
       "event": "Baraat & Wedding Pheras",
       "vendorName": "Bhuvesh Family Cash Envelopes",
@@ -531,15 +825,15 @@
       "splitType": "EQUAL_50_50",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "\u20b95,13,600 consolidated family shagun to Bhuvesh relatives & ceremonial rituals. Split into subtasks below.",
+      "notes": "Chache, Mamma, sisters & rituals • ₹5,13,600 consolidated family shagun to Bhuvesh relatives & ceremonial rituals. Split into subtasks below.",
       "subtasks": [
         {
           "id": "sub-rel-1",
-          "name": "Chache\u2013Bhua (8 Families Shagun)",
+          "name": "Chache–Bhua (8 Families Shagun)",
           "cost": 40800,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "8 family units @ \u20b95,100 cash envelopes"
+          "notes": "8 family units @ ₹5,100 cash envelopes"
         },
         {
           "id": "sub-rel-2",
@@ -547,7 +841,7 @@
           "cost": 16800,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "8 extended chache daughters @ \u20b92,100 each"
+          "notes": "8 extended chache daughters @ ₹2,100 each"
         },
         {
           "id": "sub-rel-3",
@@ -555,7 +849,7 @@
           "cost": 8400,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "4 first cousins @ \u20b92,100 each"
+          "notes": "4 first cousins @ ₹2,100 each"
         },
         {
           "id": "sub-rel-4",
@@ -563,7 +857,7 @@
           "cost": 30600,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "5 family envelopes @ \u20b95,100 + \u20b95,100 special envelope"
+          "notes": "5 family envelopes @ ₹5,100 + ₹5,100 special envelope"
         },
         {
           "id": "sub-rel-5",
@@ -571,7 +865,7 @@
           "cost": 9300,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "Base \u20b95,100 + 2 \u00d7 \u20b92,100 special gifts"
+          "notes": "Base ₹5,100 + 2 × ₹2,100 special gifts"
         },
         {
           "id": "sub-rel-6",
@@ -579,7 +873,7 @@
           "cost": 22000,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "2 nieces @ \u20b911,000 each"
+          "notes": "2 nieces @ ₹11,000 each"
         },
         {
           "id": "sub-rel-bharti-gold",
@@ -599,11 +893,11 @@
         },
         {
           "id": "sub-rel-sister-shagun",
-          "name": "Sister Bharti & Jiju Shagun Envelopes (3 \u00d7 \u20b95,100)",
+          "name": "Sister Bharti & Jiju Shagun Envelopes (3 × ₹5,100)",
           "cost": 15300,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "3 auspicious cash envelopes @ \u20b95,100"
+          "notes": "3 auspicious cash envelopes @ ₹5,100"
         },
         {
           "id": "sub-rel-sister-shopping",
@@ -619,7 +913,7 @@
           "cost": 4200,
           "status": "Pending",
           "label": "Shagun",
-          "notes": "2 \u00d7 \u20b92,100 envelopes"
+          "notes": "2 × ₹2,100 envelopes"
         },
         {
           "id": "sub-rel-9",
@@ -647,91 +941,15 @@
         }
       ],
       "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
+      "ratePerGuestOrPlate": 0,
       "eventGroomGuests": 0,
       "eventBrideGuests": 0,
       "overrideGuestCount": true,
       "payerCategory": "PARENTS"
     },
     {
-      "id": "bride-exp-palace-1",
-      "name": "Main Wedding Hall & Banquet (500 Guests @ \u20b92,000 / Plate)",
-      "category": "Venue & Accommodation",
-      "event": "Baraat & Wedding Pheras",
-      "vendorName": "Main Wedding Palace & Hall",
-      "imageUrl": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=300&q=80",
-      "isPerPlateCalculation": true,
-      "ratePerGuestOrPlate": 2000,
-      "overrideGuestCount": true,
-      "eventBrideGuests": 400,
-      "estimatedCost": 1000000,
-      "actualCost": 1100000,
-      "paidAmount": 0,
-      "splitType": "GUEST_RATIO",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Main Wedding Hall separate from stay: \u20b910,00,000 budget calculated as 500 guests \u00d7 \u20b92,000 per plate.",
-      "subtasks": [
-        {
-          "id": "sub-whall-1",
-          "name": "Main Wedding Hall & Lawn Space",
-          "cost": 0,
-          "status": "Pending",
-          "label": "Hall Rental",
-          "notes": "Main grand wedding lawn & banquet space"
-        },
-        {
-          "id": "sub-whall-2",
-          "name": "Wedding Dinner Catering (500 Guests @ \u20b92,000/plate)",
-          "cost": 0,
-          "status": "Pending",
-          "label": "Per-Plate Food",
-          "notes": "Grand wedding dinner buffet for 500 attendees"
-        }
-      ],
-      "eventGroomGuests": 150,
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "bride-exp-ring-ceremony-sweets",
-      "name": "Ring Ceremony Sweets & Mithai (Girl Side)",
-      "category": "Catering & Dining",
-      "event": "Roka / Engagement",
-      "vendorName": "Sweet House",
-      "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 150000,
-      "actualCost": 150000,
-      "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Girl's side sweet distribution for Ring Ceremony: \u20b91,50,000.",
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "bride-exp-shadi-mithai-boxes",
-      "name": "Shadi Mithai Boxes & Bhaji Distribution (Girl Side)",
-      "category": "Catering & Dining",
-      "event": "All Events",
-      "vendorName": "Haldiram / Sweet Emporium",
-      "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 350000,
-      "actualCost": 200000,
-      "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Girl's side wedding traditional sweet gift boxes (Bhaji) & mitha- only wedding",
-      "isPerPlateCalculation": true,
-      "ratePerGuestOrPlate": 800,
-      "eventGroomGuests": 0,
-      "eventBrideGuests": 250,
-      "overrideGuestCount": true,
-      "payerCategory": "PARENTS"
-    },
-    {
       "id": "bride-exp-vida-1",
-      "name": "Vida Rasam: Relative Farewell Gifts (Saris & Suit Lengths)",
+      "name": "Vida Farewell Gifts",
       "category": "Gifts, Shagun & Favors",
       "event": "Vida (Bidai / Doli)",
       "vendorName": "Textile Silk & Suit Emporium",
@@ -742,127 +960,11 @@
       "splitType": "BRIDE_ONLY",
       "paidBy": "UNPAID",
       "status": "Estimated",
-      "notes": "Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths: \u20b91,00,000.",
+      "notes": "Relative saris & suit lengths • Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths: ₹1,00,000.",
       "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
+      "ratePerGuestOrPlate": 0,
       "eventGroomGuests": 150,
       "eventBrideGuests": 400,
-      "payerCategory": "COUPLE"
-    },
-    {
-      "id": "bride-exp-boy-clothes",
-      "name": "Boy Clothes / Attire from Girl Side (Open / To confirm)",
-      "category": "Attire, Jewelry & MUA",
-      "event": "All Events",
-      "vendorName": "Regalia / Suiting",
-      "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 40000,
-      "actualCost": 40000,
-      "paidAmount": 0,
-      "splitType": "BRIDE_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Clarification note: Boy clothing gifted by girl's side: \u20b940,000 working estimate. Whether boy cloth is given by girl to be confirmed.",
-      "payerCategory": "COUPLE"
-    },
-    {
-      "id": "open-exp-photography",
-      "name": "Photography & Cinema (Check if combined or separate)",
-      "category": "Photography & Cinema",
-      "event": "All Events",
-      "vendorName": "Studio Discussion",
-      "imageUrl": "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 0,
-      "actualCost": 0,
-      "paidAmount": 0,
-      "splitType": "EQUAL_50_50",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Kept open (\u20b90 currently): We will see if photography is combined between boy & girl or kept separate. No extra budget added until confirmed.",
-      "payerCategory": "COUPLE"
-    },
-    {
-      "id": "exp-ring-extra-hightea",
-      "name": "ENGAGEMENT- VENUE & FOOD (DAY EVENT)",
-      "category": "Catering & Dining",
-      "event": "Roka / Engagement",
-      "vendorName": "Resort In-House Caterer",
-      "imageUrl": "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 75000,
-      "actualCost": 250000,
-      "paidAmount": 0,
-      "splitType": "EQUAL_50_50",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of \u20b975,000 (\u20b950k-\u20b91L) added for extra high-tea & snacks.",
-      "isPerPlateCalculation": false,
-      "ratePerGuestOrPlate": 2000,
-      "eventGroomGuests": 150,
-      "eventBrideGuests": 400,
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "exp-inhouse-dj-sound",
-      "name": "In-House Banquet Sound & DJ (3 Days \u00d7 \u20b95,000/day)",
-      "category": "Music & Entertainment",
-      "event": "All Events",
-      "vendorName": "Resort In-House Sound Operator",
-      "imageUrl": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 15000,
-      "actualCost": 15000,
-      "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "In-house hall sound operator for Mehndi, Sangeet & functions: \u20b95,000/day \u00d7 3 days = \u20b915,000. (Separate from main wedding day DJ).",
-      "payerCategory": "COUPLE"
-    },
-    {
-      "id": "exp-mehendi-artist",
-      "name": "Professional Mehendi Artist & Cones for Bride & Family",
-      "category": "Attire, Jewelry & MUA",
-      "event": "Mehendi",
-      "vendorName": "Mehendi Artist Collective",
-      "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 20000,
-      "actualCost": 20000,
-      "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Professional mehendi artist for bridal hands/feet + family members. Cost may adjust based on final guest count.",
-      "payerCategory": "PARENTS"
-    },
-    {
-      "id": "exp-sangeet-choreography",
-      "name": "Sangeet Dance Choreography (Budget Cap \u20b95,000)",
-      "category": "Music & Entertainment",
-      "event": "Sangeet & Cocktail",
-      "vendorName": "Dance Choreographer / Friend Lead",
-      "imageUrl": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 5000,
-      "actualCost": 5000,
-      "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Strict budget cap of \u20b95,000 for family & couple dance rehearsals for Sangeet evening.",
-      "payerCategory": "COUPLE"
-    },
-    {
-      "id": "exp-water-extra-crates",
-      "name": "Packaged Mineral Water Bottles Extra Buffer",
-      "category": "Catering & Dining",
-      "event": "All Events",
-      "vendorName": "Beverage Wholesale Dealer",
-      "imageUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80",
-      "estimatedCost": 10000,
-      "actualCost": 10000,
-      "paidAmount": 0,
-      "splitType": "GROOM_ONLY",
-      "paidBy": "UNPAID",
-      "status": "Estimated",
-      "notes": "Resort supplies a limited initial count of water bottles. Buffer for additional 250ml/500ml crates as needed over 3 days.",
       "payerCategory": "COUPLE"
     }
   ],
@@ -874,7 +976,7 @@
       "startTime": "05:00 PM",
       "endTime": "07:00 PM",
       "venue": "Palace Royal Courtyard / Accommodates 200 Guests from Harsha Side",
-      "emoji": "\ud83d\udc8d",
+      "emoji": "💍",
       "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80",
       "description": "Exchange of Rings (Gold with Diamond for Harsha, Gold Band for Bhuvesh). Hall accommodated within the 3-day stay without extra venue charges; accommodating Harsha's 200 guests.",
       "tagColor": "bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border-indigo-400/40",
@@ -887,9 +989,9 @@
       "startTime": "11:00 AM",
       "endTime": "03:30 PM",
       "venue": "3-Day In-House Resort Banquet Hall (No extra venue rent)",
-      "emoji": "\ud83c\udf3f",
+      "emoji": "🌿",
       "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
-      "description": "Mehendi ceremony hosted inside the allotted 3-day in-house banquet hall (not poolside). In-house sound DJ: \u20b95,000/day. Professional Mehendi artist for bride & family.",
+      "description": "Mehendi ceremony hosted inside the allotted 3-day in-house banquet hall (not poolside). In-house sound DJ: ₹5,000/day. Professional Mehendi artist for bride & family.",
       "tagColor": "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-400/40",
       "guestCount": 150
     },
@@ -900,7 +1002,7 @@
       "startTime": "07:30 PM",
       "endTime": "01:00 AM",
       "venue": "Grand Crystal Ballroom",
-      "emoji": "\ud83e\udea9",
+      "emoji": "🪩",
       "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
       "description": "Choreographed dances by Bhuvesh vs Harsha families, DJ beats, and signature cocktails.",
       "tagColor": "bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-400/40",
@@ -913,7 +1015,7 @@
       "startTime": "10:00 AM",
       "endTime": "01:00 PM",
       "venue": "Yellow Blooms Garden Lawn",
-      "emoji": "\ud83c\udf3c",
+      "emoji": "🌼",
       "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
       "description": "Traditional turmeric ubtan ceremony, Phoolon Ki Holi (flower petals shower), and Punjabi dhol.",
       "tagColor": "bg-amber-500/20 text-amber-800 dark:text-amber-300 border-amber-400/40",
@@ -926,7 +1028,7 @@
       "startTime": "06:00 PM",
       "endTime": "01:00 AM",
       "venue": "Royal Palace Mandap Lawn",
-      "emoji": "\ud83d\udd25",
+      "emoji": "🔥",
       "image": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80",
       "description": "Grand vintage car baraat procession for Bhuvesh, varmala stage fireworks, and 7 sacred pheras.",
       "tagColor": "bg-rose-500/20 text-rose-700 dark:text-rose-300 border-rose-400/40",
@@ -939,7 +1041,7 @@
       "startTime": "04:00 AM",
       "endTime": "06:00 AM",
       "venue": "Palace Main Gate / Doli Portico",
-      "emoji": "\ud83c\udf38",
+      "emoji": "🌸",
       "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
       "description": "Emotional Vida (Bidai) ceremony from girl's side. Relatives gifted with custom saris and suit lengths as they bid farewell.",
       "tagColor": "bg-pink-500/20 text-pink-700 dark:text-pink-300 border-pink-400/40",
@@ -952,7 +1054,7 @@
       "startTime": "08:00 PM",
       "endTime": "12:00 AM",
       "venue": "Royal Starlight Terrace",
-      "emoji": "\ud83e\udd42",
+      "emoji": "🥂",
       "image": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80",
       "description": "Formal family blessings, couple toast, musical ensemble, and grand royal banquet dinner.",
       "tagColor": "bg-purple-500/20 text-purple-700 dark:text-purple-300 border-purple-400/40",
@@ -962,13 +1064,13 @@
   "shagun": [
     {
       "id": "shagun-1",
-      "recipientName": "Chache\u2013Bhua",
+      "recipientName": "Chache–Bhua",
       "relation": "Paternal Uncles & Aunts (Chache & Bhua)",
       "group": "Chache-Bhua",
-      "calculationFormula": "8 \u00d7 \u20b95,100",
+      "calculationFormula": "8 × ₹5,100",
       "amount": 40800,
       "status": "Planned",
-      "notes": "8 family units @ \u20b95,100 each envelope shagun.",
+      "notes": "8 family units @ ₹5,100 each envelope shagun.",
       "side": "GROOM"
     },
     {
@@ -976,10 +1078,10 @@
       "recipientName": "Pawne chache kudian",
       "relation": "Extended Chache Daughters / Nieces",
       "group": "Chache-Bhua",
-      "calculationFormula": "8 \u00d7 \u20b92,100",
+      "calculationFormula": "8 × ₹2,100",
       "amount": 16800,
       "status": "Planned",
-      "notes": "8 daughters @ \u20b92,100 each.",
+      "notes": "8 daughters @ ₹2,100 each.",
       "side": "GROOM"
     },
     {
@@ -987,10 +1089,10 @@
       "recipientName": "Ritu, Neeru, Bunty, Raju",
       "relation": "First Cousins",
       "group": "Cousins & Youth",
-      "calculationFormula": "4 \u00d7 \u20b92,100",
+      "calculationFormula": "4 × ₹2,100",
       "amount": 8400,
       "status": "Planned",
-      "notes": "4 cousins @ \u20b92,100 each.",
+      "notes": "4 cousins @ ₹2,100 each.",
       "side": "GROOM"
     },
     {
@@ -998,10 +1100,10 @@
       "recipientName": "Chache, mamma, mamma, massi Jagadhri",
       "relation": "Maternal & Paternal Jagadhri Relatives",
       "group": "Mamma-Massi",
-      "calculationFormula": "5 \u00d7 \u20b95,100 + \u20b95,100",
+      "calculationFormula": "5 × ₹5,100 + ₹5,100",
       "amount": 30600,
       "status": "Planned",
-      "notes": "5 families @ \u20b95,100 + additional \u20b95,100 special envelope.",
+      "notes": "5 families @ ₹5,100 + additional ₹5,100 special envelope.",
       "side": "GROOM"
     },
     {
@@ -1009,10 +1111,10 @@
       "recipientName": "Isha and Shippu",
       "relation": "Cousin Sisters / Family",
       "group": "Cousins & Youth",
-      "calculationFormula": "\u20b95,100 + 2 \u00d7 \u20b92,100",
+      "calculationFormula": "₹5,100 + 2 × ₹2,100",
       "amount": 9300,
       "status": "Planned",
-      "notes": "Base shagun \u20b95,100 plus 2 \u00d7 \u20b92,100 special gifts.",
+      "notes": "Base shagun ₹5,100 plus 2 × ₹2,100 special gifts.",
       "side": "GROOM"
     },
     {
@@ -1020,21 +1122,21 @@
       "recipientName": "Aditi and Ananya",
       "relation": "Young Nieces / Daughters",
       "group": "Cousins & Youth",
-      "calculationFormula": "2 \u00d7 \u20b911,000",
+      "calculationFormula": "2 × ₹11,000",
       "amount": 22000,
       "status": "Planned",
-      "notes": "2 \u00d7 \u20b911,000 special shagun gifts.",
+      "notes": "2 × ₹11,000 special shagun gifts.",
       "side": "GROOM"
     },
     {
       "id": "shagun-7",
-      "recipientName": "Bharti and jiju \u2014 ring, gold, gifts and shopping",
+      "recipientName": "Bharti and jiju — ring, gold, gifts and shopping",
       "relation": "Sister & Brother-in-law (Jiju)",
       "group": "Sisters & In-laws",
-      "calculationFormula": "\u20b975,000 + \u20b92,50,000 + 3 \u00d7 \u20b95,100 + \u20b910,000",
+      "calculationFormula": "₹75,000 + ₹2,50,000 + 3 × ₹5,100 + ₹10,000",
       "amount": 350300,
       "status": "Planned",
-      "notes": "Ring (\u20b975k) + Gold (\u20b92.5L) + 3 envelopes @ \u20b95,100 + Shopping (\u20b910k). Total \u20b93,50,300.",
+      "notes": "Ring (₹75k) + Gold (₹2.5L) + 3 envelopes @ ₹5,100 + Shopping (₹10k). Total ₹3,50,300.",
       "side": "GROOM"
     },
     {
@@ -1042,10 +1144,10 @@
       "recipientName": "Monty and Shanu",
       "relation": "Cousins / Family",
       "group": "Cousins & Youth",
-      "calculationFormula": "2 \u00d7 \u20b92,100",
+      "calculationFormula": "2 × ₹2,100",
       "amount": 4200,
       "status": "Planned",
-      "notes": "2 \u00d7 \u20b92,100 envelopes.",
+      "notes": "2 × ₹2,100 envelopes.",
       "side": "GROOM"
     },
     {
