@@ -415,8 +415,15 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                             value={st.cost || ''}
                             onChange={(e) => {
                               const newSub = [...(formData.subtasks || [])];
-                              newSub[idx] = { ...st, cost: Number(e.target.value) };
-                              setFormData({ ...formData, subtasks: newSub });
+                              const newCost = Number(e.target.value) || 0;
+                              newSub[idx] = { ...st, cost: newCost };
+                              const newTotal = newSub.reduce((sum, item) => sum + (Number(item.cost) || 0), 0);
+                              setFormData({ 
+                                ...formData, 
+                                subtasks: newSub,
+                                actualCost: newTotal > 0 ? newTotal : formData.actualCost,
+                                estimatedCost: newTotal > 0 ? newTotal : (formData.estimatedCost || formData.actualCost)
+                              });
                             }}
                             className="w-full pl-5 pr-2 py-1 text-xs bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-white/10 font-mono font-bold text-slate-900 dark:text-white focus:outline-none"
                           />
@@ -424,9 +431,12 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         <button
                           type="button"
                           onClick={() => {
+                            const newSub = formData.subtasks?.filter((_, i) => i !== idx) || [];
+                            const newTotal = newSub.reduce((sum, item) => sum + (Number(item.cost) || 0), 0);
                             setFormData({
                               ...formData,
-                              subtasks: formData.subtasks?.filter((_, i) => i !== idx)
+                              subtasks: newSub,
+                              ...(newTotal > 0 ? { actualCost: newTotal, estimatedCost: newTotal } : {})
                             });
                           }}
                           className="p-1 text-slate-400 hover:text-rose-500 cursor-pointer"

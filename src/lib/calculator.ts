@@ -68,9 +68,17 @@ export function computeExpenseShares(
   // 3. Dynamic Calculation: Only items explicitly marked isPerPlateCalculation use guest count multiplication
   const effectivePlateRate = item.ratePerGuestOrPlate || 0;
 
+  // If item has subtasks with positive cost values and is not a per-plate calculation,
+  // derive the total cost directly from the sum of its subtasks.
+  const subtasksTotal = item.subtasks && item.subtasks.length > 0
+    ? item.subtasks.reduce((sum, st) => sum + (Number(st.cost) || 0), 0)
+    : 0;
+
   let effectiveTotalCost = totalCost;
   if (item.isPerPlateCalculation && effectivePlateRate > 0) {
     effectiveTotalCost = totalGuests * effectivePlateRate;
+  } else if (subtasksTotal > 0) {
+    effectiveTotalCost = subtasksTotal;
   }
 
   let groomPct = 0.5;
