@@ -19,7 +19,10 @@ import {
   MapPin,
   MessageCircle,
   ChevronDown,
-  Filter
+  Filter,
+  Eye,
+  EyeOff,
+  Lock
 } from 'lucide-react';
 import { FamilyShagunItem, GuestGroupItem } from '@/types/wedding';
 import { formatINR } from '@/lib/constants';
@@ -33,6 +36,9 @@ interface ShagunAndGuestManagerProps {
   onUpdateGuestGroup: (group: GuestGroupItem) => void;
   onAddGuestGroup: (group: GuestGroupItem) => void;
   onDeleteGuestGroup: (id: string) => void;
+  showShagun?: boolean;
+  onRequestUnlock?: (target: 'GOLD' | 'SHAGUN') => void;
+  onLock?: (target: 'GOLD' | 'SHAGUN') => void;
 }
 
 export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
@@ -44,6 +50,9 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
   onUpdateGuestGroup,
   onAddGuestGroup,
   onDeleteGuestGroup,
+  showShagun = false,
+  onRequestUnlock,
+  onLock,
 }) => {
   const [activeTab, setActiveTab] = useState<'guests' | 'shagun'>('guests');
   const [searchTerm, setSearchTerm] = useState('');
@@ -368,8 +377,13 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
-              {formatINR(totalShagunAmount)}
+              {showShagun ? formatINR(totalShagunAmount) : '••••••••'}
             </span>
+            {!showShagun && (
+              <span className="text-[10px] bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                <Lock size={10} /> Hidden
+              </span>
+            )}
           </div>
           <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 font-medium">
             {totalShagunCount} family cash envelopes & rituals
@@ -408,11 +422,35 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
             >
               <Gift size={15} className="text-pink-500" />
               <span>Family Shagun Manager ({totalShagunCount})</span>
+              {!showShagun && <Lock size={11} className="text-pink-500" />}
             </button>
           </div>
 
           {/* Action Trigger Buttons */}
           <div className="flex items-center gap-2">
+            {/* Shagun Visibility Eye Toggle in Header */}
+            {activeTab === 'shagun' && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (showShagun) {
+                    onLock?.('SHAGUN');
+                  } else {
+                    onRequestUnlock?.('SHAGUN');
+                  }
+                }}
+                className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                  showShagun
+                    ? 'bg-pink-100 dark:bg-pink-950/70 text-pink-800 dark:text-pink-300 border-pink-300 dark:border-pink-800'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-200'
+                }`}
+                title={showShagun ? 'Click to re-hide confidential shagun amounts' : 'Click to enter passcode 14334 and unlock figures'}
+              >
+                {showShagun ? <Eye size={14} className="text-pink-600" /> : <EyeOff size={14} className="text-slate-500" />}
+                <span>{showShagun ? 'Hide Amounts' : 'Unlock Amounts (Passcode)'}</span>
+                {!showShagun && <Lock size={12} className="text-pink-500" />}
+              </button>
+            )}
             {activeTab === 'guests' ? (
               <button
                 onClick={() => setShowAddGuestModal(true)}
@@ -627,7 +665,9 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                             <div className="flex items-center gap-1.5 min-w-0">
                               <Gift size={12} className="text-amber-600 dark:text-amber-400 flex-shrink-0" />
                               <div className="truncate">
-                                <span className="font-black text-amber-900 dark:text-amber-200">{formatINR(grp.shagunAmount)}</span>
+                                <span className="font-black text-amber-900 dark:text-amber-200">
+                                  {showShagun ? formatINR(grp.shagunAmount) : '••••••'}
+                                </span>
                                 <span className="text-[10px] text-amber-700 dark:text-amber-400 ml-1">
                                   ({grp.shagunCeremony || 'Baraat / Wedding'})
                                 </span>
@@ -721,7 +761,13 @@ export const ShagunAndGuestManager: React.FC<ShagunAndGuestManagerProps> = ({
                       {item.calculationFormula || '—'}
                     </td>
                     <td className="py-3.5 px-4 text-right font-black text-slate-900 dark:text-white text-sm">
-                      {formatINR(item.amount)}
+                      {showShagun ? (
+                        formatINR(item.amount)
+                      ) : (
+                        <span className="font-mono text-slate-400 dark:text-slate-500 font-normal">
+                          ••••••
+                        </span>
+                      )}
                     </td>
                     <td className="py-3.5 px-4 text-center">
                       <select

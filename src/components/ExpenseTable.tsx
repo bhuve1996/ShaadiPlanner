@@ -16,7 +16,10 @@ import {
   Pin,
   PinOff,
   Info,
-  X
+  X,
+  Eye,
+  EyeOff,
+  Lock
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType } from '@/types/wedding';
 import { CategoryIcon } from './CategoryIcon';
@@ -35,6 +38,10 @@ interface ExpenseTableProps {
   onAddNewExpense: (item: ExpenseItem) => void;
   sideFilter: 'ALL' | 'GROOM' | 'BRIDE';
   isSimplifiedView?: boolean;
+  showGold?: boolean;
+  showShagun?: boolean;
+  onRequestUnlock?: (target: 'GOLD' | 'SHAGUN') => void;
+  onLock?: (target: 'GOLD' | 'SHAGUN') => void;
 }
 
 type SortField = 'name' | 'actualCost' | 'paidAmount' | 'pending' | 'event' | 'category' | 'groomDue' | 'brideDue';
@@ -76,6 +83,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   onAddNewExpense,
   sideFilter,
   isSimplifiedView = false,
+  showGold = false,
+  showShagun = false,
+  onRequestUnlock,
+  onLock,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -124,6 +135,13 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
       } else if (sideFilter === 'BRIDE') {
         matchesSide = item.splitType !== 'GROOM_ONLY';
       }
+
+      // Check Confidential Visibility
+      const isGoldItem = item.category === 'Gold & Fine Jewelry' || item.name.toLowerCase().includes('gold');
+      if (isGoldItem && !showGold) return false;
+
+      const isShagunItem = item.category === 'Gifts, Shagun & Favors' || item.name.toLowerCase().includes('shagun');
+      if (isShagunItem && !showShagun) return false;
 
       return matchesSearch && matchesCategory && matchesEvent && matchesSplit && matchesPayer && matchesStatus && matchesSide;
     });
@@ -186,7 +204,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     sortOrder,
     groomGuestCount,
     brideGuestCount,
-    eventGuestCounts
+    eventGuestCounts,
+    showGold,
+    showShagun
   ]);
 
   const filteredTotals = useMemo(() => {
@@ -203,15 +223,23 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
       totalPaid += (item.paidAmount || 0);
     }
 
-    // Overall wedding grand total across all items regardless of perspective filter
+    // Overall wedding grand total across active items respecting confidential visibility
     let grandTotalCost = 0;
-    for (const item of expenses) {
+    const baseExpenses = expenses.filter(item => {
+      const isGoldItem = item.category === 'Gold & Fine Jewelry' || item.name.toLowerCase().includes('gold');
+      if (isGoldItem && !showGold) return false;
+      const isShagunItem = item.category === 'Gifts, Shagun & Favors' || item.name.toLowerCase().includes('shagun');
+      if (isShagunItem && !showShagun) return false;
+      return true;
+    });
+
+    for (const item of baseExpenses) {
       const s = computeExpenseShares(item, groomGuestCount, brideGuestCount, eventGuestCounts);
       grandTotalCost += s.effectiveTotalCost;
     }
 
     return { totalCost, brideTotal, groomTotal, totalPaid, grandTotalCost };
-  }, [processedExpenses, expenses, groomGuestCount, brideGuestCount, eventGuestCounts]);
+  }, [processedExpenses, expenses, groomGuestCount, brideGuestCount, eventGuestCounts, showGold, showShagun]);
 
   const filteredTotalCost = filteredTotals.totalCost;
   const filteredTotalPaid = filteredTotals.totalPaid;
@@ -395,8 +423,57 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <span>Pending: <strong className="text-rose-700 dark:text-rose-300 font-bold">{formatINR(filteredTotalCost - filteredTotalPaid)}</strong></span>
           </div>
 
-          {/* Status Filter buttons & Sticky Header Toggle */}
+          {/* Status Filter buttons, Confidential Toggles & Sticky Header */}
           <div className="flex flex-wrap items-center gap-3">
+            {/* Confidential Eye Toggles for Gold and Shagun */}
+            <div className="flex items-center gap-1.5 bg-slate-200/80 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-300 dark:border-white/10">
+              {/* Gold Eye Filter */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (showGold) {
+                    onLock ? onLock('GOLD') : null;
+                  } else {
+                    onRequestUnlock ? onRequestUnlock('GOLD') : null;
+                  }
+                }}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                  showGold
+                    ? 'bg-amber-500 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400'
+                }`}
+                title={showGold ? 'Gold visible (Click to re-hide)' : 'Gold hidden (Click to unlock with code 14334)'}
+              >
+                {showGold ? <Eye size={12} /> : <EyeOff size={12} />}
+                <span>Gold {showGold ? 'Visible' : 'Hidden'}</span>
+                {!showGold && <Lock size={10} className="text-amber-600 dark:text-amber-400" />}
+              </button>
+
+              {/* Shagun Eye Filter */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (showShagun) {
+                    onLock ? onLock('SHAGUN') : null;
+                  } else {
+                    onRequestUnlock ? onRequestUnlock('SHAGUN') : null;
+                  }
+                }}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                  showShagun
+                    ? 'bg-pink-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-pink-600 dark:hover:text-pink-400'
+                }`}
+                title={showShagun ? 'Shagun visible (Click to re-hide)' : 'Shagun hidden (Click to unlock with code 14334)'}
+              >
+                {showShagun ? <Eye size={12} /> : <EyeOff size={12} />}
+                <span>Shagun {showShagun ? 'Visible' : 'Hidden'}</span>
+                {!showShagun && <Lock size={10} className="text-pink-500 dark:text-pink-400" />}
+              </button>
+            </div>
+
+            <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block" />
+
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold mr-1">Status:</span>
               {['ALL', 'Estimated', 'Partially Paid', 'Settled'].map((st) => (

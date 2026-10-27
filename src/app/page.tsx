@@ -54,6 +54,7 @@ import { ShagunAndGuestManager } from '@/components/ShagunAndGuestManager';
 import { VendorDirectory } from '@/components/VendorDirectory';
 import { WeddingLogo } from '@/components/WeddingLogo';
 import { WeddingCardStudio } from '@/components/WeddingCardStudio';
+import { SecurityCodeModal } from '@/components/SecurityCodeModal';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 import { Gift, Users as UsersIcon, Building2 } from 'lucide-react';
@@ -80,6 +81,11 @@ export default function Home() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Confidential Gold & Shagun Visibility Toggles (Hidden by default, unlocked with code 14334)
+  const [showGold, setShowGold] = useState(false);
+  const [showShagun, setShowShagun] = useState(false);
+  const [securityModalTarget, setSecurityModalTarget] = useState<'GOLD' | 'SHAGUN' | null>(null);
 
   // User Profile & Activity Notifications State
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -481,7 +487,16 @@ export default function Home() {
     });
   };
 
-  const summary = calculateSummary(expenses, settings);
+  // Calculate Summary dynamically based on confidential visibility filters
+  const visibleExpenses = expenses.filter(item => {
+    const isGoldItem = item.category === 'Gold & Fine Jewelry' || item.name.toLowerCase().includes('gold');
+    if (isGoldItem && !showGold) return false;
+    const isShagunItem = item.category === 'Gifts, Shagun & Favors' || item.name.toLowerCase().includes('shagun');
+    if (isShagunItem && !showShagun) return false;
+    return true;
+  });
+
+  const summary = calculateSummary(visibleExpenses, settings);
 
   const handleExportCSV = () => {
     const headers = [
@@ -1080,6 +1095,14 @@ export default function Home() {
           onSideChange={setActiveSide}
           onOpenSettings={() => setIsSettingsOpen(true)}
           isSimplifiedView={isSimplifiedView}
+          showGold={showGold}
+          showShagun={showShagun}
+          onRequestUnlock={(target) => setSecurityModalTarget(target)}
+          onLock={(target) => {
+            if (target === 'GOLD') setShowGold(false);
+            if (target === 'SHAGUN') setShowShagun(false);
+            showToast(`${target === 'GOLD' ? 'Gold & Jewelry' : 'Family Shagun'} hidden`);
+          }}
         />
 
         {/* Tab 1: Color-Coded Expense Table with full horizontal visibility */}
@@ -1103,6 +1126,14 @@ export default function Home() {
               onAddNewExpense={handleAddNewExpense}
               sideFilter={activeSide}
               isSimplifiedView={isSimplifiedView}
+              showGold={showGold}
+              showShagun={showShagun}
+              onRequestUnlock={(target) => setSecurityModalTarget(target)}
+              onLock={(target) => {
+                if (target === 'GOLD') setShowGold(false);
+                if (target === 'SHAGUN') setShowShagun(false);
+                showToast(`${target === 'GOLD' ? 'Gold & Jewelry' : 'Family Shagun'} hidden`);
+              }}
             />
           </div>
         )}
@@ -1158,6 +1189,12 @@ export default function Home() {
               showToast('Deleted guest group');
               if (isSupabaseConfigured()) deleteGuestGroupFromRemote(id);
             }}
+            showShagun={showShagun}
+            onRequestUnlock={(target) => setSecurityModalTarget(target)}
+            onLock={(target) => {
+              setShowShagun(false);
+              showToast('Family Shagun hidden');
+            }}
           />
         )}
 
@@ -1176,6 +1213,8 @@ export default function Home() {
             expenses={expenses}
             groomGuestCount={settings.groomGuestCount}
             brideGuestCount={settings.brideGuestCount}
+            showGold={showGold}
+            showShagun={showShagun}
           />
         )}
 
@@ -1215,6 +1254,22 @@ export default function Home() {
         onOpenProfileModal={() => {
           setIsActivityDrawerOpen(false);
           setIsProfileModalOpen(true);
+        }}
+      />
+
+      {/* Security Code Modal for Gold & Shagun View Toggle */}
+      <SecurityCodeModal
+        isOpen={Boolean(securityModalTarget)}
+        targetType={securityModalTarget || 'GOLD'}
+        onClose={() => setSecurityModalTarget(null)}
+        onSuccess={(target) => {
+          if (target === 'GOLD') {
+            setShowGold(true);
+            showToast('✨ Gold & Jewelry figures unlocked');
+          } else if (target === 'SHAGUN') {
+            setShowShagun(true);
+            showToast('💌 Family Shagun figures unlocked');
+          }
         }}
       />
     </div>

@@ -21,18 +21,31 @@ interface BudgetChartsProps {
   expenses: ExpenseItem[];
   groomGuestCount: number;
   brideGuestCount: number;
+  showGold?: boolean;
+  showShagun?: boolean;
 }
 
 export const BudgetCharts: React.FC<BudgetChartsProps> = ({
   expenses,
   groomGuestCount,
   brideGuestCount,
+  showGold = false,
+  showShagun = false,
 }) => {
+  // Filter expenses according to confidential visibility
+  const visibleExpenses = expenses.filter(item => {
+    const isGoldItem = item.category === 'Gold & Fine Jewelry' || item.name.toLowerCase().includes('gold');
+    if (isGoldItem && !showGold) return false;
+    const isShagunItem = item.category === 'Gifts, Shagun & Favors' || item.name.toLowerCase().includes('shagun');
+    if (isShagunItem && !showShagun) return false;
+    return true;
+  });
+
   // Aggregate cost by Category
   const categoryTotals: Record<string, number> = {};
   let grandTotal = 0;
 
-  expenses.forEach(item => {
+  visibleExpenses.forEach(item => {
     const cost = item.actualCost || item.estimatedCost || 0;
     categoryTotals[item.category] = (categoryTotals[item.category] || 0) + cost;
     grandTotal += cost;
@@ -52,7 +65,7 @@ export const BudgetCharts: React.FC<BudgetChartsProps> = ({
   const eventTotals: Record<string, { event: string; groom: number; bride: number; total: number }> = {};
   const totalGuests = (groomGuestCount + brideGuestCount) || 1;
 
-  expenses.forEach(item => {
+  visibleExpenses.forEach(item => {
     const cost = item.actualCost || item.estimatedCost || 0;
     const ev = item.event;
     if (!eventTotals[ev]) {
