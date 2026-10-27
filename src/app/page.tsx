@@ -241,17 +241,26 @@ export default function Home() {
     setExpenses(prev => prev.map(item => item.id === updated.id ? updated : item));
     showToast(`Updated "${updated.name}"`);
 
-    // Audit Log record
+    // Audit Log record with comprehensive change tracking
+    const isNameChange = oldItem && oldItem.name !== updated.name;
+    const isNotesChange = oldItem && oldItem.notes !== updated.notes;
     const isCostChange = oldItem && oldItem.actualCost !== updated.actualCost;
     const isPaymentChange = oldItem && oldItem.paidAmount !== updated.paidAmount;
     const isSplitChange = oldItem && oldItem.splitType !== updated.splitType;
+    const isCategoryChange = oldItem && oldItem.category !== updated.category;
+    const isVendorChange = oldItem && oldItem.vendorName !== updated.vendorName;
 
     let desc = `Updated details for "${updated.name}"`;
     let field = 'Details';
     let oldValue: any = undefined;
     let newValue: any = undefined;
 
-    if (isCostChange) {
+    if (isNameChange) {
+      desc = `Renamed item from "${oldItem?.name}" to "${updated.name}"`;
+      field = 'Item Name';
+      oldValue = oldItem?.name;
+      newValue = updated.name;
+    } else if (isCostChange) {
       desc = `Changed cost of "${updated.name}" from ₹${oldItem.actualCost.toLocaleString('en-IN')} to ₹${updated.actualCost.toLocaleString('en-IN')}`;
       field = 'Total Cost';
       oldValue = `₹${oldItem.actualCost.toLocaleString('en-IN')}`;
@@ -266,6 +275,21 @@ export default function Home() {
       field = 'Split Rule';
       oldValue = oldItem.splitType;
       newValue = updated.splitType;
+    } else if (isNotesChange) {
+      desc = `Updated description / notes on "${updated.name}"`;
+      field = 'Description';
+      oldValue = oldItem.notes?.slice(0, 35) + '...';
+      newValue = updated.notes?.slice(0, 35) + '...';
+    } else if (isVendorChange) {
+      desc = `Changed vendor for "${updated.name}" to ${updated.vendorName || 'None'}`;
+      field = 'Vendor';
+      oldValue = oldItem.vendorName || 'None';
+      newValue = updated.vendorName || 'None';
+    } else if (isCategoryChange) {
+      desc = `Changed category for "${updated.name}" from ${oldItem.category} to ${updated.category}`;
+      field = 'Category';
+      oldValue = oldItem.category;
+      newValue = updated.category;
     }
 
     recordActivityLog({
@@ -334,12 +358,32 @@ export default function Home() {
 
   const handleUpdateScheduleItem = (updated: CeremonyScheduleItem) => {
     markLocalMutation();
+    const oldSched = schedule.find(s => s.id === updated.id);
     setSchedule(prev => prev.map(s => s.id === updated.id ? updated : s));
     showToast(`Updated schedule for ${updated.title}`);
+
+    recordActivityLog({
+      actionType: 'EDIT',
+      entityType: 'schedule',
+      entityName: updated.title,
+      description: `Updated ceremony details for ${updated.title} (Time: ${updated.startTime} - ${updated.endTime}, Venue: ${updated.venue})`,
+      diff: {
+        field: 'Venue / Timing',
+        oldValue: oldSched ? `${oldSched.startTime} @ ${oldSched.venue.slice(0, 20)}...` : undefined,
+        newValue: `${updated.startTime} @ ${updated.venue.slice(0, 20)}...`
+      },
+      userProfile,
+    }).then(newLog => {
+      setActivityLogs(prev => [newLog, ...prev]);
+      setHasUnreadLogs(true);
+    });
   };
 
   const handleUpdateEventGuests = (event: WeddingEvent, groom: number, bride: number, perPlate?: number) => {
     markLocalMutation();
+    const oldGroom = settings.eventGuestCounts?.[event]?.groom ?? settings.groomGuestCount;
+    const oldBride = settings.eventGuestCounts?.[event]?.bride ?? settings.brideGuestCount;
+
     const updatedSettings: WeddingSettings = {
       ...settings,
       eventGuestCounts: {
@@ -353,6 +397,23 @@ export default function Home() {
     };
     setSettings(updatedSettings);
     showToast(`Updated ${event} guests: ${groom}B : ${bride}H ${perPlate !== undefined ? `@ ₹${perPlate}/plate` : ''}`);
+
+    recordActivityLog({
+      actionType: 'SETTING_CHANGE',
+      entityType: 'settings',
+      entityName: `${event} Guests`,
+      description: `Updated guest ratio for ${event}: ${groom} Bhuvi + ${bride} Harsha (${groom + bride} total)${perPlate ? ` @ ₹${perPlate}/plate` : ''}`,
+      diff: {
+        field: `${event} Guests`,
+        oldValue: `${oldGroom}B : ${oldBride}H`,
+        newValue: `${groom}B : ${bride}H`
+      },
+      userProfile,
+    }).then(newLog => {
+      setActivityLogs(prev => [newLog, ...prev]);
+      setHasUnreadLogs(true);
+    });
+
     if (isSupabaseConfigured()) {
       syncSettingsToRemote(updatedSettings);
     }
@@ -360,8 +421,29 @@ export default function Home() {
 
   const handleSaveSettings = (newSettings: WeddingSettings) => {
     markLocalMutation();
+    const oldBudget = settings.totalTargetBudget;
     setSettings(newSettings);
     showToast('Saved wedding configuration & guest split');
+
+    const isBudgetChanged = oldBudget !== newSettings.totalTargetBudget;
+    recordActivityLog({
+      actionType: 'SETTING_CHANGE',
+      entityType: 'settings',
+      entityName: 'Target Budget & Configuration',
+      description: isBudgetChanged
+        ? `Changed overall Target Wedding Budget from ₹${oldBudget.toLocaleString('en-IN')} to ₹${newSettings.totalTargetBudget.toLocaleString('en-IN')}`
+        : `Updated wedding settings & base guest counts (${newSettings.groomGuestCount} Bhuvi + ${newSettings.brideGuestCount} Harsha)`,
+      diff: isBudgetChanged ? {
+        field: 'Target Budget',
+        oldValue: `₹${oldBudget.toLocaleString('en-IN')}`,
+        newValue: `₹${newSettings.totalTargetBudget.toLocaleString('en-IN')}`
+      } : undefined,
+      userProfile,
+    }).then(newLog => {
+      setActivityLogs(prev => [newLog, ...prev]);
+      setHasUnreadLogs(true);
+    });
+
     if (isSupabaseConfigured()) {
       syncSettingsToRemote(newSettings);
     }

@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { ActivityLogItem, UserProfile } from '@/types/wedding';
-import { X, Clock, PlusCircle, Edit3, Trash2, CreditCard, Settings, ShieldCheck, User } from 'lucide-react';
+import { X, Clock, PlusCircle, Edit3, Trash2, CreditCard, Settings, ShieldCheck, User, Search, Filter } from 'lucide-react';
 
 interface ActivityLogDrawerProps {
   isOpen: boolean;
@@ -19,6 +19,29 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
   currentUserProfile,
   onOpenProfileModal,
 }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState<'ALL' | 'EDIT' | 'ADD' | 'PAYMENT' | 'DELETE' | 'SETTING_CHANGE'>('ALL');
+
+  const filteredLogs = useMemo(() => {
+    return logs.filter((log) => {
+      // Action type filter
+      if (selectedFilter !== 'ALL' && log.actionType !== selectedFilter) {
+        return false;
+      }
+
+      // Search query filter
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      const matchName = log.userName.toLowerCase().includes(q);
+      const matchDevice = log.deviceInfo.toLowerCase().includes(q);
+      const matchEntity = log.entityName.toLowerCase().includes(q);
+      const matchDesc = log.description.toLowerCase().includes(q);
+      const matchField = log.diff?.field?.toLowerCase().includes(q);
+
+      return matchName || matchDevice || matchEntity || matchDesc || matchField;
+    });
+  }, [logs, selectedFilter, searchQuery]);
+
   if (!isOpen) return null;
 
   const getActionBadge = (action: ActivityLogItem['actionType']) => {
@@ -138,6 +161,75 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
           <span>Entries cannot be deleted from the browser. They accumulate permanently.</span>
         </div>
 
+        {/* Search & Filter Bar */}
+        <div className="p-3 sm:px-5 border-b border-slate-100 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/30 space-y-2.5">
+          {/* Search Input */}
+          <div className="relative">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by item name, user, notes, field..."
+              className="w-full pl-9 pr-7 py-1.5 rounded-lg text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 text-xs font-bold"
+              >
+                ×
+              </button>
+            )}
+          </div>
+
+          {/* Action Filter Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5 text-[11px]">
+            {(
+              [
+                { id: 'ALL', label: 'All' },
+                { id: 'EDIT', label: '✏️ Updated' },
+                { id: 'ADD', label: '➕ Added' },
+                { id: 'PAYMENT', label: '💳 Payment' },
+                { id: 'DELETE', label: '🗑️ Deleted' },
+                { id: 'SETTING_CHANGE', label: '⚙️ Settings' },
+              ] as const
+            ).map((filter) => {
+              const active = selectedFilter === filter.id;
+              return (
+                <button
+                  key={filter.id}
+                  onClick={() => setSelectedFilter(filter.id)}
+                  className={`px-2.5 py-1 rounded-full whitespace-nowrap font-medium transition-colors cursor-pointer border ${
+                    active
+                      ? 'bg-amber-500 text-white border-amber-500 shadow-2xs font-bold'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
+                  }`}
+                >
+                  {filter.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {(searchQuery || selectedFilter !== 'ALL') && (
+            <div className="flex items-center justify-between text-[10.5px] text-slate-400">
+              <span>
+                Showing {filteredLogs.length} of {logs.length} notifications
+              </span>
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedFilter('ALL');
+                }}
+                className="text-amber-600 dark:text-amber-400 font-semibold hover:underline"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Scrollable Notifications List */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 divide-y divide-slate-100 dark:divide-white/5">
           {logs.length === 0 ? (
@@ -146,8 +238,14 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
               <p className="text-xs font-bold">No activity logs recorded yet</p>
               <p className="text-[11px]">Any change made in the planner will appear here automatically.</p>
             </div>
+          ) : filteredLogs.length === 0 ? (
+            <div className="text-center py-12 text-slate-400">
+              <Search size={26} className="mx-auto mb-2 opacity-40" />
+              <p className="text-xs font-bold">No matching notifications found</p>
+              <p className="text-[11px]">Try adjusting your search query or filter tags.</p>
+            </div>
           ) : (
-            logs.map((log) => {
+            filteredLogs.map((log) => {
               const badge = getActionBadge(log.actionType);
 
               return (
@@ -202,7 +300,7 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
         {/* Footer */}
         <div className="p-3.5 border-t border-slate-100 dark:border-white/10 bg-slate-50/70 dark:bg-slate-900/50 text-center flex-shrink-0">
           <span className="text-[10px] text-slate-400">
-            Total {logs.length} logged wedding audit events
+            Total {logs.length} logged wedding audit events {filteredLogs.length !== logs.length && `(${filteredLogs.length} matching)`}
           </span>
         </div>
 
