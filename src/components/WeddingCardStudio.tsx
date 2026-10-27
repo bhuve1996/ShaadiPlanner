@@ -497,3 +497,4 @@ export function WeddingCardStudio({ settings, onToast }: WeddingCardStudioProps)
     </div>
   );
 }
+
