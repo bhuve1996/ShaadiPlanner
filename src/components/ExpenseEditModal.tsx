@@ -3,17 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, 
-  Check, 
   Trash2, 
-  IndianRupee, 
+  Check, 
+  Utensils, 
   Users, 
   Sparkles, 
-  Calendar, 
-  Building2, 
-  CreditCard,
-  Percent,
   Calculator,
-  Utensils,
   Plus
 } from 'lucide-react';
 import { ExpenseItem, ExpenseCategory, WeddingEvent, SplitType, ExpensePayerCategory } from '@/types/wedding';
@@ -71,7 +66,6 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
 
   useEffect(() => {
     if (item) {
-      // By default, check per-plate calculation enabled for items or default to true
       const isCatering = item.category === 'Catering, Food & Sweets';
       const eventConfig = eventGuestCounts && item.event ? eventGuestCounts[item.event] : undefined;
 
@@ -108,7 +102,6 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   // Calculate live preview of shares
   const shares = computeExpenseShares(formData, groomGuestCount, brideGuestCount, eventGuestCounts);
 
-  // Recalculate cost automatically whenever guest count, plate rate, or per-plate toggle changes
   const updateCalculation = (
     isPerPlate: boolean,
     rate: number,
@@ -149,16 +142,19 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   const currentTotalGuests = currentGroomGuests + currentBrideGuests;
   const currentRate = formData.ratePerGuestOrPlate || 0;
 
+  const isMithai = formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets') || formData.name.toLowerCase().includes('bhaji');
+  const isRoka = formData.event === 'Roka / Engagement';
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/70 backdrop-blur-sm p-3 sm:p-6 flex justify-center items-start sm:items-center">
-      <div className="bg-white dark:bg-[#11141D] rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in fade-in zoom-in-95 duration-200 text-slate-800 dark:text-slate-100 max-h-[92vh] flex flex-col">
+      <div className="bg-white dark:bg-[#11141D] rounded-2xl max-w-5xl w-full p-5 sm:p-7 shadow-2xl border border-slate-200 dark:border-white/10 my-4 sm:my-8 animate-in fade-in zoom-in-95 duration-200 text-slate-800 dark:text-slate-100 max-h-[92vh] flex flex-col">
         
         {/* Sticky Header */}
         <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-white/10 flex-shrink-0">
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200 text-[11px] font-bold mb-1">
               <Utensils size={12} className="text-pink-500" />
-              <span>Smart Per-Plate & Occasion Calculator</span>
+              <span>Wedding Expense & Budget Config</span>
             </div>
             <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate max-w-lg">
               {formData.name || 'Expense Details'}
@@ -172,557 +168,464 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-xs overflow-y-auto pr-1 flex-1">
-          
-          {/* Item Name */}
-          <div>
-            <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1.5">
-              Expense Item Title *
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="e.g. Wedding Grand Dinner Buffet, Reception Banquet"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm"
-            />
-          </div>
+        {/* Scrollable Form Body: 2-COLUMN BALANCED WIDESCREEN LAYOUT */}
+        <form onSubmit={handleSubmit} className="mt-4 overflow-y-auto pr-1 flex-1 space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            
+            {/* LEFT COLUMN (7 COLS): Text, Categorization & Details */}
+            <div className="lg:col-span-7 space-y-4">
+              
+              {/* Item Name & Subtitle */}
+              <div className="grid grid-cols-1 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1 text-xs">
+                    Primary Item Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Wedding Hall & Dinner Banquet"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-slate-400 text-sm"
+                  />
+                </div>
 
-          {/* Category & Event */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                Category
-              </label>
-              <select
-                value={formData.category}
-                onChange={(e) => {
-                  const newCat = e.target.value as ExpenseCategory;
-                  const isCatCatering = newCat === 'Catering, Food & Sweets';
-                  setFormData({ 
-                    ...formData, 
-                    category: newCat,
-                    ratePerGuestOrPlate: formData.ratePerGuestOrPlate || (isCatCatering ? 2000 : 0)
-                  });
-                }}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 font-semibold focus:outline-none"
-              >
-                {ALL_CATEGORIES.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                Ceremony / Occasion
-              </label>
-              <select
-                value={formData.event}
-                onChange={(e) => setFormData({ ...formData, event: e.target.value as WeddingEvent })}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 font-semibold focus:outline-none"
-              >
-                {ALL_EVENTS.map(ev => (
-                  <option key={ev} value={ev}>{ev}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* SMART PER-UNIT / GUEST AUTO CALCULATOR */}
-          <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Utensils size={15} className="text-slate-600 dark:text-slate-300" />
-                <span className="font-bold text-slate-900 dark:text-white text-xs">
-                  {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets') || formData.name.toLowerCase().includes('bhaji')
-                    ? 'Mithai Per-Box Multiplier'
-                    : formData.event === 'Roka / Engagement'
-                    ? 'Roka / Ring Ceremony Guest Food Calculator'
-                    : 'Wedding Per-Plate Auto Calculator'}
-                </span>
+                <div>
+                  <label className="block font-semibold text-slate-600 dark:text-slate-400 mb-1 text-[11px]">
+                    Sub-Detail / Sub-Heading Description
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 500 guests buffet • Boy side stay & high tea"
+                    value={formData.notes || ''}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-200 font-medium text-xs focus:outline-none"
+                  />
+                </div>
               </div>
 
-              {/* By Default Checked Toggle */}
-              <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-2xs">
-                <input
-                  type="checkbox"
-                  checked={Boolean(formData.isPerPlateCalculation)}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    const defaultRate = formData.ratePerGuestOrPlate || (
-                      formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets') ? 800 :
-                      formData.event === 'Roka / Engagement' ? 1200 : 2000
-                    );
-                    updateCalculation(
-                      checked, 
-                      defaultRate, 
-                      currentGroomGuests, 
-                      currentBrideGuests
-                    );
-                  }}
-                  className="rounded border-slate-300 text-slate-900 focus:ring-slate-500 w-4 h-4 cursor-pointer"
-                />
-                <span>
-                  {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
-                    ? 'Auto-Calculate by Boxes'
-                    : 'Auto-Calculate by Guests'}
-                </span>
-              </label>
+              {/* Category & Event */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1 text-xs">
+                    Category
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => {
+                      const newCat = e.target.value as ExpenseCategory;
+                      const isCatCatering = newCat === 'Catering, Food & Sweets';
+                      setFormData({ 
+                        ...formData, 
+                        category: newCat,
+                        ratePerGuestOrPlate: formData.ratePerGuestOrPlate || (isCatCatering ? 2000 : 0)
+                      });
+                    }}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 font-semibold focus:outline-none text-xs"
+                  >
+                    {ALL_CATEGORIES.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1 text-xs">
+                    Ceremony / Occasion
+                  </label>
+                  <select
+                    value={formData.event}
+                    onChange={(e) => setFormData({ ...formData, event: e.target.value as WeddingEvent })}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-100 font-semibold focus:outline-none text-xs"
+                  >
+                    {ALL_EVENTS.map(ev => (
+                      <option key={ev} value={ev}>{ev}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Responsibility: Couple vs Parents vs Joint Family */}
+              <div className="bg-slate-50 dark:bg-white/[0.02] p-3.5 rounded-2xl border border-slate-200 dark:border-white/10 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-1.5">
+                    <Users size={13} className="text-slate-500" />
+                    <span>Family Responsibility Tier</span>
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, payerCategory: 'COUPLE' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      (formData.payerCategory || 'COUPLE') === 'COUPLE'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">👫 Couple</div>
+                    <div className="text-[9px] opacity-75">Bhuvesh & Harsha</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, payerCategory: 'PARENTS' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.payerCategory === 'PARENTS'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">👨‍👩‍👧 Parents</div>
+                    <div className="text-[9px] opacity-75">Family / Elders</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, payerCategory: 'SHARED_FAMILY' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.payerCategory === 'SHARED_FAMILY'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">🤝 Joint Family</div>
+                    <div className="text-[9px] opacity-75">Mutual Relatives</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Vendor & Status */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1 text-xs">Vendor Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Royal Palace Resort, Bikaner Sweets"
+                    value={formData.vendorName || ''}
+                    onChange={(e) => setFormData({ ...formData, vendorName: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1 text-xs">Booking Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-200 font-medium text-xs"
+                  >
+                    <option value="Estimated">Estimated</option>
+                    <option value="Booked">Booked</option>
+                    <option value="Partially Paid">Partially Paid</option>
+                    <option value="Settled">Fully Settled</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Subtasks Item Breakdown */}
+              <div className="bg-slate-50 dark:bg-white/[0.02] p-3.5 rounded-2xl border border-slate-200 dark:border-white/10 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-900 dark:text-white text-xs flex items-center gap-1.5">
+                    <Sparkles size={13} className="text-slate-500" />
+                    <span>Itemized Breakdown ({formData.subtasks?.length || 0})</span>
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newSubtask = {
+                        id: `sub-${Date.now()}`,
+                        name: '',
+                        cost: 0,
+                        status: 'Pending' as const,
+                      };
+                      setFormData({
+                        ...formData,
+                        subtasks: [...(formData.subtasks || []), newSubtask],
+                      });
+                    }}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 text-[11px] font-bold hover:bg-slate-100 cursor-pointer shadow-2xs"
+                  >
+                    <Plus size={12} />
+                    <span>Add Item</span>
+                  </button>
+                </div>
+
+                {formData.subtasks && formData.subtasks.length > 0 && (
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    {formData.subtasks.map((st, idx) => (
+                      <div key={st.id} className="flex items-center gap-2 bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-white/5">
+                        <input
+                          type="text"
+                          placeholder="Sub-item (e.g. Kada, Chain, Watch)"
+                          value={st.name || st.label || ''}
+                          onChange={(e) => {
+                            const newSub = [...(formData.subtasks || [])];
+                            newSub[idx] = { ...st, name: e.target.value, label: e.target.value };
+                            setFormData({ ...formData, subtasks: newSub });
+                          }}
+                          className="flex-1 px-2 py-1 text-xs bg-transparent border-0 focus:outline-none font-medium text-slate-900 dark:text-white"
+                        />
+                        <div className="relative w-28 flex-shrink-0">
+                          <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs">₹</span>
+                          <input
+                            type="number"
+                            placeholder="Cost"
+                            value={st.cost || ''}
+                            onChange={(e) => {
+                              const newSub = [...(formData.subtasks || [])];
+                              newSub[idx] = { ...st, cost: Number(e.target.value) };
+                              setFormData({ ...formData, subtasks: newSub });
+                            }}
+                            className="w-full pl-5 pr-2 py-1 text-xs bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-white/10 font-mono font-bold text-slate-900 dark:text-white focus:outline-none"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData({
+                              ...formData,
+                              subtasks: formData.subtasks?.filter((_, i) => i !== idx)
+                            });
+                          }}
+                          className="p-1 text-slate-400 hover:text-rose-500 cursor-pointer"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Inputs: Rate per unit & Count */}
-            {formData.isPerPlateCalculation ? (
-              <div className="space-y-3 pt-1">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                  {/* Unit Rate */}
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
-                        ? 'Rate / Box (₹) *'
-                        : 'Rate / Guest Plate (₹) *'}
-                    </label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
-                      <input
-                        type="number"
-                        min="0"
-                        step="50"
-                        placeholder="2000"
-                        value={formData.ratePerGuestOrPlate || ''}
-                        onChange={(e) => {
-                          const rate = Number(e.target.value) || 0;
-                          updateCalculation(true, rate, currentGroomGuests, currentBrideGuests);
-                        }}
-                        className="w-full pl-7 pr-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl font-bold text-slate-900 dark:text-white text-xs focus:outline-none"
-                      />
-                    </div>
-                  </div>
+            {/* RIGHT COLUMN (5 COLS): Calculations, Costs & Splits */}
+            <div className="lg:col-span-5 space-y-4">
+              
+              {/* Total & Paid Amounts */}
+              <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
+                <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                  Cost Summary
+                </div>
 
-                  {/* Bhuvesh Guests / Boxes */}
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
-                        ? 'Bhuvesh (Boy Side) Boxes'
-                        : 'Bhuvesh Guests (' + formData.event + ')'}
-                    </label>
+                <div>
+                  <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1 text-xs">
+                    Total Item Cost (₹) *
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
                     <input
                       type="number"
+                      required
                       min="0"
-                      value={currentGroomGuests}
+                      value={formData.actualCost}
                       onChange={(e) => {
-                        const gG = Number(e.target.value);
-                        updateCalculation(true, currentRate, gG, currentBrideGuests);
+                        const val = Number(e.target.value);
+                        setFormData({
+                          ...formData,
+                          isPerPlateCalculation: false,
+                          actualCost: val,
+                          estimatedCost: formData.estimatedCost || val
+                        });
                       }}
-                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl font-bold text-slate-900 dark:text-white text-xs focus:outline-none"
-                    />
-                  </div>
-
-                  {/* Harsha Guests / Boxes */}
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
-                        ? 'Harsha (Girl Side) Boxes'
-                        : 'Harsha Guests (' + formData.event + ')'}
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={currentBrideGuests}
-                      onChange={(e) => {
-                        const bG = Number(e.target.value);
-                        updateCalculation(true, currentRate, currentGroomGuests, bG);
-                      }}
-                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl font-bold text-slate-900 dark:text-white text-xs focus:outline-none"
+                      className="w-full pl-7 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-base focus:outline-none focus:ring-2 focus:ring-slate-400"
                     />
                   </div>
                 </div>
 
-                {/* Formula Pill */}
-                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between text-xs gap-2">
-                  <div className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
-                    <Calculator size={14} className="text-slate-500" />
-                    <span>
-                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
-                        ? `Calculation: ${currentTotalGuests} total boxes × ₹${currentRate}/box =`
-                        : `Calculation: ${currentTotalGuests} total guests × ₹${currentRate}/plate =`}
+                <div>
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1 text-xs">
+                    Advance Paid (₹)
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max={formData.actualCost}
+                      value={formData.paidAmount}
+                      onChange={(e) => setFormData({ ...formData, paidAmount: Number(e.target.value) })}
+                      className="w-full pl-7 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-sm focus:outline-none"
+                    />
+                  </div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex justify-between">
+                    <span>Remaining Balance:</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">
+                      {formatINR(Math.max(0, formData.actualCost - formData.paidAmount))}
                     </span>
                   </div>
-                  <span className="text-sm font-bold text-slate-900 dark:text-white font-mono">
-                    {formatINR(currentTotalGuests * currentRate)}
-                  </span>
                 </div>
               </div>
-            ) : (
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Auto-calculation is off. You can directly enter any fixed lump sum amount below.
-              </p>
-            )}
-          </div>
 
-          {/* Costs: Actual Cost & Advance Paid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 bg-slate-50 dark:bg-slate-900/70 p-4 rounded-2xl border border-slate-200 dark:border-white/10">
-            <div>
-              <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1">
-                Final / Total Cost (₹) *
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                <input
-                  type="number"
-                  required
-                  min="0"
-                  value={formData.actualCost}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    setFormData({
-                      ...formData,
-                      isPerPlateCalculation: false, // User chose to manually override
-                      actualCost: val,
-                      estimatedCost: formData.estimatedCost || val
-                    });
-                  }}
-                  className="w-full pl-7 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-black text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </div>
-              {formData.isPerPlateCalculation && (
-                <span className="text-[10px] text-pink-600 dark:text-pink-400 font-bold mt-1 block">
-                  ⚡ Auto-synced from plate rate × guest count
-                </span>
-              )}
-            </div>
+              {/* Multiplier / Calculator Card */}
+              <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-900 dark:text-white text-xs">
+                    {isMithai
+                      ? 'Mithai Box Multiplier'
+                      : isRoka
+                      ? 'Roka Food Calculator'
+                      : 'Wedding Plate Calculator'}
+                  </span>
 
-            <div>
-              <label className="block font-bold text-slate-800 dark:text-slate-200 mb-1">
-                Advance Paid So Far (₹)
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                <input
-                  type="number"
-                  min="0"
-                  max={formData.actualCost}
-                  value={formData.paidAmount}
-                  onChange={(e) => setFormData({ ...formData, paidAmount: Number(e.target.value) })}
-                  className="w-full pl-7 pr-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-emerald-600 dark:text-emerald-400 font-black text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                />
-              </div>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
-                Pending Balance: <span className="font-bold text-slate-800 dark:text-slate-200">{formatINR(Math.max(0, formData.actualCost - formData.paidAmount))}</span>
-              </div>
-            </div>
-          </div>
+                  <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-2xs">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(formData.isPerPlateCalculation)}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        const defaultRate = formData.ratePerGuestOrPlate || (isMithai ? 800 : isRoka ? 1200 : 2000);
+                        updateCalculation(checked, defaultRate, currentGroomGuests, currentBrideGuests);
+                      }}
+                      className="rounded border-slate-300 text-slate-900 focus:ring-slate-500 w-4 h-4 cursor-pointer"
+                    />
+                    <span>{isMithai ? 'Enable by Box' : 'Enable by Guest'}</span>
+                  </label>
+                </div>
 
-          {/* Sub-Category: Couple Personal vs Parents/Family */}
-          <div className="bg-purple-50/60 dark:bg-purple-950/30 p-3.5 rounded-2xl border border-purple-200 dark:border-purple-800/40 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-extrabold text-purple-900 dark:text-purple-300 text-xs flex items-center gap-1.5">
-                <Users size={13} className="text-purple-600 dark:text-purple-400" />
-                <span>Expense Responsibility (Couple vs Parents)</span>
-              </span>
-              <span className="text-[10px] text-purple-600 dark:text-purple-400 font-semibold">
-                Sub-classification
-              </span>
-            </div>
-
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, payerCategory: 'COUPLE' })}
-                className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                  (formData.payerCategory || 'COUPLE') === 'COUPLE'
-                    ? 'bg-purple-600 text-white font-black border-purple-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">👫 Couple Expense</div>
-                <div className="text-[9px] opacity-80">Bhuvesh & Harsha</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, payerCategory: 'PARENTS' })}
-                className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                  formData.payerCategory === 'PARENTS'
-                    ? 'bg-amber-600 text-white font-black border-amber-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">👨‍👩‍👧 Parents Expense</div>
-                <div className="text-[9px] opacity-80">Family / Elders</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, payerCategory: 'SHARED_FAMILY' })}
-                className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                  formData.payerCategory === 'SHARED_FAMILY'
-                    ? 'bg-indigo-600 text-white font-black border-indigo-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">🤝 Joint Family</div>
-                <div className="text-[9px] opacity-80">Mutual Relatives</div>
-              </button>
-            </div>
-          </div>
-
-          {/* Split Method Selector */}
-          <div className="bg-pink-50/50 dark:bg-slate-900/60 p-3.5 rounded-2xl border border-pink-200 dark:border-white/10 space-y-2.5">
-            <span className="font-bold text-slate-900 dark:text-white block text-xs">
-              Cost Sharing Method
-            </span>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, splitType: 'GUEST_RATIO' })}
-                className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
-                  formData.splitType === 'GUEST_RATIO'
-                    ? 'bg-purple-600 text-white font-bold border-purple-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">👥 Guest Ratio</div>
-                <div className="text-[9px] opacity-80">{shares.groomPercent}% : {shares.bridePercent}%</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, splitType: 'EQUAL_50_50' })}
-                className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
-                  formData.splitType === 'EQUAL_50_50'
-                    ? 'bg-amber-600 text-white font-bold border-amber-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">🤝 50 : 50</div>
-                <div className="text-[9px] opacity-80">Equal Split</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, splitType: 'GROOM_ONLY' })}
-                className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
-                  formData.splitType === 'GROOM_ONLY'
-                    ? 'bg-blue-600 text-white font-bold border-blue-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">🤵 Bhuvesh 100%</div>
-                <div className="text-[9px] opacity-80">Groom Side</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, splitType: 'BRIDE_ONLY' })}
-                className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
-                  formData.splitType === 'BRIDE_ONLY'
-                    ? 'bg-rose-600 text-white font-bold border-rose-600 shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
-                }`}
-              >
-                <div className="font-bold text-xs">👰 Harsha 100%</div>
-                <div className="text-[9px] opacity-80">Bride Side</div>
-              </button>
-            </div>
-
-            {/* Live Calculated Split Preview */}
-            <div className="pt-2 border-t border-pink-200 dark:border-white/10 flex items-center justify-between text-xs">
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Bhuvesh Due</span>
-                <span className="font-black text-blue-700 dark:text-blue-400 text-sm">{formatINR(shares.groomDue)}</span>
-              </div>
-              <div className="text-slate-300 font-light text-lg">+</div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Harsha Due</span>
-                <span className="font-black text-rose-600 dark:text-rose-400 text-sm">{formatINR(shares.brideDue)}</span>
-              </div>
-              <div className="text-slate-300 font-light text-lg">=</div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Total</span>
-                <span className="font-black text-slate-900 dark:text-white text-sm">{formatINR(formData.actualCost)}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Vendor, Payer & Booking Status */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Vendor Name</label>
-              <input
-                type="text"
-                placeholder="e.g. Royal Caterers"
-                value={formData.vendorName || ''}
-                onChange={(e) => setFormData({ ...formData, vendorName: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white"
-              />
-            </div>
-
-            <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Paid Advance By</label>
-              <select
-                value={formData.paidBy}
-                onChange={(e) => setFormData({ ...formData, paidBy: e.target.value as any })}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-200 font-medium"
-              >
-                <option value="UNPAID">Not Paid Yet</option>
-                <option value="GROOM">Bhuvesh (Groom)</option>
-                <option value="BRIDE">Harsha (Bride)</option>
-                <option value="SHARED">Joint / Shared (Both)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Booking Status</label>
-              <select
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-800 dark:text-slate-200 font-medium"
-              >
-                <option value="Estimated">Estimated</option>
-                <option value="Booked">Booked</option>
-                <option value="Partially Paid">Partially Paid</option>
-                <option value="Settled">Fully Settled</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Subtasks & Sub-costs Editor */}
-          <div className="bg-purple-50/50 dark:bg-slate-900/60 p-4 rounded-2xl border border-purple-200 dark:border-white/10 space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="font-extrabold text-slate-900 dark:text-white block text-xs flex items-center gap-1.5">
-                  <Sparkles size={14} className="text-purple-600" />
-                  <span>Subtasks & Sub-Costs Breakdown</span>
-                </span>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400">
-                  Split this item into individual items (e.g. Gold into Mangalsutra, Bangles; Vanity into Makeup, Sandals, 7/11/21 Suits).
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  const newSubtask = {
-                    id: `sub-${Date.now()}`,
-                    name: '',
-                    cost: 0,
-                    status: 'Pending' as const,
-                    notes: '',
-                  };
-                  const currentSubtasks = formData.subtasks || [];
-                  setFormData({ ...formData, subtasks: [...currentSubtasks, newSubtask] });
-                }}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold shadow-xs cursor-pointer transition-all"
-              >
-                <Plus size={12} />
-                <span>Add Subtask</span>
-              </button>
-            </div>
-
-            {formData.subtasks && formData.subtasks.length > 0 ? (
-              <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                {formData.subtasks.map((st, idx) => (
-                  <div key={st.id || idx} className="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-purple-100 dark:border-white/5 shadow-2xs space-y-1.5">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        placeholder="Label (e.g. Jewelry, Ring, Shagun)"
-                        value={st.label || ''}
-                        onChange={(e) => {
-                          const updated = [...formData.subtasks!];
-                          updated[idx].label = e.target.value;
-                          setFormData({ ...formData, subtasks: updated });
-                        }}
-                        className="w-24 px-2 py-1.5 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-lg text-[10px] font-black uppercase text-purple-800 dark:text-purple-300 placeholder:text-purple-300"
-                      />
-
-                      <input
-                        type="text"
-                        placeholder="Subtask name (e.g. Sister Bharti Gold Set, Jiju Ring)"
-                        value={st.name}
-                        onChange={(e) => {
-                          const updated = [...formData.subtasks!];
-                          updated[idx].name = e.target.value;
-                          setFormData({ ...formData, subtasks: updated });
-                        }}
-                        className="flex-1 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs text-slate-900 dark:text-white font-bold"
-                      />
-
-                      <div className="relative w-28">
-                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
+                {formData.isPerPlateCalculation ? (
+                  <div className="space-y-2.5 pt-1">
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">
+                          {isMithai ? 'Rate/Box' : 'Rate/Plate'}
+                        </label>
                         <input
                           type="number"
-                          placeholder="Cost"
-                          value={st.cost || ''}
+                          placeholder="Rate"
+                          value={formData.ratePerGuestOrPlate || ''}
                           onChange={(e) => {
-                            const updated = [...formData.subtasks!];
-                            updated[idx].cost = Number(e.target.value);
-                            setFormData({ ...formData, subtasks: updated });
+                            const r = Number(e.target.value) || 0;
+                            updateCalculation(true, r, currentGroomGuests, currentBrideGuests);
                           }}
-                          className="w-full pl-5 pr-2 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg text-xs font-bold text-slate-900 dark:text-white text-right"
+                          className="w-full px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg font-mono font-bold text-xs"
                         />
                       </div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const updated = formData.subtasks!.filter((_, i) => i !== idx);
-                          setFormData({ ...formData, subtasks: updated });
-                        }}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                        title="Remove subtask"
-                      >
-                        <Trash2 size={13} />
-                      </button>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Bhuvi Side</label>
+                        <input
+                          type="number"
+                          value={currentGroomGuests}
+                          onChange={(e) => {
+                            const g = Number(e.target.value);
+                            updateCalculation(true, currentRate, g, currentBrideGuests);
+                          }}
+                          className="w-full px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg font-mono font-bold text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">Harsha Side</label>
+                        <input
+                          type="number"
+                          value={currentBrideGuests}
+                          onChange={(e) => {
+                            const b = Number(e.target.value);
+                            updateCalculation(true, currentRate, currentGroomGuests, b);
+                          }}
+                          className="w-full px-2 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg font-mono font-bold text-xs"
+                        />
+                      </div>
                     </div>
-
-                    {/* Individual Subtask Notes */}
-                    <input
-                      type="text"
-                      placeholder="Notes for this subtask (e.g. 22k pure gold, includes gold ring from sister side...)"
-                      value={st.notes || ''}
-                      onChange={(e) => {
-                        const updated = [...formData.subtasks!];
-                        updated[idx].notes = e.target.value;
-                        setFormData({ ...formData, subtasks: updated });
-                      }}
-                      className="w-full px-2.5 py-1 bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200/60 dark:border-white/5 rounded-lg text-[11px] text-slate-600 dark:text-slate-400 italic"
-                    />
+                    <div className="text-[11px] font-mono text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-white/5 flex justify-between">
+                      <span>{currentTotalGuests} {isMithai ? 'boxes' : 'guests'} × ₹{currentRate}</span>
+                      <strong className="text-slate-900 dark:text-white font-mono">{formatINR(currentTotalGuests * currentRate)}</strong>
+                    </div>
                   </div>
-                ))}
+                ) : (
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    Auto-calculation is off. Manual total is used.
+                  </p>
+                )}
+              </div>
 
-                <div className="flex items-center justify-between pt-1 text-[11px] text-purple-700 dark:text-purple-300 font-bold px-1">
-                  <span>Subtasks Total:</span>
-                  <span className="font-mono text-xs">
-                    {formatINR(formData.subtasks.reduce((sum, s) => sum + (s.cost || 0), 0))}
-                  </span>
+              {/* Split Sharing Rule */}
+              <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-2.5">
+                <span className="font-bold text-slate-900 dark:text-white block text-xs">
+                  Split Rule
+                </span>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, splitType: 'GUEST_RATIO' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.splitType === 'GUEST_RATIO'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">👥 Guest Ratio</div>
+                    <div className="text-[9px] opacity-75">{shares.groomPercent}% : {shares.bridePercent}%</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, splitType: 'EQUAL_50_50' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.splitType === 'EQUAL_50_50'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">🤝 50 : 50</div>
+                    <div className="text-[9px] opacity-75">Equal Split</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, splitType: 'GROOM_ONLY' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.splitType === 'GROOM_ONLY'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">🤵 Bhuvesh 100%</div>
+                    <div className="text-[9px] opacity-75">Boy Side Only</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, splitType: 'BRIDE_ONLY' })}
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer ${
+                      formData.splitType === 'BRIDE_ONLY'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold border-transparent shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 border-slate-200 dark:border-white/10'
+                    }`}
+                  >
+                    <div className="font-bold text-xs">👰 Harsha 100%</div>
+                    <div className="text-[9px] opacity-75">Girl Side Only</div>
+                  </button>
+                </div>
+
+                {/* Live Split Result */}
+                <div className="pt-2 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-mono">
+                  <div>
+                    <span className="text-[10px] text-slate-500 uppercase block font-sans">Bhuvi Due</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.groomDue)}</span>
+                  </div>
+                  <div className="text-slate-300 font-light">+</div>
+                  <div>
+                    <span className="text-[10px] text-slate-500 uppercase block font-sans">Harsha Due</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{formatINR(shares.brideDue)}</span>
+                  </div>
+                  <div className="text-slate-300 font-light">=</div>
+                  <div>
+                    <span className="text-[10px] text-slate-500 uppercase block font-sans">Total</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{formatINR(formData.actualCost)}</span>
+                  </div>
                 </div>
               </div>
-            ) : (
-              <div className="text-center py-2 text-[11px] text-slate-400 italic">
-                No subtasks added yet. Click &quot;Add Subtask&quot; to break down this expense.
-              </div>
-            )}
-          </div>
 
-          {/* Notes */}
-          <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Notes / Special Terms</label>
-            <textarea
-              rows={2}
-              placeholder="e.g. 2000 per plate includes welcome mocktails, live chaat stalls, 4 main courses and 3 desserts."
-              value={formData.notes || ''}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white text-xs"
-            />
+            </div>
+
           </div>
 
           {/* Footer Actions */}
-          <div className="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between">
+          <div className="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between flex-shrink-0">
             {onDelete ? (
               <button
                 type="button"
@@ -743,13 +646,13 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold transition-colors cursor-pointer text-xs"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-black shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold shadow-sm hover:opacity-90 active:scale-95 transition-all cursor-pointer text-xs"
               >
                 <Check size={14} />
                 <span>Save Expense</span>

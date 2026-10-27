@@ -573,10 +573,16 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           
                           <div className="flex-1 min-w-0">
                             {/* Crisp Title on Row Hover */}
-                            <div className="flex items-center gap-2">
-                              <div className="font-semibold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
+                            <div className="flex flex-col">
+                              <div className="font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
                                 {item.name}
                               </div>
+                              {/* Subtitle / Sub-detail */}
+                              {item.notes && (
+                                <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1 mt-0.5">
+                                  {item.notes.split('•')[0].trim()}
+                                </div>
+                              )}
                             </div>
 
                             {/* Clean Subline with Badges */}

@@ -47,6 +47,7 @@ export interface SubTaskItem {
 export interface ExpenseItem {
   id: string;
   name: string;
+  subname?: string; // Concise secondary description or sub-label
   category: ExpenseCategory;
   event: WeddingEvent;
   
