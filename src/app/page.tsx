@@ -16,7 +16,8 @@ import {
   RotateCcw, 
   Flower2,
   CalendarDays,
-  MoreVertical
+  MoreVertical,
+  Printer
 } from 'lucide-react';
 import { INITIAL_EXPENSES, INITIAL_SETTINGS } from '@/lib/mock-data';
 import { INITIAL_CEREMONY_SCHEDULE } from '@/lib/ceremony-data';
@@ -410,6 +411,135 @@ export default function Home() {
     showToast('Exported complete JSON backup');
   };
 
+  const handlePrintOrPdf = () => {
+    // Generate clean printable summary report
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    const fmt = (n: number) => `₹${Math.round(n).toLocaleString('en-IN')}`;
+    const totalActual = expenses.reduce((s, x) => s + (x.actualCost || 0), 0);
+    const totalPaid = expenses.reduce((s, x) => s + (x.paidAmount || 0), 0);
+
+    let harshaTotal = 0;
+    let bhuviTotal = 0;
+
+    const rowsHtml = expenses.map((item, idx) => {
+      const shares = computeExpenseShares(item, settings.groomGuestCount, settings.brideGuestCount, settings.eventGuestCounts);
+      harshaTotal += shares.brideDue;
+      bhuviTotal += shares.groomDue;
+
+      const subtasksHtml = (item.subtasks && item.subtasks.length > 0)
+        ? `<div style="font-size: 10px; color: #64748b; margin-top: 3px; padding-left: 8px; border-left: 2px solid #e2e8f0;">
+             ${item.subtasks.map(st => `• ${st.name}: ${fmt(st.cost)}`).join('<br/>')}
+           </div>`
+        : '';
+
+      return `
+        <tr style="border-bottom: 1px solid #e2e8f0; font-size: 11px;">
+          <td style="padding: 8px 6px; color: #475569;">${idx + 1}</td>
+          <td style="padding: 8px 6px;">
+            <strong style="color: #0f172a; font-size: 12px;">${item.name}</strong>
+            <div style="font-size: 10.5px; color: #64748b;">${item.notes || ''}</div>
+            ${subtasksHtml}
+          </td>
+          <td style="padding: 8px 6px; color: #475569;">${item.category}</td>
+          <td style="padding: 8px 6px; color: #475569;">${item.event}</td>
+          <td style="padding: 8px 6px; text-align: right; font-family: monospace; font-weight: bold; color: #0f172a;">${fmt(shares.effectiveTotalCost)}</td>
+          <td style="padding: 8px 6px; text-align: right; font-family: monospace; font-weight: bold; color: #be123c;">${fmt(shares.brideDue)}</td>
+          <td style="padding: 8px 6px; text-align: right; font-family: monospace; font-weight: bold; color: #1d4ed8;">${fmt(shares.groomDue)}</td>
+          <td style="padding: 8px 6px; color: #64748b; font-size: 10px;">${item.vendorName || '—'}</td>
+        </tr>
+      `;
+    }).join('');
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${settings.coupleTitle} - Wedding Budget Summary</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #0f172a; margin: 20px; }
+            @media print {
+              body { margin: 10mm; }
+              .no-print { display: none !important; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: bold;">Printable Wedding Budget & Share Ledger</span>
+            <button onclick="window.print()" style="background: #0f172a; color: white; border: none; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer;">Print / Save as PDF</button>
+          </div>
+
+          <div style="border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 16px;">
+            <h1 style="margin: 0; font-size: 22px; font-weight: 900; letter-spacing: -0.5px;">${settings.coupleTitle}</h1>
+            <div style="font-size: 12px; color: #64748b; margin-top: 4px;">
+              Date: <strong>${settings.weddingDate} (Tentative)</strong> • Target Budget: <strong>${fmt(settings.totalTargetBudget)}</strong> • Guests: <strong>${settings.groomGuestCount + settings.brideGuestCount} (${settings.brideGuestCount} Harsha + ${settings.groomGuestCount} Bhuvi)</strong>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
+            <div style="background: #f1f5f9; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+              <div style="font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: bold;">Grand Total Budget</div>
+              <div style="font-size: 18px; font-weight: 900; color: #0f172a; font-family: monospace;">${fmt(totalActual)}</div>
+            </div>
+            <div style="background: #fff1f2; padding: 10px; border-radius: 8px; border: 1px solid #fecdd3;">
+              <div style="font-size: 10px; text-transform: uppercase; color: #be123c; font-weight: bold;">Harsha Total Share</div>
+              <div style="font-size: 18px; font-weight: 900; color: #be123c; font-family: monospace;">${fmt(harshaTotal)}</div>
+            </div>
+            <div style="background: #eff6ff; padding: 10px; border-radius: 8px; border: 1px solid #bfdbfe;">
+              <div style="font-size: 10px; text-transform: uppercase; color: #1d4ed8; font-weight: bold;">Bhuvi Total Share</div>
+              <div style="font-size: 18px; font-weight: 900; color: #1d4ed8; font-family: monospace;">${fmt(bhuviTotal)}</div>
+            </div>
+            <div style="background: #f0fdf4; padding: 10px; border-radius: 8px; border: 1px solid #bbf7d0;">
+              <div style="font-size: 10px; text-transform: uppercase; color: #15803d; font-weight: bold;">Advance Paid</div>
+              <div style="font-size: 18px; font-weight: 900; color: #15803d; font-family: monospace;">${fmt(totalPaid)}</div>
+            </div>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+              <tr style="background: #f8fafc; border-bottom: 2px solid #cbd5e1; font-size: 10px; text-transform: uppercase; color: #475569;">
+                <th style="padding: 8px 6px; width: 30px;">#</th>
+                <th style="padding: 8px 6px;">Expense Deliverable & Subtasks</th>
+                <th style="padding: 8px 6px;">Category</th>
+                <th style="padding: 8px 6px;">Occasion</th>
+                <th style="padding: 8px 6px; text-align: right;">Total Cost</th>
+                <th style="padding: 8px 6px; text-align: right; color: #be123c;">Harsha Share</th>
+                <th style="padding: 8px 6px; text-align: right; color: #1d4ed8;">Bhuvi Share</th>
+                <th style="padding: 8px 6px;">Vendor</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+            <tfoot>
+              <tr style="border-top: 2px solid #0f172a; background: #f8fafc; font-size: 12px; font-weight: bold;">
+                <td colspan="4" style="padding: 10px 6px;">TOTALS (${expenses.length} ITEMS)</td>
+                <td style="padding: 10px 6px; text-align: right; font-family: monospace;">${fmt(totalActual)}</td>
+                <td style="padding: 10px 6px; text-align: right; font-family: monospace; color: #be123c;">${fmt(harshaTotal)}</td>
+                <td style="padding: 10px 6px; text-align: right; font-family: monospace; color: #1d4ed8;">${fmt(bhuviTotal)}</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <div style="margin-top: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 10px; color: #94a3b8; display: flex; justify-content: space-between;">
+            <span>Generated from ShaadiPlanner • Harsha & Bhuvi Wedding</span>
+            <span>${new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          </div>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(html);
+    printWindow.document.close();
+  };
+
   return (
     <div className="min-h-screen text-slate-800 dark:text-slate-100 pb-20 font-sans selection:bg-pink-300 selection:text-pink-900 transition-colors duration-300">
       
@@ -514,6 +644,16 @@ export default function Home() {
 
             {/* Day / Night Theme Toggle */}
             <ThemeToggle />
+
+            {/* Print / PDF Summary Button */}
+            <button
+              onClick={handlePrintOrPdf}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
+              title="Print or Save PDF Summary Report"
+            >
+              <Printer size={13} className="text-slate-500" />
+              <span>PDF</span>
+            </button>
 
             {/* Quick Export Button */}
             <button

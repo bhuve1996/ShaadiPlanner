@@ -7,7 +7,7 @@ export const INITIAL_SETTINGS: WeddingSettings = {
   "weddingDate": "2027-02-14",
   "groomGuestCount": 150,
   "brideGuestCount": 400,
-  "totalTargetBudget": 2253600,
+  "totalTargetBudget": 5530600,
   "currency": "INR",
   "eventGuestCounts": {
     "Roka / Engagement": {
