@@ -697,7 +697,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                   ? 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
                                   : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/70 dark:border-emerald-800 dark:text-emerald-300'
                               }`}
-                              style={{ paddingRight: '1.4rem', backgroundPosition: 'right 0.35rem center' }}
+                              style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
                             >
                               <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harsha (100%)</option>
                               <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
@@ -717,7 +717,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 });
                               }}
                               className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-400 text-center cursor-pointer transition-all w-[130px] focus:outline-none"
-                              style={{ paddingRight: '1.4rem', backgroundPosition: 'right 0.35rem center' }}
+                              style={{ paddingRight: '1.6rem', backgroundPosition: 'right 0.55rem center' }}
                             >
                               <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👦 Parents</option>
                               <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">💍 Self</option>
