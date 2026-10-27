@@ -283,62 +283,49 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "PARENTS"
   },
   {
-    "id": "groom-exp-3",
-    "name": "Mitha & Mithai Boxes (Boy Side)",
+    "id": "exp-unified-mithai-boxes",
+    "name": "Wedding Mithai & Sweets Distribution",
     "category": "Catering, Food & Sweets",
     "event": "All Events",
-    "vendorName": "Haldiram / Bikaner Sweets",
+    "vendorName": "Haldiram / Bikaner Sweets & Local Halwai",
     "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
-    "estimatedCost": 150000,
-    "actualCost": 120000,
+    "estimatedCost": 650000,
+    "actualCost": 470000,
     "paidAmount": 0,
-    "splitType": "GROOM_ONLY",
+    "splitType": "GUEST_RATIO",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Traditional wedding sweets & shagun bhaji • Wedding traditional sweets, shagun bhaji & sweet gift boxes.",
+    "notes": "Wedding sweets distribution & ring ceremony mithai • Split by Guest Ratio (400 Harsha : 150 Bhuvi)",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 800,
     "eventGroomGuests": 150,
-    "eventBrideGuests": 0,
-    "overrideGuestCount": true,
-    "payerCategory": "PARENTS"
-  },
-  {
-    "id": "bride-exp-shadi-mithai-boxes",
-    "name": "Mithai & Shagun Boxes (Girl Side)",
-    "category": "Catering, Food & Sweets",
-    "event": "All Events",
-    "vendorName": "Haldiram / Sweet Emporium",
-    "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
-    "estimatedCost": 500000,
-    "actualCost": 350000,
-    "paidAmount": 0,
-    "splitType": "BRIDE_ONLY",
-    "paidBy": "UNPAID",
-    "status": "Estimated",
-    "notes": "Wedding sweets distribution & ring ceremony mithai boxes",
-    "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 800,
-    "eventGroomGuests": 0,
-    "eventBrideGuests": 250,
-    "overrideGuestCount": true,
+    "eventBrideGuests": 400,
+    "overrideGuestCount": false,
     "payerCategory": "PARENTS",
     "subtasks": [
       {
-        "id": "sub-g-mithai-1",
-        "name": "Shadi Mithai Distribution Boxes",
+        "id": "sub-mit-1",
+        "name": "Harsha Family Shadi Mithai Boxes",
         "cost": 200000,
         "status": "Pending",
         "label": "Wedding Mithai",
-        "notes": "Traditional wedding distribution boxes"
+        "notes": "Traditional wedding distribution boxes (Girl Side)"
       },
       {
-        "id": "sub-g-mithai-2",
+        "id": "sub-mit-2",
         "name": "Ring Ceremony Mithai & Sweets",
         "cost": 150000,
         "status": "Pending",
         "label": "Roka Mithai",
         "notes": "Engagement day sweet platters & boxes"
+      },
+      {
+        "id": "sub-mit-3",
+        "name": "Bhuvesh Family Mithai Boxes (150 Boxes @ ₹800)",
+        "cost": 120000,
+        "status": "Pending",
+        "label": "Groom Mithai",
+        "notes": "150 traditional sweets & shagun bhaji boxes (Boy Side)"
       }
     ]
   },
@@ -425,18 +412,18 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "payerCategory": "PARENTS"
   },
   {
-    "id": "exp-1793020036233",
-    "name": "Bride Family Wardrobe & Sherwani",
+    "id": "exp-unified-bride-wardrobe",
+    "name": "Bride Family Wardrobe & Groom Attire",
     "category": "Attire & Wardrobe",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "",
-    "estimatedCost": 160000,
-    "actualCost": 160000,
+    "estimatedCost": 200000,
+    "actualCost": 200000,
     "paidAmount": 0,
     "splitType": "BRIDE_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Bride family outfits & groom wedding sherwani gifted by girl side",
+    "notes": "Bride family outfits, groom wedding sherwani & reception apparel gifted by girl side",
     "dueDate": "",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
@@ -459,26 +446,16 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "status": "Pending",
         "label": "Groom Sherwani",
         "notes": "Groom sherwani & safa gift"
+      },
+      {
+        "id": "sub-g-wardrobe-3",
+        "name": "Groom Reception Attire & Clothes",
+        "cost": 40000,
+        "status": "Pending",
+        "label": "Groom Clothes",
+        "notes": "Western & ethnic clothing gifted to groom"
       }
     ]
-  },
-  {
-    "id": "bride-exp-boy-clothes",
-    "name": "Groom Clothes (Girl Side)",
-    "category": "Attire & Wardrobe",
-    "event": "All Events",
-    "vendorName": "Regalia / Suiting",
-    "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
-    "estimatedCost": 40000,
-    "actualCost": 40000,
-    "paidAmount": 0,
-    "splitType": "BRIDE_ONLY",
-    "paidBy": "UNPAID",
-    "status": "Estimated",
-    "notes": "Attire gifted to Bhuvesh • Clarification note: Boy clothing gifted by girl's side: ₹40,000 working estimate. Whether boy cloth is given by girl to be confirmed.",
-    "payerCategory": "COUPLE",
-    "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 0
   },
   {
     "id": "exp-1793019704914",
@@ -725,19 +702,19 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     ]
   },
   {
-    "id": "groom-exp-9",
-    "name": "Baraat Band, Ghodi & Dhol",
+    "id": "exp-unified-baraat-band-milni",
+    "name": "Baraat Procession, Band & Milni Kambal",
     "category": "Logistics & Shuttles",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "Shahi Baraat Horse, Chariot & King Dholis",
     "imageUrl": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80",
-    "estimatedCost": 55000,
-    "actualCost": 50000,
+    "estimatedCost": 105000,
+    "actualCost": 100000,
     "paidAmount": 0,
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Royal rath & Punjabi dhol troupe • Complete Baraat Procession: Covers Ghodi चढ़ाई ceremony, Royal Rath carriage, and Dhol-Tasha masters troupe.",
+    "notes": "Royal rath, Punjabi dhol troupe, ghodi chadhai & traditional milni kambal shagun",
     "subtasks": [
       {
         "id": "sub-ghodi-1",
@@ -764,38 +741,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "notes": "5 Punjabi Dhol players for high-energy Baraat beats"
       },
       {
-        "id": "sub-1793019431549",
-        "name": "",
+        "id": "sub-ghodi-4",
+        "name": "Fireworks & Procession Crackers",
         "cost": 15000,
         "status": "Pending",
-        "notes": "",
-        "label": "fireworks"
-      }
-    ],
-    "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 0,
-    "eventGroomGuests": 150,
-    "eventBrideGuests": 400,
-    "payerCategory": "PARENTS"
-  },
-  {
-    "id": "groom-exp-10",
-    "name": "Kambal Shagun",
-    "category": "Gifts, Shagun & Favors",
-    "event": "Baraat & Wedding Pheras",
-    "vendorName": "Textile Wholesale Market",
-    "imageUrl": "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=300&q=80",
-    "estimatedCost": 50000,
-    "actualCost": 50000,
-    "paidAmount": 0,
-    "splitType": "GROOM_ONLY",
-    "paidBy": "UNPAID",
-    "status": "Estimated",
-    "notes": "Traditional blankets & gifts for milni ceremony",
-    "payerCategory": "PARENTS",
-    "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 0,
-    "subtasks": [
+        "label": "Fireworks",
+        "notes": "Auspicious wedding fireworks"
+      },
       {
         "id": "sub-kambal-1",
         "name": "Milni Kambal Shagun (30 Blankets)",
@@ -812,7 +764,12 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "label": "Shagun Buffer",
         "notes": "Extended family milni envelopes & buffer"
       }
-    ]
+    ],
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0,
+    "eventGroomGuests": 150,
+    "eventBrideGuests": 400,
+    "payerCategory": "PARENTS"
   },
   {
     "id": "groom-exp-relatives-consolidated",
