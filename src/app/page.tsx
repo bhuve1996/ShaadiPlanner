@@ -346,8 +346,8 @@ export default function Home() {
         actualCost,
         item.paidAmount || 0,
         pendingDue,
-        shares.groomDue,
         shares.brideDue,
+        shares.groomDue,
         escapeCsv(item.vendorName || ''),
         escapeCsv(item.status),
         escapeCsv(item.notes || '')

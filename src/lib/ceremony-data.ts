@@ -36,7 +36,7 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     "venue": "Grand Crystal Ballroom",
     "emoji": "\ud83e\udea9",
     "image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
-    "description": "Choreographed dances by Bhuvesh vs Harsha families, DJ beats, and signature cocktails.",
+    "description": "Choreographed dances by Harsha vs Bhuvesh families, DJ beats, and signature cocktails.",
     "tagColor": "bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-400/40",
     "guestCount": 300
   },

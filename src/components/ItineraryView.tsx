@@ -47,7 +47,7 @@ const SCHEDULE: EventSchedule[] = [
     venue: 'Grand Crystal Ballroom',
     emoji: '🪩',
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
-    description: 'Choreographed dances by Bhuvesh vs Harsha families, awards ceremony, celebrity DJ beats, and signature craft cocktails.',
+    description: 'Choreographed dances by Harsha vs Bhuvesh families, awards ceremony, celebrity DJ beats, and signature craft cocktails.',
     tagColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   },
   {
