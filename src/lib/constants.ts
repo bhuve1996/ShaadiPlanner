@@ -1,30 +1,34 @@
 import { ExpenseCategory } from '@/types/wedding';
 
 export const CATEGORY_ICONS: Record<ExpenseCategory, string> = {
+  'Gold & Fine Jewelry': 'Crown',
+  'Catering, Food & Sweets': 'UtensilsCrossed',
   'Venue & Accommodation': 'Building2',
-  'Catering & Dining': 'UtensilsCrossed',
+  'Attire & Wardrobe': 'Sparkles',
+  'Makeup & Bridal Care': 'Flower2',
+  'Gifts, Shagun & Favors': 'Gift',
   'Decor & Production': 'Sparkles',
   'Photography & Cinema': 'Camera',
-  'Attire, Jewelry & MUA': 'Crown',
   'Music & Entertainment': 'Music',
   'Logistics & Shuttles': 'Car',
-  'Gifts, Shagun & Favors': 'Gift',
   'Ritual & Puja Items': 'Flame',
   'Invitations & Miscellaneous': 'Mail',
 };
 
-// Vibrant Colorful Floral Wedding Palette
+// Elegant, balanced wedding palette (not overly loud or muddy)
 export const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
-  'Venue & Accommodation': '#F59E0B', // Marigold Amber
-  'Catering & Dining': '#F43F5E',    // Rose Blossom Pink
-  'Decor & Production': '#EC4899',   // Lotus Pink
-  'Photography & Cinema': '#8B5CF6',// Lavender Violet
-  'Attire, Jewelry & MUA': '#FB7185',// Bridal Peony Pink
-  'Music & Entertainment': '#3B82F6',// Royal Groom Blue
-  'Logistics & Shuttles': '#10B981', // Mint Green
-  'Gifts, Shagun & Favors': '#F97316',// Sunset Peach
-  'Ritual & Puja Items': '#EAB308', // Turmeric Haldi
-  'Invitations & Miscellaneous': '#6366F1', // Indigo Floral
+  'Gold & Fine Jewelry': '#EAB308',       // Warm Indian Gold
+  'Catering, Food & Sweets': '#F97316',   // Saffron / Warm Tangerine
+  'Venue & Accommodation': '#3B82F6',     // Royal Slate Blue
+  'Attire & Wardrobe': '#EC4899',         // Bridal Rose
+  'Makeup & Bridal Care': '#A855F7',      // Radiant Orchid
+  'Gifts, Shagun & Favors': '#10B981',    // Auspicious Emerald Green
+  'Decor & Production': '#06B6D4',        // Cyan Teal
+  'Photography & Cinema': '#6366F1',      // Classic Indigo
+  'Music & Entertainment': '#8B5CF6',     // Violet Beats
+  'Logistics & Shuttles': '#64748B',      // Slate Grey
+  'Ritual & Puja Items': '#D97706',       // Amber Haldi
+  'Invitations & Miscellaneous': '#475569',// Charcoal Slate
 };
 
 export function formatINR(val: number): string {

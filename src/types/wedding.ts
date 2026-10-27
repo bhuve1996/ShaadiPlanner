@@ -11,14 +11,16 @@ export type ExpensePayerCategory =
   | 'SHARED_FAMILY';  // Mutual / Joint family expense
 
 export type ExpenseCategory = 
+  | 'Gold & Fine Jewelry'
+  | 'Catering, Food & Sweets'
   | 'Venue & Accommodation'
-  | 'Catering & Dining'
+  | 'Attire & Wardrobe'
+  | 'Makeup & Bridal Care'
+  | 'Gifts, Shagun & Favors'
   | 'Decor & Production'
   | 'Photography & Cinema'
-  | 'Attire, Jewelry & MUA'
   | 'Music & Entertainment'
   | 'Logistics & Shuttles'
-  | 'Gifts, Shagun & Favors'
   | 'Ritual & Puja Items'
   | 'Invitations & Miscellaneous';
 

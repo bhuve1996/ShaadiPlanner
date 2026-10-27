@@ -52,7 +52,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "exp-1793020416635",
     "name": "GOLD (FROM GIRLS FAMILY TO GIRL)",
-    "category": "Venue & Accommodation",
+    "category": "Gold & Fine Jewelry",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "",
     "estimatedCost": 100000,
@@ -72,7 +72,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "exp-1793020098639",
     "name": "BOYS FAMILY OUTFITS & SHOES",
-    "category": "Venue & Accommodation",
+    "category": "Attire & Wardrobe",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "",
     "estimatedCost": 100000,
@@ -92,7 +92,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "exp-1793020036233",
     "name": "GIRLS FAMILY OUTFITS & SHOES",
-    "category": "Venue & Accommodation",
+    "category": "Attire & Wardrobe",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "",
     "estimatedCost": 100000,
@@ -112,7 +112,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "exp-1793019849199",
     "name": "GOLD FOR GROOM (Chain & Watch)",
-    "category": "Venue & Accommodation",
+    "category": "Gold & Fine Jewelry",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "",
     "estimatedCost": 100000,
@@ -158,7 +158,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "exp-1793019704914",
     "name": "FAMILY MAKEUP",
-    "category": "Venue & Accommodation",
+    "category": "Makeup & Bridal Care",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "",
     "estimatedCost": 100000,
@@ -178,7 +178,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "groom-exp-1",
     "name": "Gold & Jewelry (Boy to Girl Gifts - Mangalsutra, Bangles, Necklace, Earrings)",
-    "category": "Attire, Jewelry & MUA",
+    "category": "Gold & Fine Jewelry",
     "event": "All Events",
     "vendorName": "Tanishq / Kalyan Jewellers",
     "imageUrl": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=300&q=80",
@@ -188,7 +188,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "\u20b96,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.",
+    "notes": "₹6,35,000 Gold budget gifted to Harsha from Bhuvesh side. Split into individual jewelry subtasks below.",
     "subtasks": [
       {
         "id": "sub-gold-1",
@@ -228,7 +228,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 0,
         "status": "Pending",
         "label": "Gold Tops",
-        "notes": "Clarification item: \u20b935,000 tops"
+        "notes": "Clarification item: ₹35,000 tops"
       }
     ],
     "isPerPlateCalculation": false,
@@ -250,7 +250,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "EQUAL_50_50",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Clarification: This \u20b95,00,000 covers boy-side guest rooms + stay + 3 days of all meals & food for all wedding events. - Might increase if guests increase by 100 at all functions",
+    "notes": "Clarification: This ₹5,00,000 covers boy-side guest rooms + stay + 3 days of all meals & food for all wedding events. - Might increase if guests increase by 100 at all functions",
     "subtasks": [
       {
         "id": "sub-stay-1",
@@ -278,7 +278,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "groom-exp-3",
     "name": "Mitha (Sweets & Traditional Mithai)",
-    "category": "Catering & Dining",
+    "category": "Catering, Food & Sweets",
     "event": "All Events",
     "vendorName": "Haldiram / Bikaner Sweets",
     "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
@@ -315,7 +315,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "groom-exp-5",
     "name": "Harsha's Clothes, Lehenga, Ring Ceremony Gown & Suits (Boy to Girl Gifts)",
-    "category": "Attire, Jewelry & MUA",
+    "category": "Attire & Wardrobe",
     "event": "All Events",
     "vendorName": "Bridal Heritage Couture",
     "imageUrl": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=300&q=80",
@@ -325,7 +325,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Boy to Girl Attire Gifts: \u20b92,00,000 budget covering main wedding lehenga, Ring Ceremony gown/dress, plus 7 / 11 / 21 unstitched suits.",
+    "notes": "Boy to Girl Attire Gifts: ₹2,00,000 budget covering main wedding lehenga, Ring Ceremony gown/dress, plus 7 / 11 / 21 unstitched suits.",
     "subtasks": [
       {
         "id": "sub-suit-1",
@@ -377,7 +377,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "groom-exp-ring-boy-to-girl",
     "name": "Ring Ceremony: Gold Ring with Diamond (Boy & Girl Ring)",
-    "category": "Attire, Jewelry & MUA",
+    "category": "Gold & Fine Jewelry",
     "event": "Roka / Engagement",
     "vendorName": "Tanishq / CaratLane Diamond",
     "imageUrl": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=300&q=80",
@@ -397,7 +397,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "groom-exp-6",
     "name": "Our Clothes (Bhuvesh Sherwani & Family Attire)",
-    "category": "Attire, Jewelry & MUA",
+    "category": "Attire & Wardrobe",
     "event": "All Events",
     "vendorName": "Regalia / Manyavar",
     "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
@@ -447,7 +447,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Complete Baraat Procession: Covers Ghodi \u091a\u0922\u093c\u093e\u0908 ceremony, Royal Rath carriage, and Dhol-Tasha masters troupe.",
+    "notes": "Complete Baraat Procession: Covers Ghodi चढ़ाई ceremony, Royal Rath carriage, and Dhol-Tasha masters troupe.",
     "subtasks": [
       {
         "id": "sub-ghodi-1",
@@ -501,7 +501,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Listed note: \u20b950,000. Clarification to check: 30 blankets \u00d7 \u20b9500 = \u20b915,000 vs \u20b950,000.",
+    "notes": "Listed note: ₹50,000. Clarification to check: 30 blankets × ₹500 = ₹15,000 vs ₹50,000.",
     "payerCategory": "PARENTS"
   },
   {
@@ -533,15 +533,15 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "EQUAL_50_50",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "\u20b95,13,600 consolidated family shagun to Bhuvesh relatives & ceremonial rituals. Split into subtasks below.",
+    "notes": "₹5,13,600 consolidated family shagun to Bhuvesh relatives & ceremonial rituals. Split into subtasks below.",
     "subtasks": [
       {
         "id": "sub-rel-1",
-        "name": "Chache\u2013Bhua (8 Families Shagun)",
+        "name": "Chache–Bhua (8 Families Shagun)",
         "cost": 40800,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "8 family units @ \u20b95,100 cash envelopes"
+        "notes": "8 family units @ ₹5,100 cash envelopes"
       },
       {
         "id": "sub-rel-2",
@@ -549,7 +549,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 16800,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "8 extended chache daughters @ \u20b92,100 each"
+        "notes": "8 extended chache daughters @ ₹2,100 each"
       },
       {
         "id": "sub-rel-3",
@@ -557,7 +557,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 8400,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "4 first cousins @ \u20b92,100 each"
+        "notes": "4 first cousins @ ₹2,100 each"
       },
       {
         "id": "sub-rel-4",
@@ -565,7 +565,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 30600,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "5 family envelopes @ \u20b95,100 + \u20b95,100 special envelope"
+        "notes": "5 family envelopes @ ₹5,100 + ₹5,100 special envelope"
       },
       {
         "id": "sub-rel-5",
@@ -573,7 +573,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 9300,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "Base \u20b95,100 + 2 \u00d7 \u20b92,100 special gifts"
+        "notes": "Base ₹5,100 + 2 × ₹2,100 special gifts"
       },
       {
         "id": "sub-rel-6",
@@ -581,7 +581,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 22000,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "2 nieces @ \u20b911,000 each"
+        "notes": "2 nieces @ ₹11,000 each"
       },
       {
         "id": "sub-rel-bharti-gold",
@@ -601,11 +601,11 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       },
       {
         "id": "sub-rel-sister-shagun",
-        "name": "Sister Bharti & Jiju Shagun Envelopes (3 \u00d7 \u20b95,100)",
+        "name": "Sister Bharti & Jiju Shagun Envelopes (3 × ₹5,100)",
         "cost": 15300,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "3 auspicious cash envelopes @ \u20b95,100"
+        "notes": "3 auspicious cash envelopes @ ₹5,100"
       },
       {
         "id": "sub-rel-sister-shopping",
@@ -621,7 +621,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "cost": 4200,
         "status": "Pending",
         "label": "Shagun",
-        "notes": "2 \u00d7 \u20b92,100 envelopes"
+        "notes": "2 × ₹2,100 envelopes"
       },
       {
         "id": "sub-rel-9",
@@ -657,7 +657,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     "id": "bride-exp-palace-1",
-    "name": "Main Wedding Hall & Banquet (500 Guests @ \u20b92,000 / Plate)",
+    "name": "Main Wedding Hall & Banquet (500 Guests @ ₹2,000 / Plate)",
     "category": "Venue & Accommodation",
     "event": "Baraat & Wedding Pheras",
     "vendorName": "Main Wedding Palace & Hall",
@@ -672,7 +672,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GUEST_RATIO",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Main Wedding Hall separate from stay: \u20b910,00,000 budget calculated as 500 guests \u00d7 \u20b92,000 per plate.",
+    "notes": "Main Wedding Hall separate from stay: ₹10,00,000 budget calculated as 500 guests × ₹2,000 per plate.",
     "subtasks": [
       {
         "id": "sub-whall-1",
@@ -684,7 +684,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       },
       {
         "id": "sub-whall-2",
-        "name": "Wedding Dinner Catering (500 Guests @ \u20b92,000/plate)",
+        "name": "Wedding Dinner Catering (500 Guests @ ₹2,000/plate)",
         "cost": 0,
         "status": "Pending",
         "label": "Per-Plate Food",
@@ -697,7 +697,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "bride-exp-ring-ceremony-sweets",
     "name": "Ring Ceremony Sweets & Mithai (Girl Side)",
-    "category": "Catering & Dining",
+    "category": "Catering, Food & Sweets",
     "event": "Roka / Engagement",
     "vendorName": "Sweet House",
     "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
@@ -707,13 +707,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "BRIDE_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Girl's side sweet distribution for Ring Ceremony: \u20b91,50,000.",
+    "notes": "Girl's side sweet distribution for Ring Ceremony: ₹1,50,000.",
     "payerCategory": "PARENTS"
   },
   {
     "id": "bride-exp-shadi-mithai-boxes",
     "name": "Shadi Mithai Boxes & Bhaji Distribution (Girl Side)",
-    "category": "Catering & Dining",
+    "category": "Catering, Food & Sweets",
     "event": "All Events",
     "vendorName": "Haldiram / Sweet Emporium",
     "imageUrl": "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?auto=format&fit=crop&w=300&q=80",
@@ -744,7 +744,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "BRIDE_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths: \u20b91,00,000.",
+    "notes": "Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths: ₹1,00,000.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 2000,
     "eventGroomGuests": 150,
@@ -754,7 +754,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   {
     "id": "bride-exp-boy-clothes",
     "name": "Boy Clothes / Attire from Girl Side (Open / To confirm)",
-    "category": "Attire, Jewelry & MUA",
+    "category": "Attire & Wardrobe",
     "event": "All Events",
     "vendorName": "Regalia / Suiting",
     "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80",
@@ -764,7 +764,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "BRIDE_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Clarification note: Boy clothing gifted by girl's side: \u20b940,000 working estimate. Whether boy cloth is given by girl to be confirmed.",
+    "notes": "Clarification note: Boy clothing gifted by girl's side: ₹40,000 working estimate. Whether boy cloth is given by girl to be confirmed.",
     "payerCategory": "COUPLE"
   },
   {
@@ -780,13 +780,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "EQUAL_50_50",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Kept open (\u20b90 currently): We will see if photography is combined between boy & girl or kept separate. No extra budget added until confirmed.",
+    "notes": "Kept open (₹0 currently): We will see if photography is combined between boy & girl or kept separate. No extra budget added until confirmed.",
     "payerCategory": "COUPLE"
   },
   {
     "id": "exp-ring-extra-hightea",
     "name": "ENGAGEMENT- VENUE & FOOD (DAY EVENT)",
-    "category": "Catering & Dining",
+    "category": "Catering, Food & Sweets",
     "event": "Roka / Engagement",
     "vendorName": "Resort In-House Caterer",
     "imageUrl": "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=300&q=80",
@@ -796,7 +796,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "EQUAL_50_50",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of \u20b975,000 (\u20b950k-\u20b91L) added for extra high-tea & snacks.",
+    "notes": "Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of ₹75,000 (₹50k-₹1L) added for extra high-tea & snacks.",
     "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 2000,
     "eventGroomGuests": 150,
@@ -805,7 +805,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     "id": "exp-inhouse-dj-sound",
-    "name": "In-House Banquet Sound & DJ (3 Days \u00d7 \u20b95,000/day)",
+    "name": "In-House Banquet Sound & DJ (3 Days × ₹5,000/day)",
     "category": "Music & Entertainment",
     "event": "All Events",
     "vendorName": "Resort In-House Sound Operator",
@@ -816,13 +816,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "In-house hall sound operator for Mehndi, Sangeet & functions: \u20b95,000/day \u00d7 3 days = \u20b915,000. (Separate from main wedding day DJ).",
+    "notes": "In-house hall sound operator for Mehndi, Sangeet & functions: ₹5,000/day × 3 days = ₹15,000. (Separate from main wedding day DJ).",
     "payerCategory": "COUPLE"
   },
   {
     "id": "exp-mehendi-artist",
     "name": "Professional Mehendi Artist & Cones for Bride & Family",
-    "category": "Attire, Jewelry & MUA",
+    "category": "Makeup & Bridal Care",
     "event": "Mehendi",
     "vendorName": "Mehendi Artist Collective",
     "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=300&q=80",
@@ -837,7 +837,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     "id": "exp-sangeet-choreography",
-    "name": "Sangeet Dance Choreography (Budget Cap \u20b95,000)",
+    "name": "Sangeet Dance Choreography (Budget Cap ₹5,000)",
     "category": "Music & Entertainment",
     "event": "Sangeet & Cocktail",
     "vendorName": "Dance Choreographer / Friend Lead",
@@ -848,13 +848,13 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "GROOM_ONLY",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Strict budget cap of \u20b95,000 for family & couple dance rehearsals for Sangeet evening.",
+    "notes": "Strict budget cap of ₹5,000 for family & couple dance rehearsals for Sangeet evening.",
     "payerCategory": "COUPLE"
   },
   {
     "id": "exp-water-extra-crates",
     "name": "Packaged Mineral Water Bottles Extra Buffer",
-    "category": "Catering & Dining",
+    "category": "Catering, Food & Sweets",
     "event": "All Events",
     "vendorName": "Beverage Wholesale Dealer",
     "imageUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80",

@@ -65,7 +65,7 @@ export default function Home() {
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
   const [currentTab, setCurrentTab] = useState<'budget' | 'vendors' | 'shagun' | 'calendar' | 'charts'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isSimplifiedView, setIsSimplifiedView] = useState(false);
+  const [isSimplifiedView, setIsSimplifiedView] = useState(true);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);

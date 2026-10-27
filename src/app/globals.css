@@ -71,60 +71,37 @@ html.dark .theme-subcard {
 }
 
 /* ==========================================================================
-   ELEGANT, MINIMALIST ROW ACCENTS:
-   - Rose for Harsha
-   - Blue for Bhuvesh
-   - Emerald for Mutual Split
+   CLEAN, ULTRA-NEUTRAL ROW STYLING (No loud blue or pink fills)
    ========================================================================== */
 
-/* Day Mode Rows */
-html:not(.dark) .row-bride {
-  background-color: #FFF9FA !important;
-  border-left: 3px solid #E11D48 !important;
-}
-html:not(.dark) .row-bride:hover {
-  background-color: #FFF1F4 !important;
-}
-
-html:not(.dark) .row-groom {
-  background-color: #F8FAFF !important;
-  border-left: 3px solid #2563EB !important;
-}
-html:not(.dark) .row-groom:hover {
-  background-color: #EFF4FF !important;
-}
-
+/* Day Mode Rows: Clean white with subtle hover highlight */
+html:not(.dark) .row-bride,
+html:not(.dark) .row-groom,
 html:not(.dark) .row-split-green {
   background-color: #FFFFFF !important;
-  border-left: 3px solid #059669 !important;
+  border-left: 2px solid #E2E8F0 !important;
 }
+
+html:not(.dark) .row-bride:hover,
+html:not(.dark) .row-groom:hover,
 html:not(.dark) .row-split-green:hover {
-  background-color: #F9FAFB !important;
+  background-color: #F8FAFC !important;
+  border-left-color: #94A3B8 !important;
 }
 
-/* Night Mode Rows */
-html.dark .row-bride {
-  background-color: rgba(225, 29, 72, 0.05) !important;
-  border-left: 3px solid #FB7185 !important;
-}
-html.dark .row-bride:hover {
-  background-color: rgba(225, 29, 72, 0.10) !important;
-}
-
-html.dark .row-groom {
-  background-color: rgba(37, 99, 235, 0.05) !important;
-  border-left: 3px solid #60A5FA !important;
-}
-html.dark .row-groom:hover {
-  background-color: rgba(37, 99, 235, 0.10) !important;
-}
-
+/* Night Mode Rows: Sleek dark surface with subtle hover */
+html.dark .row-bride,
+html.dark .row-groom,
 html.dark .row-split-green {
   background-color: transparent !important;
-  border-left: 3px solid #10B981 !important;
+  border-left: 2px solid rgba(255, 255, 255, 0.08) !important;
 }
+
+html.dark .row-bride:hover,
+html.dark .row-groom:hover,
 html.dark .row-split-green:hover {
   background-color: rgba(255, 255, 255, 0.03) !important;
+  border-left-color: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* Custom Minimalist Scrollbar */

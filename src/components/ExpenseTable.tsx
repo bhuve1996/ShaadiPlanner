@@ -39,14 +39,16 @@ type SortField = 'name' | 'actualCost' | 'paidAmount' | 'pending' | 'event' | 'c
 type SortOrder = 'asc' | 'desc';
 
 const ALL_CATEGORIES: ExpenseCategory[] = [
+  'Gold & Fine Jewelry',
+  'Catering, Food & Sweets',
   'Venue & Accommodation',
-  'Catering & Dining',
+  'Attire & Wardrobe',
+  'Makeup & Bridal Care',
+  'Gifts, Shagun & Favors',
   'Decor & Production',
   'Photography & Cinema',
-  'Attire, Jewelry & MUA',
   'Music & Entertainment',
   'Logistics & Shuttles',
-  'Gifts, Shagun & Favors',
   'Ritual & Puja Items',
   'Invitations & Miscellaneous',
 ];
@@ -467,10 +469,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     {/* 5. Groom Spend (130px) */}
                     <th 
                       onClick={() => handleSort('groomDue')}
-                      className="py-3.5 px-4 text-right cursor-pointer hover:text-blue-700 dark:hover:text-blue-400 transition-colors group select-none text-blue-700 dark:text-blue-400 w-[130px]"
+                      className="py-3.5 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
                     >
                       <div className="flex items-center justify-end">
-                        <span>🤵 Bhuvesh Spend</span>
+                        <span>Bhuvesh Spend</span>
                         {renderSortIndicator('groomDue')}
                       </div>
                     </th>
@@ -478,10 +480,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     {/* 6. Bride Spend (130px) */}
                     <th 
                       onClick={() => handleSort('brideDue')}
-                      className="py-3.5 px-4 text-right cursor-pointer hover:text-rose-700 dark:hover:text-rose-400 transition-colors group select-none text-rose-700 dark:text-rose-400 w-[130px]"
+                      className="py-3.5 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
                     >
                       <div className="flex items-center justify-end">
-                        <span>👰 Harsha Spend</span>
+                        <span>Harsha Spend</span>
                         {renderSortIndicator('brideDue')}
                       </div>
                     </th>
@@ -489,7 +491,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     {/* 7. Paid & Progress (160px) */}
                     <th 
                       onClick={() => handleSort('paidAmount')}
-                      className="py-3.5 px-4 cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors group select-none w-[160px]"
+                      className="py-3.5 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[160px]"
                     >
                       <div className="flex items-center">
                         <span>Payment Progress</span>
@@ -570,9 +572,9 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           )}
                           
                           <div className="flex-1 min-w-0">
-                            {/* Larger Crisp Title with Dynamic Gradient Text on Row Hover */}
+                            {/* Crisp Title on Row Hover */}
                             <div className="flex items-center gap-2">
-                              <div className="font-extrabold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-[14px] leading-snug tracking-tight">
+                              <div className="font-semibold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors text-[13px] leading-snug tracking-tight">
                                 {item.name}
                               </div>
                             </div>
@@ -686,20 +688,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               splitType: e.target.value as SplitType,
                             });
                           }}
-                          className={`text-xs font-bold px-2.5 py-1 rounded-xl border shadow-xs focus:outline-none transition-all cursor-pointer ${
-                            item.splitType === 'BRIDE_ONLY'
-                              ? 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border-rose-300 dark:border-rose-700'
-                              : item.splitType === 'GROOM_ONLY'
-                              ? 'bg-blue-100 dark:bg-blue-950/70 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700'
-                              : item.splitType === 'GUEST_RATIO'
-                              ? 'bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-700'
-                              : 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-900 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700'
-                          }`}
+                          className="text-xs font-semibold px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-700 dark:text-slate-200 focus:outline-none transition-all cursor-pointer shadow-2xs"
                         >
-                          <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🌸 Harsha</option>
-                          <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi</option>
-                          <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio ({shares.groomPercent}:{shares.bridePercent})</option>
-                          <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
+                          <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Harsha</option>
+                          <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Bhuvi</option>
+                          <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Guest Ratio ({shares.groomPercent}:{shares.bridePercent})</option>
+                          <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Split 50:50</option>
                         </select>
                       </td>
 
@@ -707,20 +701,20 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         <>
                           {/* 5. Groom Share */}
                           <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                            <div className="font-black text-blue-700 dark:text-blue-400 text-sm">
+                            <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
                               {formatINR(shares.groomDue)}
                             </div>
-                            <div className="text-[10px] text-blue-600 dark:text-blue-400 font-bold">
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                               {shares.groomPercent}% by Bhuvesh
                             </div>
                           </td>
 
                           {/* 6. Bride Share */}
                           <td className="py-4 px-4 text-right whitespace-nowrap font-sans">
-                            <div className="font-black text-rose-600 dark:text-rose-400 text-sm">
+                            <div className="font-bold text-slate-800 dark:text-slate-100 text-sm">
                               {formatINR(shares.brideDue)}
                             </div>
-                            <div className="text-[10px] text-rose-600 dark:text-rose-400 font-bold">
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                               {shares.bridePercent}% by Harsha
                             </div>
                           </td>
@@ -742,7 +736,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               <div className="w-full bg-slate-200 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
                                 <div 
                                   className={`h-full transition-all duration-300 ${
-                                    isFullyPaid ? 'bg-emerald-500' : 'bg-gradient-to-r from-blue-400 to-pink-500'
+                                    isFullyPaid ? 'bg-emerald-500' : 'bg-slate-700 dark:bg-slate-300'
                                   }`} 
                                   style={{ width: `${percentPaid}%` }}
                                 />

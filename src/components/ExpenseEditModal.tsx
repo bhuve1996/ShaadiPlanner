@@ -32,14 +32,16 @@ interface ExpenseEditModalProps {
 }
 
 const ALL_CATEGORIES: ExpenseCategory[] = [
+  'Gold & Fine Jewelry',
+  'Catering, Food & Sweets',
   'Venue & Accommodation',
-  'Catering & Dining',
+  'Attire & Wardrobe',
+  'Makeup & Bridal Care',
+  'Gifts, Shagun & Favors',
   'Decor & Production',
   'Photography & Cinema',
-  'Attire, Jewelry & MUA',
   'Music & Entertainment',
   'Logistics & Shuttles',
-  'Gifts, Shagun & Favors',
   'Ritual & Puja Items',
   'Invitations & Miscellaneous',
 ];
@@ -70,7 +72,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   useEffect(() => {
     if (item) {
       // By default, check per-plate calculation enabled for items or default to true
-      const isCatering = item.category === 'Catering & Dining';
+      const isCatering = item.category === 'Catering, Food & Sweets';
       const eventConfig = eventGuestCounts && item.event ? eventGuestCounts[item.event] : undefined;
 
       const gGuests = item.overrideGuestCount && item.eventGroomGuests !== undefined
@@ -197,7 +199,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                 value={formData.category}
                 onChange={(e) => {
                   const newCat = e.target.value as ExpenseCategory;
-                  const isCatCatering = newCat === 'Catering & Dining';
+                  const isCatCatering = newCat === 'Catering, Food & Sweets';
                   setFormData({ 
                     ...formData, 
                     category: newCat,
