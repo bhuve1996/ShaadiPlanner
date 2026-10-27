@@ -65,10 +65,8 @@ export function computeExpenseShares(
 
   const totalGuests = (effectiveGroomGuests + effectiveBrideGuests) || 1;
 
-  // 3. Dynamic Per-Plate auto-calculation: Item specific rate takes priority; fallback to occasion config rate
-  const effectivePlateRate = (item.ratePerGuestOrPlate && item.ratePerGuestOrPlate > 0)
-    ? item.ratePerGuestOrPlate
-    : (eventConfig?.perPlateRate || 0);
+  // 3. Dynamic Calculation: Only items explicitly marked isPerPlateCalculation use guest count multiplication
+  const effectivePlateRate = item.ratePerGuestOrPlate || 0;
 
   let effectiveTotalCost = totalCost;
   if (item.isPerPlateCalculation && effectivePlateRate > 0) {

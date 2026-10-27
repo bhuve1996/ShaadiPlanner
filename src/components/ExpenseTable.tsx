@@ -675,11 +675,16 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
                           {formatINR(shares.effectiveTotalCost)}
                         </div>
-                        {(item.isPerPlateCalculation || shares.effectivePlateRate > 0) && (
+                        {/* Unit Rate Subtitle: Only show for wedding per-plate or mithai per-box */}
+                        {item.isPerPlateCalculation && shares.effectivePlateRate > 0 ? (
                           <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                            ₹{shares.effectivePlateRate > 0 ? shares.effectivePlateRate.toLocaleString('en-IN') : (item.ratePerGuestOrPlate || 2000).toLocaleString('en-IN')}/plate
+                            ₹{shares.effectivePlateRate.toLocaleString('en-IN')}/plate
                           </div>
-                        )}
+                        ) : (item.name.toLowerCase().includes('mitha') || item.name.toLowerCase().includes('sweets') || item.name.toLowerCase().includes('bhaji')) && (item.ratePerGuestOrPlate || 0) > 0 ? (
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                            ₹{(item.ratePerGuestOrPlate || 800).toLocaleString('en-IN')}/box
+                          </div>
+                        ) : null}
                       </td>
 
                       {/* 4. Split Type Selector */}

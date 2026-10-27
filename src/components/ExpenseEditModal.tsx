@@ -231,58 +231,61 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
             </div>
           </div>
 
-          {/* SMART PER-PLATE AUTO CALCULATOR (CHECKED BY DEFAULT) */}
-          <div className="bg-gradient-to-r from-pink-50/70 via-purple-50/50 to-blue-50/70 dark:from-pink-950/20 dark:via-purple-950/20 dark:to-blue-950/20 p-4 rounded-2xl border-2 border-pink-300 dark:border-white/20 space-y-3">
+          {/* SMART PER-UNIT / GUEST AUTO CALCULATOR */}
+          <div className="bg-slate-50 dark:bg-white/[0.03] p-4 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Utensils size={16} className="text-pink-600 dark:text-pink-400" />
-                <span className="font-extrabold text-slate-900 dark:text-white text-xs">
-                  Per-Plate / Per-Guest Auto Calculator
+                <Utensils size={15} className="text-slate-600 dark:text-slate-300" />
+                <span className="font-bold text-slate-900 dark:text-white text-xs">
+                  {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets') || formData.name.toLowerCase().includes('bhaji')
+                    ? 'Mithai Per-Box Multiplier'
+                    : formData.event === 'Roka / Engagement'
+                    ? 'Roka / Ring Ceremony Guest Food Calculator'
+                    : 'Wedding Per-Plate Auto Calculator'}
                 </span>
               </div>
 
               {/* By Default Checked Toggle */}
-              <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-bold text-pink-700 dark:text-pink-300 bg-white/80 dark:bg-slate-900/80 px-2.5 py-1 rounded-full border border-pink-200 dark:border-white/10 shadow-2xs">
+              <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10 shadow-2xs">
                 <input
                   type="checkbox"
                   checked={Boolean(formData.isPerPlateCalculation)}
                   onChange={(e) => {
                     const checked = e.target.checked;
+                    const defaultRate = formData.ratePerGuestOrPlate || (
+                      formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets') ? 800 :
+                      formData.event === 'Roka / Engagement' ? 1200 : 2000
+                    );
                     updateCalculation(
                       checked, 
-                      formData.ratePerGuestOrPlate || 2000, 
+                      defaultRate, 
                       currentGroomGuests, 
                       currentBrideGuests
                     );
                   }}
-                  className="rounded border-pink-400 text-pink-600 focus:ring-pink-500 w-4 h-4 cursor-pointer"
+                  className="rounded border-slate-300 text-slate-900 focus:ring-slate-500 w-4 h-4 cursor-pointer"
                 />
-                <span>Auto-Calculate by Guests</span>
+                <span>
+                  {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
+                    ? 'Auto-Calculate by Boxes'
+                    : 'Auto-Calculate by Guests'}
+                </span>
               </label>
             </div>
 
-            {/* Inputs: Rate per plate & Guests */}
+            {/* Inputs: Rate per unit & Count */}
             {formData.isPerPlateCalculation ? (
               <div className="space-y-3 pt-1">
-                {/* Notice that guest counts are derived from top occasion bar */}
-                <div className="flex items-center justify-between text-[11px] bg-purple-50 dark:bg-purple-950/40 px-3 py-1.5 rounded-xl border border-purple-200 dark:border-purple-800/40">
-                  <span className="text-purple-700 dark:text-purple-300 font-semibold flex items-center gap-1.5">
-                    <Users size={12} className="text-purple-500" />
-                    <span>Single source for <strong>{formData.event}</strong> guests ({currentTotalGuests} total)</span>
-                  </span>
-                  <span className="text-[10px] text-purple-600 dark:text-purple-400 font-bold">
-                    Synced from Occasion Bar
-                  </span>
-                </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                  {/* Plate Rate */}
+                  {/* Unit Rate */}
                   <div>
-                    <label className="block text-[11px] font-extrabold text-pink-700 dark:text-pink-300 mb-1 flex items-center gap-1">
-                      <span>Rate / Plate (₹) *</span>
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
+                        ? 'Rate / Box (₹) *'
+                        : 'Rate / Guest Plate (₹) *'}
                     </label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-pink-500">₹</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
                       <input
                         type="number"
                         min="0"
@@ -293,15 +296,17 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                           const rate = Number(e.target.value) || 0;
                           updateCalculation(true, rate, currentGroomGuests, currentBrideGuests);
                         }}
-                        className="w-full pl-7 pr-3 py-1.5 bg-white dark:bg-slate-900 border-2 border-pink-300 dark:border-pink-600 rounded-xl font-black text-pink-700 dark:text-pink-300 text-xs focus:outline-none"
+                        className="w-full pl-7 pr-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl font-bold text-slate-900 dark:text-white text-xs focus:outline-none"
                       />
                     </div>
                   </div>
 
-                  {/* Bhuvesh Guests */}
+                  {/* Bhuvesh Guests / Boxes */}
                   <div>
-                    <label className="block text-[11px] font-extrabold text-blue-700 dark:text-blue-300 mb-1">
-                      Bhuvesh (Groom) Guests
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
+                        ? 'Bhuvesh (Boy Side) Boxes'
+                        : 'Bhuvesh Guests (' + formData.event + ')'}
                     </label>
                     <input
                       type="number"
@@ -311,14 +316,16 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         const gG = Number(e.target.value);
                         updateCalculation(true, currentRate, gG, currentBrideGuests);
                       }}
-                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border-2 border-blue-300 dark:border-blue-600 rounded-xl font-black text-blue-700 dark:text-blue-300 text-xs focus:outline-none"
+                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl font-bold text-slate-900 dark:text-white text-xs focus:outline-none"
                     />
                   </div>
 
-                  {/* Harsha Guests */}
+                  {/* Harsha Guests / Boxes */}
                   <div>
-                    <label className="block text-[11px] font-extrabold text-rose-700 dark:text-rose-300 mb-1">
-                      Harsha (Bride) Guests
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
+                        ? 'Harsha (Girl Side) Boxes'
+                        : 'Harsha Guests (' + formData.event + ')'}
                     </label>
                     <input
                       type="number"
@@ -328,27 +335,29 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         const bG = Number(e.target.value);
                         updateCalculation(true, currentRate, currentGroomGuests, bG);
                       }}
-                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border-2 border-rose-300 dark:border-rose-600 rounded-xl font-black text-rose-700 dark:text-rose-300 text-xs focus:outline-none"
+                      className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl font-bold text-slate-900 dark:text-white text-xs focus:outline-none"
                     />
                   </div>
                 </div>
 
-                {/* Auto Calculated Formula Pill */}
-                <div className="bg-white/95 dark:bg-slate-900/90 p-2.5 rounded-xl border border-pink-200 dark:border-white/10 flex flex-wrap items-center justify-between text-xs gap-2">
+                {/* Formula Pill */}
+                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between text-xs gap-2">
                   <div className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
-                    <Calculator size={14} className="text-pink-500" />
+                    <Calculator size={14} className="text-slate-500" />
                     <span>
-                      Formula: <strong>{currentTotalGuests} total guests</strong> × <strong>₹{currentRate}/plate</strong> =
+                      {formData.name.toLowerCase().includes('mitha') || formData.name.toLowerCase().includes('sweets')
+                        ? `Calculation: ${currentTotalGuests} total boxes × ₹${currentRate}/box =`
+                        : `Calculation: ${currentTotalGuests} total guests × ₹${currentRate}/plate =`}
                     </span>
                   </div>
-                  <span className="text-sm font-black text-slate-900 dark:text-white bg-pink-100 dark:bg-pink-950/70 px-2.5 py-0.5 rounded-lg border border-pink-300 dark:border-pink-800">
+                  <span className="text-sm font-bold text-slate-900 dark:text-white font-mono">
                     {formatINR(currentTotalGuests * currentRate)}
                   </span>
                 </div>
               </div>
             ) : (
-              <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                Auto-calculation is unchecked. You can type in the total lump sum below manually.
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Auto-calculation is off. You can directly enter any fixed lump sum amount below.
               </p>
             )}
           </div>

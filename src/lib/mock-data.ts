@@ -64,7 +64,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "notes": "",
     "dueDate": "",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -84,7 +84,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "notes": "",
     "dueDate": "",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -104,7 +104,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "notes": "",
     "dueDate": "",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -124,7 +124,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "notes": "",
     "dueDate": "",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "subtasks": [
@@ -170,7 +170,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "notes": "",
     "dueDate": "",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -269,7 +269,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
         "notes": "Breakfast, lunches & high tea for 3 days at the resort "
       }
     ],
-    "isPerPlateCalculation": true,
+    "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 220,
     "eventBrideGuests": 180,
@@ -289,7 +289,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Wedding traditional sweets, shagun bhaji & sweet gift boxes.",
-    "isPerPlateCalculation": true,
+    "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 800,
     "eventGroomGuests": 150,
     "eventBrideGuests": 0,
@@ -310,7 +310,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Photography & album documentation for wedding festivities.",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "groom-exp-5",
@@ -389,7 +391,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "status": "Estimated",
     "notes": "Boy to Girl engagement ring: Gold with Diamond ring specified for Harsha.",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "COUPLE"
@@ -409,7 +411,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "status": "Estimated",
     "notes": "Groom sherwani, suits and immediate family member attires.",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -429,7 +431,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "status": "Estimated",
     "notes": "Pheras, puja samagri, rituals and pandit honorarium.",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -502,7 +504,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Listed note: ₹50,000. Clarification to check: 30 blankets × ₹500 = ₹15,000 vs ₹50,000.",
-    "payerCategory": "PARENTS"
+    "payerCategory": "PARENTS",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "groom-exp-11",
@@ -518,7 +522,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Local travel, coordination vehicles and fuel expenses.",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "groom-exp-relatives-consolidated",
@@ -649,7 +655,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
       }
     ],
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 0,
     "eventBrideGuests": 0,
     "overrideGuestCount": true,
@@ -708,7 +714,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Girl's side sweet distribution for Ring Ceremony: ₹1,50,000.",
-    "payerCategory": "PARENTS"
+    "payerCategory": "PARENTS",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 800
   },
   {
     "id": "bride-exp-shadi-mithai-boxes",
@@ -724,7 +732,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Girl's side wedding traditional sweet gift boxes (Bhaji) & mitha- only wedding",
-    "isPerPlateCalculation": true,
+    "isPerPlateCalculation": false,
     "ratePerGuestOrPlate": 800,
     "eventGroomGuests": 0,
     "eventBrideGuests": 250,
@@ -746,7 +754,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "status": "Estimated",
     "notes": "Girl's side custom: When relatives leave after Vida (Bidai / Doli), they are presented with curated saris and unstitched suit lengths: ₹1,00,000.",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 0,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "COUPLE"
@@ -765,7 +773,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Clarification note: Boy clothing gifted by girl's side: ₹40,000 working estimate. Whether boy cloth is given by girl to be confirmed.",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "open-exp-photography",
@@ -781,7 +791,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Kept open (₹0 currently): We will see if photography is combined between boy & girl or kept separate. No extra budget added until confirmed.",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "exp-ring-extra-hightea",
@@ -798,7 +810,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "status": "Estimated",
     "notes": "Resort includes 13 rooms & 100 people food. For accommodating Harsha 200 guests (100 extra people), working buffer of ₹75,000 (₹50k-₹1L) added for extra high-tea & snacks.",
     "isPerPlateCalculation": false,
-    "ratePerGuestOrPlate": 2000,
+    "ratePerGuestOrPlate": 1200,
     "eventGroomGuests": 150,
     "eventBrideGuests": 400,
     "payerCategory": "PARENTS"
@@ -817,7 +829,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "In-house hall sound operator for Mehndi, Sangeet & functions: ₹5,000/day × 3 days = ₹15,000. (Separate from main wedding day DJ).",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "exp-mehendi-artist",
@@ -833,7 +847,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Professional mehendi artist for bridal hands/feet + family members. Cost may adjust based on final guest count.",
-    "payerCategory": "PARENTS"
+    "payerCategory": "PARENTS",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "exp-sangeet-choreography",
@@ -849,7 +865,9 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Strict budget cap of ₹5,000 for family & couple dance rehearsals for Sangeet evening.",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   },
   {
     "id": "exp-water-extra-crates",
@@ -865,6 +883,8 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "paidBy": "UNPAID",
     "status": "Estimated",
     "notes": "Resort supplies a limited initial count of water bottles. Buffer for additional 250ml/500ml crates as needed over 3 days.",
-    "payerCategory": "COUPLE"
+    "payerCategory": "COUPLE",
+    "isPerPlateCalculation": false,
+    "ratePerGuestOrPlate": 0
   }
 ];
