@@ -675,16 +675,19 @@ export default function Home() {
           activeSide={activeSide}
           onSideChange={setActiveSide}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          isSimplifiedView={isSimplifiedView}
         />
 
         {/* Tab 1: Color-Coded Expense Table with full horizontal visibility */}
         {currentTab === 'budget' && (
           <div className="space-y-6">
-            {/* Real-time Interactive Occasion Guest Sync Bar */}
-            <OccasionGuestSyncBar
-              settings={settings}
-              onUpdateEventGuests={handleUpdateEventGuests}
-            />
+            {/* Real-time Interactive Occasion Guest Sync Bar (Hidden in Simple View) */}
+            {!isSimplifiedView && (
+              <OccasionGuestSyncBar
+                settings={settings}
+                onUpdateEventGuests={handleUpdateEventGuests}
+              />
+            )}
 
             <ExpenseTable
               expenses={expenses}

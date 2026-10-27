@@ -663,13 +663,20 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </td>
                       )}
 
-                      {/* 3. Actual Cost */}
-                      <td className="py-4 px-4 text-right whitespace-nowrap">
-                        <div className="font-black text-slate-900 dark:text-white text-base">
+                      {/* 3. Actual Cost with Hover Allocation Breakdown Card */}
+                      <td 
+                        className="py-4 px-4 text-right whitespace-nowrap"
+                        onMouseEnter={(e) => {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setHoveredItem({ item, x: Math.max(10, rect.left - 100), y: rect.bottom + 8 });
+                        }}
+                        onMouseLeave={() => setHoveredItem(null)}
+                      >
+                        <div className="font-bold text-slate-900 dark:text-white text-base font-mono">
                           {formatINR(shares.effectiveTotalCost)}
                         </div>
                         {(item.isPerPlateCalculation || shares.effectivePlateRate > 0) && (
-                          <div className="text-[10px] text-pink-600 dark:text-pink-400 font-bold">
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                             ₹{shares.effectivePlateRate > 0 ? shares.effectivePlateRate.toLocaleString('en-IN') : (item.ratePerGuestOrPlate || 2000).toLocaleString('en-IN')}/plate
                           </div>
                         )}
@@ -860,27 +867,29 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             </div>
 
             {/* Split Breakdown */}
-            <div className="bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200/80 dark:border-white/5 space-y-1">
+            <div className="bg-slate-50 dark:bg-white/[0.04] p-2.5 rounded-xl border border-slate-200/80 dark:border-white/10 space-y-1.5 font-mono">
               <div className="flex justify-between font-bold text-slate-900 dark:text-white text-xs">
                 <span>Total Amount:</span>
                 <span>{formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).effectiveTotalCost)}</span>
               </div>
-              <div className="flex justify-between text-[11px] text-blue-600 dark:text-blue-400">
-                <span>Bhuvesh Spends:</span>
-                <span className="font-semibold">
+              <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
+                <span>🤵 Bhuvesh Spends ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomPercent}%):</span>
+                <span className="font-bold text-slate-900 dark:text-white">
                   {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).groomDue)}
                 </span>
               </div>
-              <div className="flex justify-between text-[11px] text-rose-600 dark:text-rose-400">
-                <span>Harsha Spends:</span>
-                <span className="font-semibold">
+              <div className="flex justify-between text-[11px] text-slate-700 dark:text-slate-300">
+                <span>👰 Harsha Spends ({computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).bridePercent}%):</span>
+                <span className="font-bold text-slate-900 dark:text-white">
                   {formatINR(computeExpenseShares(hoveredItem.item, groomGuestCount, brideGuestCount, eventGuestCounts).brideDue)}
                 </span>
               </div>
-              <div className="flex justify-between text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-200/60 dark:border-white/5">
-                <span>Advance Cleared:</span>
-                <span className="font-bold">{formatINR(hoveredItem.item.paidAmount)}</span>
-              </div>
+              {!isSimplifiedView && (
+                <div className="flex justify-between text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-200/60 dark:border-white/10">
+                  <span>Advance Cleared:</span>
+                  <span className="font-bold">{formatINR(hoveredItem.item.paidAmount)}</span>
+                </div>
+              )}
             </div>
 
             {/* Subtasks breakdown in Hover Dossier if present */}
