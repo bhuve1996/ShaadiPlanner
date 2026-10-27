@@ -449,8 +449,8 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 )}
 
                 {/* 3. Responsibility & Split (Combined editable column for Side + Tier) */}
-                <th className="py-3 px-4 text-center w-[170px]">
-                  <span>Side & Responsibility</span>
+                <th className="py-3 px-3 text-center w-[165px]">
+                  <span>Payer & Share</span>
                 </th>
 
                 {/* 4. Actual Cost */}
@@ -651,42 +651,54 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
                       {/* 3. Combined Side & Responsibility Column */}
                       <td 
-                        className="py-4 px-3 text-center whitespace-nowrap"
+                        className="py-3 px-3 text-center whitespace-nowrap"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="flex flex-col items-center gap-1">
-                          {/* Top: Side Split Selector */}
-                          <select
-                            value={item.splitType}
-                            onChange={(e) => {
-                              onUpdateExpense({
-                                ...item,
-                                splitType: e.target.value as SplitType,
-                              });
-                            }}
-                            className="text-[11px] font-bold px-2.5 py-1 rounded-lg border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-[#1A1F2E] text-slate-900 dark:text-white hover:border-slate-500 dark:hover:border-white/40 focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer shadow-xs w-full max-w-[130px]"
-                          >
-                            <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi</option>
-                            <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🌸 Harsha</option>
-                            <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
-                            <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
-                          </select>
+                        <div className="inline-flex flex-col items-center gap-1.5 p-1 rounded-xl bg-slate-100/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+                          {/* Top: Side Split Badge Selector */}
+                          <div className="relative w-full">
+                            <select
+                              value={item.splitType}
+                              onChange={(e) => {
+                                onUpdateExpense({
+                                  ...item,
+                                  splitType: e.target.value as SplitType,
+                                });
+                              }}
+                              className={`text-[11px] font-black px-2.5 py-1 rounded-lg border appearance-none text-center cursor-pointer transition-all w-[124px] focus:outline-none focus:ring-1 focus:ring-pink-400 ${
+                                item.splitType === 'GROOM_ONLY'
+                                  ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/70 dark:border-blue-800 dark:text-blue-300'
+                                  : item.splitType === 'BRIDE_ONLY'
+                                  ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/70 dark:border-rose-800 dark:text-rose-300'
+                                  : item.splitType === 'GUEST_RATIO'
+                                  ? 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/70 dark:border-purple-800 dark:text-purple-300'
+                                  : 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/70 dark:border-emerald-800 dark:text-emerald-300'
+                              }`}
+                            >
+                              <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi (100%)</option>
+                              <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👰 Harsha (100%)</option>
+                              <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
+                              <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
+                            </select>
+                          </div>
 
                           {/* Bottom: Responsibility Tier (Parent vs Self vs Family) */}
-                          <select
-                            value={item.payerCategory || 'COUPLE'}
-                            onChange={(e) => {
-                              onUpdateExpense({
-                                ...item,
-                                payerCategory: e.target.value as any,
-                              });
-                            }}
-                            className="text-[10px] font-medium px-2 py-0.5 rounded-md border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:border-slate-400 cursor-pointer w-full max-w-[130px]"
-                          >
-                            <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👧 Parents</option>
-                            <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👫 Self</option>
-                            <option value="SHARED_FAMILY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Family</option>
-                          </select>
+                          <div className="relative w-full">
+                            <select
+                              value={item.payerCategory || 'COUPLE'}
+                              onChange={(e) => {
+                                onUpdateExpense({
+                                  ...item,
+                                  payerCategory: e.target.value as any,
+                                });
+                              }}
+                              className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-400 text-center cursor-pointer transition-all w-[124px] focus:outline-none"
+                            >
+                              <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👦 Parents</option>
+                              <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">💍 Self</option>
+                              <option value="SHARED_FAMILY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🏡 Family</option>
+                            </select>
+                          </div>
                         </div>
                       </td>
 
