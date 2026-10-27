@@ -3,13 +3,13 @@ import { FamilyShagunItem, GuestGroupItem } from '@/types/wedding';
 export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
   {
     "id": "shagun-1",
-    "recipientName": "Chache\u2013Bhua",
+    "recipientName": "Chache–Bhua",
     "relation": "Paternal Uncles & Aunts (Chache & Bhua)",
     "group": "Chache-Bhua",
-    "calculationFormula": "8 \u00d7 \u20b95,100",
     "amount": 40800,
+    "calculationFormula": "8 × ₹5,100",
     "status": "Planned",
-    "notes": "8 family units @ \u20b95,100 each envelope shagun.",
+    "notes": "8 family units @ ₹5,100 each envelope shagun.",
     "side": "GROOM"
   },
   {
@@ -17,10 +17,10 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Pawne chache kudian",
     "relation": "Extended Chache Daughters / Nieces",
     "group": "Chache-Bhua",
-    "calculationFormula": "8 \u00d7 \u20b92,100",
     "amount": 16800,
+    "calculationFormula": "8 × ₹2,100",
     "status": "Planned",
-    "notes": "8 daughters @ \u20b92,100 each.",
+    "notes": "8 daughters @ ₹2,100 each.",
     "side": "GROOM"
   },
   {
@@ -28,10 +28,10 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Ritu, Neeru, Bunty, Raju",
     "relation": "First Cousins",
     "group": "Cousins & Youth",
-    "calculationFormula": "4 \u00d7 \u20b92,100",
     "amount": 8400,
+    "calculationFormula": "4 × ₹2,100",
     "status": "Planned",
-    "notes": "4 cousins @ \u20b92,100 each.",
+    "notes": "4 cousins @ ₹2,100 each.",
     "side": "GROOM"
   },
   {
@@ -39,10 +39,10 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Chache, mamma, mamma, massi Jagadhri",
     "relation": "Maternal & Paternal Jagadhri Relatives",
     "group": "Mamma-Massi",
-    "calculationFormula": "5 \u00d7 \u20b95,100 + \u20b95,100",
     "amount": 30600,
+    "calculationFormula": "5 × ₹5,100 + ₹5,100",
     "status": "Planned",
-    "notes": "5 families @ \u20b95,100 + additional \u20b95,100 special envelope.",
+    "notes": "5 families @ ₹5,100 + additional ₹5,100 special envelope.",
     "side": "GROOM"
   },
   {
@@ -50,10 +50,10 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Isha and Shippu",
     "relation": "Cousin Sisters / Family",
     "group": "Cousins & Youth",
-    "calculationFormula": "\u20b95,100 + 2 \u00d7 \u20b92,100",
     "amount": 9300,
+    "calculationFormula": "₹5,100 + 2 × ₹2,100",
     "status": "Planned",
-    "notes": "Base shagun \u20b95,100 plus 2 \u00d7 \u20b92,100 special gifts.",
+    "notes": "Base shagun ₹5,100 plus 2 × ₹2,100 special gifts.",
     "side": "GROOM"
   },
   {
@@ -61,21 +61,21 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Aditi and Ananya",
     "relation": "Young Nieces / Daughters",
     "group": "Cousins & Youth",
-    "calculationFormula": "2 \u00d7 \u20b911,000",
     "amount": 22000,
+    "calculationFormula": "2 × ₹11,000",
     "status": "Planned",
-    "notes": "2 \u00d7 \u20b911,000 special shagun gifts.",
+    "notes": "2 × ₹11,000 special shagun gifts.",
     "side": "GROOM"
   },
   {
     "id": "shagun-7",
-    "recipientName": "Bharti and jiju \u2014 ring, gold, gifts and shopping",
+    "recipientName": "Bharti and jiju — ring, gold, gifts and shopping",
     "relation": "Sister & Brother-in-law (Jiju)",
     "group": "Sisters & In-laws",
-    "calculationFormula": "\u20b975,000 + \u20b92,50,000 + 3 \u00d7 \u20b95,100 + \u20b910,000",
     "amount": 350300,
+    "calculationFormula": "₹75,000 + ₹2,50,000 + 3 × ₹5,100 + ₹10,000",
     "status": "Planned",
-    "notes": "Ring (\u20b975k) + Gold (\u20b92.5L) + 3 envelopes @ \u20b95,100 + Shopping (\u20b910k). Total \u20b93,50,300.",
+    "notes": "Ring (₹75k) + Gold (₹2.5L) + 3 envelopes @ ₹5,100 + Shopping (₹10k). Total ₹3,50,300.",
     "side": "GROOM"
   },
   {
@@ -83,10 +83,10 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Monty and Shanu",
     "relation": "Cousins / Family",
     "group": "Cousins & Youth",
-    "calculationFormula": "2 \u00d7 \u20b92,100",
     "amount": 4200,
+    "calculationFormula": "2 × ₹2,100",
     "status": "Planned",
-    "notes": "2 \u00d7 \u20b92,100 envelopes.",
+    "notes": "2 × ₹2,100 envelopes.",
     "side": "GROOM"
   },
   {
@@ -94,8 +94,8 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Ribbon katai",
     "relation": "Bridal Sisters & Friends Ceremony",
     "group": "Custom Rituals / Shagun",
-    "calculationFormula": "Lump-sum ceremonial shagun",
     "amount": 21000,
+    "calculationFormula": "Lump-sum ceremonial shagun",
     "status": "Planned",
     "notes": "Ceremonial door ribbon cutting shagun for bridal sisters.",
     "side": "GROOM"
@@ -105,8 +105,8 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Juta lukai (chupai)",
     "relation": "Bridal Squad Shoe Stealing Ritual",
     "group": "Custom Rituals / Shagun",
-    "calculationFormula": "Negotiated ceremonial shagun",
     "amount": 5100,
+    "calculationFormula": "Negotiated ceremonial shagun",
     "status": "Planned",
     "notes": "Joota Chupai shagun to retrieve Groom shoes.",
     "side": "GROOM"
@@ -116,8 +116,8 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Chand ritual",
     "relation": "Family Wedding Shagun Custom",
     "group": "Custom Rituals / Shagun",
-    "calculationFormula": "Tradition envelope",
     "amount": 5100,
+    "calculationFormula": "Tradition envelope",
     "status": "Planned",
     "notes": "Chand tradition shagun ceremony.",
     "side": "GROOM"
@@ -127,8 +127,8 @@ export const INITIAL_SHAGUN_LIST: FamilyShagunItem[] = [
     "recipientName": "Vida Rasam: Relative Farewell Gifts (Saris & Suits)",
     "relation": "Departing Relatives from Bride Side",
     "group": "Custom Rituals / Shagun",
-    "calculationFormula": "Budget for Girl's side farewell gifts",
     "amount": 100000,
+    "calculationFormula": "Budget for Girl's side farewell gifts",
     "status": "Planned",
     "notes": "Girl's side Vida custom: When relatives depart, they are gifted curated saris and suits as blessing/farewell token.",
     "side": "BRIDE"
@@ -142,8 +142,9 @@ export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [
     "side": "BRIDE",
     "count": 120,
     "contactPerson": "Harsha's Father",
+    "contactPhone": "",
     "isAnonymousNumbers": false,
-    "notes": "Main bridal party guests"
+    "notes": "Room required: Yes (girl side family stay)"
   },
   {
     "id": "grp-8",
@@ -151,8 +152,9 @@ export const INITIAL_GUEST_GROUPS: GuestGroupItem[] = [
     "side": "BRIDE",
     "count": 60,
     "contactPerson": "Sneha (Bridesmaid)",
+    "contactPhone": "",
     "isAnonymousNumbers": false,
-    "notes": "Sangeet performances & Ribbon katai squad"
+    "notes": "Room required: No / As needed"
   },
   {
     "id": "grp-g01-akqa",
