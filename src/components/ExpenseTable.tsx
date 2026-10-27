@@ -544,9 +544,27 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         setShowAddModal(false);
                       }}
                     >
-                      {/* 1. Item Name + Photographic Image + Card Look */}
+                      {/* 1. Item Name + Photographic Image + Card Look with Split Accent Indicator */}
                       <td className="py-3 px-4">
-                        <div className="flex items-center gap-3 bg-slate-50/70 dark:bg-white/[0.03] p-2.5 rounded-2xl border border-slate-200/80 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20 group-hover:bg-white dark:group-hover:bg-white/[0.05] group-hover:shadow-xs transition-all relative">
+                        <div className="relative flex items-center gap-3 bg-slate-50/80 dark:bg-white/[0.03] pl-3.5 pr-3 py-2.5 rounded-2xl border border-slate-200/80 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20 group-hover:bg-white dark:group-hover:bg-white/[0.05] group-hover:shadow-xs transition-all overflow-hidden">
+                          {/* Option 2 Left Vertical Accent Indicator Bar */}
+                          <div 
+                            className={`absolute left-0 top-2 bottom-2 w-1.5 rounded-r-full ${
+                              item.splitType === 'BRIDE_ONLY'
+                                ? 'bg-gradient-to-b from-rose-400 to-pink-500 shadow-sm'
+                                : item.splitType === 'GROOM_ONLY'
+                                ? 'bg-gradient-to-b from-blue-400 to-indigo-500 shadow-sm'
+                                : 'bg-gradient-to-b from-emerald-400 to-teal-500 shadow-sm'
+                            }`}
+                            title={
+                              item.splitType === 'BRIDE_ONLY'
+                                ? 'Harsha 100%'
+                                : item.splitType === 'GROOM_ONLY'
+                                ? 'Bhuvi 100%'
+                                : 'Shared / Mutual'
+                            }
+                          />
+
                           {/* Photographic Thumbnail or Icon */}
                           {!isSimplifiedView && (
                             <div className="relative w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200/80 dark:border-white/10 shadow-xs bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
