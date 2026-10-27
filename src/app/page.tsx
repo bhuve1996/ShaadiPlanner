@@ -44,6 +44,7 @@ import { AnimalCelebrationSection } from '@/components/AnimalCelebrationSection'
 import { ShagunAndGuestManager } from '@/components/ShagunAndGuestManager';
 import { VendorDirectory } from '@/components/VendorDirectory';
 import { WeddingLogo } from '@/components/WeddingLogo';
+import { WeddingCardStudio } from '@/components/WeddingCardStudio';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import confetti from 'canvas-confetti';
 import { Gift, Users as UsersIcon, Building2 } from 'lucide-react';
@@ -64,7 +65,7 @@ export default function Home() {
   const [vendors, setVendors] = useState<VendorDirectoryItem[]>(INITIAL_VENDOR_DIRECTORY);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSide, setActiveSide] = useState<'ALL' | 'GROOM' | 'BRIDE'>('ALL');
-  const [currentTab, setCurrentTab] = useState<'budget' | 'vendors' | 'shagun' | 'calendar' | 'charts'>('budget');
+  const [currentTab, setCurrentTab] = useState<'budget' | 'vendors' | 'shagun' | 'calendar' | 'charts' | 'cards'>('budget');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSimplifiedView, setIsSimplifiedView] = useState(true);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -671,6 +672,24 @@ export default function Home() {
               <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
             )}
           </button>
+
+          <button
+            onClick={() => setCurrentTab('cards')}
+            className={`py-2 transition-colors relative flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+              currentTab === 'cards' 
+                ? 'text-slate-900 dark:text-white font-black' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
+            }`}
+          >
+            <Sparkles size={17} className="text-amber-500" />
+            <span>Wedding Card Studio</span>
+            <span className="text-[10px] bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded-full border border-amber-300 dark:border-amber-700">
+              New
+            </span>
+            {currentTab === 'cards' && (
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-full" />
+            )}
+          </button>
         </div>
 
         {/* Dashboard KPIs */}
@@ -774,6 +793,14 @@ export default function Home() {
             expenses={expenses}
             groomGuestCount={settings.groomGuestCount}
             brideGuestCount={settings.brideGuestCount}
+          />
+        )}
+
+        {/* Tab 5: Wedding Card & Invitation Studio */}
+        {currentTab === 'cards' && (
+          <WeddingCardStudio
+            settings={settings}
+            onToast={(msg) => showToast(msg)}
           />
         )}
       </main>
