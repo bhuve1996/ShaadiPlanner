@@ -295,11 +295,15 @@ export const ActivityLogDrawer: React.FC<ActivityLogDrawerProps> = ({
                     <div className="pl-6 pt-0.5">
                       <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] font-mono text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/5">
                         <span className="font-bold">{log.diff.field}:</span>
-                        {log.diff.oldValue !== undefined && (
+                        {log.diff.oldValue !== undefined && log.diff.oldValue !== null && String(log.diff.oldValue) !== 'undefined' && (
                           <span className="line-through text-rose-500 dark:text-rose-400">{String(log.diff.oldValue)}</span>
                         )}
                         <span>➔</span>
-                        <span className="font-bold text-emerald-600 dark:text-emerald-400">{String(log.diff.newValue)}</span>
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                          {log.diff.newValue !== undefined && log.diff.newValue !== null && String(log.diff.newValue) !== 'undefined' 
+                            ? String(log.diff.newValue) 
+                            : 'Updated'}
+                        </span>
                       </div>
                     </div>
                   )}

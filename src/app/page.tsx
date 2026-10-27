@@ -273,6 +273,7 @@ export default function Home() {
     const isSplitChange = oldItem && oldItem.splitType !== updated.splitType;
     const isCategoryChange = oldItem && oldItem.category !== updated.category;
     const isVendorChange = oldItem && oldItem.vendorName !== updated.vendorName;
+    const isSubtasksChange = oldItem && JSON.stringify(oldItem.subtasks || []) !== JSON.stringify(updated.subtasks || []);
 
     let desc = `Updated details for "${updated.name}"`;
     let field = 'Details';
@@ -285,34 +286,43 @@ export default function Home() {
       oldValue = oldItem?.name;
       newValue = updated.name;
     } else if (isCostChange) {
-      desc = `Changed cost of "${updated.name}" from ₹${oldItem.actualCost.toLocaleString('en-IN')} to ₹${updated.actualCost.toLocaleString('en-IN')}`;
+      desc = `Changed cost of "${updated.name}" from ₹${(oldItem?.actualCost ?? 0).toLocaleString('en-IN')} to ₹${(updated.actualCost ?? 0).toLocaleString('en-IN')}`;
       field = 'Total Cost';
-      oldValue = `₹${oldItem.actualCost.toLocaleString('en-IN')}`;
-      newValue = `₹${updated.actualCost.toLocaleString('en-IN')}`;
+      oldValue = `₹${(oldItem?.actualCost ?? 0).toLocaleString('en-IN')}`;
+      newValue = `₹${(updated.actualCost ?? 0).toLocaleString('en-IN')}`;
+    } else if (isSubtasksChange) {
+      const oldSubCount = oldItem?.subtasks?.length || 0;
+      const newSubCount = updated.subtasks?.length || 0;
+      const oldSubSum = (oldItem?.subtasks || []).reduce((sum, s) => sum + (Number(s.cost) || 0), 0);
+      const newSubSum = (updated.subtasks || []).reduce((sum, s) => sum + (Number(s.cost) || 0), 0);
+      desc = `Updated subtasks for "${updated.name}": ${newSubCount} items totaling ₹${newSubSum.toLocaleString('en-IN')}`;
+      field = 'Subtasks';
+      oldValue = `${oldSubCount} items (₹${oldSubSum.toLocaleString('en-IN')})`;
+      newValue = `${newSubCount} items (₹${newSubSum.toLocaleString('en-IN')})`;
     } else if (isPaymentChange) {
-      desc = `Updated payment on "${updated.name}" from ₹${oldItem.paidAmount.toLocaleString('en-IN')} to ₹${updated.paidAmount.toLocaleString('en-IN')}`;
+      desc = `Updated payment on "${updated.name}" from ₹${(oldItem?.paidAmount ?? 0).toLocaleString('en-IN')} to ₹${(updated.paidAmount ?? 0).toLocaleString('en-IN')}`;
       field = 'Paid Amount';
-      oldValue = `₹${oldItem.paidAmount.toLocaleString('en-IN')}`;
-      newValue = `₹${updated.paidAmount.toLocaleString('en-IN')}`;
+      oldValue = `₹${(oldItem?.paidAmount ?? 0).toLocaleString('en-IN')}`;
+      newValue = `₹${(updated.paidAmount ?? 0).toLocaleString('en-IN')}`;
     } else if (isSplitChange) {
-      desc = `Changed split rule on "${updated.name}" from ${oldItem.splitType} to ${updated.splitType}`;
+      desc = `Changed split rule on "${updated.name}" from ${oldItem?.splitType ?? 'default'} to ${updated.splitType}`;
       field = 'Split Rule';
-      oldValue = oldItem.splitType;
+      oldValue = oldItem?.splitType ?? 'default';
       newValue = updated.splitType;
     } else if (isNotesChange) {
       desc = `Updated description / notes on "${updated.name}"`;
       field = 'Description';
-      oldValue = oldItem.notes?.slice(0, 35) + '...';
-      newValue = updated.notes?.slice(0, 35) + '...';
+      oldValue = (oldItem?.notes || '').slice(0, 35) + '...';
+      newValue = (updated.notes || '').slice(0, 35) + '...';
     } else if (isVendorChange) {
       desc = `Changed vendor for "${updated.name}" to ${updated.vendorName || 'None'}`;
       field = 'Vendor';
-      oldValue = oldItem.vendorName || 'None';
+      oldValue = oldItem?.vendorName || 'None';
       newValue = updated.vendorName || 'None';
     } else if (isCategoryChange) {
-      desc = `Changed category for "${updated.name}" from ${oldItem.category} to ${updated.category}`;
+      desc = `Changed category for "${updated.name}" from ${oldItem?.category ?? 'None'} to ${updated.category}`;
       field = 'Category';
-      oldValue = oldItem.category;
+      oldValue = oldItem?.category ?? 'None';
       newValue = updated.category;
     }
 
