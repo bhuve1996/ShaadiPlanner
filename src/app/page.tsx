@@ -421,7 +421,7 @@ export default function Home() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-slate-100/95 dark:bg-[#0B0F19]/95 backdrop-blur-md border-b border-slate-300 dark:border-white/10 shadow-sm transition-colors">
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs transition-colors">
         <div className={`mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between transition-all duration-300 ${
           isSimplifiedView ? 'max-w-5xl' : 'max-w-[1720px]'
         }`}>

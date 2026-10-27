@@ -23,11 +23,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Day Mode: Pure, Clean, Modern Editorial Canvas */
+/* Day Mode: Subtle warm slate canvas (#F1F5F9) so white content cards pop with depth & focus */
 html:not(.dark) body {
-  background-color: #F9FAFB !important;
+  background-color: #F1F5F9 !important;
   background-image: none !important;
-  color: #111827 !important;
+  color: #0F172A !important;
 }
 
 /* Night Mode: True Deep Obsidian with 0 Muddy Gradients */
@@ -43,12 +43,12 @@ body {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Crisp Minimalist Cards */
+/* Crisp Minimalist Cards with clear elevation in light mode */
 html:not(.dark) .theme-card {
   background-color: #FFFFFF !important;
-  border-color: #E5E7EB !important;
-  color: #111827 !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
 html.dark .theme-card {
@@ -59,9 +59,9 @@ html.dark .theme-card {
 }
 
 html:not(.dark) .theme-subcard {
-  background-color: #F9FAFB !important;
-  border-color: #E5E7EB !important;
-  color: #374151 !important;
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
 }
 
 html.dark .theme-subcard {
