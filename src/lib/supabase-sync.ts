@@ -224,6 +224,39 @@ export async function deleteExpenseFromRemote(id: string) {
 }
 
 // ==========================================
+// 4. SYNC GUEST GROUPS & INDIVIDUALS TO SUPABASE
+// ==========================================
+export async function syncGuestGroupToRemote(item: GuestGroupItem) {
+  if (!isSupabaseConfigured() || !supabase) return;
+  try {
+    await supabase.from('guest_groups').upsert({
+      id: item.id,
+      wedding_id: WEDDING_ID,
+      name: item.name,
+      side: item.side,
+      count: item.count,
+      estimated_per_plate: item.estimatedPerPlate || null,
+      contact_person: item.contactPerson || '',
+      contact_phone: item.contactPhone || '',
+      is_anonymous_numbers: Boolean(item.isAnonymousNumbers),
+      notes: item.notes || '',
+      updated_at: new Date().toISOString()
+    });
+  } catch (e) {
+    console.error('Remote guest sync error:', e);
+  }
+}
+
+export async function deleteGuestGroupFromRemote(id: string) {
+  if (!isSupabaseConfigured() || !supabase) return;
+  try {
+    await supabase.from('guest_groups').delete().eq('id', id);
+  } catch (e) {
+    console.error('Remote guest delete error:', e);
+  }
+}
+
+// ==========================================
 // 5. REAL-TIME SUBSCRIPTION TO ALL TABLES
 // ==========================================
 export function subscribeToRemoteChanges(onRemoteUpdate: () => void) {

@@ -145,12 +145,17 @@ export interface FamilyShagunItem {
 
 export interface GuestGroupItem {
   id: string;
-  name: string; // e.g. 'Jagadhri Relatives', 'College Friends', 'Office Colleagues', 'Bhua & Chacha Parivaar'
+  name: string; // e.g. 'Jagadhri Relatives', 'College Friends', 'Office Colleagues', 'Sharma Family (+3)'
   side: 'GROOM' | 'BRIDE' | 'BOTH';
-  count: number;
+  count: number; // Total count (e.g. 1 for individual, 4 for individual + 3, or cluster headcount)
+  guestType?: 'INDIVIDUAL' | 'FAMILY_PLUS' | 'CLUSTER'; // Individual guest, Family with plus count, or group cluster
+  plusCount?: number; // Additional family/plus count e.g. +1, +2, +3, +4
+  relationCategory?: 'Family' | 'Relatives' | 'Friends' | 'Colleagues' | 'Neighbours' | 'VIP';
+  rsvpStatus?: 'Attending' | 'Invited' | 'Tentative' | 'Declined';
+  city?: string;
   estimatedPerPlate?: number;
-  contactPerson?: string;
-  contactPhone?: string;
+  contactPerson?: string; // Contact person / guest full name
+  contactPhone?: string; // Phone number for RSVP and WhatsApp invite
   isAnonymousNumbers?: boolean; // toggle if only anonymous number count is entered
   notes?: string;
 }

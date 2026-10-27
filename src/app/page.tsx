@@ -37,6 +37,8 @@ import {
   syncSettingsToRemote, 
   syncExpenseToRemote, 
   deleteExpenseFromRemote, 
+  syncGuestGroupToRemote,
+  deleteGuestGroupFromRemote,
   seedInitialDataIfEmpty,
   subscribeToRemoteChanges
 } from '@/lib/supabase-sync';
@@ -1144,14 +1146,17 @@ export default function Home() {
             onUpdateGuestGroup={(grp) => {
               setGuestGroups(prev => prev.map(g => g.id === grp.id ? grp : g));
               showToast(`Updated ${grp.name}`);
+              if (isSupabaseConfigured()) syncGuestGroupToRemote(grp);
             }}
             onAddGuestGroup={(grp) => {
               setGuestGroups(prev => [grp, ...prev]);
               showToast(`Added ${grp.name} (${grp.count} guests)`);
+              if (isSupabaseConfigured()) syncGuestGroupToRemote(grp);
             }}
             onDeleteGuestGroup={(id) => {
               setGuestGroups(prev => prev.filter(g => g.id !== id));
               showToast('Deleted guest group');
+              if (isSupabaseConfigured()) deleteGuestGroupFromRemote(id);
             }}
           />
         )}
