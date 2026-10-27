@@ -809,8 +809,18 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               : shares.effectiveTotalCost
                           )}
                         </div>
-                        {/* If in simplified side view, show full cost as helper subtitle */}
-                        {isSimplifiedView && sideFilter !== 'ALL' ? (
+                        {/* In simplified view under ALL, show Harshu and Bhuvi shares clearly alongside total */}
+                        {isSimplifiedView && sideFilter === 'ALL' ? (
+                          <div className="flex items-center justify-end gap-2 text-[10px] font-medium mt-0.5">
+                            <span className="text-rose-600 dark:text-rose-400">
+                              👰 Harshu: {formatINR(shares.brideDue)}
+                            </span>
+                            <span className="text-slate-300 dark:text-slate-600">•</span>
+                            <span className="text-sky-600 dark:text-sky-400">
+                              🤵 Bhuvi: {formatINR(shares.groomDue)}
+                            </span>
+                          </div>
+                        ) : isSimplifiedView && sideFilter !== 'ALL' ? (
                           <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                             Total: {formatINR(shares.effectiveTotalCost)} ({sideFilter === 'BRIDE' ? shares.bridePercent : shares.groomPercent}%)
                           </div>
@@ -958,11 +968,21 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                           : filteredTotals.totalCost
                       )}
                     </div>
-                    {isSimplifiedView && sideFilter !== 'ALL' && (
+                    {isSimplifiedView && sideFilter === 'ALL' ? (
+                      <div className="flex items-center justify-end gap-2 text-[10px] font-sans font-bold mt-0.5">
+                        <span className="text-rose-600 dark:text-rose-400">
+                          👰 Harshu: {formatINR(filteredTotals.brideTotal)}
+                        </span>
+                        <span className="text-slate-300 dark:text-slate-600">•</span>
+                        <span className="text-sky-600 dark:text-sky-400">
+                          🤵 Bhuvi: {formatINR(filteredTotals.groomTotal)}
+                        </span>
+                      </div>
+                    ) : isSimplifiedView && sideFilter !== 'ALL' ? (
                       <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
                         Wedding Total: {formatINR(filteredTotals.grandTotalCost)}
                       </div>
-                    )}
+                    ) : null}
                   </td>
 
                   {/* Columns in Detailed View */}
