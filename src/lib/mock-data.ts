@@ -187,7 +187,7 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
   },
   {
     "id": "groom-exp-2",
-    "name": "Palace Resort & 3-Day Stay",
+    "name": "Palace Resort & 2-Day Stay",
     "category": "Venue & Accommodation",
     "event": "All Events",
     "vendorName": "Royal Palace Heritage Stay & Banquet",
@@ -198,23 +198,31 @@ export const INITIAL_EXPENSES: ExpenseItem[] = [
     "splitType": "EQUAL_50_50",
     "paidBy": "UNPAID",
     "status": "Estimated",
-    "notes": "Deluxe guest rooms & meals for boy side • Clarification: This ₹5,00,000 covers boy-side guest rooms + stay + 3 days of all meals & food for all wedding events. - Might increase if guests increase by 100 at all functions",
+    "notes": "Deluxe guest rooms & meals for 2 days • Base stay is for 2 days. Extra 13 rooms @ ₹2,700/day and extra food buffer kept as ₹0 placeholder for future adjustment.",
     "subtasks": [
       {
         "id": "sub-stay-1",
-        "name": "Deluxe Guest Rooms & Stay (3 Days)",
+        "name": "Deluxe Guest Rooms & Stay (2 Days)",
         "cost": 300000,
         "status": "Pending",
         "label": "Stay/Rooms",
-        "notes": "Accommodation for boy side family & guests for 3 days"
+        "notes": "Accommodation for family & guests for 2 days"
       },
       {
         "id": "sub-stay-2",
-        "name": "Catering & 3-Day Food for In-House Guests",
+        "name": "Catering & Food for In-House Guests (2 Days)",
         "cost": 200000,
         "status": "Pending",
         "label": "Food/Meals",
-        "notes": "Breakfast, lunches & high tea for 3 days at the resort "
+        "notes": "Breakfast, lunches & high tea for 2 days at resort"
+      },
+      {
+        "id": "sub-stay-extra",
+        "name": "Extra Rooms (13 Rooms @ ₹2,700/day) & Extra Food Buffer",
+        "cost": 0,
+        "status": "Pending",
+        "label": "Extra Rooms",
+        "notes": "13 extra rooms @ ₹2,700/day + additional food buffer (currently ₹0 placeholder, to be updated later)"
       }
     ],
     "isPerPlateCalculation": false,

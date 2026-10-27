@@ -10,7 +10,7 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     "venue": "Palace Royal Courtyard / Accommodates 200 Guests from Harsha Side",
     "emoji": "\ud83d\udc8d",
     "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80",
-    "description": "Exchange of Rings (Gold with Diamond for Harsha, Gold Band for Bhuvesh). Hall accommodated within the 3-day stay without extra venue charges; accommodating Harsha's 200 guests.",
+    "description": "Exchange of Rings (Gold with Diamond for Harsha, Gold Band for Bhuvesh). Hall accommodated within the resort stay without extra venue charges; accommodating Harsha's 200 guests.",
     "tagColor": "bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border-indigo-400/40",
     "guestCount": 200
   },
@@ -20,10 +20,10 @@ export const INITIAL_CEREMONY_SCHEDULE: CeremonyScheduleItem[] = [
     "date": "2026-11-26",
     "startTime": "11:00 AM",
     "endTime": "03:30 PM",
-    "venue": "3-Day In-House Resort Banquet Hall (No extra venue rent)",
+    "venue": "In-House Resort Banquet Hall (No extra venue rent)",
     "emoji": "\ud83c\udf3f",
     "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
-    "description": "Mehendi ceremony hosted inside the allotted 3-day in-house banquet hall (not poolside). In-house sound DJ: \u20b95,000/day. Professional Mehendi artist for bride & family.",
+    "description": "Mehendi ceremony hosted inside the allotted 2-day in-house banquet hall (not poolside). In-house sound DJ: \u20b95,000/day. Professional Mehendi artist for bride & family.",
     "tagColor": "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-400/40",
     "guestCount": 150
   },
