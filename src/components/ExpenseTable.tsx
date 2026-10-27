@@ -448,7 +448,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                   </th>
                 )}
 
-                {/* 3. Actual Cost */}
+                {/* 3. Responsibility & Split (Combined editable column for Side + Tier) */}
+                <th className="py-3 px-4 text-center w-[170px]">
+                  <span>Side & Responsibility</span>
+                </th>
+
+                {/* 4. Actual Cost */}
                 <th 
                   onClick={() => handleSort('actualCost')}
                   className="py-3 px-4 text-right cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors group select-none w-[130px]"
@@ -457,11 +462,6 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     <span>Total Cost</span>
                     {renderSortIndicator('actualCost')}
                   </div>
-                </th>
-
-                {/* 4. Split Rule */}
-                <th className="py-3 px-4 text-center w-[130px]">
-                  <span>Paid By / Split</span>
                 </th>
 
                 {!isSimplifiedView && (
@@ -585,32 +585,10 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                               )}
                             </div>
 
-                            {/* Clean Subline with Badges */}
+                            {/* Clean Subline: Category & Optional Vendor */}
                             <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                               <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                                 {item.category}
-                              </span>
-
-                              {/* Responsibility / Side Badge */}
-                              <span className="text-slate-300 dark:text-slate-600">•</span>
-                              {item.splitType === 'GROOM_ONLY' ? (
-                                <span className="inline-flex items-center text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-md">
-                                  Bhuvi
-                                </span>
-                              ) : item.splitType === 'BRIDE_ONLY' ? (
-                                <span className="inline-flex items-center text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-md">
-                                  Harsha
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded-md">
-                                  Mutual
-                                </span>
-                              )}
-
-                              {/* Parent vs Self */}
-                              <span className="text-slate-300 dark:text-slate-600">•</span>
-                              <span className="inline-flex items-center text-[10px] font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-slate-200/60 dark:border-white/5">
-                                {item.payerCategory === 'PARENTS' ? 'Parents' : item.payerCategory === 'SHARED_FAMILY' ? 'Family' : 'Self'}
                               </span>
 
                               {/* Vendor Name (Hidden in Simple View to remove clutter) */}
@@ -671,7 +649,48 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         </td>
                       )}
 
-                      {/* 3. Actual Cost with Hover Allocation Breakdown Card */}
+                      {/* 3. Combined Side & Responsibility Column */}
+                      <td 
+                        className="py-4 px-3 text-center whitespace-nowrap"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex flex-col items-center gap-1">
+                          {/* Top: Side Split Selector */}
+                          <select
+                            value={item.splitType}
+                            onChange={(e) => {
+                              onUpdateExpense({
+                                ...item,
+                                splitType: e.target.value as SplitType,
+                              });
+                            }}
+                            className="text-[11px] font-bold px-2.5 py-1 rounded-lg border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-[#1A1F2E] text-slate-900 dark:text-white hover:border-slate-500 dark:hover:border-white/40 focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer shadow-xs w-full max-w-[130px]"
+                          >
+                            <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤵 Bhuvi</option>
+                            <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🌸 Harsha</option>
+                            <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Split 50:50</option>
+                            <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👥 Guest Ratio</option>
+                          </select>
+
+                          {/* Bottom: Responsibility Tier (Parent vs Self vs Family) */}
+                          <select
+                            value={item.payerCategory || 'COUPLE'}
+                            onChange={(e) => {
+                              onUpdateExpense({
+                                ...item,
+                                payerCategory: e.target.value as any,
+                              });
+                            }}
+                            className="text-[10px] font-medium px-2 py-0.5 rounded-md border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:border-slate-400 cursor-pointer w-full max-w-[130px]"
+                          >
+                            <option value="PARENTS" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👨‍👩‍👧 Parents</option>
+                            <option value="COUPLE" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">👫 Self</option>
+                            <option value="SHARED_FAMILY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">🤝 Family</option>
+                          </select>
+                        </div>
+                      </td>
+
+                      {/* 4. Actual Cost with Hover Allocation Breakdown Card */}
                       <td 
                         className="py-4 px-4 text-right whitespace-nowrap"
                         onMouseEnter={(e) => {
@@ -693,28 +712,6 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             ₹{(item.ratePerGuestOrPlate || 800).toLocaleString('en-IN')}/box
                           </div>
                         ) : null}
-                      </td>
-
-                      {/* 4. Split Type Selector */}
-                      <td 
-                        className="py-4 px-4 text-center whitespace-nowrap"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <select
-                          value={item.splitType}
-                          onChange={(e) => {
-                            onUpdateExpense({
-                              ...item,
-                              splitType: e.target.value as SplitType,
-                            });
-                          }}
-                          className="text-xs font-bold px-3 py-1.5 rounded-lg border-2 border-slate-300 dark:border-white/20 bg-white dark:bg-[#1A1F2E] text-slate-900 dark:text-white hover:border-slate-500 dark:hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-slate-400 transition-all cursor-pointer shadow-xs"
-                        >
-                          <option value="BRIDE_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Harsha</option>
-                          <option value="GROOM_ONLY" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Bhuvi</option>
-                          <option value="GUEST_RATIO" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Guest Ratio ({shares.groomPercent}:{shares.bridePercent})</option>
-                          <option value="EQUAL_50_50" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Split 50:50</option>
-                        </select>
                       </td>
 
                       {!isSimplifiedView && (
