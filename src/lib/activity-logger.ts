@@ -23,6 +23,23 @@ export const INITIAL_ACTIVITY_LOGS: ActivityLogItem[] = [
     createdAt: '2026-10-27T13:50:00.000Z'
   },
   {
+    id: 'log-seed-1b',
+    weddingId: WEDDING_ID,
+    userName: 'Bhuvesh & Harsha',
+    userAvatar: '👑',
+    deviceInfo: 'Planner Ledger',
+    actionType: 'EDIT',
+    entityType: 'expense',
+    entityName: 'Family Shagun Envelopes',
+    description: 'Synchronized Family Shagun Envelopes cost to ₹5,13,600 in ledger (exact match with ₹55,54,600 target).',
+    diff: {
+      field: 'Total Cost',
+      oldValue: '₹0',
+      newValue: '₹5,13,600'
+    },
+    createdAt: '2026-10-27T15:56:00.000Z'
+  },
+  {
     id: 'log-seed-2',
     weddingId: WEDDING_ID,
     userName: 'Bhuvesh & Harsha',
