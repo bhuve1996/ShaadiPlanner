@@ -501,11 +501,21 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         value={formData.actualCost}
                         onChange={(e) => {
                           const val = Number(e.target.value);
+                          // If split was CUSTOM with fixed amounts, scale or reset them so they don't lock to old cost
+                          let newGroomCost = formData.customGroomCost;
+                          let newBrideCost = formData.customBrideCost;
+                          if (formData.splitType === 'CUSTOM' && formData.customGroomCost !== undefined && (formData.actualCost || 0) > 0) {
+                            const ratio = formData.customGroomCost / formData.actualCost;
+                            newGroomCost = Math.round(val * ratio);
+                            newBrideCost = val - newGroomCost;
+                          }
                           setFormData({
                             ...formData,
                             isPerPlateCalculation: false,
                             actualCost: val,
-                            estimatedCost: formData.estimatedCost || val
+                            estimatedCost: formData.estimatedCost || val,
+                            customGroomCost: newGroomCost,
+                            customBrideCost: newBrideCost
                           });
                         }}
                         className="w-full pl-7 pr-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-base focus:outline-none focus:border-slate-600 dark:focus:border-white shadow-xs"

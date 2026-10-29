@@ -99,8 +99,18 @@ export function computeExpenseShares(
       break;
     case 'CUSTOM':
       if (item.customGroomCost !== undefined) {
-        const groomDueExact = item.customGroomCost;
-        const brideDueExact = item.customBrideCost !== undefined ? item.customBrideCost : Math.max(0, effectiveTotalCost - groomDueExact);
+        // If the item total cost changed and customGroomCost + customBrideCost doesn't match totalCost,
+        // dynamically adjust proportionally to the new totalCost so splits never get frozen on outdated amounts!
+        const fixedSum = item.customGroomCost + (item.customBrideCost !== undefined ? item.customBrideCost : 0);
+        let groomDueExact = item.customGroomCost;
+        let brideDueExact = item.customBrideCost !== undefined ? item.customBrideCost : Math.max(0, effectiveTotalCost - groomDueExact);
+
+        if (effectiveTotalCost > 0 && fixedSum > 0 && Math.abs(fixedSum - effectiveTotalCost) > 1) {
+          const ratio = item.customGroomCost / fixedSum;
+          groomDueExact = Math.round(effectiveTotalCost * ratio);
+          brideDueExact = effectiveTotalCost - groomDueExact;
+        }
+
         const actualTotal = effectiveTotalCost || (groomDueExact + brideDueExact) || 1;
         return {
           groomDue: groomDueExact,
@@ -110,7 +120,7 @@ export function computeExpenseShares(
           effectiveGroomGuests,
           effectiveBrideGuests,
           isCustomOccasionGuests,
-          effectiveTotalCost: groomDueExact + brideDueExact,
+          effectiveTotalCost: effectiveTotalCost || (groomDueExact + brideDueExact),
           effectivePlateRate,
         };
       }
