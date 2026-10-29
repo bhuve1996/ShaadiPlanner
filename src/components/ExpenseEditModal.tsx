@@ -52,6 +52,19 @@ const ALL_EVENTS: WeddingEvent[] = [
   'Reception',
 ];
 
+const ALL_ACCORDION_GROUPS = [
+  'Shadi (Wedding Day)',
+  'Ring Ceremony (Engagement)',
+  'Roka Ceremony',
+  'Haldi & Mehendi',
+  "Harshu's Outfits & Trousseau",
+  "Bhuvesh's Outfits & Sherwani",
+  'Photography & Cinema',
+  'General & Ceremony Essentials',
+  'Gold & Jewelry',
+  'Family Shagun (Rishtedaar Envelopes)',
+];
+
 export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
   item,
   isOpen,
@@ -243,8 +256,23 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                 </div>
               </div>
 
-              {/* Category & Event */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Group / Section, Category & Event */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1 text-xs">
+                    Accordion Group
+                  </label>
+                  <select
+                    value={formData.groupName || 'General & Ceremony Essentials'}
+                    onChange={(e) => setFormData({ ...formData, groupName: e.target.value })}
+                    className="w-full px-2.5 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-purple-300 dark:border-purple-600/50 rounded-xl text-slate-900 dark:text-white font-bold focus:outline-none focus:border-purple-600 text-xs shadow-xs cursor-pointer"
+                  >
+                    {ALL_ACCORDION_GROUPS.map(grp => (
+                      <option key={grp} value={grp}>{grp}</option>
+                    ))}
+                  </select>
+                </div>
+
                 <div>
                   <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1 text-xs">
                     Category
@@ -260,7 +288,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                         ratePerGuestOrPlate: formData.ratePerGuestOrPlate || (isCatCatering ? 2000 : 0)
                       });
                     }}
-                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-slate-600 dark:focus:border-white text-xs shadow-xs cursor-pointer"
+                    className="w-full px-2.5 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-slate-600 dark:focus:border-white text-xs shadow-xs cursor-pointer"
                   >
                     {ALL_CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -275,7 +303,7 @@ export const ExpenseEditModal: React.FC<ExpenseEditModalProps> = ({
                   <select
                     value={formData.event}
                     onChange={(e) => setFormData({ ...formData, event: e.target.value as WeddingEvent })}
-                    className="w-full px-3 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-slate-600 dark:focus:border-white text-xs shadow-xs cursor-pointer"
+                    className="w-full px-2.5 py-2 bg-white dark:bg-[#1A1F2E] border-2 border-slate-300 dark:border-white/20 rounded-xl text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-slate-600 dark:focus:border-white text-xs shadow-xs cursor-pointer"
                   >
                     {ALL_EVENTS.map(ev => (
                       <option key={ev} value={ev}>{ev}</option>
