@@ -104,6 +104,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({
     'Shadi (Wedding Day)': true,
     'Ring Ceremony (Engagement)': true,
+    'Roka Ceremony': true,
     'Haldi & Mehendi': true,
     "Harshu's Outfits & Trousseau": true,
     "Bhuvesh's Outfits & Sherwani": true,
@@ -253,6 +254,7 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
     const groupOrder = [
       'Shadi (Wedding Day)',
       'Ring Ceremony (Engagement)',
+      'Roka Ceremony',
       'Haldi & Mehendi',
       "Harshu's Outfits & Trousseau",
       "Bhuvesh's Outfits & Sherwani",
